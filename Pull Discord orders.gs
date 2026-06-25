@@ -1,5 +1,5 @@
 // ==========================================
-// 4. DISCORD REACTION SCANNER (CAPPED FORMULAS + ARCHIVE SAFE + LIMIT HIGHLIGHTING)
+// 4. DISCORD REACTION SCANNER (COMPLETE FIX - NO PLACEHOLDERS)
 // ==========================================
 function pullDiscordOrders() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -36,21 +36,24 @@ function pullDiscordOrders() {
   
   SpreadsheetApp.getActiveSpreadsheet().toast("Scanning Discord & Assigning Queue Numbers...", "Discord Sync", 10);
   
-  // 1. Map Valid Products & Limits (BOUNDED TO AVOID ARCHIVES IN COLUMN A)
+  // 1. Map Valid Products & Find Archive Boundary Safely
   var dueDate = sheet.getRange("E1").getDisplayValue().trim();
-  
   var aValues = sheet.getRange("A:A").getValues();
   var bValues = sheet.getRange("B:B").getValues();
   var lastProdRow = 0;
   var archiveHeaderRow = -1;
   
-  // Dynamically find where the products end and the archive begins
-  for (var i = 0; i < aValues.length; i++) {
-    if (aValues[i][0] === "ARCHIVED PREORDERS") {
-      archiveHeaderRow = i + 1;
-      break;
-    }
+  var archiveFinder = sheet.getRange("A:A").createTextFinder("ARCHIVED PREORDERS").findNext();
+  if (archiveFinder) {
+    archiveHeaderRow = archiveFinder.getRow();
+  }
+  
+  for (var i = 0; i < bValues.length; i++) {
     if (bValues[i][0] !== "") lastProdRow = i + 1;
+  }
+  
+  if (archiveHeaderRow !== -1 && archiveHeaderRow < lastProdRow) {
+      lastProdRow = archiveHeaderRow - 1;
   }
 
   if (lastProdRow < 3) return;
@@ -157,12 +160,11 @@ function pullDiscordOrders() {
   if (sortedCustomers.length === 0) return SpreadsheetApp.getUi().alert("No current orders found.");
 
   // --- CLEANUP & FORMATTING ---
-  // Setup I & J for Inventory tracking 
+  // Setup I & J for Inventory tracking - strictly capped at lastProdRow
   sheet.getRange(2, 9, 1, 2).setValues([["Received", "Remaining"]]).setFontWeight("bold").setBackground("#202124").setFontColor("#ffffff");
   
-  // CLEAR AND CAP J FORMULA TO ROW 33
   sheet.getRange("J3:J" + sheet.getMaxRows()).clearContent();
-  for(var r=3; r<=33; r++) { // <--- Hardcoded stop at Row 33
+  for(var r=3; r<=lastProdRow; r++) {
     sheet.getRange("J"+r).setFormula('=IF(I'+r+'="","", I'+r+' - SUMIFS(Q$3:Q, P$3:P, B'+r+', K$3:K, TRUE))');
   }
 
@@ -237,11 +239,9 @@ function pullDiscordOrders() {
        
   sheet.autoResizeColumns(20, sortedCustomers.length);
 
-  // This formula dynamically adjusts its range based on where "ARCHIVED PREORDERS" is found
-var stopRow = sheet.getRange("B:B").createTextFinder("ARCHIVED PREORDERS").findNext().getRow() - 1;
-var lastColLetter = sheet.getRange(1, 19 + sortedCustomers.length).getA1Notation().split('1')[0];
+  // --- CAPPED FORMULA IN COLUMN G ---
+  var lastColLetter = sheet.getRange(1, 19 + sortedCustomers.length).getA1Notation().split('1')[0];
+  sheet.getRange("G3").setFormula('=ARRAYFORMULA(IF(B3:B' + lastProdRow + '="", "", BYROW(T3:' + lastColLetter + lastProdRow + ', lambda(row, SUM(row)))))');
 
-sheet.getRange("G3").setFormula('=ARRAYFORMULA(IF(B3:B' + stopRow + '="", "", BYROW(T3:' + lastColLetter + stopRow + ', lambda(row, SUM(row)))))');
-
-  SpreadsheetApp.getUi().alert("Sync Complete!\nFormulas successfully bounded and users over allocation are highlighted in Red.");
+  SpreadsheetApp.getUi().alert("Sync Complete!\nMatrix updated and formulas safely bound to the active products!");
 }
