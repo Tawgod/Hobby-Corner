@@ -3,15 +3,25 @@
 // ==========================================
 function postTCGsToDiscord() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getActiveSheet(); // <--- Grabs the tab you are currently looking at!
   var configSheet = ss.getSheetByName("Config");
-  var prodSheet = ss.getSheetByName("Products");
+  var ui = SpreadsheetApp.getUi();
+  var sheetName = sheet.getName();
+
+  // Safety Check: Prevent posting your backend tabs to Discord
+  var skipNames = ["Config", "Products", "Summary", "Customer", "_HiddenDB"];
+  if (skipNames.indexOf(sheetName) !== -1) {
+    ui.alert("Action Denied", "You cannot post system tabs to Discord. Please navigate to a specific preorder tab.", ui.ButtonSet.OK);
+    return;
+  }
 
   var botToken = configSheet.getRange("B1").getDisplayValue().replace(/\s/g, '');
   var proxyUrl = configSheet.getRange("B2").getDisplayValue().trim();
   if (proxyUrl.endsWith("/")) proxyUrl = proxyUrl.slice(0, -1);
 
-  var tcgType = prodSheet.getRange("B1").getValue().toString().toLowerCase();
-  var dueDate = prodSheet.getRange("E1").getDisplayValue();
+  // FIXED: Changed prodSheet to sheet
+  var tcgType = sheet.getRange("B1").getValue().toString().toLowerCase();
+  var dueDate = sheet.getRange("E1").getDisplayValue();
 
   // Auto-route Channel & Role based on TCG Dropdown
   var channelIdStr = "";
@@ -33,7 +43,7 @@ function postTCGsToDiscord() {
   var channelId = channelMatch ? channelMatch[channelMatch.length - 1] : channelIdStr.trim();
 
   if (!botToken || !proxyUrl || !channelId) {
-    SpreadsheetApp.getUi().alert("Missing Config info: Bot Token, Proxy URL, or Channel ID.");
+    ui.alert("Missing Config info: Bot Token, Proxy URL, or Channel ID.");
     return;
   }
 
@@ -46,8 +56,9 @@ function postTCGsToDiscord() {
     }
   }
 
+  // FIXED: Changed prodSheet to sheet
   // Build the Intro Message with the Ping at the top
-  var introMessage = pingText + "🚨 **New " + prodSheet.getRange("B1").getValue() + " Preorders!**\n" +
+  var introMessage = pingText + "🚨 **New " + sheet.getRange("B1").getValue() + " Preorders!**\n" +
                      "⏰ *Orders due by " + dueDate + "*\n" +
                      "📦 **React to an item to order, react with different emojis to order more than one.**";
 
@@ -61,15 +72,22 @@ function postTCGsToDiscord() {
   Utilities.sleep(2000);
 
   // Post Individual Embeds
-  var lastRow = prodSheet.getLastRow();
-  var data = prodSheet.getRange(3, 1, lastRow - 2, 6).getValues(); // Grabs Columns A through F
+  // FIXED: Changed prodSheet to sheet
+  var lastRow = sheet.getLastRow();
+  
+  if (lastRow < 3) {
+    ui.alert("No products found to post on this sheet.");
+    return;
+  }
+  
+  var data = sheet.getRange(3, 1, lastRow - 2, 6).getValues(); // Grabs Columns A through F
 
   for (var i = 0; i < data.length; i++) {
     var sku = data[i][0];
     var desc = data[i][1];
     var msrp = data[i][2];
     var limit = data[i][3];
-    var relDate = data[i][4]; // <--- Grab Release Date from Column E
+    var relDate = data[i][4]; // Grab Release Date from Column E
 
     if (!desc || desc === "") continue;
     var displayPrice = typeof msrp === 'number' ? "$" + msrp.toFixed(2) : msrp;
@@ -101,5 +119,5 @@ function postTCGsToDiscord() {
     Utilities.sleep(1500); // Prevent Rate Limits
   }
   
-  SpreadsheetApp.getUi().alert("Successfully posted to Discord Channel with Release Dates!");
+  ui.alert("Success", "Successfully posted to Discord Channel with Release Dates!", ui.ButtonSet.OK);
 }

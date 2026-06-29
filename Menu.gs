@@ -1,5 +1,5 @@
 // ==========================================
-// 1. MENU CREATION
+// 1. MENU CREATION (UPDATED FOR ARCHIVE SHEET)
 // ==========================================
 function onOpen() {
   var ui = SpreadsheetApp.getUi();
@@ -11,5 +11,7 @@ function onOpen() {
       .addItem('🔔 Notify Customers of Pickup', 'notifyPickup')
       .addSeparator()
       .addItem('⚠️ Reset Products Tab', 'resetProductsTab')
+      .addSeparator()
+      .addItem('📊 Update Summary & Organize Tabs', 'organizeAndSummarize') // <-- New Button
       .addToUi();
 }
