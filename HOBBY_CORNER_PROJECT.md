@@ -68,10 +68,10 @@ Next:
 - Remove testing/debug output before calling the workflow production-ready.
 - Establish a stable production branch/release process instead of long-term deployment from a feature branch.
 
-### Product Importer and Catalog Migration
-Status: In Development
+### Legacy Product Importer and Category Mapping
+Status: Maintenance
 
-Purpose: Migrate and reconcile catalog, suppliers, brands, categories, customers, images, gift cards and related data into Lightspeed.
+Purpose: Preserve legacy migration tooling and support category mapping while newer direct-connection workflows replace most importer functions.
 
 Repository: `Tawgod/Lightspeed-Importer`
 Branch: `main`
@@ -90,17 +90,7 @@ Verified importer modules:
 - Product UUID database and reconciliation
 - Reorder-point batch updates
 
-Known problems:
-- Current product-export loop processes the complete input set and can exceed Apps Script execution limits.
-- Category creation/fallback has produced HTTP 404 errors.
-- Batch completion / Processed / Errors queue design discussed but not yet verified in repository code.
-- A credential is stored in source configuration and must be migrated to safer secret storage.
-
-Next:
-- Implement configurable batch size, resumable queue, Processed and Errors handling.
-- Make operations idempotent so retries cannot create duplicate products.
-- Repair category resolution.
-- Remove source-controlled credentials and rotate affected credentials.
+Current management decision:\n- Most importer functions are now legacy because the project is moving toward direct Lightspeed connections.\n- Category mappings remain active work and are still being finalized.\n- Do not invest in broad importer hardening unless a remaining migration task specifically requires it.\n\nKnown issues:\n- Category creation/fallback has produced HTTP 404 errors.\n- A credential remains in legacy source configuration and should be retired/rotated when that legacy path is no longer needed.\n\nNext:\n- Finalize category mappings.\n- Identify the minimum legacy importer functions still required for cutover.\n- Prefer direct-connection implementations for new functionality.\n- Retire and secure legacy credentials when the remaining importer dependency is removed.
 
 ### Inventory Counting and Reconciliation
 Status: Planned
@@ -192,8 +182,7 @@ Planned integration:
 - Special-order receipt / held-order notifications.
 - Continued consolidation with Lightspeed customer identity.
 
-Security:
-An operational preorder sheet was found containing a plaintext Discord bot credential. Rotate it and remove it from the sheet.
+Security:\nAn operational preorder sheet contains a plaintext Discord bot credential. On 2026-10-09 this was explicitly accepted as a temporary risk because access is currently restricted and the sheet is planned for retirement. Rotate the token and remove it from the sheet as part of the special-orders/preorder cutover; do not broaden sheet access in the meantime.
 
 ### Customer Rewards
 Status: Deployed
@@ -272,8 +261,7 @@ No staged Railway changes were present when audited.
 
 ## Highest-risk issues
 
-1. Plaintext Discord bot credential in an operational Google Sheet.
-2. Source-controlled Lightspeed credential in the private importer repository.
+1. Accepted temporary risk: plaintext Discord bot credential in the restricted preorder sheet; rotate/remove at sheet retirement.\n2. Legacy risk: source-controlled Lightspeed credential in the private importer repository; retire/rotate with legacy importer shutdown.
 3. Production-facing Railway services deployed directly from feature branches.
 4. Multiple systems share the same PostgreSQL database; schema ownership and migrations need explicit coordination.
 5. Legacy sheets, new special-order database, Discord identity and rewards identity all touch customer records and require one documented identity strategy.
