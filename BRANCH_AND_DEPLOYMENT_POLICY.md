@@ -134,3 +134,7 @@ Current recommendation:
 - `feature/product-scanner-foundation` is functionally reconciled into the integration branch; keep only until scanner development resumes from the consolidated base or the old branch is manually removed.
 - `feature/order-split-poc` remains deployed and must stay until Railway is deliberately repointed.
 - `special-orders-foundation-livebase-2026-10-02` remains deployed and must stay until Railway is deliberately repointed.
+
+
+## Consolidation test gate — 2026-10-12
+`integration/hobby-corner-consolidation` has passed syntax, JSON, module/import, extension-reference, and merge-structure validation. Runtime logs from the deployed Special Orders test service exposed three defects that have been fixed only on the integration branch. Do not repoint Railway yet. Require a database-backed smoke test and core employee workflow acceptance before using this branch as the stable deployment line.
