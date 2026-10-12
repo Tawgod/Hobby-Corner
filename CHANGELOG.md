@@ -139,3 +139,42 @@ The deployed `special-orders-test` service logs confirmed all three failure mode
 
 ### Production impact
 None. Existing Hobby Corner Railway project/services and production database were not changed or repointed.
+
+## 2026-10-12 — Isolated functional smoke-test phase
+
+### Special Orders
+- Ran an internal Railway smoke runner against `lightspeed-integration-test` over the isolated project's private network.
+- Final result: **8/8 passed**.
+- Verified:
+  - public Special Orders health route
+  - Special Orders UI route
+  - admin-key authentication
+  - preorder campaign list
+  - `GW_WEEKLY` campaign filter (covers repaired SQL placeholder)
+  - dry product reconciliation on isolated database (covers repaired reconciliation query)
+  - migration remains locked when disabled
+  - Lightspeed product creation remains locked when product writes/live mode are disabled
+
+### Timeclock
+- Created `timeclock-integration-test` from the exact consolidated source commit with root `/timeclock`, isolated Postgres, and test-only secrets.
+- Verified correct Timeclock startup and Railway `/health` health check.
+- Added reusable `scripts/integration-timeclock-smoke.js`.
+- Functional result: **8/8 passed**.
+- Verified:
+  - health
+  - employee status
+  - clock in
+  - duplicate clock-in protection
+  - clock out
+  - duplicate clock-out protection
+  - admin review
+  - manual time entry with audit reason
+- Added reusable auto-close seed/check regression scripts.
+- Seeded a 15-hour-open test shift, restarted only the isolated Timeclock service, and observed `Auto-closed 1 time entry at the 14-hour limit.`
+- Database verification passed: resulting entry is `AUTO_CLOSED`, has `needs_review=true`, and has a matching `AUTO_CLOCK_OUT` event.
+- Repeated the auto-close sequence successfully a second time.
+
+### Test-environment notes
+- Railway initially bootstrapped new GitHub services from the repository default branch before settling onto the requested branch. Timeclock was explicitly pinned to consolidated commit `74316d74ed99679ed28da5e4ee034dd7cdba3e1c` before accepting results.
+- No production Hobby Corner Railway service or production database was repointed.
+- Root application dependency installation currently reports two high-severity npm audit findings. These require dependency/security review but did not prevent the isolated functional smoke tests.
