@@ -305,3 +305,15 @@ A non-deployed `Tawgod/Lightspeed:integration/hobby-corner-consolidation` branch
 - Three Special Orders defects were identified from live test-service logs and corrected on the integration branch only: non-idempotent schema constraint creation, reconciliation LIMIT parameter binding, and preorder campaign-type SQL parameter binding.
 - Railway remains on the existing deployed branches; integration fixes are not live.
 - Next gate: isolated/live database smoke test followed by extension workflow acceptance before any Railway repointing.
+
+
+### Isolated integration test environment — 2026-10-12
+- Railway project: `Hobby Corner Integration Test`
+- Environment: `test`
+- App service: `lightspeed-integration-test`
+- Source: `Tawgod/Lightspeed:integration/hobby-corner-consolidation`
+- Database: dedicated isolated PostgreSQL service and volume
+- Temporary domain: `lightspeed-integration-test-test.up.railway.app`
+- Safety: Lightspeed live mode, migration, and product writes disabled; production Lightspeed credentials not copied.
+- Verified: clean build; database schema initializes on fresh database; second deployment initializes successfully against the same database; Railway root health check passes.
+- Remaining: authenticated Special Orders route tests and Lightspeed-dependent workflow tests require test credentials/configuration before they can be exercised.
