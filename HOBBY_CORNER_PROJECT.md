@@ -1,6 +1,6 @@
 # Hobby Corner Project Registry
 
-Last verified: 2026-10-09
+Last verified: 2026-10-12
 
 This repository is the project-wide management index for Hobby Corner systems. Runtime code remains in the owning repositories. Statuses are: Planned, In Development, Testing, Deployed, Blocked, Maintenance.
 
@@ -21,13 +21,16 @@ Purpose: Staff-facing enhancements embedded into Lightspeed Retail X-Series.
 
 Repository: `Tawgod/Lightspeed`
 
-Relevant branches:
-- `LivBranch` — repository default branch; older minimal toolkit baseline.
-- `feature/order-split-poc` — deployed source for the production Railway `lightspeed-api` service and `timeclock` service as of 2026-10-09.
-- `feature/product-scanner-foundation` — product-scanner development branch.
-- `special-orders-foundation-livebase-2026-10-02` — special-order test application branch.
+Authoritative branch:
+- `integration/hobby-corner-consolidation` — current unified development and deployed Railway source for Lightspeed API, Timeclock, Special Orders, Split / Recall, ZIP/USPS tools, extension work, and Product Scanner foundation.
 
-Verified features in `feature/order-split-poc`:
+Retired branches (SAFE TO DELETE; do not use for new work):
+- `feature/order-split-poc`
+- `feature/product-scanner-foundation`
+- `special-orders-foundation-2026-10-02`
+- `special-orders-foundation-livebase-2026-10-02`
+
+Verified features in `integration/hobby-corner-consolidation`:
 - Avery label launcher on purchase-order pages.
 - Recall / Split Order launcher on Sell / webregister.
 - Split / Partial Pickup launcher on fulfillment pages.
@@ -56,7 +59,7 @@ Status: Testing
 Purpose: Backend for Lightspeed extension functions including order split, partial pickup, recall-related operations and other store workflows.
 
 Repository: `Tawgod/Lightspeed`
-Deployed branch: `feature/order-split-poc`
+Deployed branch: `integration/hobby-corner-consolidation`
 Railway service: `lightspeed-api`
 Environment: production
 Last verified deployment: SUCCESS, 2026-10-06
@@ -92,6 +95,32 @@ Verified importer modules:
 
 Current management decision:\n- Most importer functions are now legacy because the project is moving toward direct Lightspeed connections.\n- Category mappings remain active work and are still being finalized.\n- Do not invest in broad importer hardening unless a remaining migration task specifically requires it.\n\nKnown issues:\n- Category creation/fallback has produced HTTP 404 errors.\n- A credential remains in legacy source configuration and should be retired/rotated when that legacy path is no longer needed.\n\nNext:\n- Finalize category mappings.\n- Identify the minimum legacy importer functions still required for cutover.\n- Prefer direct-connection implementations for new functionality.\n- Retire and secure legacy credentials when the remaining importer dependency is removed.
 
+### RMS Product Migration
+Status: Testing
+
+Purpose: Migrate the RMS product catalog into Lightspeed with validated category, brand, supplier, pricing, identifiers, descriptions, images, and reorder configuration while deliberately not importing RMS on-hand inventory.
+
+Repository: `Tawgod/Hobby-Corner-Discord-Bot`
+Branch: `product-migration-colab`
+Operational sheet: `LS: importer`
+
+Verified migration behavior:
+- Product-family creation with SKU, UPC/aliases, brand, category, supplier, supplier item code, cost, retail, weight, and long description.
+- Product images upload separately after product creation.
+- Existing/low-quality images may be used while background review flags track cleanup needs.
+- Product name now prefers the legacy importer `Web Description` title and falls back to the shorter RMS description.
+- RMS on-hand inventory is never sent; physical inventory will establish opening stock.
+- Lightspeed reorder configuration uses `MIN_MAX`: RMS proposed reorder point -> minimum, proposed restock level -> target maximum.
+- Live single-item test on BSI-117 verified reorder 4/6 with on-hand unchanged at 0.
+- Controlled five-product reorder batch on 2026-10-12 verified all five requested values, including a 0/1 minimum/target case, with on-hand unchanged for every product.
+- Results are recorded in `Migration Reorder Test Results` in `LS: importer`.
+
+Next:
+- Finish image-repair/name verification on the existing controlled test batch.
+- Integrate the validated migration write path into a non-production branch based on `integration/hobby-corner-consolidation`.
+- Run a larger controlled rehearsal before final catalog cutover.
+- Preserve suppliers/categories, then perform full physical inventory after catalog migration.
+
 ### Inventory Counting and Reconciliation
 Status: Planned
 
@@ -112,7 +141,7 @@ Status: Testing
 Purpose: Replace fragmented special-order/preorder tracking with an integrated database-backed workflow tied to Lightspeed.
 
 Repository: `Tawgod/Lightspeed`
-Branch: `special-orders-foundation-livebase-2026-10-02`
+Branch: `integration/hobby-corner-consolidation`
 Railway service: `special-orders-test`
 Database: shared Railway PostgreSQL
 Last verified deployment: SUCCESS, 2026-10-08
@@ -144,7 +173,7 @@ Status: Testing
 Purpose: Editable long-term staff time records, reporting, adjustment tracking and employee visibility beyond Lightspeed's built-in clock.
 
 Repository: `Tawgod/Lightspeed`
-Branch deployed: `feature/order-split-poc`
+Branch deployed: `integration/hobby-corner-consolidation`
 Railway service: `timeclock`
 Database: shared Railway PostgreSQL
 Last verified deployment: SUCCESS, 2026-10-06
@@ -243,9 +272,9 @@ Document exactly which RMS processes are still authoritative, which are migratio
 Verified 2026-10-09 in project `Hobby Corner`:
 - `Hobby-Corner-Discord-Bot` -> `Tawgod/Hobby-Corner-Discord-Bot:main`
 - `Hobby-Corner-Rewards` -> `Tawgod/Hobby-Corner-Discord-Bot:main`
-- `lightspeed-api` -> `Tawgod/Lightspeed:feature/order-split-poc`
-- `timeclock` -> `Tawgod/Lightspeed:feature/order-split-poc` with root directory `/timeclock`
-- `special-orders-test` -> `Tawgod/Lightspeed:special-orders-foundation-livebase-2026-10-02`
+- `lightspeed-api` -> `Tawgod/Lightspeed:integration/hobby-corner-consolidation`
+- `timeclock` -> `Tawgod/Lightspeed:integration/hobby-corner-consolidation` with root directory `/timeclock`
+- `special-orders-test` -> `Tawgod/Lightspeed:integration/hobby-corner-consolidation`
 - `Postgres` -> persistent shared database volume
 - `migration-test-bsi117` -> temporary Railway function used for migration testing
 
