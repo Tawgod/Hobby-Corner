@@ -56,3 +56,16 @@ The five unique commits were the original special-orders foundation:
 All five functions are already present and materially expanded in the deployed live-base branch. No unique functionality needs to be cherry-picked. The old `special-orders-foundation-2026-10-02` branch is now classified as a safe archival/deletion candidate.
 
 No runtime code, Railway service, or deployment was changed during reconciliation.
+
+## 2026-10-12 — enthusiastic-rebirth runtime investigation
+
+### Verified
+- `enthusiastic-rebirth/Lightspeed` and `Hobby Corner/lightspeed-api` deploy the same `feature/order-split-poc` commit stream.
+- The prior seven days of `enthusiastic-rebirth` HTTP logs contain only `/extension` and `/favicon.ico` requests.
+- The current extension manifest authorizes the main Hobby Corner `lightspeed-api` and `timeclock` domains, not the `enthusiastic-rebirth` domain.
+- Installed extension code routes general Lightspeed/order-split functions to `Hobby Corner/lightspeed-api`, Timeclock to `Hobby Corner/timeclock`, and the Special Orders button directly to `Hobby Corner/special-orders-test`.
+
+### Conclusion
+`enthusiastic-rebirth` is a duplicate extension landing/download host, not the active Timeclock or Special Orders backend. Keep it temporarily until any staff bookmarks/download instructions are moved to the duplicate `/extension` endpoint on the authoritative `Hobby Corner/lightspeed-api` service; then it can be retired safely.
+
+No Railway services or deployments were changed during this investigation.
