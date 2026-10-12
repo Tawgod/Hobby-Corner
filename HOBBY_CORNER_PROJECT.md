@@ -352,3 +352,7 @@ A non-deployed `Tawgod/Lightspeed:integration/hobby-corner-consolidation` branch
   - `special-orders-foundation-2026-10-02`
   - `special-orders-foundation-livebase-2026-10-02`
 - Do not emulate deletion by force-moving refs.
+
+
+### Lightspeed branch cleanup complete — 2026-10-12
+Verified deletion of the four superseded feature branches used before consolidation. `integration/hobby-corner-consolidation` remains the authoritative deployed branch. Remaining legacy cleanup candidates are `V1.2` and the identical `Apps-script-importer` / `Importer` pair.
