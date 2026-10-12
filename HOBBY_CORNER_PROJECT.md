@@ -333,3 +333,11 @@ A non-deployed `Tawgod/Lightspeed:integration/hobby-corner-consolidation` branch
 - Railway replacement deployments for consolidated commit `c49f0e99d6f1a550696e52d3646fa6ab38ef7e70` are currently initializing.
 - Existing successful deployments remain serving until replacements settle.
 - Old deployed branches must remain until post-cutover SUCCESS/health verification.
+
+
+### Consolidated Railway cutover — verified 2026-10-12
+- `lightspeed-api`, `timeclock`, and `special-orders-test` are all live from `Tawgod/Lightspeed:integration/hobby-corner-consolidation`.
+- All three replacement deployments reached SUCCESS.
+- All seven Hobby Corner Railway services are online with zero current failures.
+- The consolidated branch is now the authoritative deployment line for these three services.
+- The former deployment branches `feature/order-split-poc` and `special-orders-foundation-livebase-2026-10-02` no longer back active Railway services and are eligible for retirement after branch deletion is performed manually or through a GitHub tool that supports branch deletion.
