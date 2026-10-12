@@ -208,3 +208,29 @@ The following Hobby Corner production-environment services were repointed from o
 - The prior duplicate-constraint, reconciliation bind-count, and campaign text/integer errors are absent from the consolidated deployment logs.
 - Timeclock starts cleanly on port 8080.
 - Old Special Orders and Timeclock deployments have been removed from active service by Railway after successful replacement.
+
+## 2026-10-12 — Post-cutover cleanup phase
+
+### Railway test environment retirement
+- Began retiring the temporary `Hobby Corner Integration Test` project after the consolidated production cutover was verified.
+- Deletion requested for:
+  - `integration-smoke-runner`
+  - `timeclock-integration-test`
+  - `lightspeed-integration-test`
+  - isolated test `Postgres`
+  - isolated `postgres-volume`
+- Railway is applying these removals asynchronously. The smoke runner is already removed and Timeclock is offline/removing; remaining test resources are still settling.
+- No resources in the main `Hobby Corner` project were changed by this cleanup.
+
+### GitHub branch retirement
+The connected GitHub tool still does not expose branch deletion, so no refs were force-moved or otherwise altered as a substitute.
+
+Verified retirement candidates:
+- `feature/order-split-poc`
+- `feature/product-scanner-foundation`
+- `special-orders-foundation-2026-10-02`
+- `special-orders-foundation-livebase-2026-10-02`
+
+Next legacy candidates after those:
+- `V1.2`
+- one of the identical `Apps-script-importer` / `Importer` branches, followed by final legacy-importer reconciliation.
