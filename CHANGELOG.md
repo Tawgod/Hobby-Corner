@@ -193,3 +193,18 @@ The following Hobby Corner production-environment services were repointed from o
 - No current Railway health failures were reported at the time of the source change.
 - `Postgres`, `Hobby-Corner-Rewards`, `Hobby-Corner-Discord-Bot`, and `migration-test-bsi117` were not changed.
 - Do not retire the old GitHub deployment branches until these replacement deployments reach SUCCESS and post-cutover health is verified.
+
+## 2026-10-12 — Consolidated Railway cutover verified
+
+### Verified live
+- `lightspeed-api` -> `Tawgod/Lightspeed:integration/hobby-corner-consolidation` -> SUCCESS deployment `c1b79bca-fa91-4f11-9c8c-e774b4dc8b5e`
+- `timeclock` -> `Tawgod/Lightspeed:integration/hobby-corner-consolidation` -> SUCCESS deployment `cb99e0c3-0f84-4dd8-9e44-da6c7057ae97`
+- `special-orders-test` -> `Tawgod/Lightspeed:integration/hobby-corner-consolidation` -> SUCCESS deployment `00348c2f-7747-46f1-b862-72abf3b533e7`
+
+### Health
+- All seven main Hobby Corner Railway services are online.
+- Railway reports zero current service failures.
+- New Special Orders logs show schema ready and successful database initialization.
+- The prior duplicate-constraint, reconciliation bind-count, and campaign text/integer errors are absent from the consolidated deployment logs.
+- Timeclock starts cleanly on port 8080.
+- Old Special Orders and Timeclock deployments have been removed from active service by Railway after successful replacement.
