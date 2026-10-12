@@ -341,3 +341,14 @@ A non-deployed `Tawgod/Lightspeed:integration/hobby-corner-consolidation` branch
 - All seven Hobby Corner Railway services are online with zero current failures.
 - The consolidated branch is now the authoritative deployment line for these three services.
 - The former deployment branches `feature/order-split-poc` and `special-orders-foundation-livebase-2026-10-02` no longer back active Railway services and are eligible for retirement after branch deletion is performed manually or through a GitHub tool that supports branch deletion.
+
+
+### Post-cutover cleanup — 2026-10-12
+- Temporary `Hobby Corner Integration Test` Railway services/database/volume are being retired; deletions are currently applying.
+- Main Hobby Corner production services remain untouched and healthy.
+- Four superseded Lightspeed feature branches are ready for deletion, but the connected GitHub tool does not expose branch deletion:
+  - `feature/order-split-poc`
+  - `feature/product-scanner-foundation`
+  - `special-orders-foundation-2026-10-02`
+  - `special-orders-foundation-livebase-2026-10-02`
+- Do not emulate deletion by force-moving refs.
