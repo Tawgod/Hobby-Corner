@@ -118,3 +118,24 @@ The deployed `special-orders-test` service logs confirmed all three failure mode
 
 ### Result
 `integration/hobby-corner-consolidation` passes the available non-deployed structural/static test suite. Status remains **Testing** pending isolated/live database smoke testing and employee workflow testing. No Railway deployment was changed.
+
+## 2026-10-12 — Isolated consolidated-branch Railway smoke test started
+
+### Isolated infrastructure
+- Created private Railway project `Hobby Corner Integration Test` with environment `test`.
+- Added a dedicated PostgreSQL service/volume; this database is separate from Hobby Corner production Postgres.
+- Added `lightspeed-integration-test` from `Tawgod/Lightspeed:integration/hobby-corner-consolidation`.
+- Test app uses only the isolated PostgreSQL database. `SPECIAL_ORDERS_LIVE_MODE`, migration, and product writes are disabled.
+- Production Lightspeed credentials were not copied into the test project.
+- Generated temporary test domain `lightspeed-integration-test-test.up.railway.app`.
+
+### Smoke-test findings
+- First integration deployment reproduced a schema syntax problem in the new idempotency fix; no production service was affected.
+- Corrected the schema on the integration branch to use `DROP CONSTRAINT IF EXISTS` followed by re-adding the check constraint.
+- Corrected integration commit deployed successfully.
+- Special Orders logged `database schema ready`, `database initialization result: true`, and `Server listening on port 8080`.
+- Redeployed the same build against the same isolated database with Railway health check `/`; deployment succeeded and schema initialization succeeded again, verifying restart-safe schema behavior.
+- External HTTP smoke tests remain limited because the current tool environment cannot resolve the newly generated Railway hostname. Railway's own deployment health check succeeded.
+
+### Production impact
+None. Existing Hobby Corner Railway project/services and production database were not changed or repointed.
