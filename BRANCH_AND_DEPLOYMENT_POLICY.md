@@ -158,3 +158,15 @@ Railway source mappings for `lightspeed-api`, `timeclock`, and `special-orders-t
 - `special-orders-foundation-livebase-2026-10-02`
 - `special-orders-foundation-2026-10-02`
 - `feature/product-scanner-foundation` (functionally reconciled into the consolidated branch)
+
+
+## Superseded branch retirement set — 2026-10-12
+The following branches no longer back Railway services and their useful work has been reconciled into `integration/hobby-corner-consolidation`:
+- `feature/order-split-poc`
+- `feature/product-scanner-foundation`
+- `special-orders-foundation-2026-10-02`
+- `special-orders-foundation-livebase-2026-10-02`
+
+Delete these branches when a safe GitHub branch-delete path is available. Do not use force ref movement as a deletion substitute.
+
+Afterward, continue legacy cleanup with `V1.2` and the identical `Apps-script-importer` / `Importer` pair.
