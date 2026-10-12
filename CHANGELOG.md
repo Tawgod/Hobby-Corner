@@ -315,3 +315,14 @@ Remaining branches are:
 - No GW customer-facing/test-channel publication was triggered during implementation.
 - Browser acceptance and the first controlled test-channel publish remain to be completed.
 
+## 2026-10-12 — GW customer cutoff buffer and auto-submit failure alerting
+
+- GW customer order cutoff now defaults to **30 minutes before** the supplier deadline parsed from the Games Workshop email.
+- The original GW supplier deadline is stored separately on the campaign as `gw_supplier_deadline_at`.
+- Planned auto-submit timing is **15 minutes after the customer cutoff**, which is therefore **15 minutes before the GW supplier deadline**.
+- The actual external Google Form submission worker remains safety-disabled pending dedicated submission testing; this change does not falsely mark vendor submission as active.
+- Added auto-submit failure alert plumbing for the employee Discord channel `1334937694895083580` with role mention `1308203405021286400`.
+- Failure alert state is stored on the campaign so one failed campaign will not repeatedly ping staff every scheduler cycle; if Discord delivery itself fails, the alert claim is released so a later retry can notify.
+- Railway `special-orders-test` now has the employee-channel and employee-role IDs configured as service variables.
+- Implementation commit: `Tawgod/Lightspeed@c00e02b50e9b9d177fa0a9eb10854e28ffd5843d`.
+
