@@ -40,3 +40,19 @@ This audit did not deploy, restart, redeploy, or modify any Railway service and 
 - Confirmed `Tawgod/Lightspeed:Apps-script-importer` and `Importer` are identical.
 - Confirmed `Tawgod/Hobby-Corner:Lightspeed` has no unique commits.
 - Branch deletion is not available through the connected GitHub action set, so these remain documented manual cleanup candidates rather than being rewritten or force-moved.
+
+## 2026-10-12 — Special-orders branch reconciliation
+
+### Reconciled
+Reviewed the five commits unique to `Tawgod/Lightspeed:special-orders-foundation-2026-10-02` against the deployed `special-orders-foundation-livebase-2026-10-02` branch.
+
+The five unique commits were the original special-orders foundation:
+- initial PostgreSQL schema
+- initial special-orders API/router
+- initial dashboard shell
+- PostgreSQL dependency
+- server mount/routing
+
+All five functions are already present and materially expanded in the deployed live-base branch. No unique functionality needs to be cherry-picked. The old `special-orders-foundation-2026-10-02` branch is now classified as a safe archival/deletion candidate.
+
+No runtime code, Railway service, or deployment was changed during reconciliation.
