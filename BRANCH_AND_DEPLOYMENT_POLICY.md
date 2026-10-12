@@ -146,3 +146,7 @@ The consolidated branch now has an independent Railway project, `Hobby Corner In
 
 ## Functional test gate — 2026-10-12
 The isolated consolidated environment has passed Special Orders 8/8 HTTP/database smoke tests, Timeclock 8/8 workflow smoke tests, and verified 14-hour automatic clock-out behavior. The branch is still **Testing**, not production-ready, because Lightspeed-authenticated operations and staff Chrome-extension workflows have not yet been exercised from the consolidated deployment. Review the two high-severity npm dependency findings before production promotion.
+
+
+## Production source consolidation started — 2026-10-12
+Railway source mappings for `lightspeed-api`, `timeclock`, and `special-orders-test` now follow `integration/hobby-corner-consolidation`. Replacement deployments are still initializing, so this is not yet a completed cutover. Keep `feature/order-split-poc` and `special-orders-foundation-livebase-2026-10-02` until the consolidated deployments are verified successful.
