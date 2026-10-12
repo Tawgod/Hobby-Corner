@@ -343,3 +343,18 @@ Remaining branches are:
 - Implementation commit: `Tawgod/Lightspeed@4ede6772df6655c8d480f3cdaf27056c548d93eb`.
 - Railway `special-orders-test` deployment `9c9ada32-9de8-4f2a-8e48-dc934603bd93` reached SUCCESS with database schema initialization successful.
 
+
+## 2026-10-12 — Product Scanner Timeclock authentication and read-only live smoke test
+
+**Status:** Testing (code implemented and deployed; valid employee sign-in and real product matching not yet end-to-end verified).
+
+- Merged `Tawgod/Lightspeed` PR #5 into authoritative `integration/hobby-corner-consolidation`, commit `ef0b8176763fe788e87ea23543044638e49f6c1e`.
+- New scanner PIN sign-in uses existing Timeclock employee credentials. Active staff default to `scanner_can_lookup=true`; `scanner_can_approve=false` by default and can be changed per employee through Timeclock's admin-protected endpoint.
+- Scanner gateway in `special-orders-test` reuses the existing Special Orders local/remote match routes. Admin and internal service secrets remain server-only. Login throttling is shared-PostgreSQL-backed; sessions are short-lived.
+- Railway deployment SUCCESS: `lightspeed-api` `414cd129-7c71-47e3-99f8-0287bb2ec797`, `timeclock` `bae57489-e0ad-414a-88b7-35799fb500ef`, `special-orders-test` `b4ff34d9-1f17-469b-9fed-f0cf4f063d7a`.
+- Activated `SCANNER_ENABLED=true` on `special-orders-test` only; deployment `496b4dd6-f16d-4cc3-9049-d16ace494a4b` reached SUCCESS, with `[scanner] authenticated read-only gateway enabled` in startup logs.
+- CI regression/syntax tests passed: GitHub Actions run `38299780733`. Live non-destructive security smoke re-run `38300384359` attempt 2 passed: unauthorized internal Timeclock PIN verification **403**, unauthenticated scanner matching **401**, invalid scanner PIN **401**.
+- Chrome extension source/release package on consolidated branch is version `0.3.19`; staff-installed copies do not update automatically. Product Create/Update remains disabled.
+- Remaining: verify a real authorized employee PIN from Chrome, confirm read-only Lightspeed and local matching, test permission revocation and login lockout, and review scanner approval/write design before enabling any writes.
+
+No Lightspeed product records were created or updated in this test. The existing Timeclock database gained default scanner-lookup and approval-permission columns on startup.
