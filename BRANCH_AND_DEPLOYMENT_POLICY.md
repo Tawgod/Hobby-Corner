@@ -114,3 +114,23 @@ Recommended target:
 5. Move deployed services to a stable branch only after feature acceptance.
 6. Retire duplicated Railway projects only after confirming no external integration references their domains.
 7. Update `HOBBY_CORNER_PROJECT.md` and `CHANGELOG.md` after each cleanup batch.
+
+
+## Active branch consolidation — 2026-10-12
+
+Created non-deployed branch `Tawgod/Lightspeed:integration/hobby-corner-consolidation` from the current Special Orders live-base.
+
+Consolidation performed:
+- Merged PR #3 from `feature/order-split-poc` into the integration branch. GitHub reported the merge clean. This added the seven order-split-only commits, including Lightspeed customer ZIP/USPS helpers and Special Orders launcher/version updates.
+- Scanner PR #4 conflicted only because scanner work modified the same popup/manifest files. The conflict was resolved by applying the scanner versions of `extension/manifest.json`, `extension/popup.html`, and `extension/popup.js`, plus all five new `extension/product-scanner/*` files, directly to the integration branch.
+- All eight scanner-touched files were verified byte-identical to `feature/product-scanner-foundation` after resolution.
+- The integration branch was verified to retain Special Orders backend/schema, order-split support, and USPS/address functionality.
+
+Current recommendation:
+- Treat `integration/hobby-corner-consolidation` as the candidate unified code line for testing.
+- Do not repoint Railway until consolidated behavior is tested.
+- Existing deployed branches remain authoritative for their current services until a controlled cutover.
+- `special-orders-foundation-2026-10-02` is superseded and can be retired.
+- `feature/product-scanner-foundation` is functionally reconciled into the integration branch; keep only until scanner development resumes from the consolidated base or the old branch is manually removed.
+- `feature/order-split-poc` remains deployed and must stay until Railway is deliberately repointed.
+- `special-orders-foundation-livebase-2026-10-02` remains deployed and must stay until Railway is deliberately repointed.
