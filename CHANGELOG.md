@@ -234,3 +234,18 @@ Verified retirement candidates:
 Next legacy candidates after those:
 - `V1.2`
 - one of the identical `Apps-script-importer` / `Importer` branches, followed by final legacy-importer reconciliation.
+
+## 2026-10-12 — Superseded Lightspeed branches deleted
+
+Verified the following retired branches were deleted from `Tawgod/Lightspeed`:
+- `feature/order-split-poc`
+- `feature/product-scanner-foundation`
+- `special-orders-foundation-2026-10-02`
+- `special-orders-foundation-livebase-2026-10-02`
+
+Remaining branches are:
+- `integration/hobby-corner-consolidation`
+- `LivBranch`
+- `V1.2`
+- `Apps-script-importer`
+- `Importer`
