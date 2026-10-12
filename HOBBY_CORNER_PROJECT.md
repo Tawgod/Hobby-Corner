@@ -176,7 +176,7 @@ Repository: `Tawgod/Lightspeed`
 Branch deployed: `integration/hobby-corner-consolidation`
 Railway service: `timeclock`
 Database: shared Railway PostgreSQL
-Last verified deployment: SUCCESS, 2026-10-06
+Last verified deployment: SUCCESS, 2026-10-12
 
 Requirements established:
 - Sunday-Saturday weeks.
@@ -186,9 +186,19 @@ Requirements established:
 - Automatic clock-out after 14 hours.
 - Overtime review and pay-period summary.
 - Multi-year data retention.
+- Employee identity can exist independently of Discord; Discord linking is optional.
 
 Verified:
-A substantial timeclock backend exists and the extension contains a timeclock UI. Production readiness and complete reporting coverage still require validation.
+- A substantial timeclock backend exists and the extension contains a timeclock UI.
+- Lightspeed-backed employee records can be assigned a unique 4-digit timeclock PIN directly by Employee ID without requiring a Discord account.
+- Existing Discord-linked PIN reset remains compatible with the same backend endpoint.
+- PIN changes are audited and duplicate PINs are rejected.
+- Railway `timeclock` successfully deployed the non-Discord PIN-assignment backend on 2026-10-12.
+
+Testing / follow-up:
+- Verify the production Discord control-panel deployment exposes the employee-name `Set / Reset PIN` picker.
+- Run one end-to-end non-Discord employee onboarding test at the store timeclock.
+- Production readiness and complete reporting coverage still require validation.
 
 ### Discord Bot and Customer Identity
 Status: Deployed
