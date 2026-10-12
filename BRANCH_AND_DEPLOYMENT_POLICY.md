@@ -138,3 +138,7 @@ Current recommendation:
 
 ## Consolidation test gate — 2026-10-12
 `integration/hobby-corner-consolidation` has passed syntax, JSON, module/import, extension-reference, and merge-structure validation. Runtime logs from the deployed Special Orders test service exposed three defects that have been fixed only on the integration branch. Do not repoint Railway yet. Require a database-backed smoke test and core employee workflow acceptance before using this branch as the stable deployment line.
+
+
+## Isolated Railway test project — 2026-10-12
+The consolidated branch now has an independent Railway project, `Hobby Corner Integration Test`, with its own PostgreSQL database. Use this project for database-backed consolidation testing. Do not connect its database to production. Live Lightspeed writes, migration, and product-write flags are disabled. A successful second deployment against the same database verified schema restart safety. Production services remain on their existing branches until acceptance.
