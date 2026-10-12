@@ -395,3 +395,23 @@ A non-deployed `Tawgod/Lightspeed:integration/hobby-corner-consolidation` branch
 
 ### Lightspeed branch cleanup complete — 2026-10-12
 Verified deletion of the four superseded feature branches used before consolidation. `integration/hobby-corner-consolidation` remains the authoritative deployed branch. Remaining legacy cleanup candidates are `V1.2` and the identical `Apps-script-importer` / `Importer` pair.
+
+### GW preorder web publishing workflow — 2026-10-12
+Status: **Testing**
+
+- GW weekly preorder management has been moved out of the main Special Orders dashboard into a dedicated staff page at `/gw-preorders`, linked from `/special-orders`.
+- The dedicated page reuses the Special Orders access key and provides GW email/form intake, campaign review, Discord preview, and controlled Discord publishing.
+- Discord publishing is initiated from the Special Orders web application rather than Discord slash commands.
+- `special-orders-test` receives the existing Discord bot token through a Railway service-variable reference; the token was not copied into source code or exposed in project documentation.
+- A database-backed `preorder_discord_publications` record is created before sending posts. Its unique campaign/channel constraint prevents duplicate whole-campaign publication and retains message IDs/status for partial-failure review.
+- Publishing remains targeted to the isolated GW test channel `1336092698935033917` while the workflow is being accepted.
+- The production `Hobby-Corner-Discord-Bot` service has been returned to `Tawgod/Hobby-Corner-Discord-Bot:main`; slash-command publishing is not the intended staff workflow.
+- Initial consolidated implementation commit: `5b6a6ab8f66d131ddb386fd5b2ae206071d1d921`.
+- Publish-button safety follow-up: `89622f98c2466fb6cfc8e187fd2d83b02778ac08`, requiring a fresh successful preview before the web Publish button is enabled.
+
+Remaining acceptance:
+- Open the dedicated GW page from the Special Orders dashboard and verify the browser workflow.
+- Run one reviewed campaign through preview.
+- Perform one controlled publish to the GW test channel and verify embeds/images/reactions.
+- Wire customer reaction capture into the Special Orders database before replacing the legacy preorder-sheet reaction workflow.
+
