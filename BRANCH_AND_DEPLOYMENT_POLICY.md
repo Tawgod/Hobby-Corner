@@ -22,15 +22,13 @@ The Chrome extension source currently points to the `lightspeed-api` and `timecl
 ## Railway cleanup candidates
 
 ### `capable-trust`
-Contains one `Lightspeed` service deploying `Tawgod/Lightspeed:LivBranch`.
-Observed HTTP requests in the 7 days ending 2026-10-12: 0.
-Classification: strong retirement candidate.
+Cleanup status: service retired 2026-10-12.
+The duplicate `Lightspeed` service that deployed `Tawgod/Lightspeed:LivBranch` had 0 HTTP requests in the prior 7 days and was deleted after approval. The Railway project now contains no services or volumes. The project container itself remains because the connected Railway tools do not expose project deletion.
 
 ### `enthusiastic-rebirth`
 Contains one `Lightspeed` service deploying `Tawgod/Lightspeed:feature/order-split-poc`, duplicating the source used by `Hobby Corner/lightspeed-api`.
 Observed HTTP requests in the 7 days ending 2026-10-12: 10.
-The current extension code does not point to this project's domain.
-Classification: probable retirement candidate, but verify no external/manual integrations still call its domain before deletion.
+The current extension code does not point to this project's domain. The visible `HC Preorders` Config sheet and the reviewed legacy preorder GitHub scripts also do not reference this Railway domain. However, the live bound Apps Script attached to the sheet cannot be independently read with the current connectors, so this project is being retained until that dependency is conclusively ruled out.
 
 Do not delete either project until explicitly approved.
 
