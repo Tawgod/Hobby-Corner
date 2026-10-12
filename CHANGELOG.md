@@ -289,3 +289,29 @@ Remaining branches are:
 - Railway `timeclock` successfully deployed commit `8157a9051d908e675069254b82339fc005704d37` from `integration/hobby-corner-consolidation`.
 - Discord bot production is currently sourced from `Tawgod/Hobby-Corner-Discord-Bot:main`; commit `7c3af0eee516e52f3e767dbbbb7c03dd3a64d4f9` contains the matching employee-name PIN picker and was queued for deployment at verification time.
 
+## 2026-10-12 — GW preorders moved to dedicated Special Orders web workflow
+
+### Changed
+- Removed the embedded GW weekly-preorder controls from the main Special Orders page.
+- Added a dedicated `/gw-preorders` page linked from the main `/special-orders` dashboard.
+- Preserved GW Outlook/Graph intake, form scraping, draft import, campaign review, case-pack/single-item decisions, and Discord preview on the dedicated page.
+- Made the Special Orders web application the staff control point for GW Discord publication; Discord slash commands are no longer the intended publishing workflow.
+
+### Discord publication safeguards
+- Added server-side Discord publishing through the existing Hobby Corner bot token supplied to `special-orders-test` by Railway variable reference.
+- Publishing remains restricted to GW test channel `1336092698935033917` during acceptance testing.
+- Added `preorder_discord_publications` to record campaign/channel publication status and Discord message IDs.
+- Added a unique campaign/channel constraint to prevent accidental duplicate whole-campaign publication.
+- Partial or failed sends are recorded for review rather than blindly retried.
+- The web Publish button remains disabled until a fresh Discord preview reports that the campaign is ready.
+- Returned the production Discord bot service to `Tawgod/Hobby-Corner-Discord-Bot:main`.
+
+### References
+- Web workflow implementation: `Tawgod/Lightspeed@5b6a6ab8f66d131ddb386fd5b2ae206071d1d921`
+- Fresh-preview publish gate: `Tawgod/Lightspeed@89622f98c2466fb6cfc8e187fd2d83b02778ac08`
+
+### Testing status
+- Special Orders schema/startup and the initial web-publishing deployment reached Railway SUCCESS.
+- No GW customer-facing/test-channel publication was triggered during implementation.
+- Browser acceptance and the first controlled test-channel publish remain to be completed.
+
