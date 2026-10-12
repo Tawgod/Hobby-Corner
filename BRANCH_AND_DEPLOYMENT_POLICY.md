@@ -150,3 +150,11 @@ The isolated consolidated environment has passed Special Orders 8/8 HTTP/databas
 
 ## Production source consolidation started — 2026-10-12
 Railway source mappings for `lightspeed-api`, `timeclock`, and `special-orders-test` now follow `integration/hobby-corner-consolidation`. Replacement deployments are still initializing, so this is not yet a completed cutover. Keep `feature/order-split-poc` and `special-orders-foundation-livebase-2026-10-02` until the consolidated deployments are verified successful.
+
+
+## Authoritative deployment line — 2026-10-12
+`Tawgod/Lightspeed:integration/hobby-corner-consolidation` is now the authoritative Railway source for `lightspeed-api`, `timeclock`, and `special-orders-test`. All three consolidated deployments are SUCCESS and current Railway health is clean. The following branches are now retirement candidates rather than active deployment branches:
+- `feature/order-split-poc`
+- `special-orders-foundation-livebase-2026-10-02`
+- `special-orders-foundation-2026-10-02`
+- `feature/product-scanner-foundation` (functionally reconciled into the consolidated branch)
