@@ -96,3 +96,25 @@ No Railway services or deployments were changed during this investigation.
 - Consolidated branch contains order split and customer ZIP/USPS functionality.
 - Consolidated branch contains the complete current scanner foundation.
 - No Railway source branch or deployment was changed.
+
+## 2026-10-12 — Consolidated Lightspeed test pass
+
+### Tests run
+- Parsed all consolidated server, route, Timeclock, Special Orders client, Chrome extension, and scanner JavaScript for syntax.
+- Parsed top-level, Timeclock, and extension JSON manifests.
+- Verified local module import targets and declared npm dependencies.
+- Verified Chrome extension popup/content-script references and scanner permissions.
+- Verified consolidated server has one ZIP route, one USPS verification route, one Special Orders mount, one database initialization, and one listener.
+- Verified scanner files remained byte-identical to the scanner foundation after conflict resolution.
+- Checked Railway runtime health for the source services; all seven main Hobby Corner services are currently online with no active Railway health alerts.
+
+### Bugs found and fixed on integration branch only
+- Made `preorder_products_gw_post_disposition_chk` schema creation idempotent so repeated startup does not fail when the constraint already exists.
+- Fixed Special Orders product reconciliation query limit handling; the previous code passed a PostgreSQL bind parameter without a matching placeholder.
+- Fixed the preorder campaign-type query placeholder; the previous SQL compared a text column directly to an integer literal.
+
+### Runtime finding
+The deployed `special-orders-test` service logs confirmed all three failure modes before the fixes: duplicate-constraint startup errors, reconciliation bind-count errors, and a text-vs-integer campaign query error. These fixes have NOT been deployed.
+
+### Result
+`integration/hobby-corner-consolidation` passes the available non-deployed structural/static test suite. Status remains **Testing** pending isolated/live database smoke testing and employee workflow testing. No Railway deployment was changed.
