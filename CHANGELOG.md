@@ -249,3 +249,26 @@ Remaining branches are:
 - `V1.2`
 - `Apps-script-importer`
 - `Importer`
+
+
+## 2026-10-12 — Consolidated Railway cutover and product-migration reorder validation
+
+### Railway / branch consolidation
+- Verified `lightspeed-api`, `timeclock`, and `special-orders-test` are all live from `Tawgod/Lightspeed:integration/hobby-corner-consolidation`.
+- Latest deployments for all three services were successful and no staged Railway changes were present.
+- `feature/order-split-poc`, `feature/product-scanner-foundation`, `special-orders-foundation-2026-10-02`, and `special-orders-foundation-livebase-2026-10-02` are retired and marked SAFE TO DELETE.
+- New Lightspeed development must build from the consolidated branch unless project management explicitly changes the architecture.
+
+### Product migration reorder validation
+- Ran a controlled five-product Lightspeed reorder/restock batch against already-created migration test products.
+- Used `MIN_MAX` reorder configuration with RMS proposed reorder point mapped to minimum and proposed restock level mapped to target.
+- Verified values:
+  - ULP81126: 11 / 12
+  - ULP81156: 1 / 2
+  - TES1103TT: 3 / 9
+  - TES1104TT: 1 / 2
+  - TES1108TT: 0 / 1
+- Every product reported on-hand inventory 0 before and after the update.
+- All five read-backs matched the requested reorder settings.
+- Recorded the batch in `LS: importer` tab `Migration Reorder Test Results`.
+- Returned the temporary `migration-test-bsi117` Railway function to read-only verification behavior after the test.
