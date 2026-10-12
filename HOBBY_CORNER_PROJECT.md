@@ -296,3 +296,12 @@ Verified findings:
 
 ### Consolidated Lightspeed candidate branch — 2026-10-12
 A non-deployed `Tawgod/Lightspeed:integration/hobby-corner-consolidation` branch now combines the current Special Orders live-base, all seven order-split-only commits, and the complete current product-scanner foundation. It is the preferred candidate for future unified testing. Railway has not been repointed; existing deployed branches remain live until an explicitly approved cutover.
+
+
+### Consolidated branch test status — 2026-10-12
+- Branch: `Tawgod/Lightspeed:integration/hobby-corner-consolidation`
+- Status: **Testing**
+- Static/syntax/import/reference checks: passed after fixes.
+- Three Special Orders defects were identified from live test-service logs and corrected on the integration branch only: non-idempotent schema constraint creation, reconciliation LIMIT parameter binding, and preorder campaign-type SQL parameter binding.
+- Railway remains on the existing deployed branches; integration fixes are not live.
+- Next gate: isolated/live database smoke test followed by extension workflow acceptance before any Railway repointing.
