@@ -317,3 +317,12 @@ A non-deployed `Tawgod/Lightspeed:integration/hobby-corner-consolidation` branch
 - Safety: Lightspeed live mode, migration, and product writes disabled; production Lightspeed credentials not copied.
 - Verified: clean build; database schema initializes on fresh database; second deployment initializes successfully against the same database; Railway root health check passes.
 - Remaining: authenticated Special Orders route tests and Lightspeed-dependent workflow tests require test credentials/configuration before they can be exercised.
+
+
+### Consolidated functional test result — 2026-10-12
+- Special Orders isolated HTTP/database smoke suite: **8/8 passed**.
+- Timeclock isolated functional smoke suite: **8/8 passed**.
+- Timeclock 14-hour automatic close: **passed**, including `AUTO_CLOSED`, review flag, and `AUTO_CLOCK_OUT` event verification.
+- Reusable Timeclock integration smoke/auto-close scripts are now committed on `integration/hobby-corner-consolidation`.
+- Production Railway services remain unchanged.
+- Remaining acceptance gates: Lightspeed-authenticated read/write tests with tightly controlled test records, Chrome extension employee workflow testing, supplier-page scanner browser testing, and dependency/security review.
