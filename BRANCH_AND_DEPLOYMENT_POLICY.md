@@ -142,3 +142,7 @@ Current recommendation:
 
 ## Isolated Railway test project — 2026-10-12
 The consolidated branch now has an independent Railway project, `Hobby Corner Integration Test`, with its own PostgreSQL database. Use this project for database-backed consolidation testing. Do not connect its database to production. Live Lightspeed writes, migration, and product-write flags are disabled. A successful second deployment against the same database verified schema restart safety. Production services remain on their existing branches until acceptance.
+
+
+## Functional test gate — 2026-10-12
+The isolated consolidated environment has passed Special Orders 8/8 HTTP/database smoke tests, Timeclock 8/8 workflow smoke tests, and verified 14-hour automatic clock-out behavior. The branch is still **Testing**, not production-ready, because Lightspeed-authenticated operations and staff Chrome-extension workflows have not yet been exercised from the consolidated deployment. Review the two high-severity npm dependency findings before production promotion.
