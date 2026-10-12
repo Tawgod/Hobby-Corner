@@ -292,3 +292,7 @@ Verified findings:
 - Duplicate `capable-trust/Lightspeed` and `enthusiastic-rebirth/Lightspeed` services have been retired.
 - Both old Railway project containers are now empty.
 - The `Hobby Corner` Railway project is the authoritative home for current Hobby Corner runtime services.
+
+
+### Consolidated Lightspeed candidate branch — 2026-10-12
+A non-deployed `Tawgod/Lightspeed:integration/hobby-corner-consolidation` branch now combines the current Special Orders live-base, all seven order-split-only commits, and the complete current product-scanner foundation. It is the preferred candidate for future unified testing. Railway has not been repointed; existing deployed branches remain live until an explicitly approved cutover.
