@@ -286,3 +286,9 @@ Verified findings:
 - Railway projects `capable-trust` and `enthusiastic-rebirth` contain older/duplicate Lightspeed deployments outside the main Hobby Corner project and are retirement candidates pending explicit approval.
 - Several GitHub branches have no unique commits and are cleanup candidates; branches with unique work will be reconciled before deletion.
 - No branches, services, projects, or deployments were deleted or changed during this audit.
+
+
+### Railway consolidation update — 2026-10-12
+- Duplicate `capable-trust/Lightspeed` and `enthusiastic-rebirth/Lightspeed` services have been retired.
+- Both old Railway project containers are now empty.
+- The `Hobby Corner` Railway project is the authoritative home for current Hobby Corner runtime services.
