@@ -272,3 +272,20 @@ Remaining branches are:
 - All five read-backs matched the requested reorder settings.
 - Recorded the batch in `LS: importer` tab `Migration Reorder Test Results`.
 - Returned the temporary `migration-test-bsi117` Railway function to read-only verification behavior after the test.
+
+## 2026-10-12 — Timeclock non-Discord onboarding
+
+### Added
+- Timeclock PIN assignment can now target an employee record directly by Employee ID; a Discord account is no longer required to provision or reset a PIN.
+- The production Discord control-panel source was updated so `Set / Reset PIN` loads the Lightspeed-backed employee list by name and shows whether each employee already has a PIN or Discord link.
+- Existing Discord-linked PIN resets remain supported by the backend for compatibility.
+
+### Safeguards
+- PINs remain unique 4-digit credentials stored only as keyed hashes.
+- Duplicate PIN assignments are rejected.
+- PIN assignment/reset changes are written to the timeclock audit log.
+
+### Deployment
+- Railway `timeclock` successfully deployed commit `8157a9051d908e675069254b82339fc005704d37` from `integration/hobby-corner-consolidation`.
+- Discord bot production is currently sourced from `Tawgod/Hobby-Corner-Discord-Bot:main`; commit `7c3af0eee516e52f3e767dbbbb7c03dd3a64d4f9` contains the matching employee-name PIN picker and was queued for deployment at verification time.
+
