@@ -326,3 +326,10 @@ A non-deployed `Tawgod/Lightspeed:integration/hobby-corner-consolidation` branch
 - Reusable Timeclock integration smoke/auto-close scripts are now committed on `integration/hobby-corner-consolidation`.
 - Production Railway services remain unchanged.
 - Remaining acceptance gates: Lightspeed-authenticated read/write tests with tightly controlled test records, Chrome extension employee workflow testing, supplier-page scanner browser testing, and dependency/security review.
+
+
+### Railway consolidated-branch cutover — in progress 2026-10-12
+- `special-orders-test`, `timeclock`, and `lightspeed-api` are now configured to source `Tawgod/Lightspeed:integration/hobby-corner-consolidation`.
+- Railway replacement deployments for consolidated commit `c49f0e99d6f1a550696e52d3646fa6ab38ef7e70` are currently initializing.
+- Existing successful deployments remain serving until replacements settle.
+- Old deployed branches must remain until post-cutover SUCCESS/health verification.
