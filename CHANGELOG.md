@@ -25,3 +25,18 @@ This file tracks meaningful project-wide development and management changes. Ser
 
 ### No production changes
 This audit did not deploy, restart, redeploy, or modify any Railway service and did not change Lightspeed records.
+
+## 2026-10-12 — First infrastructure cleanup
+
+### Removed
+- Deleted the unused Railway `capable-trust/Lightspeed` service after verifying zero HTTP requests over the previous seven days and confirming the active Chrome extension targets the main Hobby Corner Railway domains.
+- Verified the `capable-trust` Railway project is now empty and has no volumes.
+
+### Held for verification
+- Did not remove `enthusiastic-rebirth/Lightspeed`. The active extension, visible HC Preorders configuration, and reviewed preorder repository scripts do not reference its Railway domain, but the live bound Apps Script cannot be verified through the current connectors.
+
+### GitHub branch cleanup
+- Confirmed `Tawgod/Lightspeed:V1.2` has no unique commits.
+- Confirmed `Tawgod/Lightspeed:Apps-script-importer` and `Importer` are identical.
+- Confirmed `Tawgod/Hobby-Corner:Lightspeed` has no unique commits.
+- Branch deletion is not available through the connected GitHub action set, so these remain documented manual cleanup candidates rather than being rewritten or force-moved.
