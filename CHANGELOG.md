@@ -326,3 +326,20 @@ Remaining branches are:
 - Railway `special-orders-test` now has the employee-channel and employee-role IDs configured as service variables.
 - Implementation commit: `Tawgod/Lightspeed@c00e02b50e9b9d177fa0a9eb10854e28ffd5843d`.
 
+## 2026-10-12 — GW form URL normalization and timing controls
+
+- Fixed GW campaign creation so Games Workshop tracking URLs from the source email are accepted and resolved through the existing scraper to the final Google Form URL before saving the campaign.
+- Corrected the GW draft-sync SQL parameter mismatch introduced during the cutoff-buffer update.
+- GW draft import now stores the canonical resolved form URL.
+- Auto-submit is enabled by default for newly created/imported GW campaigns; the actual external submission worker remains safety-disabled pending submission testing.
+- Added an adjustable GW timing side panel opened by an `Adjust cutoff / submit timing` checkbox.
+- The timing panel exposes:
+  - GW supplier deadline
+  - customer order cutoff
+  - auto-submit time
+- Email-derived defaults remain supplier deadline, customer cutoff = −30 minutes, auto-submit = −15 minutes, while allowing manual overrides.
+- Campaign Review now shows a prominent submission-status indicator and, when available, the submitted timestamp.
+- Added `gw_auto_submit_at` to the preorder campaign schema.
+- Implementation commit: `Tawgod/Lightspeed@4ede6772df6655c8d480f3cdaf27056c548d93eb`.
+- Railway `special-orders-test` deployment `9c9ada32-9de8-4f2a-8e48-dc934603bd93` reached SUCCESS with database schema initialization successful.
+
