@@ -26,9 +26,10 @@ Cleanup status: service retired 2026-10-12.
 The duplicate `Lightspeed` service that deployed `Tawgod/Lightspeed:LivBranch` had 0 HTTP requests in the prior 7 days and was deleted after approval. The Railway project now contains no services or volumes. The project container itself remains because the connected Railway tools do not expose project deletion.
 
 ### `enthusiastic-rebirth`
-Contains one `Lightspeed` service deploying `Tawgod/Lightspeed:feature/order-split-poc`, duplicating the source used by `Hobby Corner/lightspeed-api`.
-Observed HTTP requests in the 7 days ending 2026-10-12: 10.
-The current extension code does not point to this project's domain. The visible `HC Preorders` Config sheet and the reviewed legacy preorder GitHub scripts also do not reference this Railway domain. However, the live bound Apps Script attached to the sheet cannot be independently read with the current connectors, so this project is being retained until that dependency is conclusively ruled out.
+Contains one `Lightspeed` service deploying `Tawgod/Lightspeed:feature/order-split-poc`, the same source/commit stream as `Hobby Corner/lightspeed-api`.
+Observed HTTP requests in the 7 days ending 2026-10-12: 10, all to `/extension` or `/favicon.ico`; no timeclock, order-split, work-order, address, or special-order API traffic was observed.
+The current Chrome extension manifest permits only the main Hobby Corner `lightspeed-api` and `timeclock` Railway domains. Its code sends general Lightspeed/order-split requests to `lightspeed-api-production-c087.up.railway.app`, timeclock requests to `timeclock-production-2bfa.up.railway.app`, and its Special Orders UI link points to `special-orders-test-production.up.railway.app/special-orders`.
+Conclusion: `enthusiastic-rebirth` is currently acting as a duplicate extension distribution/landing-page host, not the runtime for Timeclock or Special Orders. Its `/extension` endpoint is duplicated by `Hobby Corner/lightspeed-api` from the same deployed source commit. Retain temporarily only until bookmarks/documentation/staff download links are moved to the authoritative Hobby Corner `lightspeed-api` `/extension` URL; then it is a strong retirement candidate.
 
 Do not delete either project until explicitly approved.
 
