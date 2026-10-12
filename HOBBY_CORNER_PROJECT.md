@@ -275,3 +275,14 @@ For project updates:
 4. Report implementation, testing and deployment separately.
 5. Record blockers and cross-system effects.
 6. Update this file, `CHANGELOG.md`, and `ROADMAP.md` after meaningful verified changes.
+
+
+## Repository and deployment organization audit — 2026-10-12
+
+See `BRANCH_AND_DEPLOYMENT_POLICY.md` for the detailed branch/deployment map and cleanup sequence.
+
+Verified findings:
+- The current Chrome extension points to the main Hobby Corner Railway project's `lightspeed-api` and `timeclock` domains.
+- Railway projects `capable-trust` and `enthusiastic-rebirth` contain older/duplicate Lightspeed deployments outside the main Hobby Corner project and are retirement candidates pending explicit approval.
+- Several GitHub branches have no unique commits and are cleanup candidates; branches with unique work will be reconciled before deletion.
+- No branches, services, projects, or deployments were deleted or changed during this audit.
