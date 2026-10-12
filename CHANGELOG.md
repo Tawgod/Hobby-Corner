@@ -178,3 +178,18 @@ None. Existing Hobby Corner Railway project/services and production database wer
 - Railway initially bootstrapped new GitHub services from the repository default branch before settling onto the requested branch. Timeclock was explicitly pinned to consolidated commit `74316d74ed99679ed28da5e4ee034dd7cdba3e1c` before accepting results.
 - No production Hobby Corner Railway service or production database was repointed.
 - Root application dependency installation currently reports two high-severity npm audit findings. These require dependency/security review but did not prevent the isolated functional smoke tests.
+
+## 2026-10-12 — Consolidated Railway source cutover started
+
+### Source mappings changed
+The following Hobby Corner production-environment services were repointed from old feature branches to `Tawgod/Lightspeed:integration/hobby-corner-consolidation`:
+- `special-orders-test`
+- `timeclock`
+- `lightspeed-api`
+
+### Current state
+- Railway replacement deployments are currently queued/initializing on consolidated commit `c49f0e99d6f1a550696e52d3646fa6ab38ef7e70`.
+- Previous successful deployments remain active while Railway prepares the replacements.
+- No current Railway health failures were reported at the time of the source change.
+- `Postgres`, `Hobby-Corner-Rewards`, `Hobby-Corner-Discord-Bot`, and `migration-test-bsi117` were not changed.
+- Do not retire the old GitHub deployment branches until these replacement deployments reach SUCCESS and post-cutover health is verified.
