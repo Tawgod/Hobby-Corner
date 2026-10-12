@@ -80,3 +80,19 @@ No Railway services or deployments were changed during this investigation.
 ### Verified after removal
 - Main `Hobby Corner` Railway project remains intact with `lightspeed-api`, `timeclock`, `special-orders-test`, `Postgres`, `Hobby-Corner-Discord-Bot`, `Hobby-Corner-Rewards`, and `migration-test-bsi117` present.
 - No staged Railway changes remain from the cleanup.
+
+## 2026-10-12 — Lightspeed active-branch consolidation
+
+### Created
+- Created non-deployed `integration/hobby-corner-consolidation` from the deployed Special Orders live-base branch.
+
+### Merged / reconciled
+- Merged the seven commits unique to `feature/order-split-poc` into the integration branch via clean PR #3.
+- Reconciled the ten scanner-foundation commits. PR #4 had overlapping popup/manifest changes, so the scanner versions of all eight affected files were applied directly and verified byte-identical to `feature/product-scanner-foundation`.
+- Closed PR #4 as superseded by the verified direct conflict resolution.
+
+### Verification
+- Consolidated branch contains Special Orders backend/schema.
+- Consolidated branch contains order split and customer ZIP/USPS functionality.
+- Consolidated branch contains the complete current scanner foundation.
+- No Railway source branch or deployment was changed.
