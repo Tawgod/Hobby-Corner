@@ -170,3 +170,7 @@ The following branches no longer back Railway services and their useful work has
 Delete these branches when a safe GitHub branch-delete path is available. Do not use force ref movement as a deletion substitute.
 
 Afterward, continue legacy cleanup with `V1.2` and the identical `Apps-script-importer` / `Importer` pair.
+
+
+## Superseded branch cleanup complete — 2026-10-12
+The previously retired Lightspeed feature branches have been deleted. Current active/development source is `integration/hobby-corner-consolidation`. Remaining branch cleanup is legacy-only: `V1.2` plus the duplicate `Apps-script-importer` / `Importer` pair.
