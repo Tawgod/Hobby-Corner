@@ -69,3 +69,14 @@ No runtime code, Railway service, or deployment was changed during reconciliatio
 `enthusiastic-rebirth` is a duplicate extension landing/download host, not the active Timeclock or Special Orders backend. Keep it temporarily until any staff bookmarks/download instructions are moved to the duplicate `/extension` endpoint on the authoritative `Hobby Corner/lightspeed-api` service; then it can be retired safely.
 
 No Railway services or deployments were changed during this investigation.
+
+## 2026-10-12 — Railway consolidation
+
+### Removed
+- Retired the duplicate `enthusiastic-rebirth/Lightspeed` Railway service after confirming its source and extension distribution endpoint were duplicated by `Hobby Corner/lightspeed-api`.
+- No attached volumes or unique runtime configuration required migration.
+- The `enthusiastic-rebirth` Railway project is now empty.
+
+### Verified after removal
+- Main `Hobby Corner` Railway project remains intact with `lightspeed-api`, `timeclock`, `special-orders-test`, `Postgres`, `Hobby-Corner-Discord-Bot`, `Hobby-Corner-Rewards`, and `migration-test-bsi117` present.
+- No staged Railway changes remain from the cleanup.
