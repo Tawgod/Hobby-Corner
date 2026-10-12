@@ -58,7 +58,7 @@ Branch findings:
 - `Apps-script-importer` and `Importer` are identical. At most one should remain temporarily; because importer work is legacy, both are eventual retirement candidates.
 - `feature/order-split-poc` is 115 commits ahead of `LivBranch` and is currently deployed by two production services. It cannot be deleted until its work is integrated into a stable branch and Railway is repointed.
 - `feature/product-scanner-foundation` is 10 commits ahead of `feature/order-split-poc`; it is an active development branch and should remain.
-- `special-orders-foundation-2026-10-02` and `special-orders-foundation-livebase-2026-10-02` are not equivalent. The old branch has five unique commits while the live-base branch contains the current deployed special-orders system. Reconcile the five unique commits before retiring the old branch.
+- `special-orders-foundation-2026-10-02` and `special-orders-foundation-livebase-2026-10-02` diverge historically, but the five unique commits on the older branch have now been reconciled. They are the original foundation commits for schema, API, dashboard shell, PostgreSQL dependency, and server mounting. Each is fully represented and expanded in the deployed live-base branch. No cherry-pick is required. The older branch is now a safe archival/deletion candidate.
 - `special-orders-foundation-livebase-2026-10-02` is the current deployed special-orders branch and must remain until merged into the future stable branch.
 
 Recommended target:
