@@ -9,9 +9,9 @@ Keep one clearly identifiable production path per deployed system, keep feature 
 ## Current authoritative deployments
 
 ### Railway project: Hobby Corner
-- `lightspeed-api` -> `Tawgod/Lightspeed:feature/order-split-poc`
-- `timeclock` -> `Tawgod/Lightspeed:feature/order-split-poc` (`/timeclock`)
-- `special-orders-test` -> `Tawgod/Lightspeed:special-orders-foundation-livebase-2026-10-02`
+- `lightspeed-api` -> `Tawgod/Lightspeed:integration/hobby-corner-consolidation`
+- `timeclock` -> `Tawgod/Lightspeed:integration/hobby-corner-consolidation` (`/timeclock`)
+- `special-orders-test` -> `Tawgod/Lightspeed:integration/hobby-corner-consolidation`
 - `Hobby-Corner-Discord-Bot` -> `Tawgod/Hobby-Corner-Discord-Bot:main`
 - `Hobby-Corner-Rewards` -> `Tawgod/Hobby-Corner-Discord-Bot:main`
 - `Postgres` -> shared persistent database
@@ -41,6 +41,14 @@ For active application repositories:
 - Railway must never be assumed to follow the repository default branch; deployment source must be recorded here.
 
 ## Tawgod/Lightspeed
+
+### Authoritative consolidated branch — deployed 2026-10-12
+- `integration/hobby-corner-consolidation` is the authoritative code line for new Lightspeed work.
+- Railway `lightspeed-api`, `timeclock`, and `special-orders-test` have all been repointed to this branch and verified with successful deployments.
+- The branch contains Special Orders, Split / Recall, Timeclock integration, ZIP/USPS tools, extension work, and Product Scanner foundation.
+- The following branches are retired and marked SAFE TO DELETE: `feature/order-split-poc`, `feature/product-scanner-foundation`, `special-orders-foundation-2026-10-02`, and `special-orders-foundation-livebase-2026-10-02`.
+- Do not build new work from retired branches.
+
 
 Current branches:
 - `LivBranch`
@@ -126,11 +134,11 @@ Consolidation performed:
 - All eight scanner-touched files were verified byte-identical to `feature/product-scanner-foundation` after resolution.
 - The integration branch was verified to retain Special Orders backend/schema, order-split support, and USPS/address functionality.
 
-Current recommendation:
-- Treat `integration/hobby-corner-consolidation` as the candidate unified code line for testing.
-- Do not repoint Railway until consolidated behavior is tested.
-- Existing deployed branches remain authoritative for their current services until a controlled cutover.
-- `special-orders-foundation-2026-10-02` is superseded and can be retired.
+Current state:
+- `integration/hobby-corner-consolidation` is now the authoritative unified code line.
+- Railway `lightspeed-api`, `timeclock`, and `special-orders-test` are deployed from it and were verified successful on 2026-10-12.
+- The superseded order-split, scanner-foundation, and both special-orders foundation/live-base branches are retired and marked SAFE TO DELETE.
+- New Lightspeed work must start from the consolidated branch unless the Hobby Corner Manager changes the architecture.
 - `feature/product-scanner-foundation` is functionally reconciled into the integration branch; keep only until scanner development resumes from the consolidated base or the old branch is manually removed.
 - `feature/order-split-poc` remains deployed and must stay until Railway is deliberately repointed.
 - `special-orders-foundation-livebase-2026-10-02` remains deployed and must stay until Railway is deliberately repointed.
