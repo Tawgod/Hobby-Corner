@@ -432,3 +432,19 @@ Remaining acceptance:
 - Remaining: verify a real authorized employee PIN from Chrome, confirm read-only Lightspeed and local matching, test permission revocation and login lockout, and review scanner approval/write design before enabling any writes.
 
 No Lightspeed product records were created or updated in this test. The existing Timeclock database gained default scanner-lookup and approval-permission columns on startup.
+
+## Purchase Order Companion — planned requirements (2026-10-13)
+
+**Status: Planned. No implementation or deployment completed.** Owning application: `Tawgod/Lightspeed`, Chrome extension; authoritative development base `integration/hobby-corner-consolidation`.
+
+- On a supplier website, open a very narrow right-side PO companion panel (target about one-quarter of the monitor; adjustable/collapsible) tied to the supplier's open Lightspeed purchase order.
+- Present each line compactly with supplier-specific SKU or UPC, product name, and order quantity. Color-code product exceptions needing investigation (missing identifier, mismatches, availability concerns, etc.).
+- Allow a **SKU / UPC display-and-copy toggle**, ideally per panel with optional per-item override. Copy the selected identifier to the clipboard with one click or a dedicated copy button; do not require selecting text. Keep the panel compact enough to leave the supplier website's search/quick-add bar accessible. Do not automatically type or submit in the supplier's website without a separately accepted integration.
+- **Supplier SKU is per supplier-product relationship, not a single universal Lightspeed SKU.** Products sourced from several suppliers must resolve the SKU for the *currently selected PO supplier*. UPC can serve as an alternate when available. If a supplier SKU is missing or ambiguous, visibly flag it; do not silently substitute another supplier's SKU.
+- Each line has a tiny checkbox to reveal compact editable `RP`, `RQ`, `Cost`, and `MSRP` fields. Unchecking only hides these fields; draft changes remain intact when rechecked. Items checked for update are included in a separate review queue.
+- **Review Changes** opens a separate popup (not an expanded sidebar) with before/after Lightspeed values, exceptions, and an explicit approval step. The sidebar itself remains narrow.
+- Employees authenticate using the existing Timeclock identity; normal staff may search/read by default. Product creation, editing, and price/reorder changes remain gated by individually granted approval permission. Never auto-write values while checking a box.
+- Drafts must be recoverable as appropriate to the PO and supplier without mixing data between purchase orders. Review supplier cost vs. global product cost / MSRP carefully and make update scope explicit; never overwrite global pricing just because the supplier's cost differs.
+- Reuse existing Special Orders supplier-product identifier mapping, Lightspeed PO integration, and Product Scanner matching/auth infrastructure. Do not create a separate supplier catalog importer or bulk supplier scraper.
+
+Next recommended action: In a dedicated PO Companion development conversation, inspect consolidated extension, PO retrieval endpoints, supplier-product mapping and Railway configuration; sketch a minimal sidebar prototype and data contract. Do not deploy to production or edit Lightspeed products without explicit approval.
