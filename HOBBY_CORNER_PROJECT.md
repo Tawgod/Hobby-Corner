@@ -623,3 +623,44 @@ Status: **Testing**
 - Implementation: `Tawgod/Lightspeed@1f039469710fc5a6f6633ed42fafefa93071a4d7`.
 - Railway deployment is currently building; browser acceptance remains required before marking Deployed.
 
+### Supplier Ordering workspace — 2026-10-14
+Status: **Testing**
+
+Dedicated page: `/ordering`
+
+Implemented workflow:
+1. View Special Order lines in General, By Supplier, or By Category views.
+2. Filter to items that still need ordering or items already ordered/backordered.
+3. Assign/change a preferred supplier directly from the Ordering queue while the line is not attached to a supplier order.
+4. Select multiple lines for one supplier.
+5. Add optional floor-stock quantity line by line.
+6. Create a local-only supplier-order draft.
+7. Reopen an existing draft and add more selected lines for the same supplier.
+8. Edit draft customer quantity, floor quantity, total quantity, unit cost, supplier order number, expected date, and notes.
+9. Remove draft lines without deleting the underlying customer Special Order.
+10. Explicitly push the reviewed draft to Lightspeed.
+
+Safeguards:
+- One Special Order line cannot be attached to multiple supplier orders.
+- Supplier routing cannot be changed after a line is attached to a supplier order.
+- Only `DRAFT` supplier orders and their lines are editable.
+- Placeholder/unmatched products block Lightspeed PO push.
+- A supplier order already linked to a Lightspeed consignment cannot be pushed again.
+- The Lightspeed consignment ID is stored as soon as the PO is created, before line upload, so a partial failure cannot be blindly retried into a duplicate PO.
+- Successful explicit Lightspeed push changes the local supplier order to `ORDERED` and changes linked Special Order lines from OOS/READY_TO_ORDER/BACKORDERED to `ORDERED`, including status-history entries.
+- No supplier or Lightspeed order is submitted automatically from the Ordering page.
+
+Category view uses the product's Lightspeed/local product category when available, with sourcing department as fallback.
+
+Implementation commits:
+- `1f039469710fc5a6f6633ed42fafefa93071a4d7` — split Preorder/Ordering pages
+- `97425fa333860ad2b73a4572b775a4375dc58f34` — draft supplier-order management APIs
+- `a998c64468ec611f8a15b79c475475649e06933d` — draft workspace UI
+- `02c1bc395a2d9304f5746befd2e12ef08eb265f1` — draft append/duplicate safeguards + placeholder push check
+- `ebae33fa4c9a74948d6b7fbfea12601fe89b8a09` — add selected lines to open draft
+- `b1649ae2e8c1790a9c075c676ee6a13d7e133b1f` — product-category grouping
+- `7be1ba90e53fc009616c81dfaef07793fdf17ccb` / `50b296feb52efc48ed1f543f9f11dcd550f68f05` — preferred supplier assignment
+- `597a9d8375e73cf35b514a3aea0446450a5fe649` — duplicate Lightspeed PO push guard
+
+Browser acceptance with real supplier-order data is still required before this is considered fully verified for daily use.
+
