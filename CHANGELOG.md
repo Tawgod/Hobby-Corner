@@ -419,3 +419,15 @@ No Lightspeed product records were created or updated in this test. The existing
 - Validate Short Code / MSRP / Cost extraction against the current real GW form and adjust parsing patterns as needed.
 - Build and test the actual Google Form order-submission worker. The current auto-submit schedule/alerts exist, but external GW form submission remains safety-disabled.
 
+## Scanner v0.3.23 / preorder staging rollout — 2026-10-14
+
+**Status: Testing — implemented and merged, Railway rollout in progress pending final service verification.** 
+- Authoritative source `Tawgod/Lightspeed:integration/hobby-corner-consolidation`; scanner PR #7 merged commit `d13f58f8a96c40466a6b47b753ef0ea866134205`. Follow-up hotfix PR #8 merged commit `4614a11d162472ba47d4d670bea2152b355fc198`.
+- Scanner review now auto-checks product matches after PIN sign-in and new scan, displays SKU/description and missing UPC/weight/picture when source supports those checks, puts compact Timeclock sign-in in header and removes raw supplier JSON and employee-visible product IDs.
+- Supplier matching uses authenticated read-only supplier-list lookup from existing Special Orders `suppliers` database; ACD name aliases supported, unmatched supplier warning shown. Cost, MSRP and MAP kept separate; MAP only captured from explicitly labeled sources, not inferred from advertised price.
+- Added **Add to preorder campaign** checkbox: when checked, a dropdown shows existing open preorder campaigns. Verified manager/admin can stage multiple scanned items into a separate `scanner_preorder_staged_items` table linked to the campaign and supplier, with idempotent uniqueness and `PENDING_REVIEW` status. Scanner lists staged names/SKUs by campaign.
+- **Safety boundary:** Scanner staging is stored in Hobby Corner database but **does not yet insert into live preorder_products**, create/update Lightspeed items or post to Discord. Future review/promotion step will move approved items into the publication workflow. Existing preorder campaigns and Discord GW publisher unchanged.
+- Scanner permission failure investigated: previous Timeclock logs showed repeated Lightspeed role API lookup errors. Added documented X-Series single-user API read and safe role diagnostics to explain why PIN is read-only when role verification fails. Actual manager PIN needs live verification; no manual privilege override.
+- CI successful: scanner UI regression `38629569978`, integration regression `38629576895`, and v0.3.23 Chrome artifact build `38629594665`. GW parser hotfix syntax CI `38629960382` passed.
+- During simultaneous consolidated-branch rollout, a separate GW preorder parser regex error from commit `979352329e356e1454579d9e9deafe43e8d8769a` crashed `special-orders-test`. Hotfix in PR #8 corrected escaped regex syntax; awaiting Railway health verification.
+- Next: verify Railway three service deployment statuses and logs, install v0.3.23 Chrome extension, validate actual manager PIN, automatic lookup, campaign staging for multiple products, duplicate safeguards, and future staged-to-live preorder approval flow. Chrome Web Store remains unpublished.
