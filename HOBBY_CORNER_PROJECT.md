@@ -543,3 +543,28 @@ Next recommended action: In a dedicated PO Companion development conversation, i
 - No Railway configuration, Lightspeed records, employee privileges, consolidated branch or Web Store listing modified as part of v0.3.22 development.
 
 **Next:** Review branch, obtain approval to merge and deploy a controlled test build, confirm PIN permission diagnostic with real Manager, test supplier matching and automatic lookups, and then plan write approval and MAP rules separately.
+
+### GW preorder workflow restructure — 2026-10-14
+Status: **Testing**
+
+Target staff flow:
+1. Sync & Scrape
+2. Cleanup Items
+3. Post to Discord
+4. Record Responses passively
+5. Send customer order confirmation after a 10-minute adjustment window
+6. Send updated-order DM if a confirmed customer later removes an item
+7. Auto-submit the final order to GW
+
+Current implementation:
+- Sync & Scrape now creates/refreshes the campaign and saves items in one action.
+- Cleanup fields are Item Description, Short Code, MSRP, Cost, and Post Y/N.
+- Cost is internal-only.
+- Case packs are detected and given suggested single-item names/prices; French/Québec products, fixtures, and unreviewed case packs default to Post=No.
+- Discord preview/post controls are in the same panel as cleanup.
+- Special Orders backend has passive reaction capture, Discord message/product mapping, 10-minute delayed customer confirmation DMs, and post-confirmation removal update DMs.
+- Discord gateway bridge is implemented on `Tawgod/Hobby-Corner-Discord-Bot:gw-preorder-test-publisher` but is **not deployed to the production bot**.
+- Actual Google Form auto-submission remains safety-disabled pending dedicated form-submission implementation/testing.
+
+Latest Lightspeed development commit: `979352329e356e1454579d9e9deafe43e8d8769a`.
+
