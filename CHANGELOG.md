@@ -475,3 +475,35 @@ No Lightspeed product records were created or updated in this test. The existing
 - Code committed to `integration/hobby-corner-consolidation`.
 - Railway build is in progress; browser acceptance is still pending.
 
+## 2026-10-14 — Ordering supplier-draft workspace
+
+### Added
+- Supplier-grouped work queue selection on `/ordering`.
+- Per-line floor-stock quantity entry before creating a supplier order.
+- Local supplier-order draft creation from selected Special Order lines.
+- Draft supplier-order listing and reopening.
+- Add selected lines to an existing open draft for the same supplier.
+- Draft line editing for customer quantity, floor quantity, total quantity, and unit cost.
+- Draft metadata editing for supplier order number, expected date, and notes.
+- Draft-line removal that preserves the underlying customer Special Order.
+- Preferred supplier assignment directly from the Ordering queue for unattached lines.
+- Product-category grouping with sourcing-department fallback.
+
+### Supplier-order safety
+- Backend prevents a Special Order line from being attached to multiple supplier orders.
+- Routing changes are blocked after supplier-order attachment.
+- Draft edits/removals are blocked once a supplier order is no longer `DRAFT`.
+- Placeholder or unmatched products block Lightspeed PO push.
+- Already-synced/linked supplier orders are blocked from a second Lightspeed push.
+- Lightspeed consignment ID is persisted immediately after PO creation and before bulk line upload to protect against duplicate retries after partial failures.
+- Successful explicit Lightspeed push marks the supplier order and linked Special Order lines `ORDERED` and records Special Order status history.
+
+### References
+- `Tawgod/Lightspeed@97425fa333860ad2b73a4572b775a4375dc58f34`
+- `Tawgod/Lightspeed@a998c64468ec611f8a15b79c475475649e06933d`
+- `Tawgod/Lightspeed@02c1bc395a2d9304f5746befd2e12ef08eb265f1`
+- `Tawgod/Lightspeed@ebae33fa4c9a74948d6b7fbfea12601fe89b8a09`
+- `Tawgod/Lightspeed@b1649ae2e8c1790a9c075c676ee6a13d7e133b1f`
+- `Tawgod/Lightspeed@50b296feb52efc48ed1f543f9f11dcd550f68f05`
+- `Tawgod/Lightspeed@597a9d8375e73cf35b514a3aea0446450a5fe649`
+
