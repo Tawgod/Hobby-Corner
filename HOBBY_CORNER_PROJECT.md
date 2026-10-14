@@ -528,3 +528,18 @@ Next recommended action: In a dedicated PO Companion development conversation, i
 - Extension v0.3.21 is served from `https://lightspeed-api-production-c087.up.railway.app/extension` (unpacked ZIP). Chrome Web Store listing remains unpublished/on hold pending browser testing and privacy review.
 
 **Next:** Have a manager install/reload v0.3.21 and test (1) order auto-detection on actual Lightspeed URL, (2) scanning selected open supplier tab, (3) ACD UPC and supplier-specific reorder code, (4) PIN showing role-based approval eligibility, (5) no-match Create Item proposal. Record any failure and correct without enabling product writes. Validate true Lightspeed role response, custom-role permission rules and Chrome optional permission prompt. Do not activate actual create/update writes without separate authorization.
+
+## Scanner v0.3.22 review automation and role diagnostics — 2026-10-14
+
+**Status: In Development**. Branch `Tawgod/Lightspeed:feature/scanner-review-auto-lookup` based on `integration/hobby-corner-consolidation`. Implemented and CI-verified, **not merged/deployed**.
+
+- Auto-check existing products after employee PIN sign-in and each supplier page scan; field edits queue recheck and invalidate prior results. Keep no-match Create Item as an unsaved proposal; **no product creation/update enabled**.
+- Compact PIN sign-in in scanner header. Removed raw supplier product JSON/HTML and visible product ID. Matching cards now show SKU, description, and missing UPC/weight/picture where source confirms missing; if local data lacks weight/image metadata, show `Not verified` instead of false negative.
+- Scanner supplier selection calls authenticated read-only `GET /api/scanner/suppliers` backed by existing local suppliers table, offers exact matches and warns if unmatched; ACD alias recognized. Existing product checks stay global across suppliers.
+- MAP price is separate from supplier cost/MSRP and only auto-extracted when supplier explicitly labels MAP. Future web storefront price-floor enforcement is **Planned**, not implemented.
+- Railway Timeclock logs showed repeated role lookup errors; no individual user identified. New implementation attempts documented X-Series per-user `GET /api/2026-07/users/{id}`, falls back to legacy endpoints and returns non-sensitive role-resolution reason for signed-in staff. Unknown/unverifiable roles remain read-only. **Real Admin/Manager account role checks still need live verification after authorized deployment.**
+- GitHub Actions `Scanner review UI regression` latest passed `38627452704`; packaged v0.3.22 unpacked preview `38627168260` passed. Browser and live server acceptance outstanding.
+- Documentation: `Tawgod/Lightspeed:feature/scanner-review-auto-lookup/docs/scanner-review-auto-lookup.md`.
+- No Railway configuration, Lightspeed records, employee privileges, consolidated branch or Web Store listing modified as part of v0.3.22 development.
+
+**Next:** Review branch, obtain approval to merge and deploy a controlled test build, confirm PIN permission diagnostic with real Manager, test supplier matching and automatic lookups, and then plan write approval and MAP rules separately.
