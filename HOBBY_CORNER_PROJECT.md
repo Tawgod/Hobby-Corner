@@ -605,3 +605,21 @@ Required behavior:
 - A release is not complete until the queue has been updated.
 
 The Purchase Order Companion request is seeded in the queue as `QUEUED`.
+
+### Special Orders page split — 2026-10-14
+Status: **Testing**
+
+- Normal `/special-orders` is being kept focused on everyday customer special-order intake and open-item management.
+- Preorder Campaigns and Allocations moved to a dedicated `/preorders` page.
+- GW weekly preorder intake remains on dedicated `/gw-preorders`.
+- Added a dedicated `/ordering` page for supplier-order work.
+- Ordering supports three views:
+  - General
+  - By supplier
+  - By sourcing category/department
+- Ordering lines show customer, item, requested/supplier SKU, quantity, preferred supplier, sourcing category, supplier cost when available, supplier-order linkage, and current order status.
+- Each line has an inline status selector backed by the existing `PATCH /items/:id/status` workflow, so status history continues to be recorded rather than bypassed.
+- Initial ordering scope covers `OOS`, `READY_TO_ORDER`, `ORDERED`, and `BACKORDERED`, with filters for needs-ordering-only vs already-ordered/backordered.
+- Implementation: `Tawgod/Lightspeed@1f039469710fc5a6f6633ed42fafefa93071a4d7`.
+- Railway deployment is currently building; browser acceptance remains required before marking Deployed.
+
