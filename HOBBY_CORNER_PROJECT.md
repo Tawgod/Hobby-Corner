@@ -483,3 +483,13 @@ Next recommended action: In a dedicated PO Companion development conversation, i
 - GitHub Actions test `38598715417`: passed. Live Chrome browser test on an actual ACD product page remains required.
 - Full notes: `Tawgod/Lightspeed:feature/scanner-fields-create-preview/docs/scanner-field-refresh.md`.
 - No Lightspeed writes or Chrome Web Store publication. Keep publishing on hold until scanner acceptance.
+
+## Product Scanner supplier snapshots and supplier defaults (2026-10-14)
+
+**Status: In Development.** Changes implemented on `Tawgod/Lightspeed:feature/scanner-fields-create-preview`; no merge/deployment or Lightspeed write.
+
+- Compact optional **Save Supplier Snapshot** checkbox in Chrome scanner popup captures the currently visible supplier page on explicit employee action. Reference images are resized and saved only in that browser's local extension storage, one per domain, capped at eight domains. Scanner review permits viewing, uploading and deleting local reference screenshots.
+- Templates are currently **visual references only**. Automated scraper templates, OCR and cross-PC sharing have **not** been implemented. Recommended shared follow-up: Railway-managed supplier template registry, employee permissions and retention controls, tested per-supplier field extraction rules.
+- Scanner review suggests existing detected supplier name (e.g. ACD Distribution) or domain, with editable supplier field. On zero verified local/remote product matches, Prepare Create Item includes the supplier suggestion marked `supplierNotYetVerified`. Editing supplier invalidates prior match verification.
+- Still required before supplier/product creation: authenticated supplier name/domain/ID lookup in existing supplier records, duplicate/alias handling, choose existing vs create-new, protected approval, final product/supplier duplicate recheck and idempotent writes. Do not silently create suppliers from domains.
+- Automated scanner UI run `38599555517` passed; preview package run `38599555479` passed. Live browser acceptance outstanding. Chrome Web Store publication remains on hold.
