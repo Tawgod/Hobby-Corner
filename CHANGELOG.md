@@ -447,3 +447,31 @@ No Lightspeed product records were created or updated in this test. The existing
 - Extension releases must now reconcile queued work before version bump/package/deployment and must record explicit defer/block reasons for anything not included.
 - Release completion requires updating the queue with version, consolidated commit, test result and release date.
 - Seeded Purchase Order Companion as a `QUEUED` item so it cannot be silently omitted by another extension-focused chat.
+
+## 2026-10-14 — Special Orders navigation split and Ordering work queue
+
+### Changed
+- Removed Preorder Allocations from the main Special Orders dashboard.
+- Added dedicated `/preorders` page for preorder campaign demand, allocation suggestions, fair-share allocation, and queue allocation.
+- Added navigation links between Special Orders, Preorder Campaigns, GW Preorders, and Ordering.
+- Added dedicated `/ordering` page for supplier-order operations.
+
+### Ordering page
+- General, supplier-grouped, and category/department-grouped views.
+- Displays customer, item, SKU/supplier SKU, quantity, supplier, category, supplier cost, supplier-order linkage, and line status.
+- Supports line-by-line status updates using the existing status-history endpoint.
+- Default active statuses: `OOS`, `READY_TO_ORDER`, `ORDERED`, `BACKORDERED`.
+- Includes filters for needs-ordering-only and ordered/backordered work.
+
+### Backend
+- Added `GET /api/special-orders/ordering/work-queue`.
+- Work queue reuses existing Special Orders, supplier, sourcing-department, supplier-product, and supplier-order relationships.
+- No new parallel order-status store was introduced.
+
+### Reference
+- `Tawgod/Lightspeed@1f039469710fc5a6f6633ed42fafefa93071a4d7`
+
+### Testing
+- Code committed to `integration/hobby-corner-consolidation`.
+- Railway build is in progress; browser acceptance is still pending.
+
