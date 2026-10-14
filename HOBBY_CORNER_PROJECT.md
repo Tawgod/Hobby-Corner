@@ -448,3 +448,16 @@ No Lightspeed product records were created or updated in this test. The existing
 - Reuse existing Special Orders supplier-product identifier mapping, Lightspeed PO integration, and Product Scanner matching/auth infrastructure. Do not create a separate supplier catalog importer or bulk supplier scraper.
 
 Next recommended action: In a dedicated PO Companion development conversation, inspect consolidated extension, PO retrieval endpoints, supplier-product mapping and Railway configuration; sketch a minimal sidebar prototype and data contract. Do not deploy to production or edit Lightspeed products without explicit approval.
+
+## Chrome Web Store automatic extension updates — 2026-10-14
+
+**Status:** In Development (release packaging verified; publishing not started).
+
+- Current store PCs use regular manually installed Chrome, so prefer a **single unlisted Chrome Web Store stable extension** for one-time per-PC installation and subsequent automatic Web Store updates.
+- GitHub source: `Tawgod/Lightspeed:feature/chrome-web-store-release` based on authoritative `integration/hobby-corner-consolidation`. No merge or Railway deployment performed as part of Web Store preparation.
+- `scripts/build-chrome-web-store.py` creates a Web Store upload ZIP with manifest at ZIP root and generated 16/48/128 PNG icons, without altering existing unpacked ZIP distribution.
+- CI: `.github/workflows/chrome-web-store-package.yml`. Successful GitHub Actions run `38587818262`. Upload artifact accessible in the workflow run (authenticated GitHub access may be needed).
+- Publishing, listing and user-data review checklist: `docs/chrome-web-store-release.md`. Chrome Web Store developer account availability has not been verified; user believes an account exists.
+- Before publication: review necessary permissions and user-data privacy disclosures, host a suitable public privacy policy URL, capture real product screenshots without employee/customer data, confirm the extension's single purpose, inspect store account and visibility, then submit for Google review.
+- Once approved, replace unpacked versions with Web Store version one time per store PC; subsequent versioned approved releases should update automatically.
+- No Chrome Web Store item or publish action has been created. Existing deployed extension and production Lightspeed/Timeclock services remain unchanged.
