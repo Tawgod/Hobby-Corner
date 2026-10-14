@@ -431,3 +431,11 @@ No Lightspeed product records were created or updated in this test. The existing
 - CI successful: scanner UI regression `38629569978`, integration regression `38629576895`, and v0.3.23 Chrome artifact build `38629594665`. GW parser hotfix syntax CI `38629960382` passed.
 - During simultaneous consolidated-branch rollout, a separate GW preorder parser regex error from commit `979352329e356e1454579d9e9deafe43e8d8769a` crashed `special-orders-test`. Hotfix in PR #8 corrected escaped regex syntax; awaiting Railway health verification.
 - Next: verify Railway three service deployment statuses and logs, install v0.3.23 Chrome extension, validate actual manager PIN, automatic lookup, campaign staging for multiple products, duplicate safeguards, and future staged-to-live preorder approval flow. Chrome Web Store remains unpublished.
+
+### Deployment verification addendum — 2026-10-14
+
+- Railway consolidated commit `4614a11d162472ba47d4d670bea2152b355fc198` confirmed **SUCCESS** on `lightspeed-api`, `timeclock`, and `special-orders-test`.
+- Special Orders startup verified: database schema ready, startup success, and authenticated read-only scanner gateway enabled. GW parser syntax crash fixed by PR #8.
+- Post-deployment scanner security smoke test: GitHub Actions `38300384359`, attempt 4, **SUCCESS**. This confirms authorization denial checks, not a real employee PIN or a product write.
+- Latest extension v0.3.23 can be obtained from the consolidated API's `/extension/download` endpoint for unpacked browser acceptance.
+- **Still Testing:** Validate Admin/Manager PIN role, default product match results, chosen campaign list, staging multiple products, duplicated UPC conflict, and proper review/promotion of pending items. No Discord publication, Lightspeed product writes, or Chrome Web Store publication was performed.
