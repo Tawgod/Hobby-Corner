@@ -588,3 +588,20 @@ Latest Lightspeed development commit: `979352329e356e1454579d9e9deafe43e8d8769a`
 - Post-deployment scanner security smoke test: GitHub Actions `38300384359`, attempt 4, **SUCCESS**. This confirms authorization denial checks, not a real employee PIN or a product write.
 - Latest extension v0.3.23 can be obtained from the consolidated API's `/extension/download` endpoint for unpacked browser acceptance.
 - **Still Testing:** Validate Admin/Manager PIN role, default product match results, chosen campaign list, staging multiple products, duplicated UPC conflict, and proper review/promotion of pending items. No Discord publication, Lightspeed product writes, or Chrome Web Store publication was performed.
+
+
+## Chrome Extension Cross-Chat Release Control — 2026-10-14
+
+**Authoritative queue:** `Tawgod/Hobby-Corner:main/CHROME_EXTENSION_RELEASE_QUEUE.md`
+
+Any conversation that prepares a Chrome extension version bump, packaged ZIP, distribution update, Railway-served extension update, or Chrome Web Store release must read and reconcile the shared release queue first.
+
+Required behavior:
+- Check the release queue and current extension-related GitHub branches/PRs before packaging.
+- Include every compatible `READY` item.
+- Do not silently omit `QUEUED`, `IN DEVELOPMENT`, or `BLOCKED` work; record an explicit defer/block reason.
+- After release, update the queue with shipped version, consolidated commit, test result and release date.
+- Any chat that creates or queues extension work must update the queue directly when possible or provide a manager handoff suitable for the queue.
+- A release is not complete until the queue has been updated.
+
+The Purchase Order Companion request is seeded in the queue as `QUEUED`.
