@@ -508,3 +508,23 @@ Next recommended action: In a dedicated PO Companion development conversation, i
 **Implementation status:** In Development, not deployed. `Tawgod/Lightspeed:feature/scanner-fields-create-preview` adds conservative linked-ID role evaluator `timeclock/scannerLightspeedRoles.js`, wires dynamic role checks into Timeclock's scanner PIN verification and session reauthorization and displays the returned approval entitlement in the scanner. Automatic entitlement fails closed on missing/ambiguous ID, unavailable API, unknown role or inactive Lightspeed user. Existing audited Timeclock approvals remain independent.
 
 **Verification:** Unit and syntax tests passed in GitHub Actions `38600826210`. Actual Lightspeed user's API role fields and manager PIN browser sign-in not yet verified. Create Item remains proposal-only. No employee permissions manually changed; no Lightspeed writes, Railway production changes or Chrome Web Store publication.
+
+## 2026-10-14 — Scanner v0.3.21 / Lightspeed order detection rollout
+
+**System:** Hobby Corner Toolkit Chrome extension, Timeclock scanner identity, Special Orders scanner gateway.
+**Status:** **Testing** — implemented, CI tested and deployed. Browser/UI acceptance remains outstanding.
+
+- Repository: `Tawgod/Lightspeed`, authoritative branch `integration/hobby-corner-consolidation`. Merged PR #6; deployment commit `f5202d5ea8ebd1dea88f1566ae3a0493c586d155`.
+- Scanner popup now provides **Scan Open Supplier Page** with an open-tab selector and explicit per-site permission request; scanner capture is shared between toolbar action and review popup. Staff can scan another supplier product while keeping the review window open.
+- Lightspeed order recognition handles more invoice labels, headings, UUID sale URLs and query parameters; selects an open Lightspeed tab even if another window is focused. The extension distinguishes Purchase Order context from customer sales/invoices and offers manual entry when a reference isn't identifiable.
+- Timeclock PIN authentication now resolves existing `lightspeed_user_id` through Lightspeed users, with role catalog lookup when records only expose a role ID. Verified Admins/Managers/Account Owners have scanner approval entitlement automatically; unknown/inactive/unverified roles remain read-only. Existing Timeclock approval grants remain. Product writes stay disabled.
+- Supplier scanner includes ACD UPC/SKU/MSRP/weight capture, editable suggested supplier, optional local screenshot and non-writing **Prepare Create Item** proposal. Shared supplier template backend groundwork exists but remains unmounted; templates do not sync across PCs.
+- Automated scanner UI, capture, supplier template, role and sale-detection tests passed: GitHub Actions `38622351874` (includes follow-up order detector checks from `38622040997`).
+- Railway successful deploys on commit `f5202d5`:
+  - `lightspeed-api`: `d85d84de-6506-48ec-ab66-ebcff2b01f6c`;
+  - `timeclock`: `a883ba2a-e81d-4986-8924-7734b227f890`;
+  - `special-orders-test`: `6fe63052-8881-4f53-af98-036dd60c0510` (startup log: authenticated read-only scanner gateway enabled).
+- Auth-denial smoke test after redeployment: GitHub Actions run `38300384359`, third attempt SUCCESS. This does not validate a real Manager PIN or a live Lightspeed match.
+- Extension v0.3.21 is served from `https://lightspeed-api-production-c087.up.railway.app/extension` (unpacked ZIP). Chrome Web Store listing remains unpublished/on hold pending browser testing and privacy review.
+
+**Next:** Have a manager install/reload v0.3.21 and test (1) order auto-detection on actual Lightspeed URL, (2) scanning selected open supplier tab, (3) ACD UPC and supplier-specific reorder code, (4) PIN showing role-based approval eligibility, (5) no-match Create Item proposal. Record any failure and correct without enabling product writes. Validate true Lightspeed role response, custom-role permission rules and Chrome optional permission prompt. Do not activate actual create/update writes without separate authorization.
