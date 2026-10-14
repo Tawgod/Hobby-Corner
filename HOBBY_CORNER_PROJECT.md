@@ -461,3 +461,15 @@ Next recommended action: In a dedicated PO Companion development conversation, i
 - Before publication: review necessary permissions and user-data privacy disclosures, host a suitable public privacy policy URL, capture real product screenshots without employee/customer data, confirm the extension's single purpose, inspect store account and visibility, then submit for Google review.
 - Once approved, replace unpacked versions with Web Store version one time per store PC; subsequent versioned approved releases should update automatically.
 - No Chrome Web Store item or publish action has been created. Existing deployed extension and production Lightspeed/Timeclock services remain unchanged.
+
+## Scanner pre-publication field refresh — 2026-10-14
+
+**Status: In Development.** Code implemented but browser/live acceptance not yet completed; not merged, deployed or published.
+
+- Source: `Tawgod/Lightspeed:feature/scanner-fields-create-preview`, based on consolidated `integration/hobby-corner-consolidation`. Development extension version `0.3.20`.
+- Scanner review fields now distinguish **General SKU (Lightspeed)**, **Supplier reorder number**, and **UPC / GTIN**. Supplier page's SKU maps to supplier reorder number, not automatically to general SKU.
+- Expanded structured UPC extraction (GTIN/meta/itemprop), removed Currency and Manufacturer Part Number from editor. UPC extraction from non-standard supplier layouts must be tested against actual pages.
+- Added **Prepare Create Item** action after signed-in employee receives successful no-match results from both matching services. Button produces only a review proposal, not a Lightspeed create operation, and is invalidated by edits. No product create/update backend access enabled.
+- Automated checks passed: https://github.com/Tawgod/Lightspeed/actions/runs/38597687416. Browser and supplier site regression testing still needed.
+- Acceptance notes: `Tawgod/Lightspeed:feature/scanner-fields-create-preview/docs/scanner-field-refresh.md`.
+- Chrome Web Store publishing remains **on hold**; Web Store preparation branch is separate and its current `v0.3.19` package does not contain these improvements. Do not submit that as the finalized scanner release.
