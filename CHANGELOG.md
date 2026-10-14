@@ -507,3 +507,10 @@ No Lightspeed product records were created or updated in this test. The existing
 - `Tawgod/Lightspeed@50b296feb52efc48ed1f543f9f11dcd550f68f05`
 - `Tawgod/Lightspeed@597a9d8375e73cf35b514a3aea0446450a5fe649`
 
+### Ordering workspace follow-up
+- Added preferred-supplier routing directly in the Ordering queue.
+- Locked supplier-draft customer quantity to the underlying Special Order line; only floor quantity and cost remain editable.
+- Added server-side duplicate attachment prevention when creating or appending supplier drafts.
+- Added duplicate/partial Lightspeed PO push protection by blocking already-linked orders and persisting the consignment ID before bulk line upload.
+- Follow-up commits: `7be1ba90e53fc009616c81dfaef07793fdf17ccb`, `50b296feb52efc48ed1f543f9f11dcd550f68f05`, `597a9d8375e73cf35b514a3aea0446450a5fe649`, `f45543c7a870e662c798137ff3884035e74b219c`, `7463c424c8ee7f143cd7e8a9f8f3a809cd537688`, `723bd06fdb59689c3d3ab663f9fd564aeff31d2b`.
+
