@@ -664,3 +664,21 @@ Implementation commits:
 
 Browser acceptance with real supplier-order data is still required before this is considered fully verified for daily use.
 
+#### Ordering workspace follow-up safeguards — 2026-10-14
+- Preferred supplier can now be assigned/changed from the Ordering queue until the line is attached to a supplier order.
+- Customer quantity on supplier drafts is now derived from and locked to the underlying Special Order quantity.
+- Staff may adjust floor-stock quantity and unit cost without changing the customer demand quantity.
+- Existing supplier drafts can accept additional selected lines for the same supplier.
+- Duplicate Special Order line attachment is blocked server-side.
+- Lightspeed PO push now blocks already-linked/synced orders and records the Lightspeed consignment ID before uploading lines to protect against duplicate retries after partial failures.
+
+Latest commits:
+- `7be1ba90e53fc009616c81dfaef07793fdf17ccb`
+- `50b296feb52efc48ed1f543f9f11dcd550f68f05`
+- `597a9d8375e73cf35b514a3aea0446450a5fe649`
+- `f45543c7a870e662c798137ff3884035e74b219c`
+- `7463c424c8ee7f143cd7e8a9f8f3a809cd537688`
+- `723bd06fdb59689c3d3ab663f9fd564aeff31d2b`
+
+The first draft-workspace builds have reached Railway SUCCESS. The latest follow-up commits are still moving through the shared Railway deployment queue, so final browser acceptance remains pending.
+
