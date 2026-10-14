@@ -378,3 +378,44 @@ No Lightspeed product records were created or updated in this test. The existing
 - Extension v0.3.21 is served from `https://lightspeed-api-production-c087.up.railway.app/extension` (unpacked ZIP). Chrome Web Store listing remains unpublished/on hold pending browser testing and privacy review.
 
 **Next:** Have a manager install/reload v0.3.21 and test (1) order auto-detection on actual Lightspeed URL, (2) scanning selected open supplier tab, (3) ACD UPC and supplier-specific reorder code, (4) PIN showing role-based approval eligibility, (5) no-match Create Item proposal. Record any failure and correct without enabling product writes. Validate true Lightspeed role response, custom-role permission rules and Chrome optional permission prompt. Do not activate actual create/update writes without separate authorization.
+
+## 2026-10-14 — GW preorder workflow restructured around Sync & Scrape
+
+### Workflow
+- Replaced the split "create campaign" / "import draft" flow with **Sync & Scrape** as the primary GW action.
+- Sync & Scrape now creates or refreshes the GW campaign and persists scraped products immediately.
+- Moved Discord preview/post controls into the same cleanup area as the scraped items.
+- Campaign Status remains separate for response/submission monitoring.
+
+### Cleanup model
+- GW cleanup rows now use:
+  - Item Description
+  - Short Code
+  - MSRP
+  - Cost
+  - Post Y/N
+- Cost is retained internally and is not included in Discord posts.
+- Post defaults to false for French/Québec products, fixtures/retailer display material, and detected case packs requiring review.
+- Detected case packs store pack size and receive suggested single-item description and MSRP based on the pack MSRP divided by pack quantity.
+- Legacy disposition fields remain only for compatibility with older campaigns.
+
+### Passive responses and confirmations
+- Added Discord message-to-GW-product mapping.
+- Added passive Discord reaction event storage.
+- Added Special Orders endpoint for GW ADD/REMOVE reaction capture.
+- Matched customers receive a confirmation queue that waits 10 minutes after their latest change before sending the current order summary by Discord DM.
+- If an item is removed after a confirmation was already sent, an immediate updated-order DM is queued showing the removed item and the customer's current order.
+- The production Discord bot was not changed; the reaction bridge was added only to `Tawgod/Hobby-Corner-Discord-Bot:gw-preorder-test-publisher` at commit `fe6402f36c07c74c763e9596a7f606d71fe137a3`.
+
+### References
+- Cleanup model: `Tawgod/Lightspeed@c85e9dac74e788487b47150b6b28456e8f6c896f`
+- Web workflow: `Tawgod/Lightspeed@4d378cdeea813f33cb13731cdc9eee06233e09a0`
+- Passive responses / delayed confirmations: `Tawgod/Lightspeed@848cc75099fb51cc70fa87bcdbbb6d27d869a93e`
+- Auto-submit setting propagation: `Tawgod/Lightspeed@98bc43229bc13dd4b491b05756c6d781df894eb4`
+- Timing query fix: `Tawgod/Lightspeed@979352329e356e1454579d9e9deafe43e8d8769a`
+
+### Remaining
+- Deploy and verify the bot reaction bridge before passive GW reactions are considered live.
+- Validate Short Code / MSRP / Cost extraction against the current real GW form and adjust parsing patterns as needed.
+- Build and test the actual Google Form order-submission worker. The current auto-submit schedule/alerts exist, but external GW form submission remains safety-disabled.
+
