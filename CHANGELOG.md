@@ -439,3 +439,11 @@ No Lightspeed product records were created or updated in this test. The existing
 - Post-deployment scanner security smoke test: GitHub Actions `38300384359`, attempt 4, **SUCCESS**. This confirms authorization denial checks, not a real employee PIN or a product write.
 - Latest extension v0.3.23 can be obtained from the consolidated API's `/extension/download` endpoint for unpacked browser acceptance.
 - **Still Testing:** Validate Admin/Manager PIN role, default product match results, chosen campaign list, staging multiple products, duplicated UPC conflict, and proper review/promotion of pending items. No Discord publication, Lightspeed product writes, or Chrome Web Store publication was performed.
+
+
+## 2026-10-14 — Cross-chat Chrome extension release queue
+
+- Added `CHROME_EXTENSION_RELEASE_QUEUE.md` to `Tawgod/Hobby-Corner:main` as the required shared release log for all Chrome extension development conversations.
+- Extension releases must now reconcile queued work before version bump/package/deployment and must record explicit defer/block reasons for anything not included.
+- Release completion requires updating the queue with version, consolidated commit, test result and release date.
+- Seeded Purchase Order Companion as a `QUEUED` item so it cannot be silently omitted by another extension-focused chat.
