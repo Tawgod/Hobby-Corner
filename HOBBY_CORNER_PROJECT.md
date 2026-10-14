@@ -473,3 +473,13 @@ Next recommended action: In a dedicated PO Companion development conversation, i
 - Automated checks passed: https://github.com/Tawgod/Lightspeed/actions/runs/38597687416. Browser and supplier site regression testing still needed.
 - Acceptance notes: `Tawgod/Lightspeed:feature/scanner-fields-create-preview/docs/scanner-field-refresh.md`.
 - Chrome Web Store publishing remains **on hold**; Web Store preparation branch is separate and its current `v0.3.19` package does not contain these improvements. Do not submit that as the finalized scanner release.
+
+## Scanner — ACD supplier page extraction test (2026-10-14)
+
+**Status: In Development; implemented on isolated branch, fixture-tested, not browser-verified or deployed.**
+- `Tawgod/Lightspeed:feature/scanner-fields-create-preview`: added ACD Distribution (`acdd.com`) visible-label fallback for supplier-specific reorder number, UPC/GTIN, manufacturer, supplier reference price, MSRP, preorder category and optional weight with unit.
+- Based on supplied Mechs vs. Minions example: ACD SKU `IDRAYA4102100EN`, UPC `850052382605`, supplier displayed price `$41.24`, MSRP `$74.99`; general SKU intentionally blank for employee confirmation.
+- The label parser handles ACD's side-by-side data fields. Test fixtures also verify unrelated supplier pages do not use ACD fallback and generic structured GTIN remains supported.
+- GitHub Actions test `38598715417`: passed. Live Chrome browser test on an actual ACD product page remains required.
+- Full notes: `Tawgod/Lightspeed:feature/scanner-fields-create-preview/docs/scanner-field-refresh.md`.
+- No Lightspeed writes or Chrome Web Store publication. Keep publishing on hold until scanner acceptance.
