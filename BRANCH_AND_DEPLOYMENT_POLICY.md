@@ -182,3 +182,12 @@ Afterward, continue legacy cleanup with `V1.2` and the identical `Apps-script-im
 
 ## Superseded branch cleanup complete — 2026-10-12
 The previously retired Lightspeed feature branches have been deleted. Current active/development source is `integration/hobby-corner-consolidation`. Remaining branch cleanup is legacy-only: `V1.2` plus the duplicate `Apps-script-importer` / `Importer` pair.
+
+
+## Chrome extension release queue policy — 2026-10-14
+
+Before any Chrome extension release/package/version bump, the releasing chat must read and reconcile `Tawgod/Hobby-Corner:main/CHROME_EXTENSION_RELEASE_QUEUE.md` and inspect active extension-related GitHub branches/PRs.
+
+No extension release may silently drop queued work. Every queue item must be either included, remain queued/in development, or be explicitly deferred/blocked with a reason. After a release, the queue must be updated with the released version and consolidated commit.
+
+This policy applies across all development conversations. The consolidated source remains `Tawgod/Lightspeed:integration/hobby-corner-consolidation`.
