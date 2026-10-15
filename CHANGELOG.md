@@ -514,3 +514,38 @@ No Lightspeed product records were created or updated in this test. The existing
 - Added duplicate/partial Lightspeed PO push protection by blocking already-linked orders and persisting the consignment ID before bulk line upload.
 - Follow-up commits: `7be1ba90e53fc009616c81dfaef07793fdf17ccb`, `50b296feb52efc48ed1f543f9f11dcd550f68f05`, `597a9d8375e73cf35b514a3aea0446450a5fe649`, `f45543c7a870e662c798137ff3884035e74b219c`, `7463c424c8ee7f143cd7e8a9f8f3a809cd537688`, `723bd06fdb59689c3d3ab663f9fd564aeff31d2b`.
 
+## 2026-10-15 — Ordering pivot to Lightspeed-first PO review
+
+### Changed
+- Replaced the Ordering page's local supplier-draft workflow with a Lightspeed-first review/check workflow.
+- Lightspeed remains the authoritative PO workspace; Hobby Corner Ordering is now used to organize demand, verify current POs, choose suppliers, track status, and catch missing/duplicate ordering.
+
+### Lightspeed reads
+- Supplier list now comes from the live Lightspeed supplier endpoint and is synchronized only to maintain local routing IDs/history.
+- Added current Lightspeed purchase-order and purchase-order-line reads.
+- Added open fulfillment + sale reads to expose Lightspeed customer demand that may not exist in the local Special Orders table.
+
+### Ordering checklist
+- Added supplier filter.
+- Added category filter.
+- Added status filter with `All`.
+- Added sorting by oldest, supplier, category, status, or customer.
+- No supplier/category filter displays the full checklist.
+- Local lines show current Lightspeed PO references when the linked product is already present on a current PO.
+- Added optional expandable line notes with save support.
+
+### Supplier recommendations
+- Added advisory supplier suggestions using direct product mappings, existing preferred-supplier choices, explicit routing history, and category history.
+- New choices are written to `supplier_routing_history` so recommendations improve with continued use.
+- Recommendations do not automatically change supplier routing.
+
+### Safety
+- Lightspeed unfulfilled demand is read-only and is not automatically imported or converted into customer orders.
+- Existing local supplier-draft/PO-write backend remains for compatibility but is no longer presented as the normal Ordering workflow.
+- Customer-order creation in Lightspeed remains deferred pending duplicate-safe design.
+
+### References
+- `Tawgod/Lightspeed@842459dd3951f4e42b04769a57a4109f5479c783`
+- `Tawgod/Lightspeed@0751837c8fb7d715a79bfd17cdb47338ceaade45`
+- `Tawgod/Lightspeed@54170a4e04cf592aae44cf4f920ff86a331a4848`
+
