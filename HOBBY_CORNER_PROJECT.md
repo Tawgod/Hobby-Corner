@@ -733,3 +733,17 @@ Implementation commits:
 
 Browser acceptance against live Lightspeed supplier/PO/fulfillment data is still required before marking fully deployed.
 
+#### Ordering — Lightspeed unfulfilled enrichment — 2026-10-15
+Status: **Testing**
+
+- Lightspeed unfulfilled rows now explicitly resolve related customer and product records instead of relying on thin embedded sale/line payloads.
+- Customer name is displayed from the Lightspeed customer record and can be expanded to show email/phone when returned.
+- Product display now includes resolved item name, SKU/UPC, and product image when available.
+- The unfulfilled table column is shortened to `LS PO#`.
+- Added per-row `Ordering Check` action that jumps back to the Ordering Checklist and highlights a matching local Special Order line when one exists.
+- Each unfulfilled Lightspeed row shows whether there are matching local Special Order records.
+- Current Lightspeed Purchase Orders now include a `Special Orders` count plus customer-unit total, based on local non-cancelled Special Order lines whose linked Lightspeed products appear on that PO.
+- Backend commit: `6a8bdf6f32810b356955a404058df64abb2becf1`.
+- UI commit: `f2d6ba6f78826b5ec087726151b36b99e0bd52ca`.
+- Railway deployment for these latest commits is still building/queued; browser acceptance remains pending.
+
