@@ -682,3 +682,54 @@ Latest commits:
 
 The first draft-workspace builds have reached Railway SUCCESS. The latest follow-up commits are still moving through the shared Railway deployment queue, so final browser acceptance remains pending.
 
+### Ordering workflow pivot — 2026-10-15
+Status: **Testing**
+
+Ordering is now being treated as an operational review/check layer around Lightspeed rather than a separate PO-authoring system.
+
+Target workflow:
+1. Generate PO in Lightspeed.
+2. Enter order into supplier system.
+3. Use Hobby Corner Ordering to check/update/add Special Orders and verify nothing is missed or duplicated.
+4. Submit supplier order.
+5. After supplier order confirmation, update line statuses and later evaluate creating the corresponding customer orders/sales in Lightspeed.
+
+Implemented changes:
+- Removed the supplier-draft workflow from the Ordering UI. Existing local draft APIs/data are left intact for compatibility/history but are no longer the primary staff workflow.
+- `/ordering` now uses the live Lightspeed supplier list as the authoritative supplier source.
+- Added current Lightspeed purchase-order reads and line-item cross-checking.
+- Local Special Order lines are marked when their linked Lightspeed product is already on a current Lightspeed PO, including PO number/reference and PO status.
+- Added a read-only Lightspeed unfulfilled-fulfillment demand section to surface customer demand that may not exist in the local Special Orders table.
+- Added a read-only current Lightspeed Purchase Orders section.
+- Added Supplier, Category, Status, and Sort controls. Empty supplier/category filters show the full list.
+- Added `All` as a status filter.
+- Added per-line notes checkbox/expand area with saved notes.
+- Preferred supplier can be changed directly from the Ordering checklist.
+- Supplier recommendations are advisory only and can be requested per line. Recommendations use:
+  - direct product/supplier mappings,
+  - existing preferred-supplier choices already stored on Special Order lines,
+  - new explicit routing history,
+  - product category history.
+- New supplier choices are recorded to `supplier_routing_history`, allowing recommendations to improve over time.
+- Current recommendation selections never happen automatically.
+
+Lightspeed API basis:
+- suppliers: `GET /api/2026-04/suppliers`
+- purchase orders: `GET /api/2026-04/purchase_orders`
+- purchase-order lines: `GET /api/2026-04/purchase_orders/{id}/line_items`
+- open fulfillment summary: `GET /api/2026-04/fulfillments`
+- sale detail: `GET /api/2026-04/sales/{id}`
+
+Important safety behavior:
+- Lightspeed fulfillment demand is review-only for now; it is not automatically imported into Special Orders or converted into new customer orders.
+- Ordering page no longer creates/pushes a new Lightspeed PO as part of normal workflow.
+- Existing PO-write backend remains available for compatibility but is not exposed in the new Ordering UI.
+- Customer-order creation in Lightspeed after supplier ordering remains a future step pending a dedicated duplicate-safe design.
+
+Implementation commits:
+- `842459dd3951f4e42b04769a57a4109f5479c783` — live Lightspeed suppliers, PO reads, learned routing backend
+- `0751837c8fb7d715a79bfd17cdb47338ceaade45` — Ordering UI pivot to filters/checklist + Lightspeed demand/PO panels
+- `54170a4e04cf592aae44cf4f920ff86a331a4848` — seed recommendations from existing routing choices
+
+Browser acceptance against live Lightspeed supplier/PO/fulfillment data is still required before marking fully deployed.
+
