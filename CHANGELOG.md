@@ -549,3 +549,16 @@ No Lightspeed product records were created or updated in this test. The existing
 - `Tawgod/Lightspeed@0751837c8fb7d715a79bfd17cdb47338ceaade45`
 - `Tawgod/Lightspeed@54170a4e04cf592aae44cf4f920ff86a331a4848`
 
+## 2026-10-15 — Enrich Lightspeed unfulfilled ordering details
+
+- Resolved real Lightspeed customers from sale/customer IDs for unfulfilled fulfillment demand.
+- Added expandable customer contact details (email/phone when returned by Lightspeed).
+- Resolved product names, SKU/UPC, and product image from Lightspeed product records.
+- Renamed `Current Lightspeed PO` column to `LS PO#`.
+- Added `Ordering Check` action on unfulfilled rows.
+- Added local Special Order match count on unfulfilled demand.
+- Added Special Order line count and customer-unit count to current Lightspeed Purchase Order rows.
+- References:
+  - `Tawgod/Lightspeed@6a8bdf6f32810b356955a404058df64abb2becf1`
+  - `Tawgod/Lightspeed@f2d6ba6f78826b5ec087726151b36b99e0bd52ca`
+
