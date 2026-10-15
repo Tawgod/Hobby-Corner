@@ -747,3 +747,24 @@ Status: **Testing**
 - UI commit: `f2d6ba6f78826b5ec087726151b36b99e0bd52ca`.
 - Railway deployment for these latest commits is still building/queued; browser acceptance remains pending.
 
+#### Ordering activity log and aging — 2026-10-15
+Status: **Testing**
+
+- Added per-line activity history on the Ordering Checklist.
+- Activity combines:
+  - existing status-history records,
+  - new note-save history,
+  - preferred-supplier routing changes.
+- Each history entry records timestamp and changed-by/source when available.
+- Existing notes created before note-history tracking appear as an `Existing note snapshot`; the displayed time uses the best available item update timestamp and is explicitly not claimed as the original note submission time.
+- New notes now retain exact save timestamps in `special_order_item_activity`.
+- Added a `Log` button beside each line's Notes control.
+- Added an Age column and row aging colors based on line creation date:
+  - 0–2 days: green
+  - 3–6 days: yellow
+  - 7–13 days: orange
+  - 14+ days: red
+- Added a visible aging legend above the checklist.
+- Implementation: `Tawgod/Lightspeed@96ca09dfbf0876b0e96e744dbcca32089b8da53d`.
+- Railway deployment is currently building; browser acceptance remains pending.
+
