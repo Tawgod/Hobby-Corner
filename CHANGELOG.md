@@ -562,3 +562,17 @@ No Lightspeed product records were created or updated in this test. The existing
   - `Tawgod/Lightspeed@6a8bdf6f32810b356955a404058df64abb2becf1`
   - `Tawgod/Lightspeed@f2d6ba6f78826b5ec087726151b36b99e0bd52ca`
 
+## 2026-10-15 — Ordering activity log and aging colors
+
+- Added `special_order_item_activity` for timestamped note and supplier-routing history.
+- Ordering line Log view combines legacy status history with new note/supplier activity.
+- New note saves record exact timestamp and source.
+- Existing pre-history notes are shown as snapshots with best-available item update time.
+- Added Age column and color-coded ordering rows:
+  - 0–2 days green
+  - 3–6 days yellow
+  - 7–13 days orange
+  - 14+ days red
+- Added visible aging legend.
+- Reference: `Tawgod/Lightspeed@96ca09dfbf0876b0e96e744dbcca32089b8da53d`.
+
