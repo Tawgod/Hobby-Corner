@@ -48,13 +48,14 @@ Each entry must contain:
 
 ### Purchase Order Companion
 - **Source conversation:** Purchase Order Companion
-- **Status:** `QUEUED`
+- **Status:** `DEFERRED`
 - **Requested behavior:** Add the compact right-side supplier website companion for Purchase Orders, showing PO items, supplier-specific SKU/UPC with one-click copy, product name, quantity and warnings; per-item checkbox reveals RP, RQ, Cost and MSRP while preserving draft values; approval/review remains in a separate popup with employee permissions managed through Timeclock.
 - **Authoritative base:** `Tawgod/Lightspeed:integration/hobby-corner-consolidation`
 - **Affected area:** Chrome extension supplier-site/PO workflow plus Timeclock-backed permissions and review flow.
 - **Backend dependencies:** Lightspeed PO data and Timeclock permissions. Verify current implementation state before release.
 - **Test status:** Not yet release-verified.
 - **Target release:** Next compatible Chrome extension release after implementation is verified.
+- **Specific defer reason for next scanner test build:** The PO Companion branch `feature/po-companion-readonly-foundation` is 119 commits behind consolidated, not release-verified, and needs selective integration/Chrome compatibility testing before shipping. Target: next compatible extension release after testing.
 - **Release rule:** Do not silently omit this item from a future extension release. If it is not ready when another extension release is prepared, mark it `DEFERRED` or `BLOCKED` with the reason and leave it in this queue.
 
 ### Scanner SKU and role diagnostics
