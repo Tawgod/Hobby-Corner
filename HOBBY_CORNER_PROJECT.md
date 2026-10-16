@@ -174,7 +174,7 @@ Next:
 
 Notebook audit 2026-10-16:
 - Audited the full Colab notebook, `analysis.py`, `rules.py`, `test_harness.py`, and live mapping tabs in `LS: importer`.
-- Current audited notebook version: `2026-10-16-v51`.
+- Current audited notebook version: `2026-10-16-v52`.
 - Consolidated the notebook around the ONE-CLICK setup result so later cells no longer reload/reanalyze the legacy RMS candidate sheet or rebuild stale UUID maps.
 - Product test/write size is now controlled by `TEST_BATCH_SIZE` with no separate fixed 20-product cap; reorder test cap remains separately configurable at 5.
 - The live retailer returns 404 for the 2026-10 product endpoints. Controlled product writes now translate the validated internal family model into the supported legacy `/api/2.0/products` create/read schema; image upload also uses the legacy supported endpoint.
@@ -895,3 +895,5 @@ Known test cleanup:
 - Replaced Lightspeed product-tag usage with a hidden product custom field `migration_flags` for migration-only annotations. Current values include Aging Stock, Missing Picture, and Picture Replacement Needed; these annotations do not block migration.
 - Added unique category-name recovery for PAM/RMS department/category mismatches. Exact Department+Category mapping remains first priority; category-only recovery is used only when it resolves to one unique Lightspeed path.
 - Confirmed export source-of-truth: core product fields come from the connected RMS Item database/tables, while only `RMS_WebDescription` comes from `HQcorp.dbo.nitroasl_pamtable.WebDescription`. The correct cross-database key is the store Item's `HQID` (`PAM.ItemID = I.HQID`), not local `Item.ID`; this was verified with GW48-111 (store ID 57014, HQID 57155; HQ item ID 57155).
+
+- Notebook v52 adds a preflight regression guard that refuses to proceed if GW48-111 still carries the stale Tenfold Dungeon WebDescription, proving an old pre-HQID CSV is being reused.
