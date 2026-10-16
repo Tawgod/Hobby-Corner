@@ -174,7 +174,7 @@ Next:
 
 Notebook audit 2026-10-16:
 - Audited the full Colab notebook, `analysis.py`, `rules.py`, `test_harness.py`, and live mapping tabs in `LS: importer`.
-- Current audited notebook version: `2026-10-16-v49`.
+- Current audited notebook version: `2026-10-16-v50`.
 - Consolidated the notebook around the ONE-CLICK setup result so later cells no longer reload/reanalyze the legacy RMS candidate sheet or rebuild stale UUID maps.
 - Product test/write size is now controlled by `TEST_BATCH_SIZE` with no separate fixed 20-product cap; reorder test cap remains separately configurable at 5.
 - The live retailer returns 404 for the 2026-10 product endpoints. Controlled product writes now translate the validated internal family model into the supported legacy `/api/2.0/products` create/read schema; image upload also uses the legacy supported endpoint.
@@ -881,3 +881,11 @@ Commits:
 
 Known test cleanup:
 - Incorrect controlled-test product remains in Lightspeed as family `9dbfa2b8-a17d-42af-b7db-fe2220ffd753`, product `48165e1f-3df2-48c8-b177-6e505bd6b73b`. It was not automatically deleted or modified.
+
+
+### RMS migration v50 policy corrections
+- Named unmapped RMS suppliers now fall back to the UUID-backed `Other` Lightspeed supplier; blank primary suppliers remain review-only.
+- Games Workshop no longer receives a blanket REVIEW status. It migrates under normal rules, with only genuine identifier collisions or other ordinary migration issues blocking it.
+- Added an `Aging Stock` migration tag for positive-quantity products with no reliable sale in the last 12 months; age alone does not put those items on the flagged-review list.
+- Added explicit mappings for `Outdoor Toys + blank category -> Toys > Outdoor Toys` and `Other + Clothing -> General > Clothing`.
+- Correctly mapped suppliers such as Horizon Hobby and John N. Hansen may still appear in REVIEW for non-supplier reasons; v50 now supplies an explicit zero-stock/aging review reason instead of leaving that reason blank.
