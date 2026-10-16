@@ -174,9 +174,10 @@ Next:
 
 Notebook audit 2026-10-16:
 - Audited the full Colab notebook, `analysis.py`, `rules.py`, `test_harness.py`, and live mapping tabs in `LS: importer`.
-- Current audited notebook version: `2026-10-16-v47`.
+- Current audited notebook version: `2026-10-16-v48`.
 - Consolidated the notebook around the ONE-CLICK setup result so later cells no longer reload/reanalyze the legacy RMS candidate sheet or rebuild stale UUID maps.
-- Restored the documented controlled-write safety boundary: product test batch 20, absolute product-write cap 20 enforced in helper code; reorder test cap remains 5.
+- Product test/write size is now controlled by `TEST_BATCH_SIZE` with no separate fixed 20-product cap; reorder test cap remains separately configurable at 5.
+- Test batch selection now randomizes equally representative candidates while preserving category/supplier/image/reorder coverage, so repeated dry runs provide variance instead of returning the same SKUs.
 - Verified all 151 nonblank RMS category mappings resolve to a Cat ID path; there are no conflicting RMS department/category mapping keys and no duplicate Cat ID paths.
 - Verified Supplier ID Map and Brand ID Map have no missing UUID values or duplicate names. Three brand-name aliases share the same Leanin' Tree UUID intentionally/compatibly.
 - Found five retained Supplier-tab names missing from Supplier ID Map, including Hornby America and Salvino JR Models; the notebook now attempts exact Lightspeed UUID resolution for retained/current supplier names instead of silently routing them to Other.
