@@ -102,44 +102,53 @@ Purpose: Migrate the RMS product catalog into Lightspeed with validated category
 
 Repository: `Tawgod/Hobby-Corner-Discord-Bot`
 Branch: `product-migration-colab`
-Notebook version: `2026-10-16-v41`
+Notebook version: `2026-10-16-v42`
 Operational sheet: `LS: importer`
 Dedicated review sheet: `Flagged Migration Items`
+Authoritative source: `My Drive/Hobby Corner Migration/HCDB Test Items.csv`
 Last verification: 2026-10-16
 
 Verified migration behavior:
-- Product-family creation with SKU, UPC/aliases, brand, category, supplier, supplier item code, supplier-specific cost, retail, weight, and long description.
-- Product images upload separately after product creation.
-- Existing/low-quality images may be used while background review flags track cleanup needs.
-- Product name prefers legacy importer/RMS `Web Description` and falls back to RMS Description only after source-identity checks.
+- Product-family creation with SKU/product codes, brand, category, supplier, supplier item code, cost, retail, weight, long description, and family image.
+- Product name uses RMS Web Description only when corroborated against RMS item text; otherwise it safely falls back to RMS Description and records a non-blocking warning.
+- Strong barcode identity conflicts and source-internal product-code collisions are forced to review.
 - RMS on-hand inventory is never sent; physical inventory will establish opening stock.
 - Lightspeed reorder configuration uses `MIN_MAX`: RMS proposed reorder point -> minimum, proposed restock level -> target maximum.
-- Live single-item test on BSI-117 verified reorder 4/6 with on-hand unchanged at 0.
-- Controlled reorder testing has verified values/read-back with inventory unchanged.
-- Controlled product writes now perform read-back verification for name, long description, category, brand, codes, supplier ID/code/price, retail price, weight/unit, active flags, and requested image.
+- Controlled reorder testing has verified requested values by read-back with on-hand unchanged.
+- Controlled product writes read the family/product back and verify name, long description, category, brand, codes, supplier ID/code/price, retail price, weight/unit, active flags, and requested image.
 - Product and reorder controlled-write helpers enforce an absolute 20-write cap.
-- Exact SKU duplicate checking runs before create.
+- Exact SKU duplicate checking uses the current Lightspeed 2026-10 product endpoint before create.
+
+Fresh RMS source audit — 2026-10-16:
+- Verified the new `HCDB Test Items.csv` in the expected Hobby Corner Migration folder.
+- File contains 54,255 product rows and the complete 38-column current RMS bridge schema.
+- No blank RMS Item ID, SKU, or Description rows were found.
+- The source audit found one duplicate SKU and six colliding product-code values among migration candidates; the notebook now sends affected rows to review.
+- Supplier-cost analysis showed thousands of rows where a zero SupplierList cost would otherwise hide a positive item cost. Cost selection now uses the first positive SupplierList/LastCost/Cost/ReplacementCost value instead of treating zero as authoritative.
 
 Verified mapping audit — 2026-10-16:
 - All 151 nonblank RMS category mappings resolve to a `Cat ID` path; no conflicting RMS department/category keys and no duplicate category UUID paths were found.
 - The duplicate visible `LS Level3` columns in `Mapping` do not currently create ambiguous paths: no populated mapping row has more than one Level3 target.
 - The 15 blank category mappings correspond to intentional non-migrating legacy/system categories, including HomeBrew, Gift Cards, Rentals, Videos, Discounts, Online Only, Store Credit Voucher and Special Orders.
 - `Supplier ID Map` has no missing UUIDs or duplicate supplier names.
-- The retained `Supplier` list has five names not yet present in `Supplier ID Map`: Heart Puzzles, Hornby America, JR Americas, Salvino JR Models, and Valpak. The notebook now attempts exact read-only Lightspeed UUID resolution for retained names before sending unresolved rows to review.
+- The retained `Supplier` list has five names not yet present in `Supplier ID Map`: Heart Puzzles, Hornby America, JR Americas, Salvino JR Models, and Valpak. The notebook attempts exact read-only Lightspeed UUID resolution for retained names before sending unresolved rows to review.
 - `Migration Supplier Mapping` contains 21 named supplier rows mapped to `Other` without an approval disposition. These are no longer trusted automatically.
 - `Brand ID Map` has no missing UUIDs or duplicate brand names. Leanin Tree / Leanin' Tree / Leaning Tree intentionally share one UUID alias set.
+- Mapping/UUID builders now reject conflicting duplicate rows instead of silently using the last row.
 
-Safety corrections verified in v40:
-- The Drive export `My Drive/Hobby Corner Migration/HCDB Test Items.csv` is the preferred RMS source; the older RMS candidate Google Sheet is fallback-only.
+Safety/configuration corrections verified in v42:
+- The Drive CSV is authoritative and setup fails closed when it is missing. The legacy RMS candidate sheet is disabled by default and requires explicit `ALLOW_LEGACY_SOURCE_FALLBACK=True`.
+- Setup validates the current 38-column bridge schema, blank primary fields, and duplicate RMS Item IDs before analysis.
 - Old notebook cells that independently reloaded/reanalyzed data were retired so setup-time review gates cannot be bypassed by running top-to-bottom.
 - Unmapped categories display `General > No Category` only as a review label; they remain unmapped and cannot enter write batches.
+- Explicit category mappings missing a Cat ID UUID are routed to review.
 - Blank suppliers and unresolved named suppliers remain review items; they are never silently assigned to `Other`.
 - Exact retained/current supplier names override stale `Other` mappings, with missing UUIDs resolved by exact Lightspeed name when possible.
 - Nonblank brands missing a UUID are routed to review.
-- Mixed RMS/web-description and conflicting valid barcode identities are routed to review.
-- Cleanup refuses to patch an existing Lightspeed test product from an identity-conflicted source row.
-- The dedicated `Flagged Migration Items` workbook receives current review rows while preserving manual review status/notes and its existing Review Status validation column.
-- `Migration Unmapped Brands` is written alongside category and supplier gap tabs.
+- Source code typing uses CUSTOM for SKU, UPC for 12 digits, EAN for 8/13 digits, and ITF for 14 digits.
+- Cleanup refuses to patch an existing Lightspeed test product from a hard identity-conflicted source row.
+- The dedicated `Flagged Migration Items` workbook receives current review rows while preserving manual review status/notes and the existing Review Status column position.
+- Separate category, supplier, and brand mapping-gap tabs are maintained.
 - Reorder writes independently load Lightspeed credentials and verify the configured outlet.
 - No production Railway deployment is involved in the Colab notebook workflow.
 
@@ -147,14 +156,16 @@ Known test cleanup:
 - The incorrect controlled-test Model Railroader product created from the corrupted source row remains identified for cleanup and was not automatically deleted or modified.
 
 Open cutover decisions:
-- Decide whether RMS `Inactive` should cause migrated products to be inactive in Lightspeed. Current controlled payloads set `active.in_store=True` for migration candidates.
+- Decide whether RMS `Inactive` should cause migrated products to be inactive in Lightspeed. Current controlled payloads set `active.in_store=True`.
 - Decide separately whether any migrated products should be enabled for the Ecwid/online channel; current payloads set `active.ecwid=False`.
-- Tags are not currently part of the RMS migration payload.
-- Add/verify a full-catalog existing-code collision preflight beyond the current exact-SKU duplicate gate before final cutover.
+- Tags are not currently migrated.
+- `DEFAULT_RMS_WEIGHT_UNIT='LB'` is a documented source assumption because RMS does not provide an explicit weight-unit column.
+- Add/verify a full-catalog collision preflight against existing Lightspeed product codes, beyond the current exact-SKU duplicate lookup, before final catalog cutover.
 
 Next:
-- Rerun v40 with all write switches disabled and review READY/REVIEW/EXCLUDE plus the dedicated flagged queue.
-- Review/resolve supplier and category gaps rather than approving broad `Other` fallbacks.
+- Reload v42 and run the top configuration plus ONE-CLICK NON-DESTRUCTIVE SETUP with all write switches disabled.
+- Verify the setup reports the Drive CSV as the source, 54,255 analyzed rows, opening inventory 0, and the expected review/warning counts.
+- Review the dedicated flagged queue plus category/supplier/brand gap tabs.
 - Run the next bounded controlled product batch only after the dry preview is reviewed.
 - Integrate the validated migration write path into the non-production `Tawgod/Lightspeed:feature/rms-product-migration-rehearsal` branch.
 - Run a larger controlled rehearsal before final catalog cutover.
