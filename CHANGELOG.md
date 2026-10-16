@@ -2,6 +2,10 @@
 
 ## 2026-10-16 — RMS migration notebook audit and safety hardening
 
+### Authoritative RMS Web Description titles
+- Removed the word-overlap / 50%-similarity requirement for Web Description after confirming it is intentionally the expanded product title used to bypass the RMS Item Description character limit.
+- Nonblank RMS Web Description is now preferred as the Lightspeed family name; hard barcode/source-code identity conflicts still force REVIEW and prevent writes.
+
 ### Audited
 - Reviewed the full RMS-to-Lightspeed Colab notebook plus `analysis.py`, `rules.py`, `test_harness.py`, and the live category/supplier/brand mapping tabs in `LS: importer`.
 - Verified the current Lightspeed 2026-10 family/product field split against the official API model.
@@ -19,7 +23,7 @@
 - Dedicated flagged-item review workbook remains the primary human review queue while the legacy `Migration Review` tab remains available for compatibility.
 - Legacy-source fallback is disabled by default, so the notebook fails closed when the fresh Drive CSV is missing.
 - Cross-row source product-code collisions are detected and forced to REVIEW before batch selection.
-- Current audited notebook version is `2026-10-16-v46`.
+- Current audited notebook version is `2026-10-16-v47`.
 
 ### No production deployment
 No Railway service was repointed or deployed and no Lightspeed product was created, modified, or deleted as part of this audit.
