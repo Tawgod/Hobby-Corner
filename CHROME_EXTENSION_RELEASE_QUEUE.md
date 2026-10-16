@@ -57,6 +57,24 @@ Each entry must contain:
 - **Target release:** Next compatible Chrome extension release after implementation is verified.
 - **Release rule:** Do not silently omit this item from a future extension release. If it is not ready when another extension release is prepared, mark it `DEFERRED` or `BLOCKED` with the reason and leave it in this queue.
 
+### Scanner SKU and role diagnostics
+- **Status:** READY for consolidated test build; role-based approvals remain fail-closed.
+- **Source:** Product Scanner, Lightspeed PR #10, branch `feature/scanner-sku-role-diagnostics`.
+- **Behavior:** Default General SKU from supplier reorder code. Prefer uniquely exact matched Lightspeed SKU and preserve manual edits. Support verified role-name/group shapes and log safe diagnostics.
+- **Affected:** extension/product-scanner/review.js, special-orders-adapter.js, scanner gateway and Timeclock role resolver.
+- **Backend dependencies:** Actual Manager/Owner role remains unverified against live API; scanner eligibility must remain read-only when no role is verified.
+- **Tests:** GitHub Actions runs 38771768365 (UI) and 38771744909 (integration) passed on feature branch. Verify consolidated tests before shipping.
+- **Target:** Next test extension package, provided merge/rebase and CI succeed.
+- **Release restriction:** No Chrome Web Store publication or automatic privilege override.
+
+### Chrome Web Store release work
+- **Status:** DEFERRED.
+- **Source:** `feature/chrome-web-store-release`; branch diverged from consolidated source.
+- **Behavior:** Publishing scripts and release documentation.
+- **Affected:** Packaging workflow / manifest / release script.
+- **Reason:** Packaging/publishing branch outdated; needs reconciliation and store submission authorization before inclusion.
+- **Target:** Later store publication after separate review.
+
 ## Released / historical extension items
 
 Use this section to preserve shipped queue history when useful. Do not delete an entry just because it shipped; mark it `RELEASED` and record the version/commit/date so future chats can distinguish released work from pending work.
