@@ -24,12 +24,13 @@ This file tracks meaningful project-wide development and management changes. Ser
 - Changed supplier-price mapping to prefer the SupplierList cost tied to the RMS primary supplier.
 - Expanded controlled create read-back verification to name, description, category, brand, codes, supplier, price, weight, active flags and image.
 - Blocked cleanup from modifying products when the current RMS source row has an identity conflict.
-- Added/expanded the dedicated `Flagged Migration Items` review workflow while preserving manual review fields.
+- Added/expanded the dedicated `Flagged Migration Items` review workflow while preserving manual review fields and column positions used by validation.
+- Added `Migration Unmapped Brands` output alongside category and supplier gap tabs.
 - Fixed reorder-cell credential/config isolation and output-sheet sizing.
 
 ### Version / references
-- Colab notebook: `2026-10-16-v40`.
-- Key migration commits: `7bcd1fcc65958eb7ed087a620ace47aa8871b104`, `a59ea235e8976473f2f05d61b445756c5a8478bf`, `5ee22e2df64dc52755e6acb68f5c8d55573ea100`, `71a9caf95f4c83ce93cf8087e88e11ad2edd6678`.
+- Colab notebook: `2026-10-16-v41`.
+- Key migration commits: `7bcd1fcc65958eb7ed087a620ace47aa8871b104`, `a59ea235e8976473f2f05d61b445756c5a8478bf`, `5ee22e2df64dc52755e6acb68f5c8d55573ea100`, `71a9caf95f4c83ce93cf8087e88e11ad2edd6678`, `6d77933bc257bebbb93b4fce66fa079b1f4a6d8e`.
 - README audit update: `84840ab75d758db8cf27def49c5f31b432a13e2c`.
 
 ### Not changed
