@@ -174,7 +174,7 @@ Next:
 
 Notebook audit 2026-10-16:
 - Audited the full Colab notebook, `analysis.py`, `rules.py`, `test_harness.py`, and live mapping tabs in `LS: importer`.
-- Current audited notebook version: `2026-10-16-v45`.
+- Current audited notebook version: `2026-10-16-v46`.
 - Consolidated the notebook around the ONE-CLICK setup result so later cells no longer reload/reanalyze the legacy RMS candidate sheet or rebuild stale UUID maps.
 - Restored the documented controlled-write safety boundary: product test batch 20, absolute product-write cap 20 enforced in helper code; reorder test cap remains 5.
 - Verified all 151 nonblank RMS category mappings resolve to a Cat ID path; there are no conflicting RMS department/category mapping keys and no duplicate Cat ID paths.
@@ -190,7 +190,8 @@ Notebook audit 2026-10-16:
 - Cross-row source product-code collisions are detected before write selection and forced to REVIEW.
 - Brands-tab alias resolution now treats `Clean Brand Name` as canonical and `Combine` as the RMS/source alias. Exact canonical matches are resolved against Lightspeed before any create is considered.
 - 28 warning brand values were already represented by `Brands!Combine`; 35 truly absent values were added to the `Brands` tab for review/mapping.
-- Missing-brand creation follows the explicit live product-create switch by default; only canonical names with no exact Lightspeed match are created, verified by read-back, and synchronized into `Brand ID Map`.
+- Missing-brand creation follows the explicit live product-create switch and is now just-in-time: only a canonical brand referenced by a product actually selected into the current write batch may be created, verified, and synchronized into `Brand ID Map`.
+- High-confidence Brands cleanup mapped `Atlas Model Railroad -> Atlas`, `Mantic Games -> Mantic Entertainment`, `Paladium -> Palladium Books`, `Studio 2 -> Studio 2 Publishing Inc.`, `The Op -> The Op Games`, and `Wow Toys -> Wow Toyz`; the two Breaking Games spellings were consolidated to one canonical row plus alias.
 - No Railway deployment was changed and no additional Lightspeed product write was performed by this audit.
 
 Audit commits on `Tawgod/Hobby-Corner-Discord-Bot:product-migration-colab`:
