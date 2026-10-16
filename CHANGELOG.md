@@ -6,32 +6,40 @@ This file tracks meaningful project-wide development and management changes. Ser
 ## 2026-10-16 — RMS migration notebook and mapping audit
 
 ### Audited
-- Reviewed the full `product-migration-colab` notebook, `analysis.py`, `rules.py`, `test_harness.py`, the live `LS: importer` category/supplier/brand mapping tabs, and the dedicated flagged-item workbook.
+- Reviewed the full `product-migration-colab` notebook, `analysis.py`, `rules.py`, `test_harness.py`, the live `LS: importer` category/supplier/brand mapping tabs, the new 54,255-row RMS CSV, and the dedicated flagged-item workbook.
 - Verified all 151 nonblank category mappings resolve to `Cat ID` and found no conflicting RMS category keys or duplicate category UUID paths.
 - Verified `Supplier ID Map` has no missing UUIDs or duplicate supplier names.
 - Identified five retained supplier names missing from `Supplier ID Map` and 21 named legacy supplier mappings to `Other` without explicit approval.
 - Verified Brand ID Map has complete UUIDs and no duplicate brand names; three spelling aliases intentionally share the Leanin' Tree UUID.
+- Found one duplicate SKU and six colliding product-code values among migration candidates in the fresh export.
+- Found that zero SupplierList costs frequently coexist with positive item costs, requiring positive-value rather than literal-field precedence.
 
 ### Fixed
-- Consolidated the notebook to one authoritative setup path and made the Drive CSV the preferred RMS product source.
+- Consolidated the notebook to one authoritative setup path.
+- Made the Drive CSV authoritative and fail-closed by default; the legacy candidate sheet now requires explicit `ALLOW_LEGACY_SOURCE_FALLBACK=True`.
+- Added full current bridge-schema validation plus blank Item ID/SKU/Description and duplicate RMS Item ID checks.
 - Removed stale standalone reload/reanalysis paths that could bypass setup safeguards or reproduce indentation errors.
-- Reduced the controlled product batch configuration to 20 and enforced an absolute 20-write limit in the product/reorder helpers.
+- Enforced an absolute 20-write limit in product/reorder helpers.
 - Changed unmapped category fallback behavior so `General > No Category` is review-only and never satisfies the category-mapped gate.
+- Added a category-UUID gate so explicitly mapped paths without `Cat ID` are routed to review.
 - Prevented blank suppliers and unapproved named supplier-to-`Other` rows from becoming write-eligible.
 - Added exact retained-supplier resolution with read-only Lightspeed UUID lookup and review routing when unresolved.
-- Added brand UUID review gating.
-- Added source identity checks for mismatched RMS/Web Description data and conflicting valid barcode identities.
-- Changed supplier-price mapping to prefer the SupplierList cost tied to the RMS primary supplier.
+- Added brand UUID review gating and a separate `Migration Unmapped Brands` output.
+- Changed Web Description handling to use the web title only when corroborated; otherwise migration falls back to RMS Description with a non-blocking warning.
+- Added hard barcode identity checks and source-wide SKU/UPC/alias collision detection before batch selection.
+- Changed supplier-price mapping to use the first positive SupplierList/LastCost/Cost/ReplacementCost value so zero placeholders cannot hide a real cost.
+- Corrected barcode code types: 12-digit UPC, 8/13-digit EAN, 14-digit ITF, otherwise CUSTOM.
+- Moved exact-SKU duplicate lookup and cleanup ID recovery to the current Lightspeed `2026-10` product endpoint.
 - Expanded controlled create read-back verification to name, description, category, brand, codes, supplier, price, weight, active flags and image.
-- Blocked cleanup from modifying products when the current RMS source row has an identity conflict.
+- Blocked cleanup from modifying products when the current RMS source row has a hard identity conflict.
 - Added/expanded the dedicated `Flagged Migration Items` review workflow while preserving manual review fields and column positions used by validation.
-- Added `Migration Unmapped Brands` output alongside category and supplier gap tabs.
+- Changed category/supplier/brand/UUID map builders to reject conflicting duplicate rows instead of silently taking the last row.
 - Fixed reorder-cell credential/config isolation and output-sheet sizing.
 
 ### Version / references
-- Colab notebook: `2026-10-16-v41`.
-- Key migration commits: `7bcd1fcc65958eb7ed087a620ace47aa8871b104`, `a59ea235e8976473f2f05d61b445756c5a8478bf`, `5ee22e2df64dc52755e6acb68f5c8d55573ea100`, `71a9caf95f4c83ce93cf8087e88e11ad2edd6678`, `6d77933bc257bebbb93b4fce66fa079b1f4a6d8e`.
-- README audit update: `84840ab75d758db8cf27def49c5f31b432a13e2c`.
+- Colab notebook: `2026-10-16-v42`.
+- Key audit commits include `7bcd1fcc65958eb7ed087a620ace47aa8871b104`, `a59ea235e8976473f2f05d61b445756c5a8478bf`, `5ee22e2df64dc52755e6acb68f5c8d55573ea100`, `e5b724e6bb4553e6f1126e3c935a32b4a74d43e7`, `bedf4ea1ba22ea173f106f8e1867eef8b7a52610`, `8de17b9e437bd3b8bbcf074334eaf39d0bb981ac`, `e7a6535138ace0b2195824d411d6565ea106b4c0`, `18750d0a19d080a5c574cabc897b5fb23f99c652`, `3c8c8fd5160de867ce7b022624f501f893431c17`, and `2caff4564bd0923426d14a48d18e56ae3a3202df`.
+- README synchronized to v42 in `f0f7e20f1ff9838e06f3c1c304c3271318091a2f`.
 
 ### Not changed
 - No Railway service was deployed or repointed.
@@ -42,7 +50,8 @@ This file tracks meaningful project-wide development and management changes. Ser
 - Whether RMS inactive state should set migrated Lightspeed products inactive; current controlled payloads use `active.in_store=True`.
 - Whether any migrated products should be enabled for the Ecwid/online channel; current payloads use `active.ecwid=False`.
 - Tags are not currently migrated.
-- Full-catalog code-collision preflight beyond exact SKU duplicate checking remains a recommended final-cutover gate.
+- `DEFAULT_RMS_WEIGHT_UNIT='LB'` is still an explicit migration assumption because the source has no weight-unit column.
+- Full existing-Lightspeed product-code collision preflight beyond exact SKU remains a final-cutover gate.
 
 ## 2026-10-09 — Project audit and registry established
 
