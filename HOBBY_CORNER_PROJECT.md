@@ -174,7 +174,7 @@ Next:
 
 Notebook audit 2026-10-16:
 - Audited the full Colab notebook, `analysis.py`, `rules.py`, `test_harness.py`, and live mapping tabs in `LS: importer`.
-- Current audited notebook version: `2026-10-16-v39`.
+- Current audited notebook version: `2026-10-16-v43`.
 - Consolidated the notebook around the ONE-CLICK setup result so later cells no longer reload/reanalyze the legacy RMS candidate sheet or rebuild stale UUID maps.
 - Restored the documented controlled-write safety boundary: product test batch 20, absolute product-write cap 20 enforced in helper code; reorder test cap remains 5.
 - Verified all 151 nonblank RMS category mappings resolve to a Cat ID path; there are no conflicting RMS department/category mapping keys and no duplicate Cat ID paths.
@@ -186,6 +186,8 @@ Notebook audit 2026-10-16:
 - Controlled product read-back now verifies family name, long description, category, brand, codes/UPC, supplier/code/cost, retail price, weight, active state, and image presence when requested.
 - Cleanup is blocked for source rows with identity conflicts so a flagged RMS row cannot overwrite an already-created Lightspeed test product.
 - Dedicated flagged review workbook remains `Flagged Migration Items` / `Flagged Items`; legacy `Migration Review` remains for compatibility.
+- Legacy RMS source fallback is disabled by default (`ALLOW_LEGACY_SOURCE_FALLBACK = False`), so setup fails closed if the fresh Drive CSV is missing.
+- Cross-row source product-code collisions are detected before write selection and forced to REVIEW.
 - No Railway deployment was changed and no additional Lightspeed product write was performed by this audit.
 
 Audit commits on `Tawgod/Hobby-Corner-Discord-Bot:product-migration-colab`:
@@ -197,7 +199,7 @@ Audit commits on `Tawgod/Hobby-Corner-Discord-Bot:product-migration-colab`:
 - `350762464e448202c7937bbe76be2d2beba919dc` — migration README synchronization.
 
 Next audit gate:
-- Rerun Colab v39 from the top with every write switch False.
+- Rerun Colab v43 from the top with every write switch False.
 - Confirm the new export loads from Drive, review counts and unmapped counts are sensible, and the known Model Railroader/Star Wars mixed row lands in the dedicated review workbook.
 - Review the 20-row dry preview before enabling any further controlled product writes.
 
