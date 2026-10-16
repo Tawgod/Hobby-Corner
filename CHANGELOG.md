@@ -2,6 +2,47 @@
 
 This file tracks meaningful project-wide development and management changes. Service-specific commit history remains in each owning repository.
 
+
+## 2026-10-16 — RMS migration notebook and mapping audit
+
+### Audited
+- Reviewed the full `product-migration-colab` notebook, `analysis.py`, `rules.py`, `test_harness.py`, the live `LS: importer` category/supplier/brand mapping tabs, and the dedicated flagged-item workbook.
+- Verified all 151 nonblank category mappings resolve to `Cat ID` and found no conflicting RMS category keys or duplicate category UUID paths.
+- Verified `Supplier ID Map` has no missing UUIDs or duplicate supplier names.
+- Identified five retained supplier names missing from `Supplier ID Map` and 21 named legacy supplier mappings to `Other` without explicit approval.
+- Verified Brand ID Map has complete UUIDs and no duplicate brand names; three spelling aliases intentionally share the Leanin' Tree UUID.
+
+### Fixed
+- Consolidated the notebook to one authoritative setup path and made the Drive CSV the preferred RMS product source.
+- Removed stale standalone reload/reanalysis paths that could bypass setup safeguards or reproduce indentation errors.
+- Reduced the controlled product batch configuration to 20 and enforced an absolute 20-write limit in the product/reorder helpers.
+- Changed unmapped category fallback behavior so `General > No Category` is review-only and never satisfies the category-mapped gate.
+- Prevented blank suppliers and unapproved named supplier-to-`Other` rows from becoming write-eligible.
+- Added exact retained-supplier resolution with read-only Lightspeed UUID lookup and review routing when unresolved.
+- Added brand UUID review gating.
+- Added source identity checks for mismatched RMS/Web Description data and conflicting valid barcode identities.
+- Changed supplier-price mapping to prefer the SupplierList cost tied to the RMS primary supplier.
+- Expanded controlled create read-back verification to name, description, category, brand, codes, supplier, price, weight, active flags and image.
+- Blocked cleanup from modifying products when the current RMS source row has an identity conflict.
+- Added/expanded the dedicated `Flagged Migration Items` review workflow while preserving manual review fields.
+- Fixed reorder-cell credential/config isolation and output-sheet sizing.
+
+### Version / references
+- Colab notebook: `2026-10-16-v40`.
+- Key migration commits: `7bcd1fcc65958eb7ed087a620ace47aa8871b104`, `a59ea235e8976473f2f05d61b445756c5a8478bf`, `5ee22e2df64dc52755e6acb68f5c8d55573ea100`, `71a9caf95f4c83ce93cf8087e88e11ad2edd6678`.
+- README audit update: `84840ab75d758db8cf27def49c5f31b432a13e2c`.
+
+### Not changed
+- No Railway service was deployed or repointed.
+- No production Lightspeed products, inventory quantities, categories, suppliers, or other records were changed by this audit.
+- The known incorrectly created controlled-test Model Railroader product was not automatically deleted or modified.
+
+### Remaining decisions
+- Whether RMS inactive state should set migrated Lightspeed products inactive; current controlled payloads use `active.in_store=True`.
+- Whether any migrated products should be enabled for the Ecwid/online channel; current payloads use `active.ecwid=False`.
+- Tags are not currently migrated.
+- Full-catalog code-collision preflight beyond exact SKU duplicate checking remains a recommended final-cutover gate.
+
 ## 2026-10-09 — Project audit and registry established
 
 ### Added
