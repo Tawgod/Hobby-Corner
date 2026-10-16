@@ -894,4 +894,4 @@ Known test cleanup:
 ### RMS migration v51 corrections
 - Replaced Lightspeed product-tag usage with a hidden product custom field `migration_flags` for migration-only annotations. Current values include Aging Stock, Missing Picture, and Picture Replacement Needed; these annotations do not block migration.
 - Added unique category-name recovery for PAM/RMS department/category mismatches. Exact Department+Category mapping remains first priority; category-only recovery is used only when it resolves to one unique Lightspeed path.
-- Changed the RMS product export WebDescription source from cross-database `HQcorp.dbo.nitroasl_pamtable` to the local connected database's `dbo.nitroasl_pamtable`; expanded diagnostics include GW48-111 and compare local vs HQcorp values.
+- Confirmed export source-of-truth: core product fields come from the connected RMS Item database/tables, while only `RMS_WebDescription` comes from `HQcorp.dbo.nitroasl_pamtable.WebDescription` by `ItemID`. Diagnostics still compare local vs HQcorp PAM for GW48-111 and other stale-title cases.
