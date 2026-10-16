@@ -2,6 +2,11 @@
 
 ## 2026-10-16 — RMS migration notebook audit and safety hardening
 
+### Live product API adapter
+- Fixed batch-wide 404 failures caused by calling `/api/2026-10/products` on the live retailer before that endpoint is available there.
+- Controlled writes now adapt the internal product-family payload to legacy `POST /api/2.0/products`, use legacy read-back and image upload, and preserve the newer internal model for later 2026-10 migration.
+- ERROR rows from failed runs no longer count as previously migrated SKUs.
+
 ### Configurable randomized migration batches
 - Removed the obsolete absolute 20-product write cap. `MAX_TEST_WRITES` now follows `TEST_BATCH_SIZE`.
 - Replaced deterministic SKU tie-breaking with randomized selection among equally strong coverage candidates, while preserving category/supplier/image/web-title/reorder/special-state diversity.
@@ -27,7 +32,7 @@
 - Dedicated flagged-item review workbook remains the primary human review queue while the legacy `Migration Review` tab remains available for compatibility.
 - Legacy-source fallback is disabled by default, so the notebook fails closed when the fresh Drive CSV is missing.
 - Cross-row source product-code collisions are detected and forced to REVIEW before batch selection.
-- Current audited notebook version is `2026-10-16-v48`.
+- Current audited notebook version is `2026-10-16-v49`.
 
 ### No production deployment
 No Railway service was repointed or deployed and no Lightspeed product was created, modified, or deleted as part of this audit.
