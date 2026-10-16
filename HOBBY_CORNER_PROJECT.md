@@ -171,6 +171,36 @@ Next:
 - Run a larger controlled rehearsal before final catalog cutover.
 - Preserve suppliers/categories, then perform full physical inventory after catalog migration.
 
+
+Notebook audit 2026-10-16:
+- Audited the full Colab notebook, `analysis.py`, `rules.py`, `test_harness.py`, and live mapping tabs in `LS: importer`.
+- Current audited notebook version: `2026-10-16-v39`.
+- Consolidated the notebook around the ONE-CLICK setup result so later cells no longer reload/reanalyze the legacy RMS candidate sheet or rebuild stale UUID maps.
+- Restored the documented controlled-write safety boundary: product test batch 20, absolute product-write cap 20 enforced in helper code; reorder test cap remains 5.
+- Verified all 151 nonblank RMS category mappings resolve to a Cat ID path; there are no conflicting RMS department/category mapping keys and no duplicate Cat ID paths.
+- Verified Supplier ID Map and Brand ID Map have no missing UUID values or duplicate names. Three brand-name aliases share the same Leanin' Tree UUID intentionally/compatibly.
+- Found five retained Supplier-tab names missing from Supplier ID Map, including Hornby America and Salvino JR Models; the notebook now attempts exact Lightspeed UUID resolution for retained/current supplier names instead of silently routing them to Other.
+- Blank RMS suppliers, unresolved supplier UUIDs, unresolved brands, unmapped categories, web-description identity conflicts, and barcode identity conflicts are REVIEW gates and are excluded from controlled write selection.
+- A proposed fallback category such as `General > No Category` no longer counts as an approved mapping.
+- Supplier cost now prefers the primary-supplier `RMS_SupplierListCost` when available, then falls back to item-level legacy cost fields.
+- Controlled product read-back now verifies family name, long description, category, brand, codes/UPC, supplier/code/cost, retail price, weight, active state, and image presence when requested.
+- Cleanup is blocked for source rows with identity conflicts so a flagged RMS row cannot overwrite an already-created Lightspeed test product.
+- Dedicated flagged review workbook remains `Flagged Migration Items` / `Flagged Items`; legacy `Migration Review` remains for compatibility.
+- No Railway deployment was changed and no additional Lightspeed product write was performed by this audit.
+
+Audit commits on `Tawgod/Hobby-Corner-Discord-Bot:product-migration-colab`:
+- `7bcd1fcc65958eb7ed087a620ace47aa8871b104` — category/blank-supplier review gates.
+- `e23119791e09fffbc1bf2ca1516429d7b20f890f` — consolidated notebook mappings/configuration.
+- `a59ea235e8976473f2f05d61b445756c5a8478bf` — expanded controlled product read-back verification and supplier-list cost precedence.
+- `5ee22e2df64dc52755e6acb68f5c8d55573ea100` — absolute test caps and cleanup identity guard.
+- `e9d8560d8af178e9783589be966812d6a1affbbb` — notebook v39 runtime safety finalization.
+- `350762464e448202c7937bbe76be2d2beba919dc` — migration README synchronization.
+
+Next audit gate:
+- Rerun Colab v39 from the top with every write switch False.
+- Confirm the new export loads from Drive, review counts and unmapped counts are sensible, and the known Model Railroader/Star Wars mixed row lands in the dedicated review workbook.
+- Review the 20-row dry preview before enabling any further controlled product writes.
+
 ### Inventory Counting and Reconciliation
 Status: Planned
 
