@@ -5,7 +5,7 @@
 ### Private migration flags, category recovery, and PAM correction
 - Replaced Lightspeed item-tag usage with hidden product custom field `migration_flags`; aging and picture-maintenance annotations no longer block migration.
 - Added unique category-name recovery for department/category mismatches such as RMS `3D` under the wrong department.
-- Switched WebDescription export from `HQcorp.dbo.nitroasl_pamtable` to local `dbo.nitroasl_pamtable` and expanded diagnostics for known stale-title SKUs including GW48-111.
+- Corrected export source policy: core product data remains from the connected RMS Item database/tables, and only WebDescription is sourced from `HQcorp.dbo.nitroasl_pamtable` by ItemID. Diagnostics still compare local and HQcorp PAM for stale-title investigation.
 
 ### Supplier/category/GW/aging policy corrections
 - Named unmapped suppliers now fall back to `Other`; blank primary suppliers remain review-only.
