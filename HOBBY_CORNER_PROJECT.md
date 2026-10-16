@@ -174,7 +174,7 @@ Next:
 
 Notebook audit 2026-10-16:
 - Audited the full Colab notebook, `analysis.py`, `rules.py`, `test_harness.py`, and live mapping tabs in `LS: importer`.
-- Current audited notebook version: `2026-10-16-v46`.
+- Current audited notebook version: `2026-10-16-v47`.
 - Consolidated the notebook around the ONE-CLICK setup result so later cells no longer reload/reanalyze the legacy RMS candidate sheet or rebuild stale UUID maps.
 - Restored the documented controlled-write safety boundary: product test batch 20, absolute product-write cap 20 enforced in helper code; reorder test cap remains 5.
 - Verified all 151 nonblank RMS category mappings resolve to a Cat ID path; there are no conflicting RMS department/category mapping keys and no duplicate Cat ID paths.
@@ -188,6 +188,7 @@ Notebook audit 2026-10-16:
 - Dedicated flagged review workbook remains `Flagged Migration Items` / `Flagged Items`; legacy `Migration Review` remains for compatibility.
 - Legacy RMS source fallback is disabled by default (`ALLOW_LEGACY_SOURCE_FALLBACK = False`), so setup fails closed if the fresh Drive CSV is missing.
 - Cross-row source product-code collisions are detected before write selection and forced to REVIEW.
+- The old Web Description word-overlap/similarity trust heuristic was removed after confirming Hobby Corner intentionally uses Web Description for expanded titles (for example `MTG` -> `Magic the Gathering`). Identifier conflicts remain the hard identity gate.
 - Brands-tab alias resolution now treats `Clean Brand Name` as canonical and `Combine` as the RMS/source alias. Exact canonical matches are resolved against Lightspeed before any create is considered.
 - 28 warning brand values were already represented by `Brands!Combine`; 35 truly absent values were added to the `Brands` tab for review/mapping.
 - Missing-brand creation follows the explicit live product-create switch and is now just-in-time: only a canonical brand referenced by a product actually selected into the current write batch may be created, verified, and synchronized into `Brand ID Map`.
