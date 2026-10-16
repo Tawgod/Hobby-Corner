@@ -19,7 +19,7 @@
 - Dedicated flagged-item review workbook remains the primary human review queue while the legacy `Migration Review` tab remains available for compatibility.
 - Legacy-source fallback is disabled by default, so the notebook fails closed when the fresh Drive CSV is missing.
 - Cross-row source product-code collisions are detected and forced to REVIEW before batch selection.
-- Current audited notebook version is `2026-10-16-v45`.
+- Current audited notebook version is `2026-10-16-v46`.
 
 ### No production deployment
 No Railway service was repointed or deployed and no Lightspeed product was created, modified, or deleted as part of this audit.
@@ -28,6 +28,8 @@ This file tracks meaningful project-wide development and management changes. Ser
 
 
 ### Brand alias resolution and optional creation
+- Added just-in-time brand creation: a missing brand is created only when a product using it is actually selected into the live write batch; brands with no selected migrating product are not created.
+- Converted high-confidence duplicate/new rows into aliases of existing canonical brands: Atlas, Mantic Entertainment, Palladium Books, Studio 2 Publishing Inc., The Op Games, and Wow Toyz; consolidated the two Breaking Games spellings.
 - Audited the live `Brands` tab and confirmed `Combine` is the source/RMS alias column for `Clean Brand Name`.
 - Removed 28 accidental duplicate canonical additions because those warning names were already aliases; retained only 35 genuinely absent brand names for manual review/mapping.
 - Notebook v44 resolves aliases to canonical brands before UUID lookup.
