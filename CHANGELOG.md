@@ -2,6 +2,11 @@
 
 ## 2026-10-16 — RMS migration notebook audit and safety hardening
 
+### Private migration flags, category recovery, and PAM correction
+- Replaced Lightspeed item-tag usage with hidden product custom field `migration_flags`; aging and picture-maintenance annotations no longer block migration.
+- Added unique category-name recovery for department/category mismatches such as RMS `3D` under the wrong department.
+- Switched WebDescription export from `HQcorp.dbo.nitroasl_pamtable` to local `dbo.nitroasl_pamtable` and expanded diagnostics for known stale-title SKUs including GW48-111.
+
 ### Supplier/category/GW/aging policy corrections
 - Named unmapped suppliers now fall back to `Other`; blank primary suppliers remain review-only.
 - Removed the blanket Games Workshop REVIEW rule.
@@ -39,7 +44,7 @@
 - Dedicated flagged-item review workbook remains the primary human review queue while the legacy `Migration Review` tab remains available for compatibility.
 - Legacy-source fallback is disabled by default, so the notebook fails closed when the fresh Drive CSV is missing.
 - Cross-row source product-code collisions are detected and forced to REVIEW before batch selection.
-- Current audited notebook version is `2026-10-16-v50`.
+- Current audited notebook version is `2026-10-16-v51`.
 
 ### No production deployment
 No Railway service was repointed or deployed and no Lightspeed product was created, modified, or deleted as part of this audit.
