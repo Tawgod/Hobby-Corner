@@ -59,13 +59,15 @@ Each entry must contain:
 - **Release rule:** Do not silently omit this item from a future extension release. If it is not ready when another extension release is prepared, mark it `DEFERRED` or `BLOCKED` with the reason and leave it in this queue.
 
 ### Scanner SKU and role diagnostics
-- **Status:** READY for consolidated test build; role-based approvals remain fail-closed.
+- **Status:** `INCLUDED` in v0.3.24 unpacked **test** build; not Chrome Web Store released; role-based approvals remain fail-closed.
 - **Source:** Product Scanner, Lightspeed PR #10, branch `feature/scanner-sku-role-diagnostics`.
 - **Behavior:** Default General SKU from supplier reorder code. Prefer uniquely exact matched Lightspeed SKU and preserve manual edits. Support verified role-name/group shapes and log safe diagnostics.
 - **Affected:** extension/product-scanner/review.js, special-orders-adapter.js, scanner gateway and Timeclock role resolver.
 - **Backend dependencies:** Actual Manager/Owner role remains unverified against live API; scanner eligibility must remain read-only when no role is verified.
 - **Tests:** GitHub Actions runs 38771768365 (UI) and 38771744909 (integration) passed on feature branch. Verify consolidated tests before shipping.
-- **Target:** Next test extension package, provided merge/rebase and CI succeed.
+- **Packaged version:** v0.3.24 unpacked preview; PR #10 merged into consolidated commit `718fa7aca466f23f0d5a97b6ed3c24e42e3eb3a6`. Test package branch `release/scanner-v0.3.24-test` commit `5849953f478338658bcadd87efe2b2867abc9d04`.
+- **Packaging tests:** GitHub Actions run `38917194872` succeeded October 16, 2026; artifact `Hobby-Corner-Scanner-v0.3.24-unpacked-preview` (ID `12052559386`).
+- **Release status:** Built October 16, 2026 for manual testing, **not published or production extension download replaced**. Browser role validation still pending.
 - **Release restriction:** No Chrome Web Store publication or automatic privilege override.
 
 ### Chrome Web Store release work
@@ -88,3 +90,10 @@ When any development chat finishes or queues Chrome extension work, it must eith
 
 When any development chat starts preparing a Chrome extension release, it must first state which queue entries were found and how each will be handled in that release.
 
+
+## October 16, 2026 release reconciliation
+- v0.3.24 test package includes consolidated scanner changes from merged PR #10; no product writes or automatic grant for unknown Lightspeed roles.
+- Purchase Order Companion remains `DEFERRED`: `feature/po-companion-readonly-foundation` is far behind consolidated, and no acceptance tests verify a compatible release.
+- Chrome Web Store release branch remains `DEFERRED`: its workflow/scripts have diverged and publishing wasn't requested.
+- Historical scanner branches `feature/scanner-fields-create-preview` and `feature/scanner-review-auto-lookup` are behind consolidated with no pending unique implementation to ship. `feature/scanner-secure-match-gateway` contains old smoke scripts only, not new UI.
+- Package archive: https://github.com/Tawgod/Lightspeed/actions/runs/38917194872. This is an unpacked extension artifact, not a Chrome Web Store submission.
