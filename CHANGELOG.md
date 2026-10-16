@@ -1,5 +1,27 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-16 — RMS migration notebook audit and safety hardening
+
+### Audited
+- Reviewed the full RMS-to-Lightspeed Colab notebook plus `analysis.py`, `rules.py`, `test_harness.py`, and the live category/supplier/brand mapping tabs in `LS: importer`.
+- Verified the current Lightspeed 2026-10 family/product field split against the official API model.
+- Verified 151 nonblank RMS category mappings all resolve to `Cat ID` paths with no conflicting source keys or duplicate category paths.
+- Verified supplier and brand UUID maps contain no missing UUIDs or duplicate names.
+
+### Fixed / hardened
+- Consolidated later notebook cells around the authoritative ONE-CLICK setup so stale legacy-source reloads and stale UUID-map rebuilds no longer bypass setup safety.
+- Restored the absolute controlled product-write cap of 20 and enforced it inside the helper code.
+- Unmapped categories, blank suppliers, unresolved supplier UUIDs, unresolved brands, barcode/source-code collisions, and strong source-identity conflicts remain REVIEW and cannot enter a controlled write batch.
+- Exact retained/current supplier names now override stale blank-disposition mappings to `Other`; unresolved names are reviewed rather than guessed.
+- Supplier cost now prefers the primary-supplier `RMS_SupplierListCost` before legacy item-level cost fields.
+- Controlled read-back verifies name, long description, category, brand, codes, supplier/code/cost, retail price, weight, active state, and requested image persistence.
+- Cleanup refuses identity-conflicted RMS source rows.
+- Dedicated flagged-item review workbook remains the primary human review queue while the legacy `Migration Review` tab remains available for compatibility.
+- Current audited notebook version is `2026-10-16-v39`.
+
+### No production deployment
+No Railway service was repointed or deployed and no Lightspeed product was created, modified, or deleted as part of this audit.
+
 This file tracks meaningful project-wide development and management changes. Service-specific commit history remains in each owning repository.
 
 
