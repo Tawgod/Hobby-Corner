@@ -3,6 +3,7 @@
 ## 2026-10-16 — RMS migration notebook audit and safety hardening
 
 ### Private migration flags, category recovery, and PAM correction
+- Notebook v52 adds a fail-closed regression check for the known GW48-111/Tenfold Dungeon stale-export signature before migration setup continues.
 - Replaced Lightspeed item-tag usage with hidden product custom field `migration_flags`; aging and picture-maintenance annotations no longer block migration.
 - Added unique category-name recovery for department/category mismatches such as RMS `3D` under the wrong department.
 - Corrected HQ PAM relationship: core product data remains from the connected RMS Item database/tables, and WebDescription is sourced from `HQcorp.dbo.nitroasl_pamtable` by joining `PAM.ItemID` to the store Item's `HQID` rather than its local `ID`. GW48-111 verified the mismatch (store ID 57014, HQID/HQ item ID 57155).
