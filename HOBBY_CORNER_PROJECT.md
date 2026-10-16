@@ -174,7 +174,7 @@ Next:
 
 Notebook audit 2026-10-16:
 - Audited the full Colab notebook, `analysis.py`, `rules.py`, `test_harness.py`, and live mapping tabs in `LS: importer`.
-- Current audited notebook version: `2026-10-16-v50`.
+- Current audited notebook version: `2026-10-16-v51`.
 - Consolidated the notebook around the ONE-CLICK setup result so later cells no longer reload/reanalyze the legacy RMS candidate sheet or rebuild stale UUID maps.
 - Product test/write size is now controlled by `TEST_BATCH_SIZE` with no separate fixed 20-product cap; reorder test cap remains separately configurable at 5.
 - The live retailer returns 404 for the 2026-10 product endpoints. Controlled product writes now translate the validated internal family model into the supported legacy `/api/2.0/products` create/read schema; image upload also uses the legacy supported endpoint.
@@ -889,3 +889,9 @@ Known test cleanup:
 - Added an `Aging Stock` migration tag for positive-quantity products with no reliable sale in the last 12 months; age alone does not put those items on the flagged-review list.
 - Added explicit mappings for `Outdoor Toys + blank category -> Toys > Outdoor Toys` and `Other + Clothing -> General > Clothing`.
 - Correctly mapped suppliers such as Horizon Hobby and John N. Hansen may still appear in REVIEW for non-supplier reasons; v50 now supplies an explicit zero-stock/aging review reason instead of leaving that reason blank.
+
+
+### RMS migration v51 corrections
+- Replaced Lightspeed product-tag usage with a hidden product custom field `migration_flags` for migration-only annotations. Current values include Aging Stock, Missing Picture, and Picture Replacement Needed; these annotations do not block migration.
+- Added unique category-name recovery for PAM/RMS department/category mismatches. Exact Department+Category mapping remains first priority; category-only recovery is used only when it resolves to one unique Lightspeed path.
+- Changed the RMS product export WebDescription source from cross-database `HQcorp.dbo.nitroasl_pamtable` to the local connected database's `dbo.nitroasl_pamtable`; expanded diagnostics include GW48-111 and compare local vs HQcorp values.
