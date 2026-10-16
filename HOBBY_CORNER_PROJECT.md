@@ -174,9 +174,11 @@ Next:
 
 Notebook audit 2026-10-16:
 - Audited the full Colab notebook, `analysis.py`, `rules.py`, `test_harness.py`, and live mapping tabs in `LS: importer`.
-- Current audited notebook version: `2026-10-16-v48`.
+- Current audited notebook version: `2026-10-16-v49`.
 - Consolidated the notebook around the ONE-CLICK setup result so later cells no longer reload/reanalyze the legacy RMS candidate sheet or rebuild stale UUID maps.
 - Product test/write size is now controlled by `TEST_BATCH_SIZE` with no separate fixed 20-product cap; reorder test cap remains separately configurable at 5.
+- The live retailer returns 404 for the 2026-10 product endpoints. Controlled product writes now translate the validated internal family model into the supported legacy `/api/2.0/products` create/read schema; image upload also uses the legacy supported endpoint.
+- Failed `ERROR` test rows are no longer excluded as if successfully migrated; only CREATED/VERIFIED/SKIPPED_EXISTING rows enter the prior-test SKU exclusion set.
 - Test batch selection now randomizes equally representative candidates while preserving category/supplier/image/reorder coverage, so repeated dry runs provide variance instead of returning the same SKUs.
 - Verified all 151 nonblank RMS category mappings resolve to a Cat ID path; there are no conflicting RMS department/category mapping keys and no duplicate Cat ID paths.
 - Verified Supplier ID Map and Brand ID Map have no missing UUID values or duplicate names. Three brand-name aliases share the same Leanin' Tree UUID intentionally/compatibly.
