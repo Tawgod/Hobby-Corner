@@ -19,7 +19,7 @@
 - Dedicated flagged-item review workbook remains the primary human review queue while the legacy `Migration Review` tab remains available for compatibility.
 - Legacy-source fallback is disabled by default, so the notebook fails closed when the fresh Drive CSV is missing.
 - Cross-row source product-code collisions are detected and forced to REVIEW before batch selection.
-- Current audited notebook version is `2026-10-16-v44`.
+- Current audited notebook version is `2026-10-16-v45`.
 
 ### No production deployment
 No Railway service was repointed or deployed and no Lightspeed product was created, modified, or deleted as part of this audit.
@@ -31,7 +31,7 @@ This file tracks meaningful project-wide development and management changes. Ser
 - Audited the live `Brands` tab and confirmed `Combine` is the source/RMS alias column for `Clean Brand Name`.
 - Removed 28 accidental duplicate canonical additions because those warning names were already aliases; retained only 35 genuinely absent brand names for manual review/mapping.
 - Notebook v44 resolves aliases to canonical brands before UUID lookup.
-- Added paginated exact Lightspeed brand lookup and optional create/read-back/Brand ID Map synchronization behind `ENABLE_MISSING_BRAND_CREATE`.
+- Added paginated exact Lightspeed brand lookup and create/read-back/Brand ID Map synchronization tied by default to the explicit live product-create switch.
 
 ## 2026-10-16 — RMS migration notebook and mapping audit
 
