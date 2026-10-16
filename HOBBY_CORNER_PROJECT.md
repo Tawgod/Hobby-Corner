@@ -102,7 +102,7 @@ Purpose: Migrate the RMS product catalog into Lightspeed with validated category
 
 Repository: `Tawgod/Hobby-Corner-Discord-Bot`
 Branch: `product-migration-colab`
-Notebook version: `2026-10-16-v40`
+Notebook version: `2026-10-16-v41`
 Operational sheet: `LS: importer`
 Dedicated review sheet: `Flagged Migration Items`
 Last verification: 2026-10-16
@@ -138,7 +138,8 @@ Safety corrections verified in v40:
 - Nonblank brands missing a UUID are routed to review.
 - Mixed RMS/web-description and conflicting valid barcode identities are routed to review.
 - Cleanup refuses to patch an existing Lightspeed test product from an identity-conflicted source row.
-- The dedicated `Flagged Migration Items` workbook receives current review rows while preserving manual review status/notes.
+- The dedicated `Flagged Migration Items` workbook receives current review rows while preserving manual review status/notes and its existing Review Status validation column.
+- `Migration Unmapped Brands` is written alongside category and supplier gap tabs.
 - Reorder writes independently load Lightspeed credentials and verify the configured outlet.
 - No production Railway deployment is involved in the Colab notebook workflow.
 
