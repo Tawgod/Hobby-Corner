@@ -768,3 +768,26 @@ Status: **Testing**
 - Implementation: `Tawgod/Lightspeed@96ca09dfbf0876b0e96e744dbcca32089b8da53d`.
 - Railway deployment is currently building; browser acceptance remains pending.
 
+
+
+### RMS migration source-integrity safeguards — 2026-10-16
+Status: **Testing**
+
+A controlled migration run exposed a mixed legacy RMS record for Model Railroader (SKU `074666012738`): the RMS item/brand/supplier data identified Model Railroader/Kalmbach, while the legacy NitroSell/PAM web-description join and Alias data supplied Star Wars Destiny: Empire at War content and barcode `074369012738`.
+
+Changes on `Tawgod/Hobby-Corner-Discord-Bot:product-migration-colab`:
+- Added source-identity review gating for unrelated RMS Description vs Web Description data.
+- Added barcode identity conflict detection for valid GTIN-like numeric item codes versus conflicting RMS UPC/alias values.
+- Rows with identity conflicts are forced to `REVIEW` and cannot enter controlled product-write batches.
+- Removed automatic fallback of unresolved named RMS suppliers to Lightspeed `Other`.
+- Blank-disposition named-supplier mappings to `Other` are now treated as unresolved rather than approved conversions.
+- Exact current Lightspeed supplier names override stale `Other` mappings during Colab setup.
+- Notebook version advanced to `2026-10-16-v36`.
+
+Commits:
+- `19e01583cfae04d229c9d94c814c7c2b27e81db2`
+- `cbccb9988d470a8d5d53df9581ab0a166704a148`
+- `f06b0d8b6e158c50f4e658bac309a5c2a0c690dc`
+
+Known test cleanup:
+- Incorrect controlled-test product remains in Lightspeed as family `9dbfa2b8-a17d-42af-b7db-fe2220ffd753`, product `48165e1f-3df2-48c8-b177-6e505bd6b73b`. It was not automatically deleted or modified.
