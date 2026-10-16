@@ -17,7 +17,9 @@
 - Controlled read-back verifies name, long description, category, brand, codes, supplier/code/cost, retail price, weight, active state, and requested image persistence.
 - Cleanup refuses identity-conflicted RMS source rows.
 - Dedicated flagged-item review workbook remains the primary human review queue while the legacy `Migration Review` tab remains available for compatibility.
-- Current audited notebook version is `2026-10-16-v39`.
+- Legacy-source fallback is disabled by default, so the notebook fails closed when the fresh Drive CSV is missing.
+- Cross-row source product-code collisions are detected and forced to REVIEW before batch selection.
+- Current audited notebook version is `2026-10-16-v43`.
 
 ### No production deployment
 No Railway service was repointed or deployed and no Lightspeed product was created, modified, or deleted as part of this audit.
