@@ -1,5 +1,9 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-19 — RMS migration controlled-test fixes
+- Raised the default controlled product test batch to 50 and removed lingering 20-item helper defaults; setup now reports eligibility and prior-success exclusions.
+- Fixed reorder testing for newly created zero-stock products by allowing the 2026-04 reorder upsert to materialize the outlet inventory row, then verifying on-hand remains unchanged and MIN_MAX values read back correctly.
+
 ## 2026-10-16 — RMS migration notebook audit and safety hardening
 
 ### Private migration flags, category recovery, and PAM correction
