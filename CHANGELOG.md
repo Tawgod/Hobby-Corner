@@ -1,6 +1,7 @@
 # Hobby Corner Project Changelog
 
 ## 2026-10-19 — RMS migration controlled-test fixes
+- v60: made `Mapping` the explicit category-routing source and added a `Trains + HO Scale` regression probe after live UUID reconciliation.
 - v55: added live Lightspeed category/UUID reconciliation, safe creation of truly missing mapped leaf categories, Cat ID refresh from live data, and alternate-hierarchy protection to avoid duplicate categories under the wrong Level 1.
 - v54: legacy product creates now preserve inventory tracking, earlier test products are repaired before reorder writes, and reorder/product test sizing both follow TEST_BATCH_SIZE without fixed helper caps.
 - Raised the default controlled product test batch to 50 and removed lingering 20-item helper defaults; setup now reports eligibility and prior-success exclusions.
