@@ -914,3 +914,9 @@ Known test cleanup:
 
 ### RMS migration v60 category mapping hardening
 - `Mapping` is explicitly authoritative for RMS Department/Category routing, with a setup regression probe for Trains + HO Scale.
+
+### RMS migration v63 workspace cleanup
+- Migration operational/reporting tabs were removed from LS: importer and centralized in the Flagged Migration workbook.
+- LS: importer now retains migration reference authorities such as Mapping, Cat ID, RMS-D&C, supplier/brand maps, and related import/reference data.
+- Historical run summaries, product test history, failure history, and the category UUID audit were preserved in the Flagged Migration workbook.
+- Current review/gap/test tabs were recreated there as clean workspaces; a Migration Guide documents persistence/refresh behavior.
