@@ -1,6 +1,7 @@
 # Hobby Corner Project Changelog
 
 ## 2026-10-19 — RMS migration controlled-test fixes
+- v54: legacy product creates now preserve inventory tracking, earlier test products are repaired before reorder writes, and reorder/product test sizing both follow TEST_BATCH_SIZE without fixed helper caps.
 - Raised the default controlled product test batch to 50 and removed lingering 20-item helper defaults; setup now reports eligibility and prior-success exclusions.
 - Fixed reorder testing for newly created zero-stock products by allowing the 2026-04 reorder upsert to materialize the outlet inventory row, then verifying on-hand remains unchanged and MIN_MAX values read back correctly.
 
