@@ -1,6 +1,7 @@
 # Hobby Corner Project Changelog
 
 ## 2026-10-19 — RMS migration controlled-test fixes
+- v65: restored automatic `Other <parent>` fallback leaf routing for mappings that stop at a parent category and have no explicit level-3 target.
 - v64: repaired inventory tracking immediately after create, blocked parent-category product writes, added live supplier UUID reconciliation/near-name audit, and added pre-write SKU character validation.
 - v63: centralized migration review/test/history output tabs in the Flagged Migration workbook; removed stale operational copies from LS: importer while preserving mapping/reference authorities and durable history.
 - v60: made `Mapping` the explicit category-routing source and added a `Trains + HO Scale` regression probe after live UUID reconciliation.
