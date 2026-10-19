@@ -933,3 +933,12 @@ Known test cleanup:
 - Explicit level-3 mappings remain authoritative.
 - Fallback leaves are created and verified during category reconciliation before product payloads are built.
 - Status: implemented; runtime verification pending v65 setup.
+
+### RMS migration v66 pre-test hardening
+- Supplier disposition now routes blank/unmapped primary suppliers to the live `Other` supplier; explicit `Other` mappings are preserved.
+- Supplier and brand UUID caches are reconciled against live Lightspeed exact names before controlled writes, with near-name audits for unresolved names.
+- Earlier migration-created products recorded as failures can enter a constrained repair/read-back path; unrelated existing products remain duplicate-safe and untouched.
+- Invalid SKU characters are flagged before preview.
+- Category reconciliation now uses full-path identity, paginates the category catalog, and safely creates verified `Other <parent>` fallback leaves.
+- RMS-D&C/Mapping gained safe mappings for obvious aliases and blank-category department fallbacks. Five ambiguous category combinations (15 products) remain REVIEW-only.
+- Status: In Development / Testing. Implemented, not yet runtime verified.
