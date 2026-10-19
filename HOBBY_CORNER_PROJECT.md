@@ -927,3 +927,9 @@ Known test cleanup:
 - Supplier UUID caches are reconciled against the full live supplier catalog by exact normalized name; UUID mismatches are corrected and near-name suggestions are surfaced for review only.
 - Invalid Lightspeed SKU characters are rejected before a write.
 - Status: implemented, runtime verification pending controlled v64 test.
+
+### RMS migration v65 category fallback behavior
+- Restored legacy parent-category fallback behavior: when no explicit level-3 mapping exists and the mapped target is a parent, migration uses/creates an `Other <parent name>` leaf beneath that parent.
+- Explicit level-3 mappings remain authoritative.
+- Fallback leaves are created and verified during category reconciliation before product payloads are built.
+- Status: implemented; runtime verification pending v65 setup.
