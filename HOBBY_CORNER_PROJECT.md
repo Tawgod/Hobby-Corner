@@ -174,7 +174,7 @@ Next:
 
 Notebook audit 2026-10-16:
 - Audited the full Colab notebook, `analysis.py`, `rules.py`, `test_harness.py`, and live mapping tabs in `LS: importer`.
-- Current audited notebook version: `2026-10-19-v53`.
+- Current audited notebook version: `2026-10-19-v54`.
 - Consolidated the notebook around the ONE-CLICK setup result so later cells no longer reload/reanalyze the legacy RMS candidate sheet or rebuild stale UUID maps.
 - Product test/write size is now controlled by `TEST_BATCH_SIZE` with no separate fixed 20-product cap; reorder test cap remains separately configurable at 5.
 - The live retailer returns 404 for the 2026-10 product endpoints. Controlled product writes now translate the validated internal family model into the supported legacy `/api/2.0/products` create/read schema; image upload also uses the legacy supported endpoint.
@@ -901,3 +901,8 @@ Known test cleanup:
 ### RMS migration v53 test fixes
 - Controlled product tests now default to 50 products and no longer retain any hidden 20-item helper limit. Setup reports exactly how many products are eligible before and after prior-success exclusions.
 - Reorder tests now support newly created zero-stock products that do not yet have an outlet inventory row: reorder settings are upserted first, then the materialized inventory record is verified at unchanged zero stock with the requested MIN_MAX values.
+
+### RMS migration v54
+- Fixed legacy product creation so inventory tracking is enabled (`has_inventory=true`) and verified on read-back.
+- Reorder tests now repair inventory tracking on earlier test products before applying MIN_MAX settings.
+- Product and reorder test batch sizes both follow `TEST_BATCH_SIZE`; no fixed numeric helper caps remain.
