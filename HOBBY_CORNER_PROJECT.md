@@ -174,7 +174,7 @@ Next:
 
 Notebook audit 2026-10-16:
 - Audited the full Colab notebook, `analysis.py`, `rules.py`, `test_harness.py`, and live mapping tabs in `LS: importer`.
-- Current audited notebook version: `2026-10-16-v52`.
+- Current audited notebook version: `2026-10-19-v53`.
 - Consolidated the notebook around the ONE-CLICK setup result so later cells no longer reload/reanalyze the legacy RMS candidate sheet or rebuild stale UUID maps.
 - Product test/write size is now controlled by `TEST_BATCH_SIZE` with no separate fixed 20-product cap; reorder test cap remains separately configurable at 5.
 - The live retailer returns 404 for the 2026-10 product endpoints. Controlled product writes now translate the validated internal family model into the supported legacy `/api/2.0/products` create/read schema; image upload also uses the legacy supported endpoint.
@@ -897,3 +897,7 @@ Known test cleanup:
 - Confirmed export source-of-truth: core product fields come from the connected RMS Item database/tables, while only `RMS_WebDescription` comes from `HQcorp.dbo.nitroasl_pamtable.WebDescription`. The correct cross-database key is the store Item's `HQID` (`PAM.ItemID = I.HQID`), not local `Item.ID`; this was verified with GW48-111 (store ID 57014, HQID 57155; HQ item ID 57155).
 
 - Notebook v52 adds a preflight regression guard that refuses to proceed if GW48-111 still carries the stale Tenfold Dungeon WebDescription, proving an old pre-HQID CSV is being reused.
+
+### RMS migration v53 test fixes
+- Controlled product tests now default to 50 products and no longer retain any hidden 20-item helper limit. Setup reports exactly how many products are eligible before and after prior-success exclusions.
+- Reorder tests now support newly created zero-stock products that do not yet have an outlet inventory row: reorder settings are upserted first, then the materialized inventory record is verified at unchanged zero stock with the requested MIN_MAX values.
