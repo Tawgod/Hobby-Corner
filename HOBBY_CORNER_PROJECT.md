@@ -174,7 +174,7 @@ Next:
 
 Notebook audit 2026-10-16:
 - Audited the full Colab notebook, `analysis.py`, `rules.py`, `test_harness.py`, and live mapping tabs in `LS: importer`.
-- Current audited notebook version: `2026-10-19-v54`.
+- Current audited notebook version: `2026-10-19-v55`.
 - Consolidated the notebook around the ONE-CLICK setup result so later cells no longer reload/reanalyze the legacy RMS candidate sheet or rebuild stale UUID maps.
 - Product test/write size is now controlled by `TEST_BATCH_SIZE` with no separate fixed 20-product cap; reorder test cap remains separately configurable at 5.
 - The live retailer returns 404 for the 2026-10 product endpoints. Controlled product writes now translate the validated internal family model into the supported legacy `/api/2.0/products` create/read schema; image upload also uses the legacy supported endpoint.
@@ -906,3 +906,8 @@ Known test cleanup:
 - Fixed legacy product creation so inventory tracking is enabled (`has_inventory=true`) and verified on read-back.
 - Reorder tests now repair inventory tracking on earlier test products before applying MIN_MAX settings.
 - Product and reorder test batch sizes both follow `TEST_BATCH_SIZE`; no fixed numeric helper caps remain.
+
+### RMS migration v55 category audit
+- Migration setup now treats the live Lightspeed category hierarchy as the UUID source of truth and refreshes Cat ID after reconciliation.
+- Missing mapped leaves may be created only under an already verified parent, and only when that leaf does not already exist elsewhere in Lightspeed under another hierarchy/Level 1.
+- Alternate-path, duplicate-live-path, and missing-parent/root cases are review-only; the migration never moves or deletes existing categories.
