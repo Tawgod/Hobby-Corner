@@ -920,3 +920,10 @@ Known test cleanup:
 - LS: importer now retains migration reference authorities such as Mapping, Cat ID, RMS-D&C, supplier/brand maps, and related import/reference data.
 - Historical run summaries, product test history, failure history, and the category UUID audit were preserved in the Flagged Migration workbook.
 - Current review/gap/test tabs were recreated there as clean workspaces; a Migration Guide documents persistence/refresh behavior.
+
+### RMS migration v64 failure-prevention hardening
+- Inventory tracking is now explicitly repaired/read-back verified after controlled product creation using the legacy 2.1 common track_inventory update path.
+- Non-leaf category mappings are blocked before product writes and surfaced in Category Leaf Audit.
+- Supplier UUID caches are reconciled against the full live supplier catalog by exact normalized name; UUID mismatches are corrected and near-name suggestions are surfaced for review only.
+- Invalid Lightspeed SKU characters are rejected before a write.
+- Status: implemented, runtime verification pending controlled v64 test.
