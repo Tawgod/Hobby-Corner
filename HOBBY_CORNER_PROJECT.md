@@ -911,3 +911,6 @@ Known test cleanup:
 - Migration setup now treats the live Lightspeed category hierarchy as the UUID source of truth and refreshes Cat ID after reconciliation.
 - Missing mapped leaves may be created only under an already verified parent, and only when that leaf does not already exist elsewhere in Lightspeed under another hierarchy/Level 1.
 - Alternate-path, duplicate-live-path, and missing-parent/root cases are review-only; the migration never moves or deletes existing categories.
+
+### RMS migration v60 category mapping hardening
+- `Mapping` is explicitly authoritative for RMS Department/Category routing, with a setup regression probe for Trains + HO Scale.
