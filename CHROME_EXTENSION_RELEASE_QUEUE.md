@@ -90,6 +90,18 @@ Each entry must contain:
 - **Block/defer reason:** Do not publish or package directly from this consignment branch. First reconcile Purchase Order Companion, scanner v0.3.24 and current authoritative consolidated extension source, then test the launcher and determine permanent route. A beta-only URL may not be suitable for production extension release.
 - **Released version/commit/date:** Not released.
 
+
+### Scanner permissions — active Timeclock employees
+- **Source:** Product Scanner and shared employee login, October 20, 2026.
+- **Status:** `IN DEVELOPMENT` — tested backend change, not merged or deployed.
+- **Request:** Any employee able to authenticate with an active Timeclock PIN can review scanner products and stage preorder drafts, without waiting for Lightspeed role verification.
+- **Implementation:** `Tawgod/Lightspeed:feature/scanner-timeclock-employee-access`; Timeclock server authorization + scanner review display; PR pending.
+- **Affected:** `timeclock/server.js`, `extension/product-scanner/review.js`, scanner employee-access regression tests.
+- **Backend:** Recheck `employees.active` on every request; do not grant access to disabled staff or anonymous users. Existing actual Lightspeed product create/update routes remain disabled.
+- **Tests:** CI workflow `39454453842` passed; real PIN/browser test pending.
+- **Target:** Next coordinated extension/backend release, after queue reconciliation.
+- **Release restriction:** No merge/deployment or Chrome extension packaging performed here.
+
 ## Released / historical extension items
 
 Use this section to preserve shipped queue history when useful. Do not delete an entry just because it shipped; mark it `RELEASED` and record the version/commit/date so future chats can distinguish released work from pending work.
