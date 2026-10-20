@@ -964,3 +964,10 @@ Dependencies: Special Orders backend/product match and customer lookup, Lightspe
 Next: staff beta feedback; protected database APIs; real matching using existing local+remote lookup; verified product creation and deactivation; sale/return reconciliation and idempotent delayed credit; customer portal SSO research; label templates.
 
 Consignment customer-first beta update (2026-10-20): new standalone sample-only customer form at https://consignment-beta-test.up.railway.app/consignment/submit, with Games/Puzzles prioritized, type-specific condition descriptions, missing components, household and mechanical/Train fields, and notification-preference UI. Staff queue supports consignor-name filtering and multi-item approval simulation. The form does NOT send actual submissions to staff, create customers, or send notifications; protected shared persistence and Lightspeed/Klaviyo/Discord integrations remain pending. Tested by GitHub Actions smoke and scanner regression checks on feature branch; test-only Railway deployment.
+
+### RMS migration v67 supplier/category disposition cleanup
+- Horizon Hobby Rockets: in-stock Estes-branded products route to live supplier ESTES; other rows route to Other.
+- Removed stale Horizon Hobby Rockets supplier UUID cache entry and documented the conditional migration mapping.
+- Small known ambiguous category groups now route to General > Other or Toys > Other Toys as appropriate; future unmapped/high-volume groups remain visible for review.
+- Added a setup regression probe for the Horizon Rockets supplier rule.
+- Status: In Development / Testing; implemented, runtime verification pending.
