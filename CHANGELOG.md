@@ -1,5 +1,8 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-20 — RMS migration disposition cleanup
+- v67: conditional Horizon Hobby Rockets routing (in-stock Estes -> ESTES, otherwise Other), removed stale supplier UUID cache, and explicitly routed five low-volume ambiguous category groups to General > Other / Toys > Other Toys.
+
 ## 2026-10-19 — RMS migration controlled-test fixes
 - v66: routed blank/unmapped suppliers to live `Other`, added full supplier/brand UUID reconciliation, constrained repair of migration-created failures, pre-selection SKU validation, full-path category creation, category pagination, and mapping cleanup to five remaining ambiguous category pairs.
 - v65: restored automatic `Other <parent>` fallback leaf routing for mappings that stop at a parent category and have no explicit level-3 target.
