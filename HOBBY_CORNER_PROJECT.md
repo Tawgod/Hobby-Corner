@@ -942,3 +942,23 @@ Known test cleanup:
 - Category reconciliation now uses full-path identity, paginates the category catalog, and safely creates verified `Other <parent>` fallback leaves.
 - RMS-D&C/Mapping gained safe mappings for obvious aliases and blank-category department fallbacks. Five ambiguous category combinations (15 products) remain REVIEW-only.
 - Status: In Development / Testing. Implemented, not yet runtime verified.
+
+### Consignment Management
+Status: In Development (separate synthetic-data beta deployed; production functionality not implemented).
+Last verified: 2026-10-19.
+Purpose: replace paper Game/Puzzle/RC/used-item intake and sales/credit binders with digital, auditable lifecycle tracking tied to Lightspeed Retail X-Series.
+Repository: Tawgod/Lightspeed.
+Base: integration/hobby-corner-consolidation.
+Working branch: feature/consignment-layout-foundation.
+Draft pull request: https://github.com/Tawgod/Lightspeed/pull/11.
+Test Railway project/environment: Hobby Corner Integration Test / test.
+Test service: consignment-beta.
+Beta review URL: https://consignment-beta-test.up.railway.app/consignment.
+Implementation: browser-local synthetic review beta has staff dashboard, online and staff multi-item submissions, advisory matches, condition/price editing, aging warnings, customer portal preview, status tracking and three-day/80%-credit simulation. Special Orders navigation and development-only extension launcher included. Initial SQL schema and credit ledger are committed but not applied.
+Reuse: scanner product-match normalization, read-only matching contract, and Special Orders product creation payload contract. Product writes are disabled pending verified category UUID, accounting policy, authorization, and duplicate tests.
+Chrome coordination: launcher queued in CHROME_EXTENSION_RELEASE_QUEUE.md as IN DEVELOPMENT; no extension release/package.
+Testing: CI consignment smoke and scanner regression suites passed on initial beta. Browser usability and production integrations not yet verified.
+Deployment: isolated test only; no production Lightspeed product/credit writes and no customer records synced. Demo data stored in user's browser.
+Decisions: all used items in General > Consignment; unique used SKU for each physical copy, do not reactivate previously sold copy, reuse canonical original-new-item template instead; NEVER copy original pictures, barcode, inventory, supplier info or SKU. Default in-store only with staff opt-in for online. Staff also gets matching suggestions on online customer submissions.
+Dependencies: Special Orders backend/product match and customer lookup, Lightspeed Retail X-Series category/product/customer/sales API, confirmed Lightspeed Online authentication capabilities, Chrome extension release queue.
+Next: staff beta feedback; protected database APIs; real matching using existing local+remote lookup; verified product creation and deactivation; sale/return reconciliation and idempotent delayed credit; customer portal SSO research; label templates.
