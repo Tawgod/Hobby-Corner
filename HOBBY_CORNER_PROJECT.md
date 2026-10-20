@@ -971,3 +971,57 @@ Consignment customer-first beta update (2026-10-20): new standalone sample-only 
 - Small known ambiguous category groups now route to General > Other or Toys > Other Toys as appropriate; future unmapped/high-volume groups remain visible for review.
 - Added a setup regression probe for the Horizon Rockets supplier rule.
 - Status: In Development / Testing; implemented, runtime verification pending.
+
+### Discord preorder watch — 2026-10-20
+Status: **Testing**
+
+Purpose:
+Capture customer interest in products/preorders that are not yet orderable without prematurely creating a Lightspeed order or committed Special Order.
+
+Special Orders:
+- Added `preorder_watch_items` with statuses:
+  - `WATCHING`
+  - `AVAILABLE`
+  - `CONVERTED`
+  - `DISMISSED`
+- Watch entries store:
+  - matched local customer when Discord ID is linked
+  - Discord user/display name
+  - item/request text
+  - original message text
+  - guild/channel/message IDs
+  - Discord message URL
+  - capture mode
+  - confidence for informal detection
+  - notes and timestamps
+- Discord message/command captures are deduplicated by `source_key`.
+- Re-capturing an informal message manually upgrades its capture mode rather than creating a duplicate.
+- Added **Discord Preorder Watch** panel to `/preorders` for staff review/edit/status/notes.
+
+Discord bot development branch:
+- Branch: `Tawgod/Hobby-Corner-Discord-Bot:gw-preorder-test-publisher`
+- Informal capture watches `#gw-preorders-chat` by default.
+- Additional channel names/IDs can be configured through:
+  - `PREORDER_WATCH_CHANNEL_NAMES`
+  - `PREORDER_WATCH_CHANNEL_IDS`
+- Informal capture uses conservative preorder/future-availability wording and remains a watch item only.
+- Added customer-facing formal command:
+  - `/hc preorder_watch item:<product>`
+- Added staff Discord message context action:
+  - right-click message → Apps → **Add to Preorder Watch**
+- Staff context capture requires Timeclock staff/admin role and stores the exact source message/link.
+- Production Discord bot remains on `main`; these bot changes are **not deployed to production**.
+
+References:
+- Lightspeed backend: `b4768268e8240a202c0c75c3aa653ba755c85e2a`
+- Preorders UI: `08b5bcdc5b4e1e709da8aa6277c0ae635634cabd`
+- Capture-mode dedupe upgrade: `c61d382fbb95c90d7d2b4b985cfe589469f29c81`
+- Bot informal + slash capture: `f423a8490fb87fef308b3fb08d98014c0e1475d4`
+- Bot staff message action: `084a0f23ad1414923c476a188f25c53393f39af6`
+
+Next verification:
+- Confirm `/preorders` watch UI after Railway deployment.
+- Test the bot development branch against a test Discord channel before production bot cutover.
+- Confirm customer matching by Discord user ID.
+- Validate informal detection against real chat messages and tune false positives/negatives before production enablement.
+
