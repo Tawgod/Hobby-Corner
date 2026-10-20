@@ -78,6 +78,18 @@ Each entry must contain:
 - **Reason:** Packaging/publishing branch outdated; needs reconciliation and store submission authorization before inclusion.
 - **Target:** Later store publication after separate review.
 
+### Consignment Manager launcher
+- **Source conversation:** Consignment program development, October 19, 2026.
+- **Status:** `IN DEVELOPMENT`.
+- **Requested behavior:** A lightweight Chrome extension popup link opening the full Consignment Manager, not an embedded management application.
+- **Authoritative development branch:** `Tawgod/Lightspeed:feature/consignment-layout-foundation`; draft PR #11; popup implementation commit `420e9f717a221800e7863cfacfffbdbb26a841a7`.
+- **Affected extension file:** `extension/popup.html` only; no new host permissions or background activity.
+- **Backend dependency:** Accessible, validated /consignment management route (beta: separate Hobby Corner Integration Test Railway project). Product matching, customer identity and Lightspeed product/credit writes not available in beta.
+- **Test status:** UI smoke/browser test not yet recorded. Existing extension release v0.3.24 test packaging must be reconciled before shipping.
+- **Target release:** Next compatible extension release after review and test approval.
+- **Block/defer reason:** Do not publish or package directly from this consignment branch. First reconcile Purchase Order Companion, scanner v0.3.24 and current authoritative consolidated extension source, then test the launcher and determine permanent route. A beta-only URL may not be suitable for production extension release.
+- **Released version/commit/date:** Not released.
+
 ## Released / historical extension items
 
 Use this section to preserve shipped queue history when useful. Do not delete an entry just because it shipped; mark it `RELEASED` and record the version/commit/date so future chats can distinguish released work from pending work.
