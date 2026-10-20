@@ -699,3 +699,22 @@ No Lightspeed product records were created or updated in this test. The existing
 - Added visible aging legend.
 - Reference: `Tawgod/Lightspeed@96ca09dfbf0876b0e96e744dbcca32089b8da53d`.
 
+## 2026-10-20 — Discord preorder watch
+
+- Added a separate preorder watch queue for customer interest before products become orderable.
+- Added WATCHING / AVAILABLE / CONVERTED / DISMISSED lifecycle.
+- Stores original Discord message/link, customer identity when matched, item text, capture mode, confidence, notes, and timestamps.
+- Added Discord Preorder Watch panel to the dedicated Preorder page.
+- Added bot development support for:
+  - conservative informal preorder-intent capture in configured chat channels,
+  - `/hc preorder_watch` formal customer capture,
+  - staff message context action **Add to Preorder Watch**.
+- Duplicate captures from the same Discord message are deduplicated and manual staff capture can upgrade an informal capture.
+- Production Discord bot remains unchanged on `main`.
+- References:
+  - `Tawgod/Lightspeed@b4768268e8240a202c0c75c3aa653ba755c85e2a`
+  - `Tawgod/Lightspeed@08b5bcdc5b4e1e709da8aa6277c0ae635634cabd`
+  - `Tawgod/Lightspeed@c61d382fbb95c90d7d2b4b985cfe589469f29c81`
+  - `Tawgod/Hobby-Corner-Discord-Bot@f423a8490fb87fef308b3fb08d98014c0e1475d4`
+  - `Tawgod/Hobby-Corner-Discord-Bot@084a0f23ad1414923c476a188f25c53393f39af6`
+
