@@ -718,3 +718,9 @@ No Lightspeed product records were created or updated in this test. The existing
   - `Tawgod/Hobby-Corner-Discord-Bot@f423a8490fb87fef308b3fb08d98014c0e1475d4`
   - `Tawgod/Hobby-Corner-Discord-Bot@084a0f23ad1414923c476a188f25c53393f39af6`
 
+
+
+## 2026-10-22 — Railway variable consolidation/security audit
+- Completed read-only audit of Hobby Corner production Railway services and `consignment-beta` test service.
+- Added `RAILWAY_VARIABLE_SECURITY_AUDIT.md` with variable inventory, proposed shared/reference topology, code changes, migration/rotation plan, test order, and residual risks.
+- No Railway configuration, deployments, secrets, or databases were changed.
