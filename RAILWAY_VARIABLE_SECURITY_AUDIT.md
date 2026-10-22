@@ -408,3 +408,33 @@ Acceptance checks:
 - Legacy/history sources may contain credentials even though the current deployed source scan found no hardcoded production secret literals.
 - Previously documented legacy preorder-sheet secret exposure should be re-verified and included in incident credential rotation if still applicable.
 - `migration-test-bsi117` retains direct Lightspeed credentials despite being a test/migration utility; retire or restrict it when no longer required.
+
+
+## Implementation phase started — 2026-10-22
+
+**Status:** Configuration references written; controlled activation in progress.
+
+Applied without exposing secret values:
+- Added production Shared Variables:
+  - `HC_LIGHTSPEED_DOMAIN`
+  - `HC_LIGHTSPEED_TOKEN`
+  - `HC_TIMECLOCK_ADMIN_SECRET`
+  - `HC_SCANNER_SERVICE_SECRET`
+  - `HC_CUSTOMER_REWARDS_ADMIN_KEY`
+- These shared variables currently reference the pre-existing canonical service copies. This avoids copying redacted secret values and provides a safe bridge to later sealed shared values during rotation.
+- Repointed `DATABASE_URL` on `lightspeed-api`, `special-orders-test`, `timeclock`, and `Hobby-Corner-Rewards` to `${{Postgres.DATABASE_URL}}`.
+- Repointed Lightspeed domain/token on `special-orders-test`, `timeclock`, and `migration-test-bsi117` to the new shared references. `lightspeed-api` remains the temporary canonical holder until credential rotation.
+- Repointed Discord bot `TIMECLOCK_ADMIN_SECRET` to `${{shared.HC_TIMECLOCK_ADMIN_SECRET}}`.
+- Repointed Discord bot `CUSTOMER_SYNC_ADMIN_KEY` to `${{shared.HC_CUSTOMER_REWARDS_ADMIN_KEY}}`.
+- Repointed Special Orders `SCANNER_SERVICE_SECRET` to `${{shared.HC_SCANNER_SERVICE_SECRET}}`.
+- Repointed internal server-to-server URLs:
+  - Discord bot Timeclock URL -> Railway private Timeclock domain
+  - Discord bot customer-sync URL -> Railway private Rewards domain
+  - Special Orders scanner Timeclock origin -> Railway private Timeclock domain
+
+No external credential was rotated/revoked, Discord token was not consolidated, Graph/Google credentials were not changed, and the Timeclock PIN pepper was not changed.
+
+Activation:
+- Timeclock redeploy requested first.
+- Railway currently reports that replacement deployment as `QUEUED`; the prior healthy Timeclock deployment remains serving.
+- Do not activate additional services until Timeclock reaches terminal SUCCESS and the final shared topology is redeployed/verified.
