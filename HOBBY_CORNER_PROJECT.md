@@ -1025,3 +1025,12 @@ Next verification:
 - Confirm customer matching by Discord user ID.
 - Validate informal detection against real chat messages and tune false positives/negatives before production enablement.
 
+
+
+## Railway variable consolidation/security audit — 2026-10-22
+- Read-only audit completed; no Railway variables, deployments, credentials, or databases were changed.
+- Detailed proposal: `RAILWAY_VARIABLE_SECURITY_AUDIT.md`.
+- Production currently has no environment-level shared variables and no sealed application variables.
+- Main consolidation candidates: Lightspeed account credential (pending identity/scope verification), Timeclock admin secret, scanner service secret, customer-sync/Rewards admin key, Discord token only if both consumers are verified to use the same bot identity, and Postgres connection references.
+- Test `consignment-beta` remains isolated with no production business credentials.
+- Explicit approval is required before applying Railway changes or rotating credentials.
