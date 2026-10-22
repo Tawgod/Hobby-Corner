@@ -724,3 +724,11 @@ No Lightspeed product records were created or updated in this test. The existing
 - Completed read-only audit of Hobby Corner production Railway services and `consignment-beta` test service.
 - Added `RAILWAY_VARIABLE_SECURITY_AUDIT.md` with variable inventory, proposed shared/reference topology, code changes, migration/rotation plan, test order, and residual risks.
 - No Railway configuration, deployments, secrets, or databases were changed.
+
+
+## 2026-10-22 — Railway variable consolidation implementation started
+- Created production Shared Variable references for Lightspeed, Timeclock admin, scanner service, and customer/Rewards authentication.
+- Converted four application `DATABASE_URL` variables to `${{Postgres.DATABASE_URL}}`.
+- Converted internal Discord/Timeclock/Rewards and scanner/Timeclock endpoints to Railway private-network references.
+- No credential values were exposed or rotated.
+- Controlled activation began with Timeclock; new deployment remained queued at last verification while the previous healthy deployment continued serving.
