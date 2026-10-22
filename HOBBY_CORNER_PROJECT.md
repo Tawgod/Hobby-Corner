@@ -1034,3 +1034,12 @@ Next verification:
 - Main consolidation candidates: Lightspeed account credential (pending identity/scope verification), Timeclock admin secret, scanner service secret, customer-sync/Rewards admin key, Discord token only if both consumers are verified to use the same bot identity, and Postgres connection references.
 - Test `consignment-beta` remains isolated with no production business credentials.
 - Explicit approval is required before applying Railway changes or rotating credentials.
+
+
+### Railway variable consolidation implementation — 2026-10-22
+- Production Shared Variable layer created for Lightspeed, Timeclock admin, scanner service, and customer/Rewards trust relationships.
+- Database consumers now reference the managed Postgres service.
+- Internal Timeclock/customer-sync/scanner service calls have been switched to Railway private-domain references in configuration.
+- Secret values were not read or copied; shared variables currently bridge to existing canonical service values.
+- Controlled activation started with Timeclock only. Replacement deployment is currently queued; existing healthy service remains live.
+- Discord, Microsoft Graph, Google, and credential rotation remain intentionally unchanged pending verification.
