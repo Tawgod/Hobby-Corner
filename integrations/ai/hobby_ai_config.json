@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "service": "hobby-corner-ai",
+  "gateway": {
+    "base_url_env": "HOBBY_AI_GATEWAY_URL",
+    "service_token_env": "HOBBY_AI_SERVICE_TOKEN",
+    "timeout_seconds": 20,
+    "default_mode": "suggest_only",
+    "provider_api_keys": "server_side_only"
+  },
+  "consumers": {
+    "hobby_bot": {
+      "allowed_capabilities": ["task.extract", "task.summarize", "task.suggest", "knowledge.answer"],
+      "allowed_scopes": ["professional"],
+      "staff_actions_require_server_side_authorization": true,
+      "writes_require_explicit_user_action": true
+    },
+    "notes_tasks": {
+      "allowed_capabilities": ["task.extract", "task.summarize", "task.suggest", "knowledge.answer"],
+      "allowed_scopes": ["personal", "professional"],
+      "personal_scope_requires_owner_identity": true,
+      "writes_require_explicit_user_action": true
+    }
+  },
+  "data_rules": {
+    "never_expose_personal_notes_to_discord": true,
+    "least_privilege_context": true,
+    "never_send_credentials_to_model": true,
+    "audit_all_mutations": true,
+    "deny_unknown_capabilities": true,
+    "deny_unknown_consumers": true
+  },
+  "limits": {
+    "max_user_input_characters": 6000,
+    "max_output_tokens": 700,
+    "consumer_daily_request_cap": 200
+  }
+}
