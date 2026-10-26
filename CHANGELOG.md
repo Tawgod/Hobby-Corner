@@ -732,3 +732,10 @@ No Lightspeed product records were created or updated in this test. The existing
 - Converted internal Discord/Timeclock/Rewards and scanner/Timeclock endpoints to Railway private-network references.
 - No credential values were exposed or rotated.
 - Controlled activation began with Timeclock; new deployment remained queued at last verification while the previous healthy deployment continued serving.
+
+
+## 2026-10-26 — Shared addon UI/UX coordination planned
+- Added a planned cross-project UI/UX workstream for employee-facing Hobby Corner tools.
+- Scope is interface consistency only: visual language, controls, terminology, navigation, interaction patterns, and reusable components.
+- Underlying service/business logic remains owned by each feature area.
+- Future frontend changes should coordinate through this shared UI/UX workstream to avoid conflicting interface patterns.
