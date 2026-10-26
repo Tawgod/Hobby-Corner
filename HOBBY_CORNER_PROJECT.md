@@ -1043,3 +1043,27 @@ Next verification:
 - Secret values were not read or copied; shared variables currently bridge to existing canonical service values.
 - Controlled activation started with Timeclock only. Replacement deployment is currently queued; existing healthy service remains live.
 - Discord, Microsoft Graph, Google, and credential rotation remain intentionally unchanged pending verification.
+
+## Shared Addon UI / UX Coordination — Planned
+
+**Status:** Planned
+
+Add a dedicated future UI/UX coordination workstream for Hobby Corner tools and addons.
+
+Purpose:
+- Coordinate the visual language and interaction patterns across Hobby Corner interfaces.
+- Make Chrome-extension features, popups, side panels, admin tools, scanner/review screens, Timeclock surfaces, Special Orders tools, Purchase Order Companion, Product Manager, Consignment, and other employee-facing interfaces feel like one coherent system.
+- Keep this work focused on **look, layout, controls, terminology, navigation, interaction behavior, and consistency** rather than changing the underlying service architecture or business logic.
+
+Planned deliverables:
+- Shared design system for colors, typography, spacing, buttons, forms, warnings, status badges, tables, dialogs, side panels, and popups.
+- Common interaction patterns for save/cancel, approval, confirmations, errors, loading states, search/filtering, keyboard/scanner workflows, and employee permissions.
+- Consistent terminology and status language across tools.
+- Reusable UI components where practical.
+- Accessibility/readability standards for store employees.
+- A central UI/UX discussion/development channel to coordinate cross-addon interface decisions before major frontend changes.
+- Migration plan to bring existing tools into the shared visual/interaction system incrementally without disrupting working features.
+
+Guideline:
+- Individual feature chats remain responsible for their service/business logic.
+- Cross-cutting UI changes should be coordinated through the shared UI/UX workstream so one addon does not independently establish conflicting interface patterns.
