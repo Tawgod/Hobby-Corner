@@ -1180,3 +1180,41 @@ Remaining employee acceptance:
 
 No Chrome extension release was prepared in this pass, so the Chrome extension release queue was not modified.
 
+#### Messenger / WhatsApp notification destinations — 2026-10-27
+Status: **Testing**
+
+Added Facebook Messenger and WhatsApp as potential customer-notification destinations alongside Discord, email, and SMS.
+
+Customer records now support:
+- `facebook_messenger_id`
+- `whatsapp_number`
+
+Special Orders customer UI:
+- New-customer form can record Messenger and WhatsApp contact information.
+- Existing-customer Update Customer modal can edit both fields.
+- Customer summary/search indicates when Messenger/WhatsApp contact data is present.
+- These fields are Special Orders/local notification data and are not written to Lightspeed by the contact-sync option.
+
+Notification Review:
+- Employee approval now shows a destination selector using only contact methods actually available for that customer.
+- Default priority is:
+  1. Discord
+  2. Facebook Messenger
+  3. WhatsApp
+  4. Email
+  5. SMS
+- Employee can choose any available destination instead of relying on the default.
+- Added queue channels:
+  - `MESSENGER_READY`
+  - `WHATSAPP_READY`
+- Both are visible in the Approved Delivery Queue.
+
+Delivery status:
+- Discord delivery worker remains implemented/test-only on the Discord bot development branch.
+- Messenger and WhatsApp are **queue destinations only** right now; no Meta Messenger/WhatsApp production sender has been configured or enabled.
+- Email/SMS likewise remain queued pending their delivery integrations.
+
+References:
+- `Tawgod/Lightspeed@f9cb4d9c2d7407df6c27e89db2b16523dc15a933`
+- `Tawgod/Lightspeed@b4dc4f4b4c4f63e29713b96c2efb909dcebb7a41`
+
