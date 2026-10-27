@@ -1278,3 +1278,11 @@ Consignment shared UI milestone (2026-10-27): adopted exact shared UI stylesheet
 - **Services affected:** `timeclock` and `special-orders-test`, in Railway project `f7e91de7-43f6-472e-b4ca-46b0623f8e0e`, production environment. Lightspeed API token, employee PINs, linked user IDs and product write flags unchanged.
 - **Next required authorization:** User to explicitly approve applying the staged Railway variable updates (this redeploys both services). Then confirm fresh Special Orders startup shows `[scanner] authenticated read-only gateway enabled`, confirm PIN sign-in and inactive employee rejection from actual Chrome extension, and verify no production product writes.
 - **Known constraints:** Browser acceptance and isolated test-tenant creation still pending. No Chrome extension package/version changed by this repair.
+
+## Scanner shared-secret production repair verified — 2026-10-27
+- **Status:** `Testing` — production configuration **deployed and scanner gateway startup verified**, real employee PIN/browser acceptance still pending.
+- **Authorized action:** User explicitly approved the two staged Railway `SCANNER_SERVICE_SECRET` variable changes on `timeclock` and `special-orders-test`. Railway production patch committed successfully; no pending patch remains.
+- **Deployments:** Timeclock `2a372fdb-d1f2-4a34-a31d-0b46e27d1eb4` SUCCESS; Special Orders `fdf05275-8a03-4ab5-9fb8-bd7962b8a8a5` SUCCESS, both at consolidated `61016a92971bceead57f07f1a09aa47461d1d343`. No application-source changes or Lightspeed write authorization changed.
+- **Runtime evidence:** Timeclock startup: `Timeclock listening on port 8080`. New Special Orders startup: `[scanner] authenticated read-only gateway enabled` and `Server listening on port 8080`. Earlier missing-secret gateway-disabled startup issue resolved.
+- **Not yet verified:** Correct Timeclock PIN success/failure response from the employee browser; scanner UI loading suppliers and matched product data; real isolated test-store create still requires separate tenant configuration.
+- **Next action:** Test v0.3.25 unpacked beta from approved GitHub Actions artifact with active Timeclock employee PIN. Validate disabled employee and expired session behavior without sharing PINs. Report any status/error to scanner development; keep production product creation blocked.
