@@ -789,3 +789,10 @@ No Lightspeed product records were created or updated in this test. The existing
   - `Tawgod/Lightspeed@f9cb4d9c2d7407df6c27e89db2b16523dc15a933`
   - `Tawgod/Lightspeed@b4dc4f4b4c4f63e29713b96c2efb909dcebb7a41`
 
+## 2026-10-27 — Scanner integrated beta and shaded Hobby Corner UI
+- Merged Lightspeed PR #14 duplicate fail-closed validation and PR #17 scanner integrated beta into `integration/hobby-corner-consolidation` at `61016a92971bceead57f07f1a09aa47461d1d343`.
+- New backend scanner proposal inbox and active Timeclock employee review permissions; sandbox-only opt-in product creation route with explicit confirmation, server-side duplicate recheck and one-attempt audit. Production product writes remain disabled.
+- Adopted the approved shaded navy/blue branded Scanner and Chrome toolbar popup UI; preserved existing scanner, preorder, and Lightspeed tools.
+- GitHub Actions regression passed; unpacked v0.3.25 beta artifact built in [run 40549569151](https://github.com/Tawgod/Lightspeed/actions/runs/40549569151). No Chrome Web Store release.
+- Railway three-service deployments succeeded at `61016a9`, but the scanner gateway log indicated missing/empty `SCANNER_SERVICE_SECRET` at runtime. Browser/PIN acceptance blocked until secure Railway secret repair. No test tenant credentials were configured; test product creation remains off.
+- Shared Chrome release queue reconciled; PO/Consignment and shared UI foundation draft items carried forward.
