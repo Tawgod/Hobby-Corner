@@ -1271,3 +1271,10 @@ Consignment shared UI milestone (2026-10-27): adopted exact shared UI stylesheet
 - **New core-ops UI branch:** `Tawgod/Lightspeed:feature/core-ops-shared-ui-20261027`, draft PR #21. Applies shared PR #16 stylesheet + compatibility adapter to Special Orders, Ordering, Preorders and GW Preorders without changing IDs, handlers, APIs or business logic.
 - **New extension-launcher UI branch:** `Tawgod/Lightspeed:feature/extension-launchers-shared-ui-20261027`, draft PR #22. Aligns Timeclock and Split / Recall injected UI with approved navy/blue/shaded design; Chrome release not prepared.
 - **Remaining:** browser/keyboard/zoom acceptance across all updated surfaces; reconcile PR #16 component version before merge; no production deployment or extension publication from PR #21/#22 yet.
+
+## Scanner Timeclock authentication repair staged — 2026-10-27
+- **Status:** `Testing / Blocked pending deployment approval`. Railway production logs confirmed scanner gateway disabled at startup: `SCANNER_SERVICE_SECRET` missing/empty, despite both `timeclock` and `special-orders-test` showing the name.
+- **Action completed:** Generated a new long random scanner-only service secret and staged the same value on both Railway services. Values not stored in project docs, the extension, or GitHub. Production environment patch contains **2 non-destructive variable updates**, and has **not been deployed**.
+- **Services affected:** `timeclock` and `special-orders-test`, in Railway project `f7e91de7-43f6-472e-b4ca-46b0623f8e0e`, production environment. Lightspeed API token, employee PINs, linked user IDs and product write flags unchanged.
+- **Next required authorization:** User to explicitly approve applying the staged Railway variable updates (this redeploys both services). Then confirm fresh Special Orders startup shows `[scanner] authenticated read-only gateway enabled`, confirm PIN sign-in and inactive employee rejection from actual Chrome extension, and verify no production product writes.
+- **Known constraints:** Browser acceptance and isolated test-tenant creation still pending. No Chrome extension package/version changed by this repair.
