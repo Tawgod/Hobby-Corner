@@ -133,6 +133,19 @@ Each entry must contain:
 - **Defer reason:** Approval-to-Lightspeed writes, idempotent write recovery and reviewer privilege policy are not implemented. No Chrome ZIP/version change permitted yet.
 - **Released version/commit/date:** Not released.
 
+### Shared Addon UI / UX — beta Chrome adoption
+- **Feature/system:** Shared Addon UI / UX Coordination.
+- **Source conversation:** Shared Addon UI / UX Coordination, October 27, 2026.
+- **Status:** `QUEUED` — shared kit implemented in an isolated feature branch, but **no extension screen has adopted it yet**.
+- **Requested behavior:** Use the owner-approved navy/blue design, shaded panels, original orange/blue Hobby Corner logos, consistent status/approval patterns and exact copy/paste handling across Chrome popup, Product Scanner and later PO Companion/Consignment launchers.
+- **Authoritative base:** `Tawgod/Lightspeed:integration/hobby-corner-consolidation`; foundation branch `feature/shared-addon-ui-beta-foundation-20261027`, draft PR [#16](https://github.com/Tawgod/Lightspeed/pull/16).
+- **Extension files/components affected now:** None. Future integration may update `extension/popup.html`, `extension/popup.css`, `extension/product-scanner/review.html`, `extension/product-scanner/review.css`, and extension-owned shared asset copies after branch reconciliation.
+- **Backend dependencies:** None for CSS/branding; do not alter any product/order/permission backend semantics.
+- **Tests:** UI foundation tests and CI workflow added; Chrome browser/role/scanner/keyboard acceptance pending. Any feature-level browser test must be performed after adopting the CSS.
+- **Target release:** Next compatible release **after** coordinated merging/testing. No extension version bump, ZIP, distribution change, or Chrome Web Store submission now.
+- **Block/defer reason:** Shared design source alone is not extension-integrated or release-tested; active PRs #11–#15 can change target screens. Reconcile those PRs and the full queue before importing styling. Do not replace popup/scanner HTML wholesale.
+- **Released version/commit/date:** None.
+
 ## Released / historical extension items
 
 Use this section to preserve shipped queue history when useful. Do not delete an entry just because it shipped; mark it `RELEASED` and record the version/commit/date so future chats can distinguish released work from pending work.
