@@ -72,3 +72,26 @@ The shared concept illustrates one navigation system, a spacious task dashboard,
 
 ### Cross-team adoption contract
 Each feature chat should consult this file before introducing new employee-facing UI. Identify and reuse its shared patterns where technically feasible, preserve business logic/permissions, explain any justified deviations, test keyboard and error behavior, and record implementation/test/deployed states separately. UI coordination owns style and interaction consistency; individual feature owners own action semantics and release validation.
+
+## Beta visual direction approved — 2026-10-27
+
+Decision from store owner: **Adopt the proposed blue/navy UI direction for beta**, reducing stark white and improving visual separation of adjacent windows and sections. User-supplied orange/blue Hobby Corner logos are approved design references for beta interfaces. This decision supersedes the earlier tentative teal-vs-blue palette question **for beta visual work only**; production rollout requires separately verified tests and release approval.
+
+### Beta appearance specification
+- Deep navy main header and sidebar, blue primary actions, orange brand accents (use orange sparingly for logo, highlights and suitable non-status embellishment; warnings must remain semantically distinct).
+- Cool gray/slate page background (`#e5edf4` candidate), shaded cards/panels (`#f6f9fc` or pale gray-blue candidate), slightly darker section headers; narrow borders and subtle shadows separate cards. Avoid contiguous pure-white panels blending into one region.
+- Consistent 12–16px inner spacing and 12–20px inter-panel gaps; visible grouping with clear headings. Keep large white text-entry regions where needed for readability.
+- Distinguish **page background**, **workspace/card**, **nested group**, **selected tab** and **overlay/drawer** by elevation/shading rather than gratuitous saturated colors. Ensure dense grids and nested panels still read cleanly at zoomed widths.
+- Preserve semantic badges with non-color text labels and WCAG 2.2 AA contrast targets. Focus rings must remain visible on dark and light surfaces. Never sacrifice contrast to add shading.
+- The three supplied source designs comprise an orange circular icon and orange-circle/blue-wordmark full logos (including a BMP/JPEG duplicate). Prefer horizontal full logo in wide app header, orange symbol in compact popup/favicon-style spaces, and a restrained lockup in narrower sidebars. Preserve logo proportions and colors; do not stretch, redraw, add gradients or replace with generated approximations in production assets.
+- UI concept from the October 27 beta preview is **illustrative only**: sample customer identities, data, quantities, statuses, system health and version strings are placeholders, not production facts. Do not hardcode them.
+- Copy/paste fidelity rules from this file continue unchanged. In particular preserve source formatting and IDs during paste; keep rich-text editing scoped to safe, sanitized display fields.
+- **Rollout:** Beta visual components and tokens may be developed in an isolated branch/test page. The existing extension release queue still governs Chrome code and releases. No production system, extension release, or Lightspeed business function is approved for modification by this decision.
+
+### Beta validation checklist
+1. Side-by-side panel/card contrast at 100%, 125% and 200% browser zoom.
+2. Full logo, icon-only logo, long navigation titles and narrow viewport layout.
+3. Dark sidebar/header focus states and screen-reader text.
+4. Existing light/dark Lightspeed host pages: extension CSS must not leak or collide.
+5. Error, success, pending and destructive patterns readable without color.
+6. Paste rich-text/plain-text, multiline descriptions, leading-zero UPC/SKU strings, and clipboard copy output.
