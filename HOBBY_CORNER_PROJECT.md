@@ -1218,3 +1218,11 @@ References:
 - `Tawgod/Lightspeed@f9cb4d9c2d7407df6c27e89db2b16523dc15a933`
 - `Tawgod/Lightspeed@b4dc4f4b4c4f63e29713b96c2efb909dcebb7a41`
 
+## Product Scanner phase 2 — persistent new-product review inbox (2026-10-27)
+- **Status:** In Development. **Implemented in branch:** yes. **Automated testing:** PASS (`40539225636`). **Browser testing:** NOT DONE. **Deployed:** NO.
+- **Repository/branch:** `Tawgod/Lightspeed:feature/scanner-review-queue-foundation-20261027`. **PR:** https://github.com/Tawgod/Lightspeed/pull/15. Base: `integration/hobby-corner-consolidation`.
+- **What's changed:** Introduced an isolated scanner new-product proposal inbox backed by `scanner_product_review_proposals`, capturing supplier, SKU/UPC fields, source URL, submitting employee and time with status `PENDING_REVIEW`. Added scanner submit/view UI and authenticated list/detail/submit routes. On submit, server rechecks local and remote product matching and refuses known duplicates. Duplicate proposal requests are rejected via supplier/item uniqueness. No Lightspeed product creation/update, live preorder publication, Discord or approval endpoint was added.
+- **Dependency:** Current consolidated remote matcher can ignore failed searches; **PR #14 must be reconciled/merged before deploying PR #15**, and both endpoints must be tested together. PR #12's active Timeclock employee basic scanner access is a separate permissions decision; do not conflate with final product-write approval.
+- **Shared extension coordination:** Queue updated for PR #15. PO Companion PR #13 and Consignment PR #11 remain separate. No extension packaging, release version bump, production Railway deployment or Chrome Web Store publication was performed.
+- **Next action:** Browser/employee acceptance after isolated deployment approval; implement dedicated reviewer decision UI and final-write authorization with server-side duplicate checks, audit/idempotency and partial failure recovery, then seek separate permission to enable any Lightspeed writes.
+- **Developer documentation:** `docs/scanner-product-approval-phase-20261027.md` on PR #15 branch.
