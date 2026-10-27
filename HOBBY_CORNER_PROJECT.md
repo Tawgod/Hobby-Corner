@@ -1226,3 +1226,12 @@ References:
 - **Shared extension coordination:** Queue updated for PR #15. PO Companion PR #13 and Consignment PR #11 remain separate. No extension packaging, release version bump, production Railway deployment or Chrome Web Store publication was performed.
 - **Next action:** Browser/employee acceptance after isolated deployment approval; implement dedicated reviewer decision UI and final-write authorization with server-side duplicate checks, audit/idempotency and partial failure recovery, then seek separate permission to enable any Lightspeed writes.
 - **Developer documentation:** `docs/scanner-product-approval-phase-20261027.md` on PR #15 branch.
+
+## Shared Addon UI / UX — beta foundation implementation (2026-10-27)
+- **Status:** In Development. **Foundation implemented:** YES, in isolated branch only. **Automated tests:** CI workflow created; result pending verification. **Browser/employee testing:** NOT DONE. **Deployed:** NO.
+- **Repository/branch:** `Tawgod/Lightspeed:feature/shared-addon-ui-beta-foundation-20261027`; draft PR [#16](https://github.com/Tawgod/Lightspeed/pull/16) against `integration/hobby-corner-consolidation`.
+- **Implementation:** `shared-ui/hc.css` namespaced navy/blue/shaded panel tokens, reusable forms/buttons/tables/badges/dialogs, responsive/focus styles; `shared-ui/showcase.html` interactive demonstration with sample-only data; `shared-ui/clipboard.mjs` exact-text and sanitized rich clipboard helper; two optimized assets derived from owner-supplied Hobby Corner logos; adoption guide, tests, CI and changelog.
+- **UI surface changed in production:** None. No existing Chrome extension/Scanner/Special Orders/Ordering/Timeclock UI modified. No production code merge, Railway deploy, extension version bump or package.
+- **Dependencies:** Existing extension queue and open PRs #11 (Consignment), #12 (Timeclock scanner access), #13 (PO Companion), #14 (scanner duplicate safety), #15 (scanner review inbox). Future feature UI changes must selectively adopt kit without resetting outstanding behavior.
+- **Next:** Verify CI, test browser/keyboard/zoom, accept draft PR, pilot popup/scanner in separate reconciled branches; stage extension changes in the shared release queue before shipping.
+- **Owner decision:** Navy/blue beta with cool gray-blue shaded panel separation, original store branding, restrained density, keyboard accessibility and source-faithful copying.
