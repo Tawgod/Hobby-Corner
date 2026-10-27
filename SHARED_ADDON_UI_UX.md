@@ -131,3 +131,17 @@ Current implementation coverage:
 - Timeclock launcher/overlay and Split / Recall injected UI: shared UI implementation started in PR #22.
 
 No tool should be considered fully accepted solely because shared styling exists. Each surface still requires its own browser, keyboard, zoom, error/empty-state and workflow validation before merge/deployment. Extension-related surfaces additionally require release-queue reconciliation before packaging.
+
+## Cross-tool navigation consistency audit — 2026-10-27
+
+**User screenshots:** Special Orders, GW Preorders, Ordering and Consignment. Consignment is the current visual benchmark. The first three core tools share a partial shaded beta CSS adaptation but retain inconsistent hardcoded navigation; original full Hobby Corner branding is still absent on these three. In the screenshots, some controls are disabled because the access key has not been accepted: this does not itself prove broken UI logic.
+
+**Source-verified cause:** `special-orders.html`, `ordering.html`, `preorders.html`, and `gw-preorders.html` each carry a different manually authored header. The shared stylesheet cannot supply missing links on its own.
+
+**Corrective UI PR:** [Tawgod/Lightspeed#23](https://github.com/Tawgod/Lightspeed/pull/23), branch `feature/core-ops-shared-navigation-20261027`, based on `integration/hobby-corner-consolidation`. Draft only; fixes all four navigation bars consistently (Special Orders, Ordering, Preorder Campaigns, GW Preorders, clearly labeled Consignment Beta, Lightspeed Toolkit), accessible active-page state, responsive wrapping and regression tests. No backend or employee forms altered. **Not merged / not deployed.**
+
+**Universal next-step requirement:** All employee-facing tools should use a shared navigation contract (single authoritative registry of stable destinations, current-page highlighting, consistent labels and permissions) rather than independent hardcoded toolbars. Include the original approved store wordmark in the header where a verified static asset route is available. The goal is Consignment's branding and panel hierarchy, not superficial stylesheet inclusion.
+
+**Pending navigation destinations:** Timeclock, Product Scanner, Product Manager, PO Companion, Split/Recall and Consignment production launch must be validated against actual deployed routes and authentication before adding links. Do not invent routes or advertise test-only tools as production. Respect Chrome extension queue for launcher changes.
+
+**Acceptance:** From each page, verify all valid approved links are visible or reachable from a responsive More menu, current page is indicated, external tools are labeled, keyboard navigation and browser zoom pass, and normal business functionality remains unchanged. Test without a valid access key and with an authorized session.
