@@ -47,6 +47,7 @@ Each entry must contain:
 ## Current queue
 
 ### Purchase Order Companion
+- **UI alignment update (2026-10-27):** Consolidated PR #13 branch received shaded teal/slate panel and separate review-window styling, stronger sectional hierarchy, accessible focus states and live status announcements. Commits `d99405da`, `0c15bbfe`, `0b23046f`. Implementation remains UI-only, not browser-tested or release-ready; no manifest version bump/package/deployment.
 - **Source conversation:** Purchase Order Companion
 - **Status:** `IN DEVELOPMENT`
 - **Current reconciled development branch:** `Tawgod/Lightspeed:feature/po-companion-consolidated-v2`, draft PR [#13](https://github.com/Tawgod/Lightspeed/pull/13) (created from the current consolidated branch 2026-10-27; selective UI port, not an old-branch merge).
