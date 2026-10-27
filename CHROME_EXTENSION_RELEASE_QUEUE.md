@@ -47,6 +47,7 @@ Each entry must contain:
 ## Current queue
 
 ### Purchase Order Companion
+- **Shared UI integration (2026-10-27):** Draft PR #13 `feature/po-companion-consolidated-v2` now includes version-locked `extension/shared-ui/hc.css`, shared clipboard helper, original icon/wordmark from draft shared foundation PR #16, shared hc-ui component classes in supplier panel and review window. Feature-local sizing remains. Latest implementation documentation commit `b75ecf02`. JS parse smoke checks passed (panel/background/review); browser/zoom/keyboard/copy/auth tests pending. **IN DEVELOPMENT**; do not release until PR #16 compatibility, pending queue entries, supplier PO API, employee permissions and real browser testing reconcile. No version bump, package, merge, Railway deployment or Lightspeed write.
 - **UI alignment update (2026-10-27):** Consolidated PR #13 branch received shaded teal/slate panel and separate review-window styling, stronger sectional hierarchy, accessible focus states and live status announcements. Commits `d99405da`, `0c15bbfe`, `0b23046f`. Implementation remains UI-only, not browser-tested or release-ready; no manifest version bump/package/deployment.
 - **Source conversation:** Purchase Order Companion
 - **Status:** `IN DEVELOPMENT`
