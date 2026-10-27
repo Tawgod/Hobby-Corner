@@ -1286,3 +1286,44 @@ Consignment shared UI milestone (2026-10-27): adopted exact shared UI stylesheet
 - **Runtime evidence:** Timeclock startup: `Timeclock listening on port 8080`. New Special Orders startup: `[scanner] authenticated read-only gateway enabled` and `Server listening on port 8080`. Earlier missing-secret gateway-disabled startup issue resolved.
 - **Not yet verified:** Correct Timeclock PIN success/failure response from the employee browser; scanner UI loading suppliers and matched product data; real isolated test-store create still requires separate tenant configuration.
 - **Next action:** Test v0.3.25 unpacked beta from approved GitHub Actions artifact with active Timeclock employee PIN. Validate disabled employee and expired session behavior without sharing PINs. Report any status/error to scanner development; keep production product creation blocked.
+
+### Shared UI adoption — Special Orders core operations — 2026-10-27
+Status: **Testing**
+
+Special Orders family pages now adopt the approved Hobby Corner Shared Addon UI / UX beta foundation on the authoritative consolidated branch.
+
+Updated surfaces:
+- `/special-orders`
+- `/ordering`
+- `/preorders`
+- `/gw-preorders`
+
+Implementation approach:
+- Reused `shared-ui/hc.css` from `feature/shared-addon-ui-beta-foundation-20261027`.
+- Reused/adapted `shared-ui/core-ops-compat.css` from the coordinated core-ops UI branch / PR #21 work.
+- Added explicit server routes for the shared stylesheets.
+- Scoped styling through `body.hc-ui`; no global Lightspeed host injection.
+- Added `hc-page` workspace wrapping and current-page navigation state.
+- Preserved existing element IDs, JavaScript handlers, API contracts, permission gates, receiving flows, notification review/delivery queues, preorder-watch behavior, supplier routing, activity logs, aging logic, and GW submission safeguards.
+
+Visual adoption:
+- approved navy/blue beta palette
+- cool gray-blue canvas
+- shaded panels/cards with clearer separation
+- shared button/input/focus treatment
+- more consistent table surfaces
+- stronger current-page navigation treatment
+- existing aging/status colors remain semantic and text-labeled
+
+Reference:
+- Shared foundation spec: `Tawgod/Hobby-Corner:main/SHARED_ADDON_UI_UX.md`
+- Foundation branch: `Tawgod/Lightspeed:feature/shared-addon-ui-beta-foundation-20261027`
+- Core-ops coordinated branch: `Tawgod/Lightspeed:feature/core-ops-shared-ui-20261027`
+- Consolidated implementation: `Tawgod/Lightspeed@53b4508821319c1ab33b4d44c8b2c8bfca81880d`
+
+Status:
+- Implemented: YES
+- Railway deployment: in progress at last verification
+- Browser/employee acceptance: pending
+- Chrome extension release: not part of this change; release queue not modified
+
