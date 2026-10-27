@@ -188,3 +188,14 @@ When any development chat starts preparing a Chrome extension release, it must f
 - **Consolidated manifest:** Remains `0.3.23` for the normal extension download; v0.3.25 is **unpacked beta artifact only**, not automatic update, not Chrome Web Store released. Browser acceptance is pending.
 - **Included vs deferred:** All compatible pending Scanner changes plus Scanner/toolbar UI adoption included in beta. PR #16 underlying shared UI foundation remains open/draft; later common screens unchanged. PO Companion PR #13 deferred (draft, employee-side acceptance missing), Consignment PR #11 deferred (beta route not approved for production launcher), Chrome Web Store publishing branch deferred. None silently omitted.
 - **Release status:** `INCLUDED` in v0.3.25 beta preview; **NOT production extension released**, **NOT browser accepted**, **NOT test-create verified**. Remaining blocker: restore scanner auth secret, configure dedicated Lightspeed test tenant, then perform store employee acceptance.
+
+
+## October 27, 2026 — Shared UI adoption status correction
+
+- The earlier `Shared Addon UI / UX — beta Chrome adoption` entry that said no extension screen had adopted the design is now superseded by the coordinated Scanner beta reconciliation below.
+- **Scanner and the extension toolbar popup HAVE adopted the approved navy/blue shaded Hobby Corner UI** through merged PR #17 / consolidated commit `61016a92971bceead57f07f1a09aa47461d1d343`.
+- The integrated beta uses local copies of the approved Hobby Corner branding/assets and preserves existing Scanner/Popup behavior and permission safeguards.
+- PR #16 remains the reusable shared foundation and is still open/draft; it is **not itself merged or deployed**.
+- v0.3.25 remains an unpacked beta preview only, not the production extension release.
+- Browser/employee acceptance and the scanner authentication/runtime blocker remain outstanding before production release.
+- PO Companion PR #13 and Consignment PR #11 remain separate/deferred and must adopt/reconcile shared UI independently when their feature work is ready.
