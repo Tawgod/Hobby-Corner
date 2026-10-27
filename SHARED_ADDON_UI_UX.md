@@ -118,3 +118,16 @@ The first real feature-level adoption is now implemented through the Scanner int
 - **Deployment:** backend code is deployed on the consolidated branch; the styled extension is available only in unpacked v0.3.25 beta preview, not as the production extension/Web Store release.
 - **Foundation status:** PR #16 remains open/draft as the reusable design reference and component source. Its showcase/library files should not be treated as deployed merely because Scanner/Popup selectively adopted the design.
 - **Next adopters:** Special Orders/Ordering/Preorders/Timeclock, PO Companion and Consignment should each integrate incrementally on their own reconciled feature work, preserving IDs, handlers, permission gates and API contracts.
+
+
+## Project-wide adoption audit update — 2026-10-27
+Current implementation coverage:
+- Product Scanner + toolbar popup: implemented in beta; additional shared-component cleanup in PR #19.
+- PO Companion: shared UI implementation in PR #13.
+- Consignment staff/customer beta: shared UI implementation in PR #11.
+- Product Manager: shared UI pilot in PR #18.
+- PO Avery label tool: shared UI alignment in PR #20.
+- Special Orders, Ordering, Preorders, GW Preorders: shared UI implementation started in PR #21.
+- Timeclock launcher/overlay and Split / Recall injected UI: shared UI implementation started in PR #22.
+
+No tool should be considered fully accepted solely because shared styling exists. Each surface still requires its own browser, keyboard, zoom, error/empty-state and workflow validation before merge/deployment. Extension-related surfaces additionally require release-queue reconciliation before packaging.
