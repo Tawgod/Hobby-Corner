@@ -1254,3 +1254,9 @@ References:
 - **Testing:** Static UI, exact clipboard text and ID preservation regression authored; awaiting workflow execution and real Chrome browser keyboard, 100/125/200% zoom, PIN, ACD single-product scan, error/empty, preorder, copy-and-paste acceptance. Do not claim WCAG certification based on CSS only.
 - **Dependencies:** Shared UI PR #16 still draft; PO Companion PR #13 and Consignment PR #11 remain separate release queue entries. Scanner backend auth runtime previously reported a missing/empty scanner service secret; UI update will not repair it.
 - **Next:** review PR #19, verify CI, run store employee browser acceptance, reconcile queue before a separate approved extension package; no production merge/deploy performed.
+
+### PO Companion — shared UI beta integration (2026-10-27)
+- Status: **In Development**; UI code implemented on `Tawgod/Lightspeed:feature/po-companion-consolidated-v2`, draft PR #13, not merged or deployed.
+- Reused shared beta source from draft PR #16: version-locked `extension/shared-ui/hc.css`, original Hobby Corner icon/wordmark and clipboard helper. Updated supplier-side panel and separate review window with scoped `hc-ui` patterns, blue/navy actions and gray-blue shaded separation; retained compact supplier-site geometry.
+- Static JS syntax checks passed for panel, background and review scripts. Browser, zoom, keyboard, clipboard and Timeclock acceptance remain pending. No live PO integration or Lightspeed writes enabled.
+- Shared Chrome release queue updated; reconcile both PR #13 and PR #16 before extension release. Feature notes: `docs/PO_COMPANION_CONSOLIDATED_V2.md`.
