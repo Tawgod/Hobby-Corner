@@ -810,3 +810,11 @@ No Lightspeed product records were created or updated in this test. The existing
 - No Chrome extension package/release was prepared.
 - Reference: `Tawgod/Lightspeed@53b4508821319c1ab33b4d44c8b2c8bfca81880d`.
 
+
+
+## 2026-10-27 — Planned store-operations expansion
+- Added planned **Back Room Inventory** workflow for overflow stock tracking, floor capacity, and daily replenishment reminders.
+- Added planned **Service Requests / Repairs / Warranty / Commissions** system tied to Lightspeed, Special Orders, Timeclock employee identity, service fees, parts ordering, and commission reporting.
+- Added planned **Game Room Reservations & Events** system with configurable table/area maps, reservations, blackout dates, events, capacity and conflict handling.
+- All three are planned only; no production functionality or deployment was created.
+- Future implementations should reuse existing Hobby Corner infrastructure and the shared UI/UX design system.
