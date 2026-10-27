@@ -1089,3 +1089,94 @@ Consignment protected-backend milestone (2026-10-27): feature/consignment-layout
 - **Railway status:** No scanner changes deployed. The inspected environment reported one crashed `migration-test-bsi117` service (separate migration project service); scanner service-specific live health and role acceptance require separate confirmation.
 - **Documentation:** `Tawgod/Lightspeed:feature/scanner-duplicate-safety-review-20261027/docs/scanner-acceptance-and-approval-plan-20261027.md`.
 - **Next:** run real store employee Chrome acceptance and live API role verification; verify duplicate fail-closed behavior in deployed test environment only after authorized merge/deploy; design persistent review queue with audit, revalidation, idempotency and controlled write approval before enabling any product writes.
+
+### Special Orders employee acceptance / receiving / notification pass — 2026-10-27
+Status: **Testing**
+
+Verified before development:
+- Authoritative source remained `Tawgod/Lightspeed:integration/hobby-corner-consolidation`.
+- Railway services were still sourced from the consolidated branch.
+- Existing `/ordering`, `/preorders`, preorder-watch, activity-log, aging, supplier-routing, and Lightspeed-first PO review functionality was present.
+- Split/Recall remains implemented through `routes/orderSplit.js` and `routes/orderSplitExecute.js`; no dependency conflict with the new receiving/status workflow was found in this pass.
+
+#### Lightspeed-first receiving
+Added an employee-facing **Receiving Review** workflow to `/ordering`:
+- Select a current Lightspeed PO.
+- Read its product lines.
+- Match PO products to waiting local Special Orders.
+- Display customer, required quantity, existing allocation, quantity already allocated from that PO, and Lightspeed-reported received quantity when available.
+- Employee confirms cumulative customer allocation target per Special Order line.
+- Receiving confirmation updates local Special Orders only; it does **not** modify Lightspeed inventory.
+
+Duplicate-safety:
+- Added `lightspeed_po_receipt_allocations`.
+- Unique PO + Special Order relationship prevents replay/double allocation.
+- Confirmations are cumulative targets; retries add only the positive difference.
+- Previously confirmed targets cannot be reduced through the receive endpoint.
+- Product must actually be on the selected Lightspeed PO.
+- When Lightspeed reports a positive received quantity, cumulative customer allocations from that PO/product cannot exceed the reported received quantity.
+- If Lightspeed does not provide a received quantity, staff remain responsible for physical receiving verification rather than the system guessing.
+
+When a customer Special Order becomes fully allocated:
+- status moves to `RECEIVED`
+- receiving/status history is recorded
+- one `READY_REVIEW` customer-notification review item is created.
+
+#### Customer notification acceptance
+Added **Customer Notification Review** to `/ordering`.
+Employees can:
+- review customer/item/contact information
+- approve notification
+- suppress notification with a reason.
+
+Approved notifications are routed to:
+1. Discord when the customer has a linked Discord user ID
+2. Email otherwise
+3. SMS otherwise
+
+Added **Approved Delivery Queue** to `/ordering` so staff can see queued/in-progress/error delivery records separately from items awaiting employee review.
+
+Discord delivery API uses claim/send/complete states:
+- `QUEUED`
+- `SENDING`
+- `SENT`
+- `ERROR`
+and successful Discord delivery moves the Special Order to `CUSTOMER_NOTIFIED`.
+
+The Discord sender is implemented only on:
+`Tawgod/Hobby-Corner-Discord-Bot:gw-preorder-test-publisher`
+and is **not deployed to the production bot**.
+
+Email and SMS delivery integrations are not implemented yet; approved items remain visible in their delivery queues.
+
+#### Scanner service isolation
+The consolidated Product Scanner startup check could crash the entire Special Orders service when `SCANNER_ENABLED=true` but one scanner-only secret/config value was missing.
+
+Changed scanner startup behavior to fail closed for Scanner only:
+- missing scanner config disables the scanner gateway
+- missing variable names are logged without values
+- Special Orders / Ordering / Preorders continue starting.
+
+This prevents an unrelated scanner configuration problem from taking down daily Special Orders operations.
+
+#### Key commits
+- `dcab50d141cec5496834f7a225b53e201d5b569b` — duplicate-safe Lightspeed PO receiving backend
+- `337ff74e73a2be9952c9d20276d6098ce2dffc78` — Receiving Review + Notification Review UI
+- `6a54990294ca7728af0114524394d51ab84dd011` — separate employee review from delivery queue
+- `6da50041a0e8c2877af9e33049c50e90c3b7c784` — route approved notifications to Discord/email/SMS queues
+- `74a71456beb98d258bf063830f3590ad5b45f6a5` — retry-safe delivery routing
+- `27b6cfe5369a9a3ad8cd7e31eb9dac3258f034b2` — Approved Delivery Queue UI
+- `d87b18ae7d3f06feb4b0e98323136718369ac294` — fail closed scanner without crashing Special Orders
+- `c1e42f5ff6b779ea87ea0e13a2d432bd7f7a6e52` — cap customer allocations to Lightspeed reported received quantity
+- Discord development worker: `Tawgod/Hobby-Corner-Discord-Bot@fb9efaca20496cd20ce84798b219b5cc2b94ff47`
+
+Remaining employee acceptance:
+- Browser-test Receiving Review against real partially/fully received Lightspeed POs.
+- Confirm actual Lightspeed purchase-order line received-quantity field shape for Hobby Corner account data.
+- Test notification review with matched Discord customer and unmatched/no-contact customer.
+- Test Discord sender on a non-production bot deployment before production cutover.
+- Implement email/SMS delivery or document manual handling.
+- Validate preorder-watch informal detection in a test Discord channel before production bot enablement.
+
+No Chrome extension release was prepared in this pass, so the Chrome extension release queue was not modified.
+
