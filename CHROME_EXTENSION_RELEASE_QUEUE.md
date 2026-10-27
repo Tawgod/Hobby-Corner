@@ -49,7 +49,7 @@ Each entry must contain:
 ### Purchase Order Companion
 - **Source conversation:** Purchase Order Companion
 - **Status:** `IN DEVELOPMENT`
-- **Current reconciled development branch:** `Tawgod/Lightspeed:feature/po-companion-consolidated-v2` (created from the current consolidated branch 2026-10-27; selective UI port, not an old-branch merge).
+- **Current reconciled development branch:** `Tawgod/Lightspeed:feature/po-companion-consolidated-v2`, draft PR [#13](https://github.com/Tawgod/Lightspeed/pull/13) (created from the current consolidated branch 2026-10-27; selective UI port, not an old-branch merge).
 - **Reconciliation:** Old `feature/po-companion-readonly-foundation` measured 133 commits behind and 19 ahead on 2026-10-27; obsolete backend implementation not copied because current Ordering uses Lightspeed `/api/2026-04/purchase_orders` and `/line_items`. Existing scanner UI, permissions, and supplier-host access retained.
 - **Implemented on new branch:** Opt-in supplier-site compact panel scaffold, SKU/UPC rendering/copy widgets, expand/collapse draft fields, isolated review popup, fail-closed worker and new popup PO selection controls. Live line fetch and PIN collection intentionally disabled; approval disabled.
 - **Testing:** GitHub source reconciliation completed; automated tests/browser and live authenticated PO checks still pending.
