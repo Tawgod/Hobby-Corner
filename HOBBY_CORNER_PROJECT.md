@@ -1327,3 +1327,90 @@ Status:
 - Browser/employee acceptance: pending
 - Chrome extension release: not part of this change; release queue not modified
 
+
+
+## Planned Future Workstreams — Store Operations Expansion
+
+### Back Room Inventory
+**Status:** Planned
+
+Purpose:
+- Track products moved from the sales floor into back-room overflow storage.
+- Record whether an item is stored in back room, quantity stored, and expected sales-floor capacity.
+- Determine when floor stock has fallen below the desired level and the back room contains replenishment stock.
+- Generate daily employee reminders/work lists for products that should be restocked to the floor.
+
+Expected capabilities:
+- Mark/unmark products as back-room stocked.
+- Track back-room quantity separately from sales-floor capacity/target.
+- Store per-product sales-floor capacity.
+- Daily replenishment queue showing suggested quantity to move from back room to floor.
+- Scan/search products using existing Product Scanner/Lightspeed product identity where practical.
+- Audit adjustments and prevent duplicate restock actions.
+- Integrate with Lightspeed inventory reads while avoiding a conflicting inventory source of truth.
+- Employee-facing UI should use the shared Hobby Corner UI/UX design system.
+
+Dependencies:
+- Lightspeed Retail X-Series product/inventory data.
+- Product Scanner/product matching.
+- Future inventory-count/reconciliation workflow.
+- Shared employee UI/navigation.
+
+### Service Requests / Repairs / Warranty / Commissions
+**Status:** Planned
+
+Purpose:
+- Manage customer service requests including RC/train/model repairs, warranty replacements, and other service work.
+- Track assigned employee/technician, repair status, parts/items required, labor/service fees, and commission where applicable.
+
+Expected capabilities:
+- Customer and product lookup through Lightspeed/Special Orders.
+- Service ticket lifecycle: intake, diagnosis, estimate, approval, waiting for parts, in repair, ready, completed, cancelled/returned.
+- Attach parts/products used or ordered to complete a repair.
+- Reuse Special Orders for products/parts that need to be ordered instead of creating a separate purchasing system.
+- Create/link appropriate Lightspeed sale/order records for parts, service fees, and customer pickup/payment.
+- Configurable repair/service fee schedules.
+- Employee assignment tied to Timeclock employee records.
+- Map Lightspeed sales-rep identifiers/numbers to Timeclock employees.
+- Track repair/service commissions and expose them in Timeclock/payroll reporting without changing historical time records.
+- Dashboard for open work, aging, parts waiting, employee workload, completed work, and commissions.
+- Preserve audit history and approval controls for financial adjustments.
+- Employee-facing UI should use the shared Hobby Corner UI/UX design system.
+
+Dependencies:
+- Lightspeed customers/products/sales.
+- Special Orders ordering and receiving.
+- Timeclock employee identity and payroll reporting.
+- Product Scanner for item identification.
+- Shared customer notification system.
+- Shared UI/UX design system.
+
+### Game Room Reservations & Events
+**Status:** Planned
+
+Purpose:
+- Manage reservations and events for the Hobby Corner game room and hallway overflow area.
+
+Expected capabilities:
+- Visual room-layout editor/map.
+- Add/remove/move tables and define table size, capacity, identifier, and area.
+- Support the main game room and hallway overflow area as separate reservable zones.
+- Customer reservations by date/time, party size, table/resource requirement, and contact information.
+- Staff-created reservations.
+- Blackout dates/times and unavailable tables/areas.
+- Event scheduling with reserved tables/areas, recurring events, setup/cleanup windows, and capacity rules.
+- Conflict detection so overlapping reservations cannot claim the same resource.
+- Calendar/day/week views and a simple floor-map view of occupied/available tables.
+- Optional waitlist and reservation notes.
+- Customer reminders/notifications using the existing notification architecture where practical.
+- Future option to connect paid events/fees to Lightspeed without making the reservation system dependent on POS transactions.
+- Employee-facing UI should use the shared Hobby Corner UI/UX design system.
+
+Dependencies:
+- Customer/contact data.
+- Shared notification system.
+- Shared employee UI/navigation.
+- Possible future Lightspeed payment/event-fee integration.
+
+### Coordination rule
+These three workstreams should reuse existing Hobby Corner infrastructure rather than becoming disconnected applications. Before implementation, each development chat should review the current consolidated Lightspeed branch, project registry, relevant Railway services, Special Orders/Timeclock dependencies, and shared UI standard.
