@@ -1264,3 +1264,10 @@ References:
 Consignment shared UI milestone (2026-10-27): adopted exact shared UI stylesheet from draft PR #16 into Tawgod/Lightspeed:feature/consignment-layout-foundation (draft PR #11), without merging either branch. Both isolated beta staff and customer screens use hc-ui scoped wrapper, hc-panel/header/body, hc-button, hc-alert, navy/blue/orange palette and original store wordmark. Small compatibility adapter preserves dynamic markup, IDs, handlers, matching, approvals and fail-closed API. Shared UI CSS/routes/branding smoke and scanner regression tests passed on integration commit 29a0eaa9. Railway consignment-beta remains isolated test service with automatic development-branch deployment; manual visual/keyboard/zoom acceptance pending. No Chrome extension file or release, no production Lightspeed writes. Dependency: PR #16 may evolve, so reconcile shared component version before merge.
 
 - **PR #19 verification update (2026-10-27):** GitHub Actions scanner integration [run 40563269131](https://github.com/Tawgod/Lightspeed/actions/runs/40563269131) PASSED after regression test corrections. Implementation head `eb210aa742db608355c963c5b8e6af3a673944e4`; remains not merged, not deployed, not packaged and Chrome browser acceptance pending.
+
+
+## Shared UI adoption audit — 2026-10-27
+- **Already integrated/under active UI work:** Product Scanner + extension popup, PO Companion, Consignment, Product Manager, PO Avery label tool.
+- **New core-ops UI branch:** `Tawgod/Lightspeed:feature/core-ops-shared-ui-20261027`, draft PR #21. Applies shared PR #16 stylesheet + compatibility adapter to Special Orders, Ordering, Preorders and GW Preorders without changing IDs, handlers, APIs or business logic.
+- **New extension-launcher UI branch:** `Tawgod/Lightspeed:feature/extension-launchers-shared-ui-20261027`, draft PR #22. Aligns Timeclock and Split / Recall injected UI with approved navy/blue/shaded design; Chrome release not prepared.
+- **Remaining:** browser/keyboard/zoom acceptance across all updated surfaces; reconcile PR #16 component version before merge; no production deployment or extension publication from PR #21/#22 yet.
