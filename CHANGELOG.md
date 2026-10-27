@@ -739,3 +739,41 @@ No Lightspeed product records were created or updated in this test. The existing
 - Scope is interface consistency only: visual language, controls, terminology, navigation, interaction patterns, and reusable components.
 - Underlying service/business logic remains owned by each feature area.
 - Future frontend changes should coordinate through this shared UI/UX workstream to avoid conflicting interface patterns.
+
+## 2026-10-27 — Lightspeed-first receiving and customer notification acceptance
+
+### Receiving
+- Added duplicate-safe Lightspeed PO receiving review for Special Orders.
+- Added `lightspeed_po_receipt_allocations` cumulative PO-to-Special-Order allocation tracking.
+- Repeated confirmation cannot double allocate.
+- Receiving verifies product membership on the selected Lightspeed PO.
+- Customer allocation is capped to Lightspeed-reported received quantity when Lightspeed reports a positive received quantity.
+- Fully received Special Order lines move to `RECEIVED`, record history, and generate one notification-review record.
+
+### Customer notifications
+- Added employee Customer Notification Review panel.
+- Approved notifications route Discord → email → SMS based on available contact information.
+- Added Approved Delivery Queue panel.
+- Added duplicate-safe Discord delivery claim/send/complete API.
+- Successful Discord send moves the Special Order to `CUSTOMER_NOTIFIED`.
+- Discord sender implemented on bot development branch only; production bot unchanged.
+- Email/SMS delivery remain pending.
+
+### Reliability
+- Scanner configuration now fails closed at the scanner gateway rather than crashing Special Orders.
+- Missing scanner config names are logged without secret values.
+
+### Split/Recall
+- Reviewed current consolidated Split/Recall routes; no receiving/status dependency conflict identified and no changes made.
+
+### References
+- `Tawgod/Lightspeed@dcab50d141cec5496834f7a225b53e201d5b569b`
+- `Tawgod/Lightspeed@337ff74e73a2be9952c9d20276d6098ce2dffc78`
+- `Tawgod/Lightspeed@6a54990294ca7728af0114524394d51ab84dd011`
+- `Tawgod/Lightspeed@6da50041a0e8c2877af9e33049c50e90c3b7c784`
+- `Tawgod/Lightspeed@74a71456beb98d258bf063830f3590ad5b45f6a5`
+- `Tawgod/Lightspeed@27b6cfe5369a9a3ad8cd7e31eb9dac3258f034b2`
+- `Tawgod/Lightspeed@d87b18ae7d3f06feb4b0e98323136718369ac294`
+- `Tawgod/Lightspeed@c1e42f5ff6b779ea87ea0e13a2d432bd7f7a6e52`
+- `Tawgod/Hobby-Corner-Discord-Bot@fb9efaca20496cd20ce84798b219b5cc2b94ff47`
+
