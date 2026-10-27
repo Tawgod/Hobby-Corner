@@ -1067,3 +1067,11 @@ Planned deliverables:
 Guideline:
 - Individual feature chats remain responsible for their service/business logic.
 - Cross-cutting UI changes should be coordinated through the shared UI/UX workstream so one addon does not independently establish conflicting interface patterns.
+
+
+### Shared Addon UI / UX Coordination
+Status: In Development (standards documented; implementation not yet started)
+Owner: cross-system UI coordination; business service owners retain operation/permission authority.
+Source of truth: `SHARED_ADDON_UI_UX.md` in this repository; implementation base `Tawgod/Lightspeed:integration/hobby-corner-consolidation`.
+2026-10-27: audited extension popup and scanner source and defined baseline tokens, reusable interaction patterns, accessibility and keyboard/scanner acceptance gates, cross-system audit register and incremental rollout sequence. Other app screen-level audits remain pending. No UI code changed, tests run, extension released or Railway deployment performed.
+Next: inspect remaining source screens and active PRs, create isolated component specimen, pilot popup/scanner, reconcile extension release queue before packaging.
