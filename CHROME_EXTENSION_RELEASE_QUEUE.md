@@ -141,7 +141,7 @@ Each entry must contain:
 - **Authoritative base:** `Tawgod/Lightspeed:integration/hobby-corner-consolidation`; foundation branch `feature/shared-addon-ui-beta-foundation-20261027`, draft PR [#16](https://github.com/Tawgod/Lightspeed/pull/16).
 - **Extension files/components affected now:** None. Future integration may update `extension/popup.html`, `extension/popup.css`, `extension/product-scanner/review.html`, `extension/product-scanner/review.css`, and extension-owned shared asset copies after branch reconciliation.
 - **Backend dependencies:** None for CSS/branding; do not alter any product/order/permission backend semantics.
-- **Tests:** UI foundation tests and CI workflow added; Chrome browser/role/scanner/keyboard acceptance pending. Any feature-level browser test must be performed after adopting the CSS.
+- **Tests:** Shared UI foundation automated checks 5/5 PASS, CI run [40544824489](https://github.com/Tawgod/Lightspeed/actions/runs/40544824489). Chrome browser/role/scanner/keyboard acceptance pending. Any feature-level browser test must be performed after adopting the CSS.
 - **Target release:** Next compatible release **after** coordinated merging/testing. No extension version bump, ZIP, distribution change, or Chrome Web Store submission now.
 - **Block/defer reason:** Shared design source alone is not extension-integrated or release-tested; active PRs #11–#15 can change target screens. Reconcile those PRs and the full queue before importing styling. Do not replace popup/scanner HTML wholesale.
 - **Released version/commit/date:** None.
