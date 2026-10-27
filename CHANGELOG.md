@@ -777,3 +777,15 @@ No Lightspeed product records were created or updated in this test. The existing
 - `Tawgod/Lightspeed@c1e42f5ff6b779ea87ea0e13a2d432bd7f7a6e52`
 - `Tawgod/Hobby-Corner-Discord-Bot@fb9efaca20496cd20ce84798b219b5cc2b94ff47`
 
+## 2026-10-27 — Add Messenger and WhatsApp notification options
+
+- Added customer-level Facebook Messenger and WhatsApp contact fields.
+- Added Special Orders UI fields for new and existing customers.
+- Added Messenger and WhatsApp to employee notification-destination selection.
+- Added `MESSENGER_READY` and `WHATSAPP_READY` delivery queues.
+- Delivery queue now displays Discord, Facebook Messenger, WhatsApp, email, and SMS distinctly.
+- Messenger/WhatsApp are queue-only until Meta delivery integrations are configured and tested.
+- References:
+  - `Tawgod/Lightspeed@f9cb4d9c2d7407df6c27e89db2b16523dc15a933`
+  - `Tawgod/Lightspeed@b4dc4f4b4c4f63e29713b96c2efb909dcebb7a41`
+
