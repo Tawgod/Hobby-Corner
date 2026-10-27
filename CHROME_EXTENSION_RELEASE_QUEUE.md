@@ -107,6 +107,19 @@ Each entry must contain:
 - **Target:** Next coordinated extension/backend release, after queue reconciliation.
 - **Release restriction:** No merge/deployment or Chrome extension packaging performed here.
 
+
+### Product Scanner — duplicate verification, completeness and current-product safety
+- **Source:** Product Scanner development, October 27, 2026.
+- **Status:** `IN DEVELOPMENT`; no release package prepared.
+- **Requested behavior:** Prevent duplicate unsafe product creation, surface missing UPC/weight/picture accurately, require supplier capture to stay on one individual product page, and move toward controlled approval without enabling writes.
+- **Implementation:** `Tawgod/Lightspeed:feature/scanner-duplicate-safety-review-20261027`, PR #14.
+- **Affected files:** `routes/specialOrderProducts.js`, `extension/product-scanner/review.js`, `extension/product-scanner/special-orders-adapter.js`, `extension/product-scanner/completeness.js`; tests and audit document.
+- **Backend dependencies:** Both Special Orders local and Lightspeed remote duplicate checks must succeed. Invalid or partial remote results now block verification. Permission policy pending reconciliation with PR #12.
+- **Tests:** Scanner UI regression run 40532962645 passed. Live employee/browser acceptance, API lookup failure tests, real product fields, and staging still need confirmation.
+- **Target:** Next compatible extension release after acceptance and full queue reconciliation.
+- **Block/defer reason:** No release until browser-tested; controlled approval product-write workflow not implemented. Existing PO Companion and consignment launcher entries must be considered independently.
+- **Released version/commit/date:** Not released.
+
 ## Released / historical extension items
 
 Use this section to preserve shipped queue history when useful. Do not delete an entry just because it shipped; mark it `RELEASED` and record the version/commit/date so future chats can distinguish released work from pending work.
