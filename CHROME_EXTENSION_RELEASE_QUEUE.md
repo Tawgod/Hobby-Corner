@@ -48,14 +48,19 @@ Each entry must contain:
 
 ### Purchase Order Companion
 - **Source conversation:** Purchase Order Companion
-- **Status:** `DEFERRED`
+- **Status:** `IN DEVELOPMENT`
+- **Current reconciled development branch:** `Tawgod/Lightspeed:feature/po-companion-consolidated-v2` (created from the current consolidated branch 2026-10-27; selective UI port, not an old-branch merge).
+- **Reconciliation:** Old `feature/po-companion-readonly-foundation` measured 133 commits behind and 19 ahead on 2026-10-27; obsolete backend implementation not copied because current Ordering uses Lightspeed `/api/2026-04/purchase_orders` and `/line_items`. Existing scanner UI, permissions, and supplier-host access retained.
+- **Implemented on new branch:** Opt-in supplier-site compact panel scaffold, SKU/UPC rendering/copy widgets, expand/collapse draft fields, isolated review popup, fail-closed worker and new popup PO selection controls. Live line fetch and PIN collection intentionally disabled; approval disabled.
+- **Testing:** GitHub source reconciliation completed; automated tests/browser and live authenticated PO checks still pending.
 - **Requested behavior:** Add the compact right-side supplier website companion for Purchase Orders, showing PO items, supplier-specific SKU/UPC with one-click copy, product name, quantity and warnings; per-item checkbox reveals RP, RQ, Cost and MSRP while preserving draft values; approval/review remains in a separate popup with employee permissions managed through Timeclock.
 - **Authoritative base:** `Tawgod/Lightspeed:integration/hobby-corner-consolidation`
 - **Affected area:** Chrome extension supplier-site/PO workflow plus Timeclock-backed permissions and review flow.
 - **Backend dependencies:** Lightspeed PO data and Timeclock permissions. Verify current implementation state before release.
 - **Test status:** Not yet release-verified.
 - **Target release:** Next compatible Chrome extension release after implementation is verified.
-- **Specific defer reason for next scanner test build:** The PO Companion branch `feature/po-companion-readonly-foundation` is 119 commits behind consolidated, not release-verified, and needs selective integration/Chrome compatibility testing before shipping. Target: next compatible extension release after testing.
+- **Current shipping blocker:** Authenticated read-only PO contract for 2026-04 API, supplier mapping and Timeclock authorization remain to be implemented/tested against real responses; panel shell not release-ready. No version bump or package authorized.
+- **Historical defer reason for next scanner test build:** The PO Companion branch `feature/po-companion-readonly-foundation` is 119 commits behind consolidated, not release-verified, and needs selective integration/Chrome compatibility testing before shipping. Target: next compatible extension release after testing.
 - **Release rule:** Do not silently omit this item from a future extension release. If it is not ready when another extension release is prepared, mark it `DEFERRED` or `BLOCKED` with the reason and leave it in this queue.
 
 ### Scanner SKU and role diagnostics
