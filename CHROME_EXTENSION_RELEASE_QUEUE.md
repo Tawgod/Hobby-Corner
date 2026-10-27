@@ -120,6 +120,19 @@ Each entry must contain:
 - **Block/defer reason:** No release until browser-tested; controlled approval product-write workflow not implemented. Existing PO Companion and consignment launcher entries must be considered independently.
 - **Released version/commit/date:** Not released.
 
+
+### Product Scanner — employee new-product review inbox
+- **Source:** Product Scanner next phase, October 27, 2026.
+- **Status:** `IN DEVELOPMENT` (not released, not deployed).
+- **Requested behavior:** Employees can submit a scanned new-product proposal into a persistent review inbox, identify supplier and source URL, view pending proposals, and require a separate controlled approval step before any Lightspeed write.
+- **Implementation:** `Tawgod/Lightspeed:feature/scanner-review-queue-foundation-20261027`; PR #15.
+- **Affected extension files:** `extension/product-scanner/review.html`, `extension/product-scanner/review.js`; backend `services/scannerProductReviewQueue.js`, `services/scannerTimeclockGateway.js`, `server.js`.
+- **Backend dependencies:** Existing scanner Timeclock login and duplicate-match endpoints. **Blocked on reconciling PR #14's remote-match fail-closed changes before deploying.** PR #12 basic employee permissions do not grant final product-write approval.
+- **Test status:** Scanner CI run `40539225636` passed; browser acceptance, live database persistence and real employee testing pending.
+- **Target release:** Next compatible extension release after browser acceptance and complete release queue reconciliation.
+- **Defer reason:** Approval-to-Lightspeed writes, idempotent write recovery and reviewer privilege policy are not implemented. No Chrome ZIP/version change permitted yet.
+- **Released version/commit/date:** Not released.
+
 ## Released / historical extension items
 
 Use this section to preserve shipped queue history when useful. Do not delete an entry just because it shipped; mark it `RELEASED` and record the version/commit/date so future chats can distinguish released work from pending work.
