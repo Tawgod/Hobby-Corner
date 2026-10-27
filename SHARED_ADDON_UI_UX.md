@@ -104,3 +104,17 @@ The reusable beta UI source is now started in `Tawgod/Lightspeed:feature/shared-
 **Adoption rules:** use scoped `hc-ui` wrapper and `hc-*` class patterns; do not inject into the Lightspeed host document globally. The extension ZIP builder packages only `extension/`, so explicit, version-matched extension asset copying will be required in a later release-controlled feature branch. Do not interpret this shared source as deployed.
 
 **Current implementation/testing/deployment:** foundation code YES on PR #16; CI PASS — run [40544824489](https://github.com/Tawgod/Lightspeed/actions/runs/40544824489), 5 checks; browser/employee acceptance NO; merged NO; deployed NO; existing employee-tool screens updated NO. Sign-off is required per feature integration and separately for Chrome release/production deployment.
+
+
+## Feature adoption update — Scanner and extension popup (2026-10-27)
+
+The first real feature-level adoption is now implemented through the Scanner integrated beta rather than by merging PR #16 wholesale.
+
+- **Integrated source:** `Tawgod/Lightspeed:integration/hobby-corner-consolidation` at `61016a92971bceead57f07f1a09aa47461d1d343` via merged PR #17.
+- **Updated employee-facing surfaces:** Product Scanner review UI and Chrome extension toolbar popup.
+- **Shared design reused:** navy header/navigation treatment, blue primary actions, cool gray-blue shaded panels, original Hobby Corner wordmark/icon assets, visible focus states, compact status/feedback treatment.
+- **Business logic preserved:** Scanner Timeclock access, duplicate checks, proposal staging, preorder staging, and production-write restrictions remain governed by the feature implementation; styling did not grant new write authority.
+- **Testing:** combined Scanner/UI automation passed; browser/employee acceptance is still pending.
+- **Deployment:** backend code is deployed on the consolidated branch; the styled extension is available only in unpacked v0.3.25 beta preview, not as the production extension/Web Store release.
+- **Foundation status:** PR #16 remains open/draft as the reusable design reference and component source. Its showcase/library files should not be treated as deployed merely because Scanner/Popup selectively adopted the design.
+- **Next adopters:** Special Orders/Ordering/Preorders/Timeclock, PO Companion and Consignment should each integrate incrementally on their own reconciled feature work, preserving IDs, handlers, permission gates and API contracts.
