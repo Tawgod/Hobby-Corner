@@ -199,3 +199,12 @@ When any development chat starts preparing a Chrome extension release, it must f
 - v0.3.25 remains an unpacked beta preview only, not the production extension release.
 - Browser/employee acceptance and the scanner authentication/runtime blocker remain outstanding before production release.
 - PO Companion PR #13 and Consignment PR #11 remain separate/deferred and must adopt/reconcile shared UI independently when their feature work is ready.
+
+### Scanner shared UI component adoption — 2026-10-27
+- **Status:** `IN DEVELOPMENT` — not merged, deployed or packaged; PR [#19](https://github.com/Tawgod/Lightspeed/pull/19), branch `feature/scanner-shared-ui-adoption-20261027`.
+- **Source:** Draft shared foundation PR #16 at `feature/shared-addon-ui-beta-foundation-20261027` and `SHARED_ADDON_UI_UX.md`; application base `integration/hobby-corner-consolidation`.
+- **Change:** Existing navy/blue Scanner and popup beta styling from merged PR #17 preserved. Scanner now opts into shared namespaced panel, inset, button, form and status classes without changing IDs; shared `clipboard.mjs` copied verbatim into `extension/shared-ui/` and used by Copy Product Data to retain exact text, whitespace and leading zero codes.
+- **Affected files:** `extension/product-scanner/review.html`, `extension/product-scanner/review.js`, `extension/shared-ui/clipboard.mjs`, `tests/scannerSharedUiAdoption.test.js`; scanner UI CI and adoption documentation.
+- **Tests:** Regression checks added; Chrome browser/zoom/keyboard/PIN acceptance pending; no data writes or backend permission changes.
+- **Next compatible release:** After PR #19 tests and full queue reconciliation. PR #16 remains draft, PO Companion PR #13 and Consignment PR #11 remain explicitly deferred pending feature acceptance.
+- **Release restriction:** No extension ZIP/version update or Web Store submission is authorized by this change. Previous v0.3.25 beta artifact is unaffected.
