@@ -211,3 +211,14 @@ When any development chat starts preparing a Chrome extension release, it must f
 - **Release restriction:** No extension ZIP/version update or Web Store submission is authorized by this change. Previous v0.3.25 beta artifact is unaffected.
 
 - **PR #19 verification update (2026-10-27):** GitHub Actions scanner integration [run 40563269131](https://github.com/Tawgod/Lightspeed/actions/runs/40563269131) PASSED after regression test corrections. Implementation head `eb210aa742db608355c963c5b8e6af3a673944e4`; remains not merged, not deployed, not packaged and Chrome browser acceptance pending.
+
+
+### Timeclock + Split / Recall shared UI alignment
+- **Source:** Manager UI adoption audit, 2026-10-27.
+- **Status:** `IN DEVELOPMENT`.
+- **Implementation:** `Tawgod/Lightspeed:feature/extension-launchers-shared-ui-20261027`, draft PR #22.
+- **Affected:** Chrome-injected Timeclock launcher/overlay and Split / Recall launcher/overlay in `extension/content.js`.
+- **Change type:** Visual only — navy/blue palette, shaded panel/background separation and shared border tones.
+- **Safety:** Existing IDs, event handlers, PIN flow, order detection, API calls and Split execution logic preserved. No extension version bump/package/release.
+- **Tests pending:** Chrome Sell/fulfillment browser acceptance, keyboard focus/close behavior, 100/125/200% zoom, Timeclock PIN flow, Split/Recall workflow and Lightspeed host CSS-collision check.
+- **Target:** Next coordinated extension release after acceptance and full queue reconciliation.
