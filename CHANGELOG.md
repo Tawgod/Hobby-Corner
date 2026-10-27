@@ -796,3 +796,17 @@ No Lightspeed product records were created or updated in this test. The existing
 - GitHub Actions regression passed; unpacked v0.3.25 beta artifact built in [run 40549569151](https://github.com/Tawgod/Lightspeed/actions/runs/40549569151). No Chrome Web Store release.
 - Railway three-service deployments succeeded at `61016a9`, but the scanner gateway log indicated missing/empty `SCANNER_SERVICE_SECRET` at runtime. Browser/PIN acceptance blocked until secure Railway secret repair. No test tenant credentials were configured; test product creation remains off.
 - Shared Chrome release queue reconciled; PO/Consignment and shared UI foundation draft items carried forward.
+
+## 2026-10-27 — Shared UI foundation for Special Orders core operations
+
+- Adopted the coordinated Hobby Corner shared beta UI foundation on:
+  - Special Orders
+  - Ordering
+  - Preorders
+  - GW Preorders
+- Added scoped `shared-ui/hc.css` and `shared-ui/core-ops-compat.css`.
+- Added explicit server routes for shared stylesheets.
+- Applied navy/blue shared navigation, shaded surfaces, shared controls/focus states, and current-page navigation while preserving existing workflow logic and IDs.
+- No Chrome extension package/release was prepared.
+- Reference: `Tawgod/Lightspeed@53b4508821319c1ab33b4d44c8b2c8bfca81880d`.
+
