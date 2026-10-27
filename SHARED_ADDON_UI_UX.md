@@ -55,3 +55,20 @@ Before marking each interface **Testing**: visual comparison at normal/zoomed wi
 - Choose pilot implementation branch after branch and PR reconciliation.
 - Confirm whether shared assets should be imported across backend-served pages or published per application bundle, accounting for extension CSP and independent Railway deployments.
 - Maintain screen-level review ownership in each feature workstream; UI coordination may propose interaction changes but cannot approve transactional or employee-permission changes.
+
+## Visual proposal and project-wide design principles (2026-10-27)
+Reference: Shared Addon UI / UX Design System visual proposal in the Shared Addon UI / UX Coordination conversation (2026-10-27). The visual is a concept, not an implemented UI, and sample customer/order/product details are illustrative only.
+
+### Nonnegotiable design principles
+- **Visual hierarchy:** Primary task/action appears first; readable titles, contrast, whitespace, and progressive disclosure.
+- **Consistency:** Reuse common navigation, tokens, typography, button meaning, layout and state semantics across all tools.
+- **Minimal density:** Prefer concise labels and one clear next action; move optional detail into tabs, drawers, dropdowns or secondary pages; do not conceal essential warnings or approval details.
+- **Clarity and feedback:** State what an action will do, show in-progress status, and acknowledge success/failure; never imply a saved write happened when it did not.
+- **Accessibility:** WCAG 2.2 AA target, verified contrast, meaningful alternate text, keyboard-only use, visible focus, and accessible modal/focus behavior.
+- **Copy/paste fidelity:** Default to preserving exact source values and formatting, including line breaks, punctuation, leading-zero product IDs, and rich text when needed. Offer separate plain-text and formatted-copy options when supported; use Clipboard API MIME types text/plain and text/html thoughtfully, sanitize HTML and never silently rewrite SKU, UPC, price, description, or manual text. Provide paste previews and editable confirmations before committing external data.
+
+### Visual proposal interpretation
+The shared concept illustrates one navigation system, a spacious task dashboard, a record-detail view, reusable drawer, form controls, status treatments, modal confirmations, and loading/error/empty states. Treat palette and sample components as design direction, not as permissions, application routes or actual data. Before committing token values, check contrast and validate on browser popup, Lightspeed overlay and standalone apps. Existing proposed baseline teal palette remains in effect until explicit palette decision; the visual's blue palette is a candidate, not an automatic production change.
+
+### Cross-team adoption contract
+Each feature chat should consult this file before introducing new employee-facing UI. Identify and reuse its shared patterns where technically feasible, preserve business logic/permissions, explain any justified deviations, test keyboard and error behavior, and record implementation/test/deployed states separately. UI coordination owns style and interaction consistency; individual feature owners own action semantics and release validation.
