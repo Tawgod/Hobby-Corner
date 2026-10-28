@@ -369,3 +369,10 @@ Do not package, version, deploy, or publish the extension until #26, #31, #22 an
 - **Test evidence (existing, not freshly rerun):** PR #26 Scanner integration PASS [40724995019](https://github.com/Tawgod/Lightspeed/actions/runs/40724995019), UI/clipboard PASS [40724981558](https://github.com/Tawgod/Lightspeed/actions/runs/40724981558), mocked Chromium navigation/keyboard/simulated zoom PASS [40725500639](https://github.com/Tawgod/Lightspeed/actions/runs/40725500639). No new workflow was dispatched in this audit. Real loaded Chrome acceptance is **NOT VERIFIED**: active/deactivated employee PIN, supplier capture/permission prompts, duplicate-safe matches, preorder/proposal staging, live navigation, keyboard/focus and native 100/125/200% zoom.
 - **Shared-file coordination:** PR #26 owns extension popup/shared navigation; PR #22 owns `extension/content.js`; PR #31 PO Companion reuses PR #26 navigation but requires combined popup/manifest/auth browser testing. Do not merge old PO or Consignment popup copies; decide approved Consignment launcher route separately. No feature-specific second nav registry.
 - **Status:** `BLOCKED / Testing` for coordinated release integration; source alignment achieved, but genuine Chrome acceptance, outstanding employee/review branch reconciliation and cross-feature testing are blockers. **Production product writes remain disabled**; no extension bump, package, merge, production deploy or publication authorized/performed.
+
+
+## Central handoff location
+
+Feature chats should write their current manager snapshot directly to `Tawgod/Hobby-Corner:main/handoffs/<system>.md` using the format in `handoffs/TEMPLATE.md`.
+
+The release queue remains authoritative for extension shipping state; the handoff file is the concise current feature snapshot. Update both when extension work changes release readiness, dependencies, blockers, tests, or shared-file ownership.
