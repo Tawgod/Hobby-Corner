@@ -886,3 +886,14 @@ No Lightspeed product records were created or updated in this test. The existing
 - Future feature chats should update one stable handoff file per workstream on `Tawgod/Hobby-Corner:main` instead of requiring manual copy/paste into the manager conversation.
 - Git history preserves prior snapshots; handoff files should contain the latest verified state.
 - Extension chats must still update `CHROME_EXTENSION_RELEASE_QUEUE.md` in addition to their handoff file.
+
+## 2026-10-28 — Repair Lightspeed form data and clean GW preorder posts
+
+- Repaired `special-orders-test` Lightspeed credential wiring through references to `lightspeed-api`.
+- Restores the data source used by supplier, category, and brand loading in Special Orders.
+- GW parser now extracts trailing short codes such as `BL3362`, `301-91`, and `301-88` from item titles and removes them from customer-facing names.
+- All-caps GW titles are converted to readable title case.
+- Removed the automatic ✅ Discord reaction from GW preorder publication.
+- Fixed Discord embed line breaks and simplified release/code presentation.
+- Corrected an immediate startup syntax regression in `127a4644e65662cafe1a31dfedc62b86afec520d`.
+
