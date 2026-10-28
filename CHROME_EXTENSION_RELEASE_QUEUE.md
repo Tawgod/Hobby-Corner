@@ -45,6 +45,40 @@ Each entry must contain:
 - Defer/block reason, if applicable
 - Released version/commit/date, when shipped
 
+## Current coordinated release snapshot — 2026-10-28
+
+Use this snapshot first. Older queue entries below are retained for history and may reference superseded branches/PRs.
+
+| Feature | Current candidate | Status | Shared surfaces | Main blocker |
+| --- | --- | --- | --- | --- |
+| Scanner + Toolkit popup/navigation | PR #26 / `feature/scanner-consignment-nav-alignment-20261028` | BLOCKED / Testing | popup, scanner, shared navigation/UI | Real employee/supplier/browser acceptance |
+| Timeclock + Split / Recall | PR #22 / `feature/extension-launchers-shared-ui-20261027` | BLOCKED / Testing | `extension/content.js` | Real Sell/fulfillment/PIN/zoom/focus acceptance |
+| Purchase Order Companion | PR #31 / `feature/po-companion-consolidated-20261028` | IN DEVELOPMENT | manifest, popup, shared navigation/UI + feature files | Authenticated read-only PO retrieval, employee auth, real PO Chrome acceptance |
+| Consignment launcher | PR #30 is current Consignment feature candidate; launcher not yet approved for release | BLOCKED | shared popup/navigation if added | Isolated test promotion, stable destination, explicit launcher decision |
+| Shared UI reusable pieces | PR #27 | IN DEVELOPMENT | shared UI/clipboard only | Confirm compatibility with PR #26; no duplicate assets/navigation |
+| Core web navigation | PR #24 | IN DEVELOPMENT / Testing | backend-served core pages, not extension package | Rebase/current-base verification and browser acceptance |
+
+### Superseded extension PRs
+
+- PR #13 is superseded by PR #31.
+- PR #11/#25 are not current production integration candidates; PR #30 is the current Consignment candidate.
+- PR #19 is superseded by PR #26.
+- PR #16 is superseded by selective reconciliation PR #27.
+- PR #21/#23 are predecessor core UI/navigation work; PR #24 is the current candidate.
+
+Do not package from superseded PRs. Preserve them for history until the owning feature chat confirms all unique work is accounted for, then close them.
+
+### Next coordinated release gate
+
+1. Bring PR #24 and PR #27 to current-base accepted state.
+2. Finish PR #31 read-only/authenticated PO workflow and browser acceptance.
+3. Finish real Chrome acceptance for PR #26 and PR #22.
+4. Decide whether a Consignment launcher is approved and which stable route it will use.
+5. Create one current-base release-testing branch and selectively integrate compatible changes.
+6. Run cross-feature regression plus real Chrome employee acceptance.
+7. Reconcile every queue item as INCLUDED, DEFERRED, BLOCKED, or RELEASED.
+8. Seek explicit release authorization before version bump, packaging, distribution update, or Web Store publication.
+
 ## Current queue
 
 ### Purchase Order Companion
