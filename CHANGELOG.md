@@ -897,3 +897,12 @@ No Lightspeed product records were created or updated in this test. The existing
 - Fixed Discord embed line breaks and simplified release/code presentation.
 - Corrected an immediate startup syntax regression in `127a4644e65662cafe1a31dfedc62b86afec520d`.
 
+
+
+## 2026-10-28 — Shared Lightspeed service coordination
+- Added `LIGHTSPEED_SHARED_SERVICES.md` defining canonical transport, authorization/write policy, audit/idempotency, Customer, Product Identity, Product, Catalog, Media, Inventory, Sales, Fulfillment, Purchase Order, Store Credit and Customer Custom Fields modules.
+- Established `lightspeed-api` as the target cross-service production Lightspeed gateway; feature workflows remain modular consumers.
+- Documented current duplicated/direct integrations in Special Orders and Rewards and preserved Scanner isolated-test and RMS bulk-migration writers as intentional exceptions.
+- Added central conversion prompt index and per-chat prompts under `prompts/lightspeed-shared-services/`.
+- Added `handoffs/lightspeed-shared-services.md`.
+- No runtime refactor, production deployment, credential move, database migration or new Lightspeed write authorization occurred.
