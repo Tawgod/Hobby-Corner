@@ -230,3 +230,12 @@ When any development chat starts preparing a Chrome extension release, it must f
 - **Safety:** Existing IDs, event handlers, PIN flow, order detection, API calls and Split execution logic preserved. No extension version bump/package/release.
 - **Tests pending:** Chrome Sell/fulfillment browser acceptance, keyboard focus/close behavior, 100/125/200% zoom, Timeclock PIN flow, Split/Recall workflow and Lightspeed host CSS-collision check.
 - **Target:** Next coordinated extension release after acceptance and full queue reconciliation.
+
+### Scanner/Toolkit Consignment UI consistency + shared navigation — 2026-10-28
+- **Status:** `IN DEVELOPMENT` — not merged, not deployed, not packaged.
+- **Owner/source:** `Tawgod/Lightspeed:feature/scanner-consignment-nav-alignment-20261028`, PR [#26](https://github.com/Tawgod/Lightspeed/pull/26); base `integration/hobby-corner-consolidation`.
+- **Dependency coordination:** Reconciles Scanner UI PR #19 with PR #23's drafted core-operations navigation contract, using original PR #16 design tokens and Consignment PR #11 visual reference. Does **not** merge or supersede unfinished #16/#23/#11 work.
+- **Affected extension files:** `extension/product-scanner/review.html` and `review.js`; `extension/popup.html` and `popup.js`; `extension/shared-ui/navigation.mjs`, `navigation.css`, `clipboard.mjs`; scanner UI workflow and tests.
+- **Behavior:** Current-page highlighting, navy nav, responsive More menu with keyboard Escape/focus; links to verified declared routes Special Orders, Ordering, Preorder Campaigns, GW Preorders, plus Product Scanner and Toolkit bundled pages. No speculative beta/unfinished routes displayed. Existing Timeclock and Split/Recall embedded controls unchanged; no Lightspeed writes enabled.
+- **Tests:** GitHub Actions [40719605947](https://github.com/Tawgod/Lightspeed/actions/runs/40719605947) PASS. Visual screenshots, browser zoom, PIN and click-through acceptance pending.
+- **Release coordination:** PR #22 Timeclock/Split launcher, PR #13 PO Companion, PR #11 Consignment and PR #16 shared foundation remain separately open and must be explicitly reconciled before packaging. Current beta v0.3.25 unaffected; no extension version bump/ZIP/Chrome Web Store publication.
