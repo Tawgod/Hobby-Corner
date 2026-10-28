@@ -1414,3 +1414,5 @@ Dependencies:
 
 ### Coordination rule
 These three workstreams should reuse existing Hobby Corner infrastructure rather than becoming disconnected applications. Before implementation, each development chat should review the current consolidated Lightspeed branch, project registry, relevant Railway services, Special Orders/Timeclock dependencies, and shared UI standard.
+
+Consignment coordinated navigation (2026-10-28): Tawgod/Lightspeed draft PR #25, feature/consignment-shared-nav-20261028 targeting feature/consignment-layout-foundation. Both staff manager and customer submission preview now use PR #23's six verified core-operations destinations, with explicit Consignment Beta label and customer form in responsive More disclosure. Shared UI PR #16 tokens and original branding retained; no extension files, staff handlers, authentication, or Lightspeed writes changed. Dedicated navigation CI passed; broader beta smoke and browser zoom/keyboard/visual acceptance pending. Not merged or deployed. PR #23 owns the shared core navigation standard; omitted Timeclock/Scanner/PO/Product Manager/Split Recall links await verified routes.
