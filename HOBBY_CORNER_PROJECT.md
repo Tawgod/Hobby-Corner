@@ -52,14 +52,15 @@ Do not merge or deploy a superseded PR independently. Preserve it for history un
 ### Core operations PR #24 reconciliation — 2026-10-28
 
 - PR #24 `feature/core-ops-ui-consistency-nav-20261028` is rebased onto authoritative consolidated commit `cab74b667999a1f607dd82c4c51c298fd0e5d25a` (merged PR #27 foundation).
-- Current PR #24 head: `6a6439fbd6984fd1d4e8dccb41b34b60a92ad6e6`; branch is 1 commit ahead / 0 behind consolidated.
+- Current PR #24 head: `69cc608e1bb89f5eb8715cf1b45d9faa5de1d2d7`; branch is current with consolidated foundation plus PR-specific commits.
 - Current Timeclock-backed employee PIN/header authentication is preserved; the stale predecessor access-key header is not present.
 - PR #21 shared UI adoption and PR #23 shared navigation have been fully reconciled. No unique valid functionality remains in either predecessor; both can be closed as superseded and must not be merged independently.
 - Final-head CI passes: Core Operations UI `40739200019`, Scanner integration `40739200256`, Shared UI reconciliation `40739199988`.
 - Automated coverage verifies navigation, auth/session contracts, workflow anchors, denied/deactivated session clearing, responsive layout, focusability, horizontal overflow and Chromium smoke at 100/125/200% CSS zoom simulation.
 - No Lightspeed API contract, request payload, write path, permission gate or feature client logic changed in the PR diff. No Lightspeed write was executed during reconciliation.
-- Remaining acceptance is manual/live only: real employee valid/invalid PIN, sign-out/restoration/expiry/deactivated employee and permission-gate behavior against live services; native Chrome keyboard activation; native browser-menu zoom at 100/125/200%; and live empty/loading/error-state verification.
-- PR #24 remains Draft until those manual gates are recorded. No production deployment or Chrome extension release was performed or authorized.
+- Store-browser acceptance passed for native zoom, valid PIN, invalid PIN rejection, buttons/navigation, session restoration after refresh, and persistent sign-out. Current business policy has no per-employee edit/create restriction in these tools, so permission-denied employee acceptance is not applicable to PR #24.
+- Final layout-only change moved Legacy workbook import to the bottom of Special Orders; Core Operations run `40742593872` PASSED afterward.
+- PR #24 is Ready for Review / merge-ready. No production deployment or Chrome extension release was performed or authorized.
 
 ### Current coordination order
 
