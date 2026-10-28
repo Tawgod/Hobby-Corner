@@ -1,6 +1,6 @@
 # Hobby Corner Project Registry
 
-Last verified: 2026-10-12
+Last verified: 2026-10-28
 
 This repository is the project-wide management index for Hobby Corner systems. Runtime code remains in the owning repositories. Statuses are: Planned, In Development, Testing, Deployed, Blocked, Maintenance.
 
@@ -11,6 +11,55 @@ This repository is the project-wide management index for Hobby Corner systems. R
 3. Google Drive / Sheets — business data and operational workflows
 4. This registry — ownership, status, dependencies, decisions, next steps
 5. Project conversations — historical requirements and decisions
+
+
+## Current Authoritative Development Matrix — 2026-10-28
+
+Use this section first. Historical entries below remain for change history and context but may reference superseded branches or PRs.
+
+| System / workstream | Current authoritative source | Current PR / branch | Status | Implemented | Tested | Deployed | Main remaining gate |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Consolidated Lightspeed platform | `Tawgod/Lightspeed:integration/hobby-corner-consolidation@24e9834a6` | authoritative base | Testing | Yes | Automated + selected runtime verification | Core Railway services yes | Real employee/browser acceptance and coordinated release discipline |
+| Core Special Orders / Ordering / Preorders / GW | consolidated branch | PR #24 `feature/core-ops-ui-consistency-nav-20261028` for pending UI/nav refinement | Testing | Core workflows yes; PR #24 pending | Core automation/source checks; PR #24 browser acceptance pending | Core services yes; PR #24 no | Rebase PR #24 to current base, CI + browser/keyboard/zoom acceptance |
+| Shared UI foundation | consolidated `shared-ui/hc.css` | PR #27 `feature/shared-ui-foundation-reconcile-20261028` | In Development | Yes, selective reusable pieces | CI pass | No separate deployment | Confirm clipboard/API parity with PR #26; then retire PR #16 |
+| Scanner + Toolkit popup/navigation | consolidated base + PR #26 | PR #26 `feature/scanner-consignment-nav-alignment-20261028` | Testing | Yes | Automated integration/UI/clipboard/mock Chromium pass | No | Real Chrome employee, supplier, PIN and navigation acceptance |
+| Timeclock + Split / Recall extension UI | consolidated base + PR #22 | PR #22 `feature/extension-launchers-shared-ui-20261027` | Testing | Yes | Automated pass `40725000899` | No | Real Sell/fulfillment/PIN/zoom/focus/Split acceptance |
+| Purchase Order Companion | consolidated base + PR #31 | PR #31 `feature/po-companion-consolidated-20261028` | In Development | UI/draft/review structure yes | Source review; automated/Chrome pending | No | Authenticated read-only PO retrieval, employee auth, Chrome real-PO acceptance |
+| Consignment Management | consolidated base + PR #30 | PR #30 `feature/consignment-consolidated-v2-20261028` | Testing | Selective consolidation yes | Safety/regression/Chromium tests pass per handoff | Existing old isolated beta only | Review with PR #24, isolated test promotion, protected persistence/live matching |
+| Product Manager | consolidated base + PR #28 | PR #28 `feature/product-manager-current-base-20261028` | In Development | UI/validation/shared UI yes | Source reconciliation; CI/browser pending | No | CI, browser acceptance, branding route, auth/navigation integration |
+| Avery PO Label Maker | consolidated base + PR #29 | PR #29 `feature/labels-shared-ui-reconciled-20261028` | Testing | Yes | Automated pass | Existing production label system unchanged; PR #29 no | Browser/native zoom + physical Avery 5960 print acceptance |
+| Rewards | `Tawgod/Hobby-Corner-Discord-Bot:main` + Railway Rewards service | deployed service | Deployed | Yes | Runtime in service | Yes | Ongoing operational verification; no current UI consolidation blocker |
+| Railway variable/security consolidation | Railway production + audit docs | no feature PR | Testing / Maintenance | Shared/reference topology implemented | Core service deployment verification completed | Yes | Remaining credential rotation/sealing and legacy-secret retirement |
+| RMS migration / legacy importer | migration-specific repos/tools | separate migration branches/tools | Testing / Maintenance | Yes | Controlled migration testing | Not a Railway production app | Finish cutover validation and retire legacy credential paths |
+| Back Room Inventory | planned | none | Planned | No | No | No | Architecture/data model and Lightspeed inventory-read design |
+| Service Requests / Repairs / Warranty / Commissions | planned | none | Planned | No | No | No | Workflow/data model, Special Orders/Timeclock/Lightspeed integration design |
+| Game Room Reservations & Events | planned | none | Planned | No | No | No | Resource map/calendar/reservation architecture |
+
+### Current supersession map
+
+Treat these older items as historical unless a reconciliation audit finds unique work not present in the replacement:
+
+- PR #16 → superseded by selective shared UI reconciliation PR #27.
+- PR #18 → superseded by Product Manager PR #28.
+- PR #20 → superseded by Avery Label PR #29.
+- PR #11 and PR #25 → superseded for current Consignment integration by PR #30.
+- PR #13 → superseded by PO Companion PR #31.
+- PR #19 → superseded by Scanner/Toolkit PR #26.
+- PR #21 and PR #23 → predecessor work incorporated into current core-operations candidate PR #24.
+
+Do not merge or deploy a superseded PR independently. Preserve it for history until the owning development chat confirms all unique changes are accounted for, then close it rather than deleting history.
+
+### Current coordination order
+
+1. Keep `integration/hobby-corner-consolidation` as the only application integration base.
+2. Rebase/reconcile PR #24 to the current consolidated head and complete its acceptance.
+3. Finish PR #27's unique shared-UI reconciliation; retire PR #16 after verification.
+4. Complete feature acceptance independently for PR #29, PR #28 and PR #30.
+5. Complete PR #31 authenticated read-only PO contract and real Chrome acceptance.
+6. Complete real Chrome acceptance for PR #26 and PR #22.
+7. Build one coordinated extension release-testing branch from the then-current consolidated source, selectively integrating compatible #26 + #22 + #31 and only an approved Consignment launcher.
+8. Reconcile every entry in `CHROME_EXTENSION_RELEASE_QUEUE.md`, run cross-feature browser tests, then request explicit release approval before versioning/packaging/publishing.
+
 
 ## System inventory
 
