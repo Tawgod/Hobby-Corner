@@ -145,3 +145,14 @@ No tool should be considered fully accepted solely because shared styling exists
 **Pending navigation destinations:** Timeclock, Product Scanner, Product Manager, PO Companion, Split/Recall and Consignment production launch must be validated against actual deployed routes and authentication before adding links. Do not invent routes or advertise test-only tools as production. Respect Chrome extension queue for launcher changes.
 
 **Acceptance:** From each page, verify all valid approved links are visible or reachable from a responsive More menu, current page is indicated, external tools are labeled, keyboard navigation and browser zoom pass, and normal business functionality remains unchanged. Test without a valid access key and with an authorized session.
+
+
+## Foundation reconciliation — 2026-10-28
+
+- Consolidated baseline was reported at `24e9834a6`. Compared PRs [#16](https://github.com/Tawgod/Lightspeed/pull/16), [#24](https://github.com/Tawgod/Lightspeed/pull/24), [#25](https://github.com/Tawgod/Lightspeed/pull/25), [#26](https://github.com/Tawgod/Lightspeed/pull/26).
+- **Confirmed:** The shared stylesheet `shared-ui/hc.css` in consolidated and PR #16 is the exact same blob (`c98ec1a8`). Do not overwrite it with old branch content or remerge PR #16 wholesale.
+- **Selective replacement:** [Draft PR #27](https://github.com/Tawgod/Lightspeed/pull/27), branch `feature/shared-ui-foundation-reconcile-20261028`, preserves unique shared clipboard behavior, adds focused reconciliation tests and an ownership/dependency document `shared-ui/RECONCILIATION_20261028.md`.
+- **Duplication:** Shared web CSS is already reused; extension scanner has a distinct copied CSS bundle, and popup has separate token overrides. Logos are staged in the extension and PR #24 as independent assets. Do not add another binary logo copy without an explicit packaging need.
+- **Navigation owners:** PR #24 handles core web views, PR #25 handles Consignment, PR #26 handles Scanner/Toolkit. Treat approved original Consignment branding, shaded panels, readable alerts and consistent destinations as visual acceptance standard.
+- **Merge ordering (conditional):** complete PR #24 and verify routes/branding; reconcile PR #25 with the Consignment base and verified destinations; rebase PR #26 after navigation coordination; merge PR #27's unique helper/tests when compatible with PR #26. Close/supersede PR #16 only after all unique pieces are explicitly resolved. No implicit permission to deploy.
+- **Status:** Foundation reconciliation implemented on branch; automated test status tracked in PR #27; merged NO; deployed NO. Web/extension/Consignment browser tests and live route acceptance remain separate.
