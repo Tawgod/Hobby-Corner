@@ -1476,3 +1476,10 @@ Verification status:
 - Older PRs #19, #21 and #23 are predecessor work and should not be merged independently without reconciling against their newer coordinated successors.
 - Consignment PR #11's older popup launcher must not overwrite the shared popup/navigation; preserve feature work and re-integrate launcher through the shared entry point.
 - No extension release performed.
+
+
+## Shared UI foundation selective reconciliation — 2026-10-28
+- **Status:** In Development; **implemented:** YES, on `feature/shared-ui-foundation-reconcile-20261028`; **automated testing:** PASS, CI run [40724512226](https://github.com/Tawgod/Lightspeed/actions/runs/40724512226); **browser testing:** pending; **merged:** NO; **deployed:** NO.
+- **PR:** [Tawgod/Lightspeed#27](https://github.com/Tawgod/Lightspeed/pull/27). Reconciles superseded PR #16 without overwriting newer code. Consolidated `shared-ui/hc.css` is byte-identical to PR #16; only standalone clipboard, docs and new scope/tests are selectively ported. No duplicate logos or navigation systems added.
+- **Related PRs:** #24 core operations, #25 Consignment (depends on its own base PR), #26 Scanner/Toolkit. Navigation ownership and merge dependencies recorded in `shared-ui/RECONCILIATION_20261028.md` and `SHARED_ADDON_UI_UX.md`.
+- **Release rule:** No extension package or production deploy until queue reconciliation and feature-specific acceptance. Confirm PR #26 clipboard compatibility before final PR #27 merge. Retain original Consignment visual standard and branding.
