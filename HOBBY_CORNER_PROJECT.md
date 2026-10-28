@@ -1655,3 +1655,16 @@ If a development chat cannot write to GitHub, it must return a complete manager-
 - **Status:** In Development; **implemented:** Yes; **automated tested:** Pass; **browser/employee acceptance:** not performed by PR #27; **merged:** No; **deployed:** No.
 - **Disposition:** PR #27 remains draft/mergeable for review. PR #16 may be closed as superseded upon approval. PR #24 core navigation and PR #26 Scanner/Toolkit remain independently owned; real Chrome release tests not replaced by PR #27 CI.
 - **Next:** Review four-file PR diff and approve merge when integration timing is appropriate; close superseded PR #16 without merging it. No extension packaging or production deployment authorized.
+
+### Special Orders Lightspeed data-source + GW preorder cleanup — 2026-10-28
+Status: **Testing**
+
+- Verified live supplier/category failures were caused by empty/unresolved Lightspeed credentials on `special-orders-test`.
+- Rewired `special-orders-test` `LIGHTSPEED_DOMAIN` and `LIGHTSPEED_TOKEN` to reference the working `lightspeed-api` service variables, avoiding secret duplication.
+- GW parser now extracts trailing short codes from titles such as `BL3362`, `301-91`, and `301-88`, removes them from the customer-facing name, and converts all-caps GW titles to readable title case while preserving short abbreviations such as `(HB)`.
+- Existing GW campaigns can be refreshed with **Sync & Scrape**; existing preorder-product title/code fields are updated for the same external entry.
+- GW Discord publication no longer seeds an automatic ✅ reaction.
+- Discord embed line breaks are rendered properly instead of showing literal `\\n`, release text is shorter, and the footer is simplified to the short code.
+- Implementation: `Tawgod/Lightspeed@e22fb8def189120c5758583212bb793520d620a6`; startup regression fix: `Tawgod/Lightspeed@127a4644e65662cafe1a31dfedc62b86afec520d`.
+- Parser regression examples passed locally. Railway deployment/browser acceptance still pending at this documentation update.
+
