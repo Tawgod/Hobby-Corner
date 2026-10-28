@@ -285,3 +285,41 @@ No extension version bump, package, distribution update, or Chrome Web Store rel
 - **Browser smoke artifact:** `scanner-chrome-layout-screenshots` ID `12832248239`, nine popup/scanner screenshots for normal/125%/200% zoom, expires 2026-11-11. Initial run found the current Toolkit destination hidden in collapsed More; fixed so current tool always appears in primary navigation. No real PIN or remote calls in mocked test.
 - **Deployment:** None from PR #26. Existing Railway deployments for `lightspeed-api`, `timeclock`, `special-orders-test` confirmed SUCCESS at consolidated `24e9834a6`.
 - **Remaining gate:** Actual Chrome extension/browser employee acceptance for PIN, supplier scanning, data and navigation click-through, plus PO Companion/Consignment/Timeclock-Split shared extension reconciliation. `BLOCKED` for next Chrome extension package, no version change or publication.
+
+
+## October 28, 2026 — Manager handoff synchronization
+
+### Purchase Order Companion — current candidate
+- **Status:** `IN DEVELOPMENT`.
+- **Current PR/branch:** #31 / `feature/po-companion-consolidated-20261028`.
+- **Supersedes:** PR #13.
+- **Shared dependency:** PR #26 navigation/popup contract.
+- **Affected shared files:** `extension/manifest.json`, `popup.html`, `popup.js`, shared navigation/UI assets plus feature-local PO Companion files.
+- **Release blockers:** authenticated read-only PO retrieval, employee authorization, extension regression, real Chrome PO acceptance, manifest/shared-surface reconciliation.
+- **Release readiness:** NOT READY.
+
+### Consignment — current candidate
+- **Status:** `TESTING`.
+- **Current PR/branch:** #30 / `feature/consignment-consolidated-v2-20261028`.
+- **Supersedes for integration:** PR #11; PR #25 navigation work is historical input, not a direct production merge target.
+- **Extension impact:** old direct popup launcher excluded from #30; any future launcher must use the coordinated shared entry point/navigation contract.
+- **Release readiness:** NOT READY; isolated beta only, new branch not deployed.
+
+### Timeclock + Split / Recall
+- **Status:** `TESTING`.
+- **PR:** #22, head `f9e8f0af75306bd17b0ebf9d6d6d36eef7a6b1b2`.
+- **Automated:** PASS `40725000899`.
+- **Shared file:** `extension/content.js`.
+- **Blocker:** real Chrome employee acceptance, zoom/focus, PIN, Split/Recall/Retrieve-to-Register and CSS-isolation checks.
+- **Release readiness:** NOT READY.
+
+### Product Scanner + Toolkit
+- **Status:** `TESTING`.
+- **PR:** #26, head `0b3e6f110932efea94dc23c23903cc97ee20e541`.
+- **Automated:** integration/UI/clipboard/mocked Chromium PASS.
+- **Real employee acceptance:** pending.
+- **Dependencies:** PR #24 core navigation, #31 PO Companion, #30 Consignment, #22 Timeclock/Split.
+- **Release readiness:** BLOCKED pending coordinated integration/browser acceptance.
+
+### Coordinated release gate
+Do not package, version, deploy, or publish the extension until #26, #31, #22 and any approved Consignment launcher changes are reconciled on one current-base release-testing branch, all queue entries are dispositioned, and real Chrome employee acceptance passes.
