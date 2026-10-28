@@ -242,3 +242,12 @@ As of 2026-10-28, active work that can overlap shared extension surfaces include
 - Chrome Web Store / packaging work
 
 These areas must coordinate rather than independently replacing popup, content-script, manifest, navigation, shared styling, or authorization behavior.
+
+
+## Central Git handoff
+
+Extension development conversations must also publish their latest manager handoff to the appropriate stable file under:
+
+`Tawgod/Hobby-Corner:main/handoffs/`
+
+Use `handoffs/README.md` and `handoffs/TEMPLATE.md`. This does not replace the release queue: extension work must update both its handoff file and `CHROME_EXTENSION_RELEASE_QUEUE.md` when applicable.
