@@ -71,3 +71,11 @@
 - Current grid does not yet implement drag-order and per-column width customization: Save Layout stores a baseline configuration, not real employee modifications. Do not call per-employee customization complete until UI controls actually bind to configuration.
 - Existing read-only product safeguards preserved. Demo data visible signed out, but no live product API exists.
 - CI failure on first auth commit run 40749755479 (missing Express dependency during tests; obsolete no-network assertion) was diagnosed; test setup/assertion corrected; **PASS** GitHub Actions run 40749886006 (Node validation/profile tests and Chromium browser acceptance).
+
+## 2026-10-28 — Work backup and employee layout controls
+- Product Manager PR #28 now has an optional **Save work backup** action and 5-minute authenticated autosave of staged changes, selection, filter and active layout, stored in a new PostgreSQL `product_manager_work_drafts` table keyed solely by server-verified Timeclock employee ID.
+- Saving on sign-out is attempted first; on failure the sign-out is cancelled with explicit warning so unsaved work remains in the tab. On expiry, the current tab snapshot is frozen; only the same Timeclock employee may restore that tab snapshot after reauthentication. Confirmed server backup is offered for review on login; restoration checks stale values against current records and never writes Lightspeed.
+- Column visibility, order (accessible up/down controls), and pixel widths are now editable, and employee's selected slot can be saved via the existing protected profile API. Physical drag gestures and reorder of Product Details fields remain future work.
+- Profile and backup APIs are modular and **not mounted**; migration helper is **not invoked**. No Railway service, production database or Lightspeed changes. Live persistence cannot be claimed until separately reviewed and deployed.
+- Safeguards: per-request Timeclock authorization, employee-ID derived server side, bounded payload, no credentials in localStorage, explicit backup status. A backup interval is best effort and cannot guarantee capture of edits during browser crash, offline periods, or after expired credentials.
+- Tests: CI needs latest-head verification. Native employee acceptance and database integration (including cross-employee isolation, session expiry and restore) remain pending.
