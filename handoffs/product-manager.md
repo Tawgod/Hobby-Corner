@@ -79,3 +79,6 @@
 - Profile and backup APIs are modular and **not mounted**; migration helper is **not invoked**. No Railway service, production database or Lightspeed changes. Live persistence cannot be claimed until separately reviewed and deployed.
 - Safeguards: per-request Timeclock authorization, employee-ID derived server side, bounded payload, no credentials in localStorage, explicit backup status. A backup interval is best effort and cannot guarantee capture of edits during browser crash, offline periods, or after expired credentials.
 - Tests: CI needs latest-head verification. Native employee acceptance and database integration (including cross-employee isolation, session expiry and restore) remain pending.
+
+- Latest Product Manager GitHub CI **PASS**: run 40752194410 on commit 0ec01d7fd32101e19d450f4341e93a3d86797d4f (Node syntax, validation/profile/backup tests, existing Chromium browser acceptance).
+- CI does not yet cover authenticated profile/backup HTTP flows or the five-minute timer under a mocked Timeclock session; end-to-end acceptance remains outstanding.
