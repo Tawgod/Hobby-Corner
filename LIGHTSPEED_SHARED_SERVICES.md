@@ -1,0 +1,434 @@
+# Hobby Corner Shared Lightspeed Services Architecture
+
+**Status:** In Development / Coordination  
+**Last verified:** 2026-10-28  
+**Authoritative application base:** `Tawgod/Lightspeed:integration/hobby-corner-consolidation`  
+**Observed consolidated head during this audit:** `59a971d223eab70005c35b825d16cefdc025299a`
+
+## Purpose
+
+Hobby Corner currently has a mixture of shared Lightspeed code and feature-specific Lightspeed API calls. This document defines the target architecture so customer, product, inventory, sales, purchase-order and other Lightspeed operations are implemented once and reused by all Hobby Corner tools.
+
+The goal is not to force every feature into one application. Feature workflows remain modular. The shared Lightspeed layer owns the common interaction rules, while each feature owns its business workflow.
+
+## Current state
+
+The current consolidated repository already contains useful shared pieces:
+
+- `services/lightspeedApi.js` provides a reusable Lightspeed client for several sale, fulfillment, customer/product read and store-credit operations.
+- Order Split / Recall routes already reuse that shared client in several places.
+- Special Orders contains mature product matching, duplicate prevention and controlled product-create behavior in `routes/specialOrderProducts.js`.
+- Product Scanner intentionally reuses Special Orders matching contracts instead of owning an independent production product creator.
+- Special Orders currently owns customer creation/update logic directly in `special-orders.js`.
+- Special Orders also contains direct/versioned Lightspeed fetch helpers and several direct inventory, sales, fulfillment and purchase-order calls.
+- `services/scannerIsolatedTestWriter.js` is intentionally isolated to a separate Lightspeed test tenant and must not become a production write path.
+- Rewards currently has its own Python Lightspeed HTTP client in `Tawgod/Hobby-Corner-Discord-Bot:main/rewards_service.py`.
+- RMS/product migration has separate bulk-write logic and should remain a controlled migration path, not an ordinary staff write path.
+
+This means some behavior is already shared, but there is not yet one canonical service contract that every current and future tool consumes.
+
+## Target architecture
+
+Cross-service consumers should use the Hobby Corner `lightspeed-api` backend as the canonical Lightspeed gateway rather than independently holding Lightspeed credentials and implementing their own API rules.
+
+Inside `Tawgod/Lightspeed`, the gateway should use modular domain services under a shared namespace such as:
+
+```
+services/lightspeed/
+  client.js
+  policy.js
+  audit.js
+  idempotency.js
+  customers.js
+  productIdentity.js
+  products.js
+  catalog.js
+  inventory.js
+  sales.js
+  fulfillments.js
+  purchaseOrders.js
+  storeCredit.js
+  customFields.js
+  media.js
+```
+
+The exact filenames may change during implementation, but the ownership boundaries below should remain stable.
+
+Feature workflows such as Special Orders, Scanner, Consignment, Product Manager, Repairs, Back Room Inventory, Split/Recall and Reservations should call these shared modules or their authenticated backend API contracts rather than creating parallel raw Lightspeed clients.
+
+## Modules to synchronize
+
+### 1. Transport / raw Lightspeed client
+
+**Proposed owner:** `services/lightspeed/client.js`
+
+Responsibilities:
+- base URL and authentication headers
+- API version selection
+- request serialization and response parsing
+- normalized Lightspeed errors
+- request timeouts
+- safe retry rules for read/idempotent operations
+- correlation/request IDs for audit tracing
+- pagination helpers
+
+Migration target:
+- merge the useful behavior of current `services/lightspeedApi.js`, `special-orders.js` versioned/raw fetch helpers and other feature-specific raw HTTP wrappers.
+- feature code should not call `*.retail.lightspeed.app` directly after conversion unless explicitly documented as an exception.
+
+### 2. Employee/service authorization and write policy
+
+**Proposed owner:** `services/lightspeed/policy.js`
+
+Responsibilities:
+- Timeclock-backed employee identity for employee-initiated operations
+- service-to-service authorization for background jobs
+- per-operation permissions
+- read-only vs write-capable policy
+- production/test environment gates
+- feature flags for dangerous writes
+- fail-closed behavior when authorization cannot be verified
+
+This should complement, not replace, the existing shared staff-auth gateway.
+
+### 3. Idempotency and mutation audit
+
+**Proposed owners:** `services/lightspeed/idempotency.js`, `services/lightspeed/audit.js`
+
+Responsibilities:
+- idempotency key for create/update operations
+- source tool and employee/service identity
+- target Lightspeed entity and operation
+- request fingerprint
+- result ID/status
+- read-back verification
+- partial/unknown-write state when a request may have succeeded before failure
+- retry safety
+- immutable audit history
+
+Every production-capable create/update/delete/credit mutation should pass through this layer.
+
+### 4. Customers
+
+**Proposed owner:** `services/lightspeed/customers.js`
+
+Canonical operations:
+- search/match customer
+- get customer
+- create customer
+- update customer
+- normalize name/contact/address fields
+- duplicate checks before creation
+- return a stable normalized customer model
+
+Current implementation to reconcile:
+- `special-orders.js` `/customers/search`
+- `special-orders.js` `/customers/create-lightspeed`
+- customer profile update/sync logic
+- Rewards/customer identity consumers
+- future Service Requests and Reservations customer workflows
+
+Local Hobby Corner customer-profile synchronization may remain a separate repository/service responsibility, but the Lightspeed operation itself should be canonical.
+
+### 5. Product identity and duplicate matching
+
+**Proposed owner:** `services/lightspeed/productIdentity.js`
+
+Canonical operations:
+- normalize SKU/UPC/EAN/other product codes
+- match exact Lightspeed SKU/product code
+- match supplier SKU
+- local product-registry match
+- remote Lightspeed match
+- fuzzy/advisory match where appropriate
+- fail closed when remote verification is required but unavailable
+- return match confidence/reasons in one shared shape
+
+Current implementation to preserve:
+- mature Special Orders product matching in `routes/specialOrderProducts.js`
+- Scanner's existing Special Orders match adapter/contracts
+
+This is a high-value shared module and should be extracted rather than rewritten.
+
+### 6. Products / catalog writes
+
+**Proposed owner:** `services/lightspeed/products.js`
+
+Canonical operations:
+- get/search product
+- create product
+- update product
+- controlled activation/status changes
+- validate required fields
+- apply Hobby Corner tax/price normalization
+- supplier/category/brand/tag resolution
+- require product-identity duplicate verification before create
+- invoke audit/idempotency/write policy
+- read back and verify successful mutation
+
+Current production-capable logic to preserve:
+- `routes/specialOrderProducts.js` `/products/create-lightspeed`
+- required-field validation
+- duplicate protection
+- supplier resolution
+- tax-exclusive normalization
+- `Added by SO` audit tag behavior or its successor policy
+- local product synchronization hooks
+
+Product Manager, Scanner, Consignment and Repairs must not create independent production product writers.
+
+### 7. Catalog reference data
+
+**Proposed owner:** `services/lightspeed/catalog.js`
+
+Canonical operations:
+- suppliers
+- brands
+- product categories
+- tags
+- exact-name/ID resolution
+- cache/read-through rules where safe
+
+Current scattered category/brand/supplier/tag logic should converge here.
+
+### 8. Product media
+
+**Proposed owner:** `services/lightspeed/media.js`
+
+Canonical operations:
+- validate allowed source URL/content type/size
+- upload product image
+- safe image read-back/verification
+
+Current Special Orders image-upload behavior should be extracted rather than duplicated by Product Manager or migration-facing staff tools.
+
+Bulk migration image handling may remain a migration adapter but should share validation rules where practical.
+
+### 9. Inventory
+
+**Proposed owner:** `services/lightspeed/inventory.js`
+
+Canonical operations:
+- read inventory by product/outlet
+- normalize on-hand/available quantities
+- future controlled inventory adjustments only after explicit design/authorization
+- outlet resolution
+
+Consumers:
+- Back Room Inventory
+- Product Manager
+- Special Orders/receiving
+- Product Scanner
+- Consignment matching/read-only review
+
+Back Room Inventory must remain a Hobby Corner location/capacity overlay and must not become a second source of truth for total Lightspeed inventory.
+
+### 10. Sales / work orders
+
+**Proposed owner:** `services/lightspeed/sales.js`
+
+Canonical operations:
+- get/search sales
+- create sale/work order
+- update sale
+- customer/sale lookup
+- line normalization
+- safe readback
+- controlled write policy
+
+Higher-level workflows such as deposit conversion, work-order combine and future repair checkout remain feature orchestration modules, but should use the canonical sales service.
+
+### 11. Fulfillment / pickup
+
+**Proposed owner:** `services/lightspeed/fulfillments.js`
+
+Canonical operations:
+- list fulfillments for sale
+- read fulfillment state
+- normalize pickup/fulfillment data
+
+Split / Recall / Partial Pickup remains its own workflow but should consume this module rather than raw API calls.
+
+### 12. Purchase Orders
+
+**Proposed owner:** `services/lightspeed/purchaseOrders.js`
+
+Canonical operations:
+- list/read current purchase orders
+- retrieve line items
+- normalize supplier/product/quantity/status data
+- controlled PO create/update operations if later approved
+- read-back verification
+
+Consumers:
+- Ordering
+- PO Companion
+- Avery PO Label Maker
+- Special Orders supplier purchasing/receiving
+- future Repairs parts-ordering workflows
+
+PO Companion should be a consumer of this shared read contract, not the owner of an independent Lightspeed PO client.
+
+### 13. Store credit
+
+**Proposed owner:** `services/lightspeed/storeCredit.js`
+
+Canonical operations:
+- get store credit
+- post store-credit transaction
+- idempotency
+- exact delayed-credit policy hooks
+- audit/readback
+
+Primary future consumer:
+- Consignment
+
+No Consignment branch should own its own raw production store-credit writer.
+
+### 14. Customer custom fields
+
+**Proposed owner:** `services/lightspeed/customFields.js`
+
+Canonical operations:
+- list/ensure approved Hobby Corner custom fields
+- set field values
+- type/value normalization
+- audit/write policy
+
+Primary current consumer:
+- Rewards service
+
+Rewards currently has its own Python Lightspeed HTTP implementation for customer custom fields. The long-term target is for Rewards to call the canonical Hobby Corner backend contract instead of storing a second production Lightspeed access implementation.
+
+## Feature orchestration that should remain feature-owned
+
+Centralization should not turn feature business logic into one giant service.
+
+These remain separate orchestration domains:
+- Special Orders workflow/status/receiving/notifications
+- Scanner supplier-page capture/review/proposal UX
+- Product Manager editing/review UX
+- Consignment intake/aging/credit eligibility workflow
+- Split / Recall / Partial Pickup workflow
+- Repair/service-ticket lifecycle
+- Back Room shelf-capacity/restock workflow
+- Game Room reservation/calendar/resource logic
+- Rewards tier calculation
+- RMS migration batch selection/review/cutover logic
+
+They should consume shared Lightspeed domain contracts.
+
+## Explicit exceptions
+
+### Scanner isolated test-tenant writer
+
+`services/scannerIsolatedTestWriter.js` should remain a separate, test-only writer with:
+- a domain different from production
+- explicit isolated-tenant confirmation
+- separate credentials
+- disabled-by-default behavior
+
+It may reuse shared payload validation/identity helpers, but must never silently fall through to production credentials.
+
+### RMS / bulk migration
+
+Bulk migration should remain a separately authorized migration path with:
+- bounded/controlled writes
+- migration-specific review gates
+- dry-run support
+- cutover-specific readback
+- separate audit context
+
+Where practical, it should reuse shared identity normalization and payload validation, but should not become an ordinary employee-facing product-create endpoint.
+
+## API boundary for other repositories/services
+
+Cross-repository services such as Rewards should prefer authenticated Hobby Corner internal API endpoints on `lightspeed-api` over direct Lightspeed credentials.
+
+Suggested route family:
+
+```
+/api/hc-lightspeed/customers/...
+/api/hc-lightspeed/products/...
+/api/hc-lightspeed/inventory/...
+/api/hc-lightspeed/sales/...
+/api/hc-lightspeed/fulfillments/...
+/api/hc-lightspeed/purchase-orders/...
+/api/hc-lightspeed/store-credit/...
+/api/hc-lightspeed/custom-fields/...
+```
+
+Exact route names may change, but one canonical contract should serve all consumers.
+
+## Conversion rules
+
+1. Do not rewrite working behavior merely to centralize it. Extract tested logic with small changes.
+2. Read paths should generally move first, followed by controlled write paths.
+3. Preserve current request/response behavior until consumers are migrated and tested.
+4. No feature may introduce a new raw production Lightspeed API writer when an equivalent shared service exists.
+5. New production mutations require Timeclock/service authorization, write policy, idempotency, audit and readback.
+6. New cross-service consumers should not receive production Lightspeed credentials merely for convenience.
+7. Keep test tenant, beta and migration credentials isolated.
+8. Preserve existing fail-closed behavior.
+9. Update the central handoff and relevant feature handoffs after each conversion.
+10. Do not remove an old code path until all known consumers have moved and regression tests pass.
+
+## Recommended conversion order
+
+### Phase 1 — foundation
+1. Normalize/replace the raw transport client.
+2. Add policy, audit and idempotency contracts.
+3. Add source/consumer inventory tests that identify direct raw Lightspeed access.
+
+### Phase 2 — identity/read services
+4. Extract customer read/search.
+5. Extract product identity/matching.
+6. Extract catalog reference data.
+7. Extract inventory reads.
+8. Extract PO reads.
+9. Extract sales/fulfillment reads.
+
+### Phase 3 — writes
+10. Extract customer create/update.
+11. Extract product create/update and image upload.
+12. Extract sales mutations.
+13. Extract store-credit transactions.
+14. Extract custom-field writes.
+
+### Phase 4 — consumer conversion
+15. Core Operations / Special Orders.
+16. Scanner / Toolkit.
+17. Product Manager.
+18. PO Companion.
+19. Consignment.
+20. Timeclock / Split Recall.
+21. Avery Labels.
+22. Rewards/customer sync.
+23. RMS migration adapters where appropriate.
+24. Planned Back Room Inventory, Repairs and Reservations start directly on the new contracts.
+
+## Required testing
+
+Each migrated domain module should have:
+- unit tests
+- request/response contract tests
+- auth/write-policy tests
+- duplicate/idempotency tests for mutations
+- error/partial-write behavior tests
+- representative read-back tests
+- feature regressions for every migrated consumer
+
+Do not claim a consumer converted until its old raw call path is no longer used in normal operation and the consumer's own acceptance tests pass.
+
+## Coordination files
+
+- This document: `Tawgod/Hobby-Corner:main/LIGHTSPEED_SHARED_SERVICES.md`
+- Conversion prompts/index: `Tawgod/Hobby-Corner:main/prompts/lightspeed-shared-services/`
+- Current feature snapshots: `Tawgod/Hobby-Corner:main/handoffs/`
+- Chrome integration: `CHROME_EXTENSION_INTEGRATION.md`
+- Chrome release state: `CHROME_EXTENSION_RELEASE_QUEUE.md`
+- Project registry: `HOBBY_CORNER_PROJECT.md`
+
+## Release / deployment restriction
+
+This architecture note authorizes coordination and refactoring planning only. It does not authorize production Lightspeed writes, Railway deployment, credential movement, database migrations, Chrome packaging, or deletion of old implementations.
