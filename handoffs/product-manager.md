@@ -61,3 +61,13 @@
 
 ## Documentation
 - product-manager/SHARED_UI_ADOPTION.md; project handoff in Tawgod/Hobby-Corner:main/handoffs/product-manager.md
+
+## Timeclock authentication and profiles update — 2026-10-28
+- Implementation branch remains PR #28; modules `product-manager/profiles-api.js` and `profiles-api.test.js` added.
+- Reuse existing /api/staff-auth/session (Timeclock authoritative PIN and staff sessions); no second PIN table or auth service.
+- Browser PIN entry and sign-out controls implemented; session held in tab memory only; employee revocation/expiration clears state.
+- Profile storage contract: PostgreSQL table `product_manager_profiles` keyed on authenticated employee_id and slot (Default/Profile 1/Profile 2/Profile 3), server-side permission check per request, bounds-check schema and parameterized writes.
+- Security restriction: profile router is **NOT mounted**, table initializer is **NOT invoked** on Railway; no production database or API change. This is integration-ready code awaiting isolated acceptance/deployment approval.
+- Current grid does not yet implement drag-order and per-column width customization: Save Layout stores a baseline configuration, not real employee modifications. Do not call per-employee customization complete until UI controls actually bind to configuration.
+- Existing read-only product safeguards preserved. Demo data visible signed out, but no live product API exists.
+- CI failure on first auth commit run 40749755479 (missing Express dependency during tests; obsolete no-network assertion) was diagnosed; test setup/assertion corrected, new run pending.
