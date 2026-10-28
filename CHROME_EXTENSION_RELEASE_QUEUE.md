@@ -88,6 +88,7 @@ Each entry must contain:
 - **Target:** Later store publication after separate review.
 
 ### Consignment Manager launcher
+- **2026-10-28 consolidation reconciliation:** Draft PR #30 selectively ports Consignment into current consolidated architecture but explicitly EXCLUDES the legacy extension/popup.html modification from PR #11. The current shared popup is authoritative. Keep this launcher IN DEVELOPMENT / BLOCKED FOR RELEASE until the shared extension owners integrate a compatible link and verify the permanent destination; do not substitute the stale popup or ship a beta-only URL in production.
 - **Source conversation:** Consignment program development, October 19, 2026.
 - **Status:** `IN DEVELOPMENT`.
 - **Requested behavior:** A lightweight Chrome extension popup link opening the full Consignment Manager, not an embedded management application.
