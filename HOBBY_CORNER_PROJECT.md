@@ -1467,3 +1467,12 @@ Verification status:
 - Browser employee acceptance: pending
 - Required acceptance: valid PIN, invalid PIN/rate limit, cross-page session restoration, session expiry/re-login, employee deactivation/revocation, Sign out, and existing business-action permission gates.
 
+
+
+## Chrome extension shared-integration reconciliation — 2026-10-28
+- Reviewed `CHROME_EXTENSION_INTEGRATION.md`, `CHROME_EXTENSION_RELEASE_QUEUE.md`, current consolidated extension source and active PRs.
+- Current consolidated head at review: `24e9834a6aaaec2fae5e656a65939e93b63143cf`.
+- Current coordinated candidates: PR #24 for core-ops UI/navigation, PR #26 for Scanner/Toolkit shared popup/navigation, PR #22 for Timeclock/Split content-script styling (must rebase/reconcile), PR #25 for Consignment navigation/UI, PR #13 for PO Companion after shared manifest/popup/navigation reconciliation.
+- Older PRs #19, #21 and #23 are predecessor work and should not be merged independently without reconciling against their newer coordinated successors.
+- Consignment PR #11's older popup launcher must not overwrite the shared popup/navigation; preserve feature work and re-integrate launcher through the shared entry point.
+- No extension release performed.
