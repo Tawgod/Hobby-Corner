@@ -21,7 +21,7 @@
 
 ## Tested
 - Prior Node CI SUCCESS: Actions run 40748939537 on commit 0d802cced7760189956fd132bcac4e3c3d9752f0.
-- New head CI: pending; workflow installs Chromium then exercises search/filter/empty, editing drafts/review/undo, input errors, keyboard Enter selection and responsive layout.
+- New head CI: **PASS**, GitHub Actions run 40749046354 (all jobs/steps successful). Workflow installs Chromium then exercises search/filter/empty, editing drafts/review/undo, input errors, keyboard Enter selection and responsive layout.
 - Zoom: scripted CSS visual zoom at 100/125/200%; **not native Chrome browser zoom**. Native browser zoom/manual employee acceptance still required.
 - Loading state: standalone demo performs no async read requests; live loading/error/auth flows not implemented and therefore cannot be accepted.
 - No Railway or live Lightspeed runtime verification performed during incident.
@@ -43,7 +43,7 @@
 - No shared CSS, extension, server, or Railway files changed.
 
 ## Remaining blockers
-- Validate latest CI head run; inspect logs and fix any regression failures.
+- Latest CI head run 40749046354 passed; browser in real employee environment and native zoom still needed.
 - Native Chrome 100/125/200% zoom plus keyboard and screen-reader employee acceptance.
 - Hosted route and original logo actual HTTP asset serving; current app standalone demo.
 - Real employee authentication and read-only API integration.
