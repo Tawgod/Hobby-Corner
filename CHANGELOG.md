@@ -825,3 +825,15 @@ No Lightspeed product records were created or updated in this test. The existing
 - Added planned **Game Room Reservations & Events** system with configurable table/area maps, reservations, blackout dates, events, capacity and conflict handling.
 - All three are planned only; no production functionality or deployment was created.
 - Future implementations should reuse existing Hobby Corner infrastructure and the shared UI/UX design system.
+
+## 2026-10-28 — Timeclock PIN sign-in for Special Orders core tools
+
+- Replaced the normal employee-facing Special Orders access-key login with existing 4-digit Timeclock employee PIN authentication.
+- Reused the signed staff-auth session gateway; PINs are verified by Timeclock and are not stored by Special Orders.
+- Added shared session restoration across Special Orders, Ordering, Preorders and GW Preorders.
+- Moved PIN/sign-in identity controls into the shared navy header.
+- Standardized all four core navigation links across those pages.
+- Kept the admin key as a server-side fallback rather than the primary employee workflow.
+- Added Enter-to-sign-in and employee identity display/sign-out controls.
+- Latest Railway builds were queued at final verification.
+
