@@ -239,3 +239,26 @@ When any development chat starts preparing a Chrome extension release, it must f
 - **Behavior:** Current-page highlighting, navy nav, responsive More menu with keyboard Escape/focus; links to verified declared routes Special Orders, Ordering, Preorder Campaigns, GW Preorders, plus Product Scanner and Toolkit bundled pages. No speculative beta/unfinished routes displayed. Existing Timeclock and Split/Recall embedded controls unchanged; no Lightspeed writes enabled.
 - **Tests:** GitHub Actions [40719605947](https://github.com/Tawgod/Lightspeed/actions/runs/40719605947) PASS. Visual screenshots, browser zoom, PIN and click-through acceptance pending.
 - **Release coordination:** PR #22 Timeclock/Split launcher, PR #13 PO Companion, PR #11 Consignment and PR #16 shared foundation remain separately open and must be explicitly reconciled before packaging. Current beta v0.3.25 unaffected; no extension version bump/ZIP/Chrome Web Store publication.
+
+
+## October 28, 2026 — Shared extension integration reconciliation
+
+Authoritative consolidated head checked during this reconciliation: `Tawgod/Lightspeed:integration/hobby-corner-consolidation` at `24e9834a6aaaec2fae5e656a65939e93b63143cf`.
+
+### Supersession / overlap map
+- **PR #19 Scanner shared UI components** → predecessor to **PR #26**, which explicitly reconciles #19 and adds current shared Scanner/Toolkit navigation. Do not merge #19 independently without comparison to #26/current consolidated.
+- **PR #21 core-ops shared UI** → predecessor to **PR #24**, which combines the newer core-ops navigation and UI consistency work. Do not merge #21 independently without reconciliation.
+- **PR #23 core-ops navigation** → incorporated by **PR #24**. Treat #24 as the current coordinated core-ops UI/navigation candidate.
+- **PR #22 Timeclock + Split/Recall UI** remains active and touches `extension/content.js` only. It does not directly conflict with PR #26's popup/navigation files, but its base is older than current consolidated and must be rebased/reconciled before merge/package.
+- **PR #13 PO Companion** conflicts at shared surfaces with PR #26 because it changes `extension/manifest.json`, `popup.html`, `popup.js`, and maintains feature-local navigation/shared UI copies. Rebase and migrate it to the shared extension navigation contract before merge.
+- **PR #11 Consignment** still contains an older `extension/popup.html` launcher change that conflicts conceptually with PR #26's coordinated popup/navigation. Preserve Consignment backend/UI work, but do not merge that popup change wholesale. PR #25 is the newer Consignment navigation/UI alignment work.
+- **PR #20 Avery labels** is backend-served/standalone UI work and does not currently modify extension shared files.
+
+### Current coordinated shared-surface candidates
+- Core operations UI/navigation: PR #24.
+- Scanner/Toolkit popup/navigation: PR #26.
+- Timeclock + Split/Recall content-script UI: PR #22, pending rebase/reconciliation.
+- Consignment navigation/UI: PR #25 on top of Consignment branch, with extension launcher still requiring shared-entry-point reconciliation.
+- PO Companion: PR #13, blocked on shared popup/navigation/manifest reconciliation.
+
+No extension version bump, package, distribution update, or Chrome Web Store release is authorized by this reconciliation.
