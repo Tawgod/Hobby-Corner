@@ -123,6 +123,7 @@ Do not package from superseded PRs. Preserve them for history until the owning f
 - **Target:** Later store publication after separate review.
 
 ### Consignment Manager launcher
+- **2026-10-28 final source cleanup:** Historic PR #11 and PR #25 closed **unmerged** after verifying all valid Consignment-specific functionality in draft PR #30. Future extension link must target a stable, employee-authorized `/consignment` route on the managed Special Orders service *after* approval and deployment, never the public test beta. Shared popup must be modified only by central extension integration owners; release blocked pending route/auth and release-queue reconciliation.
 - **2026-10-28 consolidation reconciliation:** Draft PR #30 selectively ports Consignment into current consolidated architecture but explicitly EXCLUDES the legacy extension/popup.html modification from PR #11. The current shared popup is authoritative. Keep this launcher IN DEVELOPMENT / BLOCKED FOR RELEASE until the shared extension owners integrate a compatible link and verify the permanent destination; do not substitute the stale popup or ship a beta-only URL in production.
 - **Source conversation:** Consignment program development, October 19, 2026.
 - **Status:** `IN DEVELOPMENT`.
