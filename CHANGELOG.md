@@ -1,5 +1,30 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-28 — Timeclock identity unified across employee tool logins
+
+### Audited
+- Reviewed the authoritative `Tawgod/Lightspeed:integration/hobby-corner-consolidation` employee-facing authentication paths and current Railway service configuration.
+- Product Scanner was already using Timeclock PIN verification, server-only service credentials, short-lived signed sessions, login rate limiting, and server-side employee reauthorization.
+- Special Orders, Ordering, Preorder Campaigns, and GW Preorders were still using the shared `SPECIAL_ORDERS_ADMIN_KEY` as their normal browser login.
+- Embedded Lightspeed tools such as Split / Recall, labels, and ZIP/USPS helpers do not have a separate Hobby Corner employee login; they operate inside the existing Lightspeed session.
+
+### Changed
+- Added a shared Timeclock-backed staff-auth gateway and browser client.
+- Special Orders, Ordering, Preorder Campaigns, and GW Preorders now use the employee's existing 4-digit Timeclock PIN as the normal sign-in.
+- The four web tools share the same short-lived employee session within the same browser tab and display the signed-in employee identity in the shared header.
+- Protected Special Orders API routes accept the signed employee session and reauthorize the employee against Timeclock.
+- Legacy workbook upload now follows the same employee-authenticated request path.
+- The legacy Special Orders admin key remains accepted server-side as a transitional/emergency fallback but is no longer the normal staff login UI.
+- Product Scanner remains on its existing Timeclock-backed scanner session path.
+
+### Verification
+- Static JavaScript syntax checks passed for the shared auth client, all four web clients, staff-auth gateway, Special Orders router, and server entrypoint.
+- Railway startup logs confirm both `[staff-auth] Timeclock PIN employee authentication enabled` and the existing scanner authentication gateway initialize successfully.
+- Final browser acceptance with a real employee PIN remains required for cross-page session restoration, sign-out, expiry/re-login, invalid-PIN rate limiting, and employee deactivation/revocation.
+
+### Architecture rule
+- New employee-facing Hobby Corner tools, including Purchase Order Companion, Product Manager, and Consignment Manager, should reuse the shared Timeclock employee identity/session contract when they need Hobby Corner authentication instead of adding a separate password or PIN system.
+
 ## 2026-10-28 — Chrome extension shared integration contract
 - Added `CHROME_EXTENSION_INTEGRATION.md` as the shared cross-system architecture/integration contract for the Hobby Corner Toolkit Chrome extension.
 - Defined shared ownership rules for manifest, popup, content script, navigation, UI/UX, backend destinations, employee authorization, messaging, permissions and regression testing.
