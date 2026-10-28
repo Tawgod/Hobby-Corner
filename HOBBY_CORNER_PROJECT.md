@@ -1424,3 +1424,46 @@ Consignment coordinated navigation (2026-10-28): Tawgod/Lightspeed draft PR #25,
 - **Destinations:** Consolidated route declarations verified for Special Orders, Ordering, Preorder Campaigns and GW Preorders; local extension pages for Product Scanner and Toolkit. No unverified production URLs for Timeclock, Product Manager, PO Companion, Consignment or Split/Recall; pre-existing embedded Timeclock/Split actions retained.
 - **Coordination:** Shared foundation PR #16 and shared nav PR #23 remain drafts; PR #11 Consignment reference, PR #22 extension launcher, PR #13 PO Companion remain independent. Release queue updated; no extension package/version or production changes.
 - **Next:** review PR #26 alongside PR #19 and #23; browser screenshots/keyboard/100–200% zoom/employee PIN and actual link click-through; then explicitly approve extension release when all queue items reconciled.
+
+### Special Orders Timeclock PIN authentication + header login — 2026-10-28
+Status: **Testing**
+
+Employee authentication for the Special Orders core web tools is being migrated from the shared admin access key to the existing Timeclock employee PIN identity.
+
+Implemented:
+- Reused the existing Timeclock PIN verification bridge and shared staff-auth gateway.
+- Timeclock remains the credential/employee authority; Special Orders does not store employee PINs.
+- A valid 4-digit Timeclock PIN issues a signed, short-lived employee web session.
+- Session TTL is currently 15 minutes and is revalidated against active Timeclock employee status on protected requests.
+- Login attempts use the existing scanner/staff login limiter.
+- The same browser-tab session is shared across:
+  - `/special-orders`
+  - `/ordering`
+  - `/preorders`
+  - `/gw-preorders`
+- The legacy `SPECIAL_ORDERS_ADMIN_KEY` remains accepted server-side as an emergency/service fallback but is no longer the normal employee login workflow.
+- Shared header navigation is now consistent across all four pages:
+  - Special Orders
+  - Ordering
+  - Preorders
+  - GW Preorders
+- Employee PIN sign-in, signed-in identity, and Sign out controls now live in the navy header bar.
+- Pressing Enter in the PIN field signs in.
+- Existing sessions restore automatically when moving between the four pages in the same browser tab.
+- Special Orders auto-refresh now recognizes employee sessions.
+- Legacy workbook import now uses the active authenticated employee session rather than requiring a separate visible admin-key field.
+
+Key implementation references on the consolidated branch:
+- `ce93883c4839d5aaa5fd1cb65ce05a358cc8bbee` — accept Timeclock employee sessions for Special Orders
+- `5d2ea3e98c0130254c654a522d7cc2e61d95fe91` / `9ce6a9ecc386b1ad866cb2a94ddc1ffc6b91f98a` — move Special Orders/Ordering login into shared header
+- `e5c530f53a912bb457a9c46a19cab4b1ffb5aa4c` / `b44d2c7016f61fd9be554d7e51d43d6309813d01` — shared header PIN login for Preorders/GW Preorders
+- `ccc00fc5e3bdcb75d180130f58954d5aacc42ba4` — shared header login styling
+- `fb7414e34b98cdfa47a877c6d45bb5b90675de04` / `914435d01fc6bc8599094a01898cd003e0a4f232` — employee session behavior for Special Orders/Ordering
+- `b9de0cca803b20bae546f57b8d9a46986a418097` / `24e9834a6aaaec2fae5e656a65939e93b63143cf` — employee session behavior for Preorders/GW Preorders
+
+Verification status:
+- Source implementation: YES
+- Railway: latest consolidated deployments queued at last check
+- Browser employee acceptance: pending
+- Required acceptance: valid PIN, invalid PIN/rate limit, cross-page session restoration, session expiry/re-login, employee deactivation/revocation, Sign out, and existing business-action permission gates.
+
