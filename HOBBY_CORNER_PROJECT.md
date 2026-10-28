@@ -1494,3 +1494,76 @@ Consignment selective consolidated reconciliation (2026-10-28): latest base inte
 - **Testing:** Scanner integration GitHub Actions [40724995019](https://github.com/Tawgod/Lightspeed/actions/runs/40724995019) PASS; Scanner UI [40724981558](https://github.com/Tawgod/Lightspeed/actions/runs/40724981558) PASS; mocked Chromium [40725500639](https://github.com/Tawgod/Lightspeed/actions/runs/40725500639) PASS with nine screenshots at 100/125/200% zoom. Screenshot artifact `12832248239` valid through 2026-11-11. Actual employee sign-in, supplier scan/permissions, duplicate lookup, preorder/proposal staging and real Chrome extension URL clickthrough still require browser acceptance.
 - **Runtime:** Railway `lightspeed-api`, `timeclock`, `special-orders-test` each SUCCESS at consolidated `24e9834a6`, no new deployment.
 - **Release decision:** No version bump, ZIP or production publication; extension queue reconciled, but remaining browser and overlapping popup/manifest release gates block packaging.
+
+
+## Manager handoff consolidation — 2026-10-28
+
+### Purchase Order Companion
+- **Status:** In Development.
+- **Current branch:** `feature/po-companion-consolidated-20261028`.
+- **Current PR:** #31.
+- **Superseded:** PR #13.
+- **Shared navigation dependency:** PR #26.
+- **Implemented:** Selective UI/draft/review structure, shared navigation and branding ported to current consolidated base.
+- **Tested:** Source review only; automated execution and real Chrome testing still pending.
+- **Deployed:** NO.
+- **Blockers:** current authenticated read-only PO retrieval contract, verified employee authorization, extension regression, Chrome test with a real PO, release-queue reconciliation.
+- **Next:** Finish authenticated read-only PO retrieval, run regression suite, then real Chrome/PO acceptance before integration review.
+
+### Consignment Management
+- **Status:** Testing.
+- **Current branch:** `feature/consignment-consolidated-v2-20261028`.
+- **Current PR:** #30.
+- **Superseded for integration:** PR #11 and PR #25 should not be merged directly into production.
+- **Implemented:** Selective current-base consolidation preserving isolated beta safety, customer/staff UI, matching adapter and no-write credit planner.
+- **Tested:** Consignment safety, Scanner regressions, automated Chromium navigation/keyboard/responsive checks passed per feature handoff.
+- **Deployed:** Existing isolated beta only; PR #30 branch not deployed.
+- **Next:** Review #30 with core navigation PR #24, then promote to isolated test deployment only after approval.
+
+### Lightspeed Avery PO Label Maker
+- **Status:** Testing.
+- **Current branch:** `feature/labels-shared-ui-reconciled-20261028`.
+- **Current PR:** #29.
+- **Superseded:** PR #20.
+- **Commit:** `7f53808a`.
+- **Implemented:** Current-base shared UI reconciliation without changing Avery calculations/PDF geometry.
+- **Automated testing:** Passed at latest verified commit; browser/native zoom and physical Avery print acceptance remain pending.
+- **Deployed:** NO.
+- **Next:** Complete browser and physical Avery 5960 print verification before independent merge consideration.
+
+### Timeclock + Split / Recall shared UI
+- **Status:** In Development / Testing.
+- **Branch:** `feature/extension-launchers-shared-ui-20261027`.
+- **PR:** #22.
+- **Reconciled head:** `f9e8f0af75306bd17b0ebf9d6d6d36eef7a6b1b2`.
+- **Automated testing:** PASS, GitHub Actions `40725000899`.
+- **PR #26 file conflict:** None; ownership boundary documented.
+- **Deployed/package/version:** NO changes.
+- **Remaining gate:** Real Chrome staff acceptance on Sell/fulfillment, PIN flow, keyboard/focus, 100/125/200% zoom, Split/Recall, Retrieve to Register, CSS isolation.
+- **Next:** Include only after browser acceptance and coordinated extension release reconciliation.
+
+### Product Manager
+- **Status:** In Development.
+- **Current branch:** `feature/product-manager-current-base-20261028`.
+- **Current PR:** #28.
+- **Superseded:** PR #18.
+- **Head:** `2cb4673e1dc6b13d75b8022f37a3bdd8a048c518`.
+- **Implemented:** Product Manager UI, validation helpers, shared UI adoption and regression definitions on current consolidated base.
+- **Testing:** Source reconciliation complete; automated execution and browser acceptance pending.
+- **Deployed:** NO.
+- **Dependencies:** PR #24 navigation coordination, original branding asset route, future live authentication/integration.
+- **Next:** Continue on #28; keep merge/deploy blocked until CI/browser acceptance and navigation/branding verification.
+
+### Product Scanner + Toolkit
+- **Status:** Testing.
+- **Branch:** `feature/scanner-consignment-nav-alignment-20261028`.
+- **PR:** #26.
+- **Head:** `0b3e6f110932efea94dc23c23903cc97ee20e541`.
+- **Automated testing:** Scanner integration, UI, clipboard and mocked Chromium tests passed.
+- **Real employee acceptance:** Outstanding.
+- **Deployed:** NO.
+- **Coordinated dependencies:** PR #24 core navigation, PR #31 PO Companion, PR #30 Consignment, PR #22 Timeclock/Split, shared extension release queue.
+- **Next:** Build a consolidated release-testing candidate only after compatible PRs are reconciled, then run real employee/supplier/browser acceptance and seek explicit release approval.
+
+### Manager release decision
+No production deployment or Chrome extension release is approved by these handoffs. Current extension work should converge on a single release-testing integration candidate after the feature PRs above complete their required browser/authorization acceptance.
