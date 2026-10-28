@@ -51,14 +51,15 @@ Do not merge or deploy a superseded PR independently. Preserve it for history un
 
 ### Core operations PR #24 reconciliation — 2026-10-28
 
-- PR #24 `feature/core-ops-ui-consistency-nav-20261028` was rebuilt on authoritative consolidated commit `24e9834a6aaaec2fae5e656a65939e93b63143cf`.
-- Current PR #24 head: `cc07823df01a04ccb96a677ba08e8beb70f165cf`.
-- Current Timeclock-backed employee PIN/header authentication was preserved; the stale predecessor access-key header was not reintroduced.
-- PR #21 shared UI adoption and PR #23 shared navigation were reconciled into the current PR #24 implementation. Their unique valid work is represented by consolidated shared UI + PR #24 navigation/branding/tests; they are eligible to close as superseded after manager acknowledgement.
-- Core Operations UI navigation run `40731326832` PASSED, including source/auth regression and headless Chromium layout/focus/open-menu smoke at 100/125/200% CSS zoom.
-- Scanner integration regression run `40731338520` PASSED on the same head.
-- Real employee/store-browser acceptance remains outstanding for valid/invalid PIN against live Timeclock, sign-out/session restoration/expiry/deactivated employee behavior, native keyboard activation, actual browser zoom, live empty/loading/error states and permission-gated workflows.
-- No production deployment was performed or authorized.
+- PR #24 `feature/core-ops-ui-consistency-nav-20261028` is rebased onto authoritative consolidated commit `cab74b667999a1f607dd82c4c51c298fd0e5d25a` (merged PR #27 foundation).
+- Current PR #24 head: `6a6439fbd6984fd1d4e8dccb41b34b60a92ad6e6`; branch is 1 commit ahead / 0 behind consolidated.
+- Current Timeclock-backed employee PIN/header authentication is preserved; the stale predecessor access-key header is not present.
+- PR #21 shared UI adoption and PR #23 shared navigation have been fully reconciled. No unique valid functionality remains in either predecessor; both can be closed as superseded and must not be merged independently.
+- Final-head CI passes: Core Operations UI `40739200019`, Scanner integration `40739200256`, Shared UI reconciliation `40739199988`.
+- Automated coverage verifies navigation, auth/session contracts, workflow anchors, denied/deactivated session clearing, responsive layout, focusability, horizontal overflow and Chromium smoke at 100/125/200% CSS zoom simulation.
+- No Lightspeed API contract, request payload, write path, permission gate or feature client logic changed in the PR diff. No Lightspeed write was executed during reconciliation.
+- Remaining acceptance is manual/live only: real employee valid/invalid PIN, sign-out/restoration/expiry/deactivated employee and permission-gate behavior against live services; native Chrome keyboard activation; native browser-menu zoom at 100/125/200%; and live empty/loading/error-state verification.
+- PR #24 remains Draft until those manual gates are recorded. No production deployment or Chrome extension release was performed or authorized.
 
 ### Current coordination order
 
