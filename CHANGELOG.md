@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-28 — Chrome extension shared integration contract
+- Added `CHROME_EXTENSION_INTEGRATION.md` as the shared cross-system architecture/integration contract for the Hobby Corner Toolkit Chrome extension.
+- Defined shared ownership rules for manifest, popup, content script, navigation, UI/UX, backend destinations, employee authorization, messaging, permissions and regression testing.
+- Updated `CHROME_EXTENSION_RELEASE_QUEUE.md` so all extension development/release work must read and reconcile the integration contract in addition to the release queue.
+- Documented current coordination hotspots: Purchase Order Companion, Product Scanner, Consignment Manager launcher, Shared Addon UI/UX, Split/Recall, Timeclock-backed permissions and packaging/release work.
+
+
 ## 2026-10-20 — RMS migration disposition cleanup
 - v67: conditional Horizon Hobby Rockets routing (in-stock Estes -> ESTES, otherwise Other), removed stale supplier UUID cache, and explicitly routed five low-volume ambiguous category groups to General > Other / Toys > Other Toys.
 
