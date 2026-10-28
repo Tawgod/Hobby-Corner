@@ -870,3 +870,10 @@ No Lightspeed product records were created or updated in this test. The existing
 - Added a current coordinated Chrome release snapshot to `CHROME_EXTENSION_RELEASE_QUEUE.md` so active PRs #22/#24/#26/#27/#30/#31 are distinguished from historical/superseded work.
 - Historical entries remain preserved for audit/change history; superseded PRs should be closed only after their owning feature chats verify all unique work has been carried forward.
 - No production deployment, extension packaging, version bump, or destructive repository cleanup was performed.
+
+
+## 2026-10-28 — Central Git development handoffs
+- Added `handoffs/README.md` and `handoffs/TEMPLATE.md` as the standard cross-chat coordination location.
+- Future feature chats should update one stable handoff file per workstream on `Tawgod/Hobby-Corner:main` instead of requiring manual copy/paste into the manager conversation.
+- Git history preserves prior snapshots; handoff files should contain the latest verified state.
+- Extension chats must still update `CHROME_EXTENSION_RELEASE_QUEUE.md` in addition to their handoff file.
