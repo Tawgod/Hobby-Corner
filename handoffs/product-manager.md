@@ -82,3 +82,10 @@
 
 - Latest Product Manager GitHub CI **PASS**: run 40752194410 on commit 0ec01d7fd32101e19d450f4341e93a3d86797d4f (Node syntax, validation/profile/backup tests, existing Chromium browser acceptance).
 - CI does not yet cover authenticated profile/backup HTTP flows or the five-minute timer under a mocked Timeclock session; end-to-end acceptance remains outstanding.
+
+## October 28 — Pre-January cutover acceleration
+- Owner clarified Lightspeed cutover target as **early January 2027**. Product Manager may advance faster in isolated development; production deployments and live product writes remain separately authorized.
+- PR #28 development adds stale-backup conflict protection: an older autosave cannot overwrite a newer saved employee work snapshot. HTTP regression tests now verify saved profiles and backups are scoped to the bearer-authenticated Timeclock employee, invalid payloads are refused, revoked employees are denied, and stale overwrite receives 409.
+- New test: product-manager/profiles-http.test.mjs; updated Product Manager CI.
+- This is a mocked in-process Express/PostgreSQL test, **not a live Railway/PostgreSQL/Timeclock integration test**.
+- Next: add end-to-end mocked Timeclock browser testing for five-minute timer, sign-out save failure, session freeze and restore, then an isolated test DB migration and route wiring after review.
