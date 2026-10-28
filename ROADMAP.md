@@ -6,6 +6,15 @@ This roadmap is the current planning view. Detailed implementation history remai
 
 ## 1. Immediate coordination and stabilization
 
+### Shared Lightspeed services
+- Build the canonical Lightspeed transport/policy/audit foundation from `LIGHTSPEED_SHARED_SERVICES.md`.
+- Extract existing tested Special Orders customer/product/matching logic rather than rewriting it.
+- Convert read-only consumers first, then controlled writes.
+- Prevent new feature-specific production Lightspeed clients while conversion is underway.
+- Move cross-service consumers toward authenticated `lightspeed-api` contracts before removing duplicate credentials.
+- Keep Scanner isolated-test and RMS migration writers separately controlled.
+
+
 ### Consolidated application base
 - Keep `Tawgod/Lightspeed:integration/hobby-corner-consolidation` as the authoritative integration base.
 - New or refreshed feature branches must start from the current consolidated source.
