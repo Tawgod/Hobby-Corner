@@ -1,5 +1,14 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-28 — Core operations PR #24 reconciliation
+- Rebuilt PR #24 on consolidated `24e9834a6`, preserving the current Timeclock-backed employee PIN/header authentication.
+- Reconciled PR #21 shared UI adoption and PR #23 navigation into the current coordinated core-operations candidate.
+- Added original Hobby Corner wordmark navigation, responsive More menu, active-page state, and shared navy/gray-blue hierarchy without changing Special Orders/Ordering/Preorders/GW workflow logic.
+- Added auth/session regression coverage and headless Chromium layout/focus/100-125-200% zoom smoke.
+- Core Operations UI run `40731326832` PASSED; Scanner integration regression `40731338520` PASSED on head `cc07823df01a04ccb96a677ba08e8beb70f165cf`.
+- PR #21 and PR #23 can be closed as superseded after manager acknowledgement; no production deployment performed.
+
+
 ## 2026-10-28 — Timeclock identity unified across employee tool logins
 
 ### Audited
