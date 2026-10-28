@@ -70,4 +70,4 @@
 - Security restriction: profile router is **NOT mounted**, table initializer is **NOT invoked** on Railway; no production database or API change. This is integration-ready code awaiting isolated acceptance/deployment approval.
 - Current grid does not yet implement drag-order and per-column width customization: Save Layout stores a baseline configuration, not real employee modifications. Do not call per-employee customization complete until UI controls actually bind to configuration.
 - Existing read-only product safeguards preserved. Demo data visible signed out, but no live product API exists.
-- CI failure on first auth commit run 40749755479 (missing Express dependency during tests; obsolete no-network assertion) was diagnosed; test setup/assertion corrected, new run pending.
+- CI failure on first auth commit run 40749755479 (missing Express dependency during tests; obsolete no-network assertion) was diagnosed; test setup/assertion corrected; **PASS** GitHub Actions run 40749886006 (Node validation/profile tests and Chromium browser acceptance).
