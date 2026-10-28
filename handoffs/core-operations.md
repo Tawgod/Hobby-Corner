@@ -1,14 +1,14 @@
 # Core Operations UI / Navigation — Current Handoff
 
 **Last verified:** 2026-10-28  
-**Status:** Testing
+**Status:** Testing — Ready for Review / merge-ready
 
 ## Source
 
 - Repository: `Tawgod/Lightspeed`
 - Authoritative branch: `integration/hobby-corner-consolidation@cab74b667999a1f607dd82c4c51c298fd0e5d25a`
 - Current PR: #24 — `feature/core-ops-ui-consistency-nav-20261028`
-- Current commit: `6a6439fbd6984fd1d4e8dccb41b34b60a92ad6e6`
+- Current commit: `69cc608e1bb89f5eb8715cf1b45d9faa5de1d2d7`
 - Superseded PRs / branches: PR #21 and PR #23 — no remaining unique valid functionality; eligible to close as superseded
 
 ## Implemented
@@ -22,7 +22,7 @@
 ## Tested
 
 - Automated: Core Operations UI run `40739200019` PASS; Scanner integration regression `40739200256` PASS; Shared UI reconciliation `40739199988` PASS.
-- Browser / employee acceptance: headless Chromium layout/focus/open-menu smoke PASS with 100/125/200% CSS zoom simulation. Live employee/browser acceptance remains pending.
+- Browser / employee acceptance: headless Chromium layout/focus/open-menu smoke PASS; live store-browser checks also passed for native zoom, valid PIN, invalid PIN rejection, buttons/navigation, session restoration after refresh, and persistent sign-out.
 - Runtime / deployment verification: no deployment performed for PR #24.
 
 Automated auth/session coverage includes invalid PIN fail-closed, valid PIN session creation, sign-out, expiry, restoration, denied/deactivated employee clearing and server-side reauthorization.
@@ -56,22 +56,17 @@ No feature client JS, Lightspeed API route, request payload, permission gate or 
 
 ## Remaining blockers
 
-- Real valid/invalid employee PIN against live Timeclock.
-- Live sign-out, session restoration/expiry and deactivated-employee behavior in the employee browser.
-- Live permission-denied workflow checks.
-- Native Chrome keyboard activation.
-- Native browser-menu zoom at 100%, 125% and 200%; CI only verifies CSS zoom simulation.
-- Live empty/loading/error states against actual service responses.
+- None specific to PR #24.
+- Session expiry and deactivated-employee behavior remain covered by automated auth/session tests; current business policy has no per-employee edit/create restriction in these tools, so permission-denied employee acceptance is not applicable to this PR.
 
 ## Decisions needed
 
-- Record manual employee/browser acceptance.
-- Once manual acceptance is complete, mark PR #24 Ready for Review and merge through normal consolidated-branch review.
+- PR #24 is Ready for Review and mergeable. Merge through the normal consolidated-branch review process.
 - PR #21 and PR #23 can be closed as superseded; do not merge them independently.
 
 ## Recommended next action
 
-- Perform the remaining live browser/employee acceptance pass on PR #24. If successful, convert PR #24 from Draft to Ready for Review and merge into `integration/hobby-corner-consolidation`.
+- Review and merge PR #24 into `integration/hobby-corner-consolidation` when approved.
 
 ## Restrictions / safety
 
@@ -83,4 +78,5 @@ No feature client JS, Lightspeed API route, request payload, permission gate or 
 
 - `HOBBY_CORNER_PROJECT.md` updated 2026-10-28.
 - `CHANGELOG.md` updated 2026-10-28.
-- PR #24 description updated with final-head CI and blockers.
+- PR #24 description updated with live acceptance and final CI.
+- Final layout-only commit `69cc608e1bb89f5eb8715cf1b45d9faa5de1d2d7`; Core Operations run `40742593872` PASS.
