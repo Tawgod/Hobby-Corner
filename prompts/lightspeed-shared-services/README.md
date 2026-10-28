@@ -22,6 +22,9 @@ Each development chat should:
 
 | Chat / workstream | Short sentence to send | Full prompt |
 | --- | --- | --- |
+| Shared Lightspeed Services Foundation | **A shared Lightspeed service layer is now a project dependency. Please read `LIGHTSPEED_SHARED_SERVICES.md` and `prompts/lightspeed-shared-services/shared-lightspeed-services-foundation.md` before starting the foundation implementation.** | `shared-lightspeed-services-foundation.md` |
+| Chat / workstream | Short sentence to send | Full prompt |
+| --- | --- | --- |
 | Core Operations / Special Orders | **Shared Lightspeed services coordination has started. Please read `Tawgod/Hobby-Corner:main/LIGHTSPEED_SHARED_SERVICES.md` and `prompts/lightspeed-shared-services/core-operations-special-orders.md` before continuing Lightspeed API work.** | `core-operations-special-orders.md` |
 | Product Scanner / Toolkit | **Shared Lightspeed services coordination has started. Please read `Tawgod/Hobby-Corner:main/LIGHTSPEED_SHARED_SERVICES.md` and `prompts/lightspeed-shared-services/product-scanner-toolkit.md` before continuing Scanner integration work.** | `product-scanner-toolkit.md` |
 | Product Manager | **Product Manager should now integrate through the shared Lightspeed service contracts. Please read `LIGHTSPEED_SHARED_SERVICES.md` and `prompts/lightspeed-shared-services/product-manager.md`.** | `product-manager.md` |
