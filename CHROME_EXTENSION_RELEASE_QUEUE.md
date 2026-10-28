@@ -222,14 +222,18 @@ When any development chat starts preparing a Chrome extension release, it must f
 
 
 ### Timeclock + Split / Recall shared UI alignment
-- **Source:** Manager UI adoption audit, 2026-10-27.
-- **Status:** `IN DEVELOPMENT`.
-- **Implementation:** `Tawgod/Lightspeed:feature/extension-launchers-shared-ui-20261027`, draft PR #22.
-- **Affected:** Chrome-injected Timeclock launcher/overlay and Split / Recall launcher/overlay in `extension/content.js`.
-- **Change type:** Visual only — navy/blue palette, shaded panel/background separation and shared border tones.
-- **Safety:** Existing IDs, event handlers, PIN flow, order detection, API calls and Split execution logic preserved. No extension version bump/package/release.
-- **Tests pending:** Chrome Sell/fulfillment browser acceptance, keyboard focus/close behavior, 100/125/200% zoom, Timeclock PIN flow, Split/Recall workflow and Lightspeed host CSS-collision check.
-- **Target:** Next coordinated extension release after acceptance and full queue reconciliation.
+- **Source:** Manager UI adoption audit, 2026-10-27; reconciled 2026-10-28.
+- **Status:** `IN DEVELOPMENT` — rebased/current, automated regression pending/completing; browser acceptance still required.
+- **Implementation:** `Tawgod/Lightspeed:feature/extension-launchers-shared-ui-20261027`, draft PR #22, reconciled head `0655af44aca15bfb3b2f01d3220efa678946125d`.
+- **Authoritative base:** `integration/hobby-corner-consolidation` at `24e9834a6aaaec2fae5e656a65939e93b63143cf`; PR #22 is now 1 commit ahead / 0 behind.
+- **Affected:** Chrome-injected Timeclock launcher/overlay and Split / Recall launcher/overlay in `extension/content.js`; added focused regression test/workflow only.
+- **Change type:** Visual only — approved navy/blue palette, cool gray-blue panel/background separation and shared border tones.
+- **Safety preserved:** Current consolidated PIN/identity handling, Timeclock API calls, sale identification, Split/Recall eligible-order list, Retrieve to Register, completion messaging and split API behavior remain intact. No permissions, API contract, product/order-write policy, extension version, package or deployment change.
+- **PR #26 coordination:** No direct shared-file conflict. PR #22 owns `extension/content.js`; PR #26 owns Scanner/Toolkit popup/scanner/shared-navigation files. Do not add a second navigation implementation to `content.js`.
+- **Automated test:** Added `tests/extensionLauncherUiAlignment.test.mjs` and `.github/workflows/extension-launcher-ui-check.yml`. GitHub Actions run `40724837137` started for the rebased head.
+- **Tests pending:** Real Chrome acceptance on Sell/webregister and fulfillment/pickup; keyboard focus/close behavior; 100/125/200% zoom; real Timeclock PIN flow; Split/Recall order detection/list/retrieve/overlay workflow; Lightspeed host CSS collision/isolation check.
+- **Target:** Next coordinated extension release only after browser acceptance and full queue reconciliation.
+- **Release restriction:** Keep PR #22 draft. Do not independently bump, package, deploy or publish the Chrome extension.
 
 ### Scanner/Toolkit Consignment UI consistency + shared navigation — 2026-10-28
 - **Status:** `IN DEVELOPMENT` — not merged, not deployed, not packaged.
