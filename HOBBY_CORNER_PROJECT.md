@@ -49,6 +49,17 @@ Treat these older items as historical unless a reconciliation audit finds unique
 
 Do not merge or deploy a superseded PR independently. Preserve it for history until the owning development chat confirms all unique changes are accounted for, then close it rather than deleting history.
 
+### Core operations PR #24 reconciliation — 2026-10-28
+
+- PR #24 `feature/core-ops-ui-consistency-nav-20261028` was rebuilt on authoritative consolidated commit `24e9834a6aaaec2fae5e656a65939e93b63143cf`.
+- Current PR #24 head: `cc07823df01a04ccb96a677ba08e8beb70f165cf`.
+- Current Timeclock-backed employee PIN/header authentication was preserved; the stale predecessor access-key header was not reintroduced.
+- PR #21 shared UI adoption and PR #23 shared navigation were reconciled into the current PR #24 implementation. Their unique valid work is represented by consolidated shared UI + PR #24 navigation/branding/tests; they are eligible to close as superseded after manager acknowledgement.
+- Core Operations UI navigation run `40731326832` PASSED, including source/auth regression and headless Chromium layout/focus/open-menu smoke at 100/125/200% CSS zoom.
+- Scanner integration regression run `40731338520` PASSED on the same head.
+- Real employee/store-browser acceptance remains outstanding for valid/invalid PIN against live Timeclock, sign-out/session restoration/expiry/deactivated employee behavior, native keyboard activation, actual browser zoom, live empty/loading/error states and permission-gated workflows.
+- No production deployment was performed or authorized.
+
 ### Current coordination order
 
 1. Keep `integration/hobby-corner-consolidation` as the only application integration base.
