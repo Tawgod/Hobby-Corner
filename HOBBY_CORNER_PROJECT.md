@@ -1618,3 +1618,18 @@ Consignment selective consolidated reconciliation (2026-10-28): latest base inte
 No production deployment or Chrome extension release is approved by these handoffs. Current extension work should converge on a single release-testing integration candidate after the feature PRs above complete their required browser/authorization acceptance.
 
 Consignment final consolidated verification (2026-10-28): PR #30, branch feature/consignment-consolidated-v2-20261028, was verified 0 commits behind consolidated 24e9834a6 at audit. All valid feature/UI/navigation changes from PR #11 and PR #25 retained selectively; obsolete legacy popup, direct Special Orders toolbar and whole old server not ported. PR #11 and PR #25 CLOSED UNMERGED (historical branches preserved because isolated Railway beta still uses original branch). New read-only sale/return event reconciler (duplicate event IDs, conflicting sales, void/return checks) and tests added; three suites PASS: Consignment consolidated safety, Scanner regression, and Chromium browser keyboard/responsive/zoom acceptance. Original isolated Railway consignment-beta still reports SUCCESS from feature/consignment-layout-foundation; PR #30 NOT DEPLOYED. Production Lightspeed writes, customer sync, store credit disabled. Future extension launcher destination reserved as managed authenticated Special Orders /consignment route only AFTER accepted production deployment, not public beta URL. Remaining: dedicated test DB, Timeclock-backed identity, live read-only matches, sale ingestion and exactly-once credit posting under safeguards. Tests do not constitute production validation.
+
+
+## Central development handoff protocol
+
+All feature/development conversations should publish their latest manager handoff directly to:
+
+`Tawgod/Hobby-Corner:main/handoffs/`
+
+See `handoffs/README.md` and `handoffs/TEMPLATE.md`.
+
+Use one stable file per workstream (for example `handoffs/product-scanner.md` or `handoffs/po-companion.md`) and replace the prior snapshot with the latest verified state. Git history preserves older snapshots.
+
+This is the preferred cross-chat coordination path. The owner should not need to manually copy/paste routine handoffs between development chats and the Hobby Corner Manager conversation.
+
+If a development chat cannot write to GitHub, it must return a complete manager-ready handoff and explicitly say the Git handoff file was not updated.
