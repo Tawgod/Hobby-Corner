@@ -156,3 +156,16 @@ No tool should be considered fully accepted solely because shared styling exists
 - **Navigation owners:** PR #24 handles core web views, PR #25 handles Consignment, PR #26 handles Scanner/Toolkit. Treat approved original Consignment branding, shaded panels, readable alerts and consistent destinations as visual acceptance standard.
 - **Merge ordering (conditional):** complete PR #24 and verify routes/branding; reconcile PR #25 with the Consignment base and verified destinations; rebase PR #26 after navigation coordination; merge PR #27's unique helper/tests when compatible with PR #26. Close/supersede PR #16 only after all unique pieces are explicitly resolved. No implicit permission to deploy.
 - **Status:** Foundation reconciliation implemented on branch; automated test status tracked in PR #27; merged NO; deployed NO. Web/extension/Consignment browser tests and live route acceptance remain separate.
+
+
+## PR #16 retirement audit — 2026-10-28 (aligned to cleaned manager matrix)
+Source-by-source disposition documented in `Tawgod/Lightspeed:feature/shared-ui-foundation-reconcile-20261028/shared-ui/RECONCILIATION_20261028.md` (PR #27).
+
+- `shared-ui/hc.css` exists unchanged in consolidated; never duplicate the base CSS.
+- Exact plain/rich clipboard implementation is preserved in PR #27 and byte-identical in PR #26's `extension/shared-ui/clipboard.mjs`. Keep exact text/leading zeros and sanitized optional rich HTML.
+- Source Hobby Corner branding is retained via current scanner assets and planned PR #24 web wordmark; duplicate asset copies from old PR #16 are unnecessary.
+- Old PR #16 gallery was illustrative, not a deployed dependency; its demonstration-only navigation and asset assumptions are stale. Use the Consignment beta and current tool-level browser specimens as visual standards instead.
+- Old README, changelog, tests and workflow are superseded by PR #27 reconciliation documentation, focused tests/workflow, manager matrix and feature-specific navigation/Chromium checks.
+- **Disposition:** No additional unique reusable functionality from PR #16 is required. PR #16 may be **closed as superseded** (not merged, not deleted); PR #27 remains the authoritative shared UI reconciliation candidate.
+- **Current dependencies:** PR #24 core operations, PR #26 Scanner/Toolkit, PR #30 Consignment replacement of #11/#25, PR #31 PO Companion replacement of #13, and PR #22 Timeclock/Split extension. Treat the Current Authoritative Development Matrix as primary.
+- **Acceptance pending:** actual hosted navigation, original logo render, keyboard, 100/125/200% zoom, errors/status, employee PIN and supplier capture. No production deployment or extension package approved.
