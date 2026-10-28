@@ -20,6 +20,7 @@ Use this section first. Historical entries below remain for change history and c
 | System / workstream | Current authoritative source | Current PR / branch | Status | Implemented | Tested | Deployed | Main remaining gate |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Consolidated Lightspeed platform | `Tawgod/Lightspeed:integration/hobby-corner-consolidation@24e9834a6` | authoritative base | Testing | Yes | Automated + selected runtime verification | Core Railway services yes | Real employee/browser acceptance and coordinated release discipline |
+| Shared Lightspeed services | `LIGHTSPEED_SHARED_SERVICES.md` + current consolidated runtime | foundation implementation not started | In Development | Architecture/consumer map yes | Source audit only | No | Build shared client/policy/audit + domain services, then migrate consumers incrementally |
 | Core Special Orders / Ordering / Preorders / GW | consolidated branch | PR #24 `feature/core-ops-ui-consistency-nav-20261028` for pending UI/nav refinement | Testing | Core workflows yes; PR #24 pending | Core automation/source checks; PR #24 browser acceptance pending | Core services yes; PR #24 no | Rebase PR #24 to current base, CI + browser/keyboard/zoom acceptance |
 | Shared UI foundation | consolidated `shared-ui/hc.css` | PR #27 `feature/shared-ui-foundation-reconcile-20261028` | In Development | Yes, selective reusable pieces | CI pass | No separate deployment | Confirm clipboard/API parity with PR #26; then retire PR #16 |
 | Scanner + Toolkit popup/navigation | consolidated base + PR #26 | PR #26 `feature/scanner-consignment-nav-alignment-20261028` | Testing | Yes | Automated integration/UI/clipboard/mock Chromium pass | No | Real Chrome employee, supplier, PIN and navigation acceptance |
@@ -1668,3 +1669,22 @@ Status: **Testing**
 - Implementation: `Tawgod/Lightspeed@e22fb8def189120c5758583212bb793520d620a6`; startup regression fix: `Tawgod/Lightspeed@127a4644e65662cafe1a31dfedc62b86afec520d`.
 - Parser regression examples passed locally. Railway deployment/browser acceptance still pending at this documentation update.
 
+
+
+## Shared Lightspeed service architecture — 2026-10-28
+
+Hobby Corner is standardizing Lightspeed integrations so feature tools consume shared domain services instead of carrying independent raw API implementations.
+
+Authority:
+- Architecture: `LIGHTSPEED_SHARED_SERVICES.md`
+- Prompt index: `prompts/lightspeed-shared-services/README.md`
+- Handoff: `handoffs/lightspeed-shared-services.md`
+- Runtime base: `Tawgod/Lightspeed:integration/hobby-corner-consolidation`
+
+Target shared domains include transport/client, write policy, audit/idempotency, customers, product identity, products, catalog references, media, inventory, sales, fulfillments, purchase orders, store credit and customer custom fields.
+
+Cross-service consumers should ultimately use the canonical `lightspeed-api` gateway rather than independently holding production Lightspeed credentials. Feature workflows remain feature-owned.
+
+Scanner isolated-test writes and RMS bulk migration remain explicitly isolated exceptions.
+
+No production deployment, credential migration or new write authorization was granted by this architecture decision.
