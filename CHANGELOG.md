@@ -862,3 +862,11 @@ No Lightspeed product records were created or updated in this test. The existing
 - Added Enter-to-sign-in and employee identity display/sign-out controls.
 - Latest Railway builds were queued at final verification.
 
+
+
+## 2026-10-28 — Manager record consolidation
+- Updated `HOBBY_CORNER_PROJECT.md` with a current authoritative development matrix, supersession map, and coordination order.
+- Updated `ROADMAP.md` from stale retired-branch guidance to the current consolidated development/release sequence.
+- Added a current coordinated Chrome release snapshot to `CHROME_EXTENSION_RELEASE_QUEUE.md` so active PRs #22/#24/#26/#27/#30/#31 are distinguished from historical/superseded work.
+- Historical entries remain preserved for audit/change history; superseded PRs should be closed only after their owning feature chats verify all unique work has been carried forward.
+- No production deployment, extension packaging, version bump, or destructive repository cleanup was performed.
