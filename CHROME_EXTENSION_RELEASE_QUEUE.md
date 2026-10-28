@@ -2,20 +2,21 @@
 
 **Purpose:** This file is the shared cross-chat release queue for the Hobby Corner Toolkit Chrome extension.
 
-Any development conversation that changes or plans to change the Chrome extension must use this file so extension work from one chat is not accidentally omitted when another chat prepares the next release.
+Any development conversation that changes or plans to change the Chrome extension must use this file so extension work from one chat is not accidentally omitted when another chat prepares the next release. It must also read `CHROME_EXTENSION_INTEGRATION.md`, which defines the shared extension architecture, navigation, UI, permissions, ownership, messaging, and cross-feature integration rules.
 
 ## Mandatory release rule
 
 Before any Chrome extension version bump, ZIP/package build, distribution-page update, Railway rollout that serves a new extension package, or Chrome Web Store submission:
 
 1. Read this file from `Tawgod/Hobby-Corner:main`.
-2. Inspect the authoritative extension source on `Tawgod/Lightspeed:integration/hobby-corner-consolidation`.
-3. Review all queue entries whose status is `QUEUED`, `READY`, `IN DEVELOPMENT`, or `BLOCKED`.
-4. Include every compatible `READY` item in the release.
-5. For every item not included, record an explicit defer/block reason before releasing.
-6. Check for active extension-related branches/PRs and reconcile them with this queue. A chat must not assume this file is complete if GitHub shows newer extension work.
-7. Only after the queue is reconciled may the extension version be bumped and packaged.
-8. After release, update each shipped entry with release version, consolidated commit, test result, and release date.
+2. Read `Tawgod/Hobby-Corner:main/CHROME_EXTENSION_INTEGRATION.md` and reconcile shared-file/navigation/UI/permission conflicts.
+3. Inspect the authoritative extension source on `Tawgod/Lightspeed:integration/hobby-corner-consolidation`.
+4. Review all queue entries whose status is `QUEUED`, `READY`, `IN DEVELOPMENT`, or `BLOCKED`.
+5. Include every compatible `READY` item in the release.
+6. For every item not included, record an explicit defer/block reason before releasing.
+7. Check for active extension-related branches/PRs and reconcile them with this queue. A chat must not assume this file is complete if GitHub shows newer extension work.
+8. Only after the queue and shared integration contract are reconciled may the extension version be bumped and packaged.
+9. After release, update each shipped entry with release version, consolidated commit, test result, and release date.
 
 **No extension release is considered complete until this file has been updated.**
 
@@ -152,6 +153,12 @@ Each entry must contain:
 ## Released / historical extension items
 
 Use this section to preserve shipped queue history when useful. Do not delete an entry just because it shipped; mark it `RELEASED` and record the version/commit/date so future chats can distinguish released work from pending work.
+
+## Shared integration contract
+
+All extension development chats must also follow `Tawgod/Hobby-Corner:main/CHROME_EXTENSION_INTEGRATION.md`.
+
+That document is authoritative for cross-feature extension coordination, including shared popup/content/manifest ownership, navigation consistency, shared UI/UX, backend destinations, employee authorization, message contracts, content-script safety, permissions, and regression expectations. Feature-specific implementation notes belong in feature docs/branches; release state belongs in this queue.
 
 ## Chat handoff rule
 
