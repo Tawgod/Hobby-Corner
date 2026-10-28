@@ -1,13 +1,13 @@
 # Hobby Corner Project Changelog
 
-## 2026-10-28 — Core operations PR #24 reconciliation
-- Rebuilt PR #24 on consolidated `24e9834a6`, preserving the current Timeclock-backed employee PIN/header authentication.
-- Reconciled PR #21 shared UI adoption and PR #23 navigation into the current coordinated core-operations candidate.
-- Added original Hobby Corner wordmark navigation, responsive More menu, active-page state, and shared navy/gray-blue hierarchy without changing Special Orders/Ordering/Preorders/GW workflow logic.
-- Added auth/session regression coverage and headless Chromium layout/focus/100-125-200% zoom smoke.
-- Core Operations UI run `40731326832` PASSED; Scanner integration regression `40731338520` PASSED on head `cc07823df01a04ccb96a677ba08e8beb70f165cf`.
-- PR #21 and PR #23 can be closed as superseded after manager acknowledgement; no production deployment performed.
-
+## 2026-10-28 — Core operations PR #24 final reconciliation
+- Rebased PR #24 onto consolidated `cab74b667999a1f607dd82c4c51c298fd0e5d25a` after PR #27 merged.
+- Final candidate head: `6a6439fbd6984fd1d4e8dccb41b34b60a92ad6e6`.
+- Preserved current Timeclock-backed PIN/header auth and all Special Orders, Ordering, receiving/notification, Preorders and GW client workflows.
+- Confirmed PR #21 and PR #23 have no remaining unique valid functionality and can be closed as superseded.
+- Final-head CI passed: Core Operations UI `40739200019`, Scanner regression `40739200256`, Shared UI reconciliation `40739199988`.
+- No API contract/write-path/permission-gate change and no production deployment or Chrome extension release.
+- PR remains Draft pending live employee/browser acceptance, including native Chrome zoom and real Timeclock/session/permission behavior.
 
 ## 2026-10-28 — Timeclock identity unified across employee tool logins
 
