@@ -1,13 +1,13 @@
 # Core Operations UI / Navigation — Current Handoff
 
-**Last verified:** 2026-10-28  
-**Status:** Testing — Ready for Review / merge-ready
+**Last verified:** 2026-10-29  
+**Status:** Testing — PR #24 merged into consolidated source; additional runtime acceptance remains
 
 ## Source
 
 - Repository: `Tawgod/Lightspeed`
-- Authoritative branch: `integration/hobby-corner-consolidation@cab74b667999a1f607dd82c4c51c298fd0e5d25a`
-- Current PR: #24 — `feature/core-ops-ui-consistency-nav-20261028`
+- Authoritative branch: `integration/hobby-corner-consolidation@f50c3309824986633c3ba37a95e6eb43aae15a3c` (verified 2026-10-29)
+- Merged PR: #24 — `feature/core-ops-ui-consistency-nav-20261028` (GitHub verified MERGED 2026-10-29)
 - Current commit: `69cc608e1bb89f5eb8715cf1b45d9faa5de1d2d7`
 - Superseded PRs / branches: PR #21 and PR #23 — no remaining unique valid functionality; eligible to close as superseded
 
@@ -23,16 +23,16 @@
 
 - Automated: Core Operations UI run `40739200019` PASS; Scanner integration regression `40739200256` PASS; Shared UI reconciliation `40739199988` PASS.
 - Browser / employee acceptance: headless Chromium layout/focus/open-menu smoke PASS; live store-browser checks also passed for native zoom, valid PIN, invalid PIN rejection, buttons/navigation, session restoration after refresh, and persistent sign-out.
-- Runtime / deployment verification: no deployment performed for PR #24.
+- Runtime / deployment verification: source PR #24 merged; Railway lightspeed-api/timeclock/special-orders-test currently track integration branch and their latest deployment statuses are SUCCESS. Exact deployed SHA not independently confirmed.
 
 Automated auth/session coverage includes invalid PIN fail-closed, valid PIN session creation, sign-out, expiry, restoration, denied/deactivated employee clearing and server-side reauthorization.
 
 ## Deployed
 
-- Environment: none for PR #24
-- Service / extension version: unchanged
-- Deployment reference: none
-- Production status: NOT DEPLOYED
+- Environment: Railway application services follow consolidated integration branch
+- Service / extension version: no Chrome extension package/release asserted
+- Deployment reference: latest Railway service status SUCCESS; precise deployed commit not verified
+- Production status: PR #24 source merged; verify any deployment-specific regressions separately
 
 ## Shared dependencies
 
@@ -56,17 +56,17 @@ No feature client JS, Lightspeed API route, request payload, permission gate or 
 
 ## Remaining blockers
 
-- None specific to PR #24.
+- No outstanding merge decision for PR #24 (already merged). Full workflow/runtime acceptance remains an ongoing QA activity.
 - Session expiry and deactivated-employee behavior remain covered by automated auth/session tests; current business policy has no per-employee edit/create restriction in these tools, so permission-denied employee acceptance is not applicable to this PR.
 
 ## Decisions needed
 
-- PR #24 is Ready for Review and mergeable. Merge through the normal consolidated-branch review process.
+- PR #24 was merged. Do not attempt another merge. Continue feature acceptance against the consolidated base.
 - PR #21 and PR #23 can be closed as superseded; do not merge them independently.
 
 ## Recommended next action
 
-- Review and merge PR #24 into `integration/hobby-corner-consolidation` when approved.
+- Test remaining Core Operations workflows on the consolidated branch; adopt the shared auth/permissions contract for future new API clients, without changing current all-employee edit/create behavior.
 
 ## Restrictions / safety
 
