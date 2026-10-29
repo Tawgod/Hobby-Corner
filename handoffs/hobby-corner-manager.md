@@ -3,6 +3,8 @@
 **Last verified:** 2026-10-29  
 **Status:** Maintenance / In Development — manager records current; multiple feature workstreams remain active.
 
+**Manager chat disposition:** This Hobby Corner Manager conversation remains the active project-management channel. The 2026-10-29 final-audit prompt was used to reconcile and refresh this chat's records, **not** to archive or replace this manager conversation.
+
 ## Source
 
 - Management repository: `Tawgod/Hobby-Corner`
@@ -218,7 +220,7 @@ The manager chat coordinates these records; it does not own feature-private sour
 9. Continue Railway credential/security audit and retire/rotate legacy credential paths only through explicit, tested changes.
 10. Implement planned Invoice Reconciliation only after shared read/auth dependencies are accepted; preserve no-receiving/no-stock-change invariant.
 11. Start future Back Room Inventory, Service Requests and Reservations from shared service/auth contracts rather than new duplicate infrastructure.
-12. Feature owners must keep their stable handoffs current as their old chats are archived.
+12. Feature owners must keep their stable handoffs current as individual development chats are reorganized or archived. This manager chat remains active.
 
 ## Known contradictions / stale historical records found in final audit
 
@@ -237,6 +239,12 @@ The manager chat coordinates these records; it does not own feature-private sour
 - Creating a coordinated Chrome extension release/version/package/publication.
 - Enabling Invoice Reconciliation PO create/update in production.
 - Any destructive branch/data/volume cleanup.
+
+## Continuity rule
+
+- Continue using this conversation as the designated Hobby Corner Manager channel.
+- Use `handoffs/hobby-corner-manager.md` as the durable Git snapshot for cross-chat continuity and recovery, not as a signal that the manager chat should be replaced.
+- Future audit/reorganization prompts in this chat should refresh the manager record unless the user explicitly says this manager chat itself is being retired.
 
 ## Recommended next development priorities
 
