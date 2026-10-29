@@ -11,6 +11,12 @@ Hobby Corner currently has a mixture of shared Lightspeed code and feature-speci
 
 The goal is not to force every feature into one application. Feature workflows remain modular. The shared Lightspeed layer owns the common interaction rules, while each feature owns its business workflow.
 
+## Implementation checkpoint — 2026-10-29
+
+**Phase 1 code implemented and tested, not deployed.** Shared transport, policy/Timeclock adapter, durable PostgreSQL audit/idempotency, guarded mutation orchestration, read-only legacy adapter, customer/catalog reads, and candidate Special Orders matching extraction are implemented on `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029` in PR #32. Final CI `40911078591` passed including a disposable PostgreSQL integration run, Scanner regression and Core Operations auth/navigation regression.
+
+The code has **not been merged into** `integration/hobby-corner-consolidation`; existing production feature clients are still active. The additive SQL migration has **not been applied to Railway**. Phase 2 is consumer conversion, not a reason to rewrite the foundation. See `handoffs/lightspeed-shared-services.md` for current verified status and PR release gates. Recovery refs and the limitations of the source-derived Postgres schema archive are recorded in `backups/2026-10-29-shared-services-phase1.md`.
+
 ## Current state
 
 The current consolidated repository already contains useful shared pieces:
