@@ -6,6 +6,19 @@ Read the architecture first:
 
 These prompts coordinate conversion from feature-owned/raw Lightspeed API calls to shared Hobby Corner Lightspeed domain services.
 
+## New-chat migration checkpoint — 2026-10-29
+
+**Do not use the historical “start foundation implementation” wording as a new task.** Phase 1 was implemented/tested on ready-for-review PR #32; Phase 2 shared read services and a fail-closed Timeclock permission matrix are in draft stacked PR #33. Both remain unmerged and not deployed.
+
+For a clean replacement chat, begin with:
+
+- `Tawgod/Hobby-Corner:main/HOBBY_CORNER_CHAT_TRANSITION.md` — missing handoff inventory and archive safety checklist
+- `Tawgod/Hobby-Corner:main/prompts/NEW_TOOL_CHAT_STARTUP.md` — reusable clean chat startup prompt
+- `Tawgod/Hobby-Corner:main/SHARED_STAFF_AUTH_PERMISSIONS.md` — shared employee identity, current Scanner permission reality, new operation gates
+- The relevant `handoffs/<system>.md` **once the handoff has been verified**.
+
+The prompts below remain feature-specific migration instructions, but their introductory status sentences are historical context. Recheck GitHub PR/branch and Railway status before implementing. Do not archive an old development chat whose final verified handoff is missing.
+
 ## How to use
 
 Send the short sentence for the relevant development chat, or send the complete prompt from the linked file.
