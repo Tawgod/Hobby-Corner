@@ -286,3 +286,11 @@ The manager chat coordinates these records; it does not own feature-private sour
 - RMS Item Migration is a **separate active development workstream**, not a tool to consolidate into Product Manager or Scanner. Other tools may selectively adopt **reviewed source helpers** for exact SKU/UPC/collision handling and supplier/category/brand normalization after verification and testing. Do not adopt RMS-on-hand values, migration credentials, test-only persistence or bulk writes. Preserve migration ownership and record source and consumer references in the two relevant handoffs.
 - The project manager remains the authority for cross-tool priority, owner assignments and release decisions; this chat does not acquire ownership of every archived tool.
 
+
+## Shared Lightspeed foundation hardening milestone — 2026-10-29
+
+- PR #32 candidate head `527d764c1331500a7f43b3874d62e146223eec1f`, final CI `40954269174` **PASS**. PR #33 stacked candidate head `48d3258e37ea749a6541163ba70658577b90a8ad`, code-head CI `40954212260` **PASS**.
+- Hardened read/write transport semantics (HTTP write uncertainty, bounded JSON/UTF-8 response handling and stricter API targets); JSON fingerprint/replay safety and mutable payload race prevention; DB-only read-only pending/unknown-key inspection; PostgreSQL audit immutability and post-write audit-failure regression tests.
+- Both PRs remain **unmerged, unmounted, no production DB migration and no real tenant verification**. Neither is authorization to enable API writes. PR #33 remains stacked on the former Phase 1 base and requires explicit ancestry reconciliation after PR #32 approval.
+- Release coordination: verify independent PostgreSQL backup/restore decision, schema review, vendor/test-tenant read contracts, auth scopes, unknown-key manual reconciliation runbook and browser consumer acceptance; seek explicit approval before any production-connected merge or deployment.
+
