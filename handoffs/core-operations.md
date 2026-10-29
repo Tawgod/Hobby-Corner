@@ -84,6 +84,6 @@ No feature client JS, Lightspeed API route, request payload, permission gate or 
 ## Planned shared Invoice Reconciliation dependency — 2026-10-29
 
 - Future supplier invoice emails/PDF attachments and tracking/preorder notices feed a shared invoice-PO staging process documented in `FEATURE_INVOICE_RECONCILIATION.md`.
-- Special Orders/Ordering should display verified invoice-to-PO and shipment links, preserve existing allocations/notifications, and not mark stock RECEIVED or customer orders READY based on invoice or tracking alone.
-- Product Manager's global Invoice Updates dropdown and Scanner supplier SKU/cost proposals are separate feature surfaces. Shared backend owns PO mutation after complete invoice approval; no independent raw PO writer should be added to existing Special Orders screens.
+- Special Orders/Ordering should display verified invoice-to-PO and shipment links, including third-party shipping sender aliases verified against suppliers; show **On the way** with carrier/tracking/ETA/source. Preserve allocations/notifications and never mark products RECEIVED, customer orders READY or inventory on-hand changed from an invoice/tracking email.
+- Product Manager's global Invoice Updates dropdown and Scanner supplier SKU/cost proposals are separate feature surfaces. Shared backend owns **new OPEN supplier PO creation or existing PO updates** after complete invoice approval, with idempotency/readback and no receiving operation. No independent raw PO writer should be added to existing Special Orders screens.
 - **Planned only**; no change to merged Core Operations PR #24 or current deployed routes.
