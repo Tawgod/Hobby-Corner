@@ -72,7 +72,7 @@ Use this snapshot first. Older queue entries below are retained for history and 
 - PR #11/#25 are not current production integration candidates; PR #30 is the current Consignment candidate.
 - PR #19 is superseded by PR #26.
 - PR #16 is superseded by selective reconciliation PR #27.
-- PR #21/#23 are predecessor core UI/navigation work; PR #24 is the current candidate.
+- PR #21/#23 are predecessor core UI/navigation work; PR #24 is merged into consolidated source and is the superseding implementation.
 
 Do not package from superseded PRs. Preserve them for history until the owning feature chat confirms all unique work is accounted for, then close them.
 
