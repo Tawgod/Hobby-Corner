@@ -1,5 +1,14 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-29 — Shared Lightspeed foundation reliability hardening (PR #32/#33)
+
+- Implemented Phase 1-only branch hardening on PR #32 at `527d764c1331500a7f43b3874d62e146223eec1f`. Changed canonical Lightspeed transport, idempotency fingerprint/execute contract and read-only PostgreSQL reconciliation inspection; expanded targeted tests and docs. Final CI `40954269174` **PASS**.
+- Propagated the matching transport/idempotency/Postgres fixes and regression tests into stacked PR #33 while preserving its own `LIGHTSPEED_INCOMPLETE_READ` test semantics. Draft PR #33 candidate head `48d3258e37ea749a6541163ba70658577b90a8ad`; last code/test CI `40954212260` **PASS**.
+- Safeguards: HTTP write errors always uncertain/no automatic duplicate writes, strict local paths, JSON and fatal UTF-8 response validation, size caps, reject ambiguous/unserializable/changed mutation payloads, detached approved execution snapshot, inspect exact pending/unknown/verified keys without exposing stored response or lease.
+- Additional tests cover PostgreSQL UPDATE/DELETE/TRUNCATE audit protection, cross-client concurrency, no duplicate write after terminal audit outage, path traversal and response integrity; all under disposable CI database and mock vendor responses.
+- Updated PR descriptions, Phase 1/2 docs, central project index, roadmap and relevant stable handoffs. **No shared services route is mounted, no PR is merged, no Railway schema/data/config is changed and no Lightspeed transaction or Chrome release is performed.**
+- Outstanding explicit gates: independent PostgreSQL live-data backup/restore decision; code/security review; formal unknown-key manual reconciliation and minimal receipt contract; test tenant/vendor version and active employee permission verification; Phase 2 branch ancestry reconciliation; separate authorization for production-connected merge and migration.
+
 ## 2026-10-29 — Five continuing chats and independent RMS Item Migration
 
 - Recorded owner-confirmed chat topology: only **Shared Lightspeed Services**, **Hobby Corner Manager**, **Shared UI / UX Coordination**, **Deployment Coordination**, and **RMS Item Migration** remain active. All other prior development chats are **reported archived**; their Git handoffs, PRs and code remain valid records of unfinished work. Archived does not mean implemented, tested or deployed.
