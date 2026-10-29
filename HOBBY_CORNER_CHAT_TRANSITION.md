@@ -1,7 +1,33 @@
-# Hobby Corner Development Chat Transition — Pre-Archive Checklist
+# Hobby Corner Development Chat Transition — Active Conversations and Archived Handoffs
 
 **Last verified:** 2026-10-29  
-**Status:** In Development — not ready to archive all old feature chats.
+**Status:** User-confirmed legacy chat archival completed 2026-10-29; five coordination/development chats remain active. This document preserves earlier audit results and future restart rules. Archived-chat status is reported by the owner, not independently verifiable through GitHub.
+
+## Current conversation topology — owner confirmed 2026-10-29
+
+The owner reports that **all other development conversations have been archived**. Five conversations intentionally remain open and active:
+
+| Continuing conversation | Ownership and working agreement | Stable Git snapshot |
+| --- | --- | --- |
+| **This Chat — Shared Lightspeed Services** | Shared X-Series transport, Timeclock-backed access, reusable reads, audited/idempotent mutation architecture, and cross-tool integration contracts. May coordinate future Invoice Reconciliation architecture; does not become a replacement for each feature's own implementation work. | `handoffs/lightspeed-shared-services.md` |
+| **Hobby Corner Manager** | Overall project roadmap, priorities, cross-feature decisions, ownership and durable handoff synchronization; **remains the active manager channel**. | `handoffs/hobby-corner-manager.md` |
+| **Shared UI / UX Coordination** | Common branding, layouts, navigation, accessibility, shared Chrome-extension UI surfaces, consistency across tools; no business-logic ownership. | `handoffs/shared-ui.md` |
+| **Deployment Coordination** | Git branch and PR integration, Railway/deployment verification, Chrome extension release queue, environment and release safety gates. No unapproved deployment or merge. | `handoffs/deployment-coordination.md` |
+| **RMS Item Migration** | **Independent, continuing migration development conversation**, separate from day-to-day tools. Owns RMS item/source cleanup, conversion/collision review, migration-specific rehearsals and staged import. | `handoffs/rms-migration.md` |
+
+The archived feature chats remain represented by their existing Git handoffs and GitHub source/PR history. **Archiving a chat does not mean its feature is implemented, tested, deployed, cancelled, or deleted.** Future tool development can resume in a focused new conversation when prioritized, starting with `prompts/NEW_TOOL_CHAT_STARTUP.md`, its stable handoff, and current GitHub/Railway truth; no new conversation is required merely to preserve a handoff.
+
+### RMS migration: separate ownership, reusable code when appropriate
+
+- RMS Item Migration remains isolated from routine Product Manager, Scanner, Special Orders, PO Companion, and shared-services deployment schedules. **Do not force migration-specific writers, credentials, or temporary schemas into production tool code.**
+- Other tools **may reuse relevant reviewed migration code or algorithms** for exact SKU/UPC identity (including leading zeros), duplicate/collision detection, supplier/category/brand normalization, validation, and safe staging/preview, when genuinely useful.
+- Reuse means **inspect the specific branch/commit and code/tests first**; adapt pure logic or extract a tested shared module/contract when appropriate. Preserve source attribution, provenance and edge-case tests. Never copy hardcoded credentials, historical RMS inventory on-hand, unreviewed direct Lightspeed clients, or live bulk-write behavior.
+- Migration remains the owner of migration workflows; shared Lightspeed services own canonical production API policy, Timeclock auth, product matching interfaces, audited operations and runtime writes. Cross-chat code adoption should be recorded in both `handoffs/rms-migration.md` and the consuming feature handoff with relevant PR/commit/tests.
+- No migration-branch merge, Railway deployment, live Lightspeed import or schema change is authorized by this ownership decision.
+
+### Archived tool handoff usage
+
+Existing handoffs under `handoffs/` stay discoverable for the archived Product Manager, Scanner, PO Companion, Consignment, Core Operations, Timeclock/Split Recall, Avery Labels, Rewards, Ring Camera research, Railway Security and other recorded workstreams. The earlier pre-archive status table below is **historical audit context**, not a claim that those chats remain open or need to be reopened.
 
 ## Shared future feature to carry into existing tool chats — Invoice Reconciliation
 
@@ -30,7 +56,7 @@ The Scanner bridge is QUEUED for a later Chrome extension release, not part of c
 - The new shared operation matrix `SHARED_STAFF_AUTH_PERMISSIONS.md` does not change current Core Operations or Scanner permissions. All production-capable new shared writes remain denied by default.
 - Git recoverable source branches exist; the source-derived Postgres schema is NOT a dump of live database rows.
 
-## Central handoff inventory (GitHub records created 2026-10-29)
+## Historical handoff inventory (snapshots prepared before archive)
 
 | Feature/chat | Stable handoff | Readiness | Outstanding pre-archive action |
 | --- | --- | --- | --- |
@@ -81,7 +107,7 @@ The designated **Hobby Corner Manager** conversation is not part of the old-feat
 - Core Operations / Special Orders `handoffs/core-operations.md` was independently read after the old chat encountered a conversation-length limit. The complete current Git snapshot and original outstanding requirements remain present; the feature-owner audit and manager transition matrix mark it safe to archive. Conversation truncation itself does not remove Git-committed source or documentation.
 - Other chats still require their own old-history completeness check; a created handoff is not by itself an archive authorization.
 
-## Archive checkpoint
+## Historical pre-archive checklist (retained for future tool-chat transitions)
 
 Do not archive the previous tool chats until:
 - Every active feature has a current verified Git handoff with branch, PR, implemented/tested/deployed separation, blockers and dependencies.
