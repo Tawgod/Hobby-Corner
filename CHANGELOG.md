@@ -1,5 +1,15 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-29 — Invoice PO creation / shipping sender matching and tool handoff preparation
+
+- Clarified `FEATURE_INVOICE_RECONCILIATION.md`: **no receiving or inventory adjustment** in this feature, ever. After an entire invoice is resolved and approved, the authorized backend may **create a new supplier PO in OPEN state** (if no unambiguously matching PO exists) or **update the existing PO**, preserving separate invoiced vs physically received quantities. Official X-Series supplier consignment creation contract reviewed.
+- Existing product may receive a new **secondary supplier** with supplier code/cost, without replacing primary supplier or mappings.
+- Planned sender-alias registry for supplier, warehouse, logistics/fulfillment name/address/domain variations; tracking-to-supplier/invoice/PO/shipment correlation with ambiguity review and split-shipment support. Special Orders later displays **On the way** with source, tracking and optional ETA; it must not automatically set Received, Ready, allocate stock or send customer notifications.
+- Synced the clarified plan to `ROADMAP.md`, `LIGHTSPEED_SHARED_SERVICES.md`, `HOBBY_CORNER_PROJECT.md`, `prompts/lightspeed-shared-services/invoice-reconciliation-feature.md`, Product Manager/Core Ops/shared-services handoffs, the clean-chat transition/startup documents and the future Scanner extension release queue.
+- Created **nine previously missing** central handoff files: `handoffs/product-scanner.md`, `po-companion.md`, `timeclock-split-recall.md`, `consignment.md`, `avery-labels.md`, `rewards.md`, `rms-migration.md`, `deployment-coordination.md`, `railway-security.md`.
+- Verified current PR/branch heads and CI status of active candidate PRs, and read-only Railway source/deployment status. Handoffs distinguish implemented, tested and deployed; real employee/manual acceptance and historical-chat-only requirements still require owner review before old chats are archived.
+- No mailbox contents fetched, PDF invoices processed, PO created/updated, product received, stock changed, Railway migration deployed, employee record altered or Chrome extension packaged.
+
 ## 2026-10-29 — Planned Invoice Reconciliation cross-tool feature registered
 
 - Created `FEATURE_INVOICE_RECONCILIATION.md` as a **planned feature inside Product Manager, Product Scanner, Special Orders/Ordering and PO Companion**, not a standalone new tool.
