@@ -67,3 +67,11 @@
 
 ## Documentation
 - `HOBBY_CORNER_PROJECT.md`, `HOBBY_CORNER_CHAT_TRANSITION.md`, `handoffs/README.md`, `handoffs/TEMPLATE.md`, `ROADMAP.md`, `LIGHTSPEED_SHARED_SERVICES.md`, `SHARED_STAFF_AUTH_PERMISSIONS.md`, `FEATURE_INVOICE_RECONCILIATION.md`, `CHROME_EXTENSION_INTEGRATION.md`, `CHROME_EXTENSION_RELEASE_QUEUE.md`, `BRANCH_AND_DEPLOYMENT_POLICY.md`, and feature-specific stable handoffs.
+
+## Continuing conversation and RMS integration boundary — owner-confirmed 2026-10-29
+
+- This **Deployment Coordination** chat remains active with Hobby Corner Manager, Shared UI / UX Coordination, Shared Lightspeed Services and the separately active RMS Item Migration chat. All other old tool chats were archived by owner report; their handoffs/branches/PRs remain in scope for release gating.
+- Keep RMS Item Migration **independent** from the normal production feature release train; a tool may adapt verified product identity, mapping or collision-check code only with source/consumer review, tests and owner coordination. Sharing a helper does **not** authorize migration-branch merges or production bulk imports.
+- Preserve environment boundaries, rollback and least-privilege credentials. No RMS on-hand stock import, migration-only writer adoption, test data promotion or other destructive action without explicit approval.
+- Continue honoring `CHROME_EXTENSION_RELEASE_QUEUE.md`, shared feature readiness and separate approvals for production-connected merges, Railway deploys and Chrome packaging.
+
