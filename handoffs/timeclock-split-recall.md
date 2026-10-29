@@ -5,7 +5,7 @@
 
 ## Source
 - Repository: `Tawgod/Lightspeed`; authoritative integration branch `integration/hobby-corner-consolidation@f50c3309824986633c3ba37a95e6eb43aae15a3c`.
-- Current Chrome overlay PR: [#22](https://github.com/Tawgod/Lightspeed/pull/22), `feature/extension-launchers-shared-ui-20261027@f9e8f0af75306bd17b0ebf9d6d6d36eef7a6b1b2`; **open/draft/unmerged**.
+- Current Chrome overlay PR: [#22](https://github.com/Tawgod/Lightspeed/pull/22), `feature/extension-launchers-shared-ui-20261027@f9e8f0af75306bd17b0ebf9d6d6d36eef7a6b1b2`; **open/draft/unmerged** and 7 commits behind current consolidated at the 2026-10-29 archival audit.
 - Existing Timeclock source: `timeclock/server.js`; shared backend identity: `services/scannerTimeclockIdentity.js`, `services/staffAuthGateway.js`, `services/scannerSessions.js`. Sales workflow: `routes/orderSplit.js`, `routes/orderSplitExecute.js`.
 - PR #22 touches only `extension/content.js`, launcher-specific tests and CI; PR #26 owns separate popup/nav surfaces.
 
@@ -17,10 +17,10 @@
 ## Tested
 - PR #22 head regression workflow `40725000899` **SUCCESS** at `f9e8f0af75306bd17b0ebf9d6d6d36eef7a6b1b2`, including JS syntax, PIN/sale/fulfillment call anchors, namespaced content styling and launcher preservation.
 - Native loaded-extension Sell/fulfillment/PIN/zoom/focus/partial pickup end-to-end employee testing **not yet verified**.
-- Railway `timeclock` and `lightspeed-api` services currently source integration branch; latest deployments report SUCCESS, exact deployed SHA not separately checked.
+- Railway `timeclock` and `lightspeed-api` source the consolidated integration branch and both latest production deployments are **SUCCESS at `f50c3309824986633c3ba37a95e6eb43aae15a3c`**. This verifies the deployed backend baseline; PR #22 overlay appearance remains unmerged/unreleased.
 
 ## Deployed
-- Core Timeclock backend: deployed from consolidated integration branch; exact endpoint production acceptance varies and needs checks.
+- Core Timeclock backend: deployed from consolidated integration branch at `f50c3309824986633c3ba37a95e6eb43aae15a3c`; exact feature workflow acceptance still varies and needs real loaded-extension checks.
 - PR #22 overlay appearance: **not merged, not packaged or released**.
 
 ## Shared dependencies
