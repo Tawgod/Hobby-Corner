@@ -7,7 +7,7 @@
 
 On 2026-10-29 the owner requested one new feature spanning **existing** Product Manager, Product Scanner, Special Orders/Ordering and PO Companion. Source of truth: `FEATURE_INVOICE_RECONCILIATION.md`; development intro `prompts/lightspeed-shared-services/invoice-reconciliation-feature.md`. It is **Planned**, not an independent new tool and not merged/deployed.
 
-Every replacement chat for those tools must read the feature specification as a dependency. Product Manager needs a shared invoice-select dropdown (not an employee profile); Scanner must submit supplier UPC/SKU/cost proposals; Special Orders/PO Companion must link verified invoice/PO/tracking context. The shared gateway will stage 90%+ match candidates and eventually apply a fully approved invoice with status-safe PO updates. No feature chat should independently create email ingestion or PO write credentials.
+Every replacement chat for those tools must read the feature specification as a dependency. Product Manager needs a shared invoice-select dropdown (not an employee profile); Scanner must submit supplier UPC/SKU/cost proposals; Special Orders/PO Companion must link verified invoice/PO/tracking context. The shared gateway will stage 90%+ match candidates and eventually **create a new OPEN supplier PO or update an existing PO** after full invoice approval, **without any receiving or stock-on-hand change**. Preserve the primary supplier while proposing secondary supplier links; verified sender aliases connect shipping emails/tracking to the correct supplier, invoice and PO for Special Orders **On the way** status. No feature chat should independently create email ingestion or PO write credentials.
 
 The Scanner bridge is QUEUED for a later Chrome extension release, not part of current extension packaging. **Do not treat this planned item as a blocker to creating new chats after their handoffs are complete**; carry the written requirements forward.
 
@@ -30,29 +30,36 @@ The Scanner bridge is QUEUED for a later Chrome extension release, not part of c
 - The new shared operation matrix `SHARED_STAFF_AUTH_PERMISSIONS.md` does not change current Core Operations or Scanner permissions. All production-capable new shared writes remain denied by default.
 - Git recoverable source branches exist; the source-derived Postgres schema is NOT a dump of live database rows.
 
-## Central handoff inventory (verified GitHub file presence)
+## Central handoff inventory (GitHub records created 2026-10-29)
 
 | Feature/chat | Stable handoff | Readiness | Outstanding pre-archive action |
 | --- | --- | --- | --- |
-| Shared Lightspeed services (this chat) | `handoffs/lightspeed-shared-services.md` | Exists | Keep current with PR #32/#33; finish permission and consumer acceptance |
+| Shared Lightspeed services (this chat) | `handoffs/lightspeed-shared-services.md` | Exists | Keep current with PR #32/#33 and invoice create/update plan; consumer acceptance pending |
 | Core Operations / Special Orders | `handoffs/core-operations.md` | Exists, merged status corrected | Feature owner should check remaining real workflow tests and pending change history |
 | Shared UI / UX Coordination | `handoffs/shared-ui.md` | Exists, merged status corrected | Keep the UI coordination chat; reconcile extension package state |
-| Product Manager | `handoffs/product-manager.md` | Exists; may lag current PR #28 work | Recheck current branch/head, Timeclock profiles/drafts, autosave, implementation/testing/deployment |
-| Scanner / Toolkit | `handoffs/product-scanner.md` | **Missing** | Verify PR #26, PIN, supplier, test writer, UI/nav, outstanding browser acceptance, release queue |
-| Timeclock / Split Recall | `handoffs/timeclock-split-recall.md` | **Missing** | Verify PR #22, current Timeclock integration, extension, sessions and sale workflow acceptance |
-| PO Companion | `handoffs/po-companion.md` | **Missing** | Verify PR #31, shared PO contract, local supplier SKU mapping, draft/review behavior |
-| Consignment | `handoffs/consignment.md` | **Missing** | Verify PR #30, isolated beta, test tenant/customer/credit isolation |
-| Avery PO Labels | `handoffs/avery-labels.md` | **Missing** | Verify PR #29, template/physical print acceptance and queued extension dependencies |
-| Rewards / Customer Sync | `handoffs/rewards.md` | **Missing** | Verify Discord bot main and Railway Rewards, legacy API client, service health |
-| RMS migration | `handoffs/rms-migration.md` | **Missing** | Verify separate migration branches, dry-run/reconciliation and secret isolation |
-| Deployment Coordination | `handoffs/deployment-coordination.md` | **Missing** | Verify the current active release matrix and merge order |
-| Railway Security / Config | `handoffs/railway-security.md` | **Missing** | Confirm deployed secrets names/config ownership only; never copy secret values |
+| Product Manager | `handoffs/product-manager.md` | Exists | Head CI/staff profiles and invoice dropdown requirements require feature-owner signoff |
+| Scanner / Toolkit | `handoffs/product-scanner.md` | **Created, verified PR/CI** | Real Chrome PIN/supplier/scan acceptance and future invoice sender/price bridge owner review |
+| Timeclock / Split Recall | `handoffs/timeclock-split-recall.md` | **Created, verified PR/CI** | Real Chrome/session and Split workflow acceptance |
+| PO Companion | `handoffs/po-companion.md` | **Created, verified PR/CI** | Live read-only PO auth, pagination and invoice context; employee Chrome tests |
+| Consignment | `handoffs/consignment.md` | **Created, verified PR/CI** | Test service health/isolation and real employee/store acceptance |
+| Avery PO Labels | `handoffs/avery-labels.md` | **Created, verified PR/CI** | Physical Avery 5960 print/native Chrome acceptance |
+| Rewards / Customer Sync | `handoffs/rewards.md` | **Created, source+Railway checked** | Read-only job/customer sync verification with owner |
+| RMS migration | `handoffs/rms-migration.md` | **Created, branch inventory checked** | Real data dry-run/collision and cutover owner review |
+| Deployment Coordination | `handoffs/deployment-coordination.md` | **Created, source+Railway checked** | Release order, test and production approval gates |
+| Railway Security / Config | `handoffs/railway-security.md` | **Created, source+Railway checked** | Secret reference and backup review, no credential values accessed |
 
-A **missing handoff is not evidence of missing feature work**. It means the old chat's current state has not yet been centrally verified/documented.
+**All nine previously missing stable handoff files have now been created**, from verified available GitHub source/PR/CI evidence and Railway topology where relevant. These are coordination snapshots, not proof that every old-chat requirement has been transferred, tested or deployed. Feature owners should review their own handoffs for unique outstanding requirements before archiving previous chats. No missing handoff file remains in this inventory.
 
 ## Proposed new chat startup prompt
 
 Use `prompts/NEW_TOOL_CHAT_STARTUP.md`, replacing the workstream placeholder with the actual feature. The feature-specific prompt file and current handoff remain required.
+
+## Handoff creation checkpoint — 2026-10-29
+
+- Created and read-back-checkable Git records for Product Scanner, PO Companion, Timeclock/Split Recall, Consignment, Avery Labels, Rewards, RMS Migration, Deployment Coordination and Railway Security.
+- Verified PR head and automated test run evidence for #22, #26, #29, #30 and #31; verified Rewards/Discord app source and deployment status; verified migration branches and Railway production environment.
+- These handoffs do not certify live Chrome, real PO/employee, physical printing, migration rehearsal or restore testing. Old chats can be retired **only after** feature owners check uncommitted/historical requirements and release blockers.
+- The planned invoice feature includes approved **new OPEN PO creation or existing PO updates**, secondary supplier links, sender aliases, multi-shipment tracking and a separate Special Orders On the way indicator; never physical receipt.
 
 ## Archive checkpoint
 
