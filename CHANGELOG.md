@@ -1,5 +1,11 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-29 — Source-derived PostgreSQL schema archive
+- Verified Railway PostgreSQL service is live with persistent 5,000 MB volume, but the Railway OAuth connector withholds credentials and has no SQL/dump operation.
+- Archived SQL schema declarations from Special Orders, Timeclock, Scanner and Rewards into the **private** `Tawgod/Lightspeed-Importer` backup branch `backup/hobby-corner-postgres-source-schema-20261029` (52 named tables in source).
+- Verified the private SQL archive and README can be read back. This is **not** a live database snapshot; no records, grants, sequences, or restore verification were captured.
+- Updated `backups/2026-10-29-shared-services-phase1.md` and `handoffs/lightspeed-shared-services.md`; made no Railway or database changes.
+
 ## 2026-10-29 — Shared Lightspeed Services Phase 1 and recovery checkpoint
 - **Before application code changes**, created 57 Git recovery branches across six Hobby Corner repos; see `backups/2026-10-29-shared-services-phase1.md`. Railway service/volume topology recorded. This is **not** an independently verified full backup: Postgres contents, Railway secrets/config and external business data were not exported.
 - Created isolated Lightspeed Phase 1 branch `feature/shared-lightspeed-services-phase1-20261029` and draft PR #32 (head `c46e5a710bcacdf6a294ccbeece3baacee95ae1b`).
