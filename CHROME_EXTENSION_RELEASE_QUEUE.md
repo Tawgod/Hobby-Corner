@@ -55,8 +55,16 @@ Use this snapshot first. Older queue entries below are retained for history and 
 | Timeclock + Split / Recall | PR #22 / `feature/extension-launchers-shared-ui-20261027` | BLOCKED / Testing | `extension/content.js` | Real Sell/fulfillment/PIN/zoom/focus acceptance |
 | Purchase Order Companion | PR #31 / `feature/po-companion-consolidated-20261028` | IN DEVELOPMENT | manifest, popup, shared navigation/UI + feature files | Authenticated read-only PO retrieval, employee auth, real PO Chrome acceptance |
 | Consignment launcher | PR #30 is current Consignment feature candidate; launcher not yet approved for release | BLOCKED | shared popup/navigation if added | Isolated test promotion, stable destination, explicit launcher decision |
-| Shared UI reusable pieces | PR #27 | IN DEVELOPMENT | shared UI/clipboard only | Confirm compatibility with PR #26; no duplicate assets/navigation |
-| Core web navigation | PR #24 | IN DEVELOPMENT / Testing | backend-served core pages, not extension package | Rebase/current-base verification and browser acceptance |
+| Shared UI reusable pieces | PR #27 **MERGED** into consolidated source | INCLUDED IN CONSOLIDATED SOURCE; extension release unverified | shared UI/clipboard only | Confirm final extension package compatibility with PR #26; no independent version/release claimed |
+| Core web navigation | PR #24 **MERGED** into consolidated source | INCLUDED IN CONSOLIDATED SOURCE; web workflow acceptance recorded | backend-served core pages, not extension package | No separate extension release; verify current integrated package only if shared surfaces included |
+
+### GitHub reconciliation — 2026-10-29 (NOT a Chrome extension release)
+
+- GitHub confirms PR #27 (shared UI) and PR #24 (Core Ops web/navigation) were merged on 2026-10-28. The earlier queue snapshot incorrectly described them as still in development.
+- Their merge means source is consolidated, **not** that a Chrome extension ZIP was packaged, versioned or published. No RELEASED status or extension version is assigned.
+- PR #26 (Scanner/Toolkit) and PR #22 (Timeclock/Split) remain open and require browser acceptance; PR #31 remains an open draft PO Companion candidate. No shipping status changed here.
+- Shared services PR #32 and stacked #33, plus the new `SHARED_STAFF_AUTH_PERMISSIONS.md` matrix, are backend development candidates only. They do not authorize a Chrome extension package or live Lightspeed mutation.
+- This is a **documentation/status correction only**. Before the next extension release, reconcile all READY/QUEUED/IN DEVELOPMENT/BLOCKED rows, current PR branches and the integration contract as required above.
 
 ### Superseded extension PRs
 
