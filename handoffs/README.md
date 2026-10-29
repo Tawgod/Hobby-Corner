@@ -71,3 +71,7 @@ Use `TEMPLATE.md` as the starting structure.
 The Hobby Corner Manager conversation should read the relevant file(s) in this directory when reconciling project state. Significant verified changes should then be reflected in the Current Authoritative Development Matrix in `HOBBY_CORNER_PROJECT.md`.
 
 The handoff files are coordination snapshots, not replacements for source code, PR descriptions, CI results, Railway state, or the master project registry.
+
+## Replacement chat pre-archive requirement
+
+Use `HOBBY_CORNER_CHAT_TRANSITION.md` and `prompts/NEW_TOOL_CHAT_STARTUP.md` before retiring old development chats. The transition index tracks which workstreams still lack a current stable Git handoff. The shared staff auth rules are recorded in `SHARED_STAFF_AUTH_PERMISSIONS.md`. A missing handoff means its owner needs to verify the PR/code and write one; it does not mean the feature is unimplemented.
