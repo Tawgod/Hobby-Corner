@@ -34,7 +34,7 @@ The Scanner bridge is QUEUED for a later Chrome extension release, not part of c
 
 | Feature/chat | Stable handoff | Readiness | Outstanding pre-archive action |
 | --- | --- | --- | --- |
-| Hobby Corner Manager / Cross-project coordination | `handoffs/hobby-corner-manager.md` | **Final audit complete 2026-10-29** | Safe to transition to a new manager chat using the stable manager handoff and current matrix |
+| Hobby Corner Manager / Cross-project coordination | `handoffs/hobby-corner-manager.md` | **Active manager channel; audit reconciled 2026-10-29** | **Do not archive/replace this chat.** Continue using it as the project-management channel; the handoff is the durable Git snapshot for continuity. |
 | Shared Lightspeed services | `handoffs/lightspeed-shared-services.md` | Exists | Keep current with PR #32/#33 and invoice create/update plan; consumer acceptance pending |
 | Core Operations / Special Orders | `handoffs/core-operations.md` | **Feature-owner archival audit complete 2026-10-29** | Safe to archive this Core Operations chat; remaining runtime, notification and Invoice Reconciliation work is fully recorded in Git |
 | Shared UI / UX Coordination | `handoffs/shared-ui.md` | Exists, merged status corrected | Keep the UI coordination chat; reconcile extension package state |
@@ -69,6 +69,10 @@ Use `prompts/NEW_TOOL_CHAT_STARTUP.md`, replacing the workstream placeholder wit
 - Two source defects must follow into the replacement chat: undefined `createManualTimeEntry` behind the Admin missed-entry route and malformed employee-filter SQL bind placeholder in `listTimeEntries()`.
 - PR #22 remains `f9e8f0af` but is now 2 ahead / 7 behind current consolidated. Its content-script base did not change, but the PR must be reconciled before release integration. GitHub currently reports the PR non-mergeable until that reconciliation is resolved.
 - This workstream is documented sufficiently to start a replacement chat without relying on old conversation memory, but it is not feature-complete or release-ready.
+
+### Manager chat exception
+
+The designated **Hobby Corner Manager** conversation is not part of the old-feature-chat archival migration unless the owner explicitly says otherwise. Audit/reorganization prompts entered there are for refreshing its authoritative state and cross-chat records. Its Git handoff exists for durability and coordination, not because the manager conversation should be replaced.
 
 ## Archive checkpoint
 
