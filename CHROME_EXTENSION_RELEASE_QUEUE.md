@@ -89,6 +89,22 @@ Do not package from superseded PRs. Preserve them for history until the owning f
 
 ## Current queue
 
+### Invoice Reconciliation / Scanner-to-Product Manager bridge — future feature
+- **Feature/system:** Invoice Reconciliation shared Product Manager / Scanner / Special Orders workflow (not a new tool).
+- **Source:** `FEATURE_INVOICE_RECONCILIATION.md`, future cross-tool development.
+- **Status:** QUEUED (planning only; no implementation or release candidate).
+- **Requested behavior:** From Scanner, verify SKU/UPC and supplier-specific price for an invoice line, submit a proposal to Product Manager's globally shared invoice-specific review queue; optionally launch current invoice context without adding a duplicate standalone tool launcher.
+- **Authoritative source:** No implementation branch/commit yet. Future code must be based on consolidated source and coordinate with Scanner PR #26, PO Companion PR #31, Product Manager PR #28 and shared backend PR #32/#33.
+- **Potential extension surfaces:** `extension/product-scanner/*`, selected PO Companion detail links or shared navigation only if a later design requires it; avoid changes to `extension/manifest.json`, `popup.*`, `content.js` unless specifically approved and reconciled.
+- **Backend dependencies:** `lightspeed-api` shared Timeclock auth, product matching, PO reads, invoice staging records, role/approval policy; no direct browser Lightspeed write or credentials.
+- **Testing:** Not implemented/not tested; needs Scanner keyboard/scan, identity, invoice scoping, duplicate-suppression and current Chrome regressions.
+- **Target release:** Later coordinated extension version; **not the pending near-term consolidation release**.
+- **Block/defer reason:** Inbox ingestion, invoice staging API, Product Manager invoice context and backend approval/write contract not yet built; shipping an extension entry point now would be broken.
+- **Released version/commit/date:** None. No Chrome packaging, version bump or publication.
+- **Next owner action:** When this feature is scheduled, create an explicit feature branch and update this row and `FEATURE_INVOICE_RECONCILIATION.md`; choose whether Scanner bridge can be implemented entirely as backend calls without any extension packaging.
+
+
+
 ### Purchase Order Companion
 - **Automated verification (2026-10-28):** GitHub Actions PO read-only regression run [40730728843](https://github.com/Tawgod/Lightspeed/actions/runs/40730728843) **SUCCESS** after CI install fix; Scanner integration regression run [40730728542](https://github.com/Tawgod/Lightspeed/actions/runs/40730728542) **SUCCESS**. These are automated contract/regression tests, NOT Chrome real-PO/PIN/browser acceptance. No permission-controlled live panel auth or PO write approval enabled. Status remains IN DEVELOPMENT / release-blocked.
 - **PO gateway consolidation — 2026-10-28:** Current PR #31 (`feature/po-companion-consolidated-20261028`) is up to date with consolidated at initial reconciliation (0 behind) and GitHub mergeable=true. Added authenticated **read-only** `/api/scanner/purchase-orders/:id` endpoint using the existing signed Timeclock scanner session/authorization and server-only Lightspeed 2026-04 PO GET requests; supplier-specific mapping and text identifier fidelity covered by added test cases. PR #26 shared navigation is the only source for PO menu links. UI-side live loading, employee approval and all PO/product/order writes remain disabled. CI read-only workflow was initially blocked at npm ci and corrected to npm install; rerun evidence pending. Chrome live PO/PIN/zoom/copy/browser testing pending. Old PR #13's uniquely named navigation.json is obsolete, so its code is superseded; it may be closed after documenting the handoff. Status **IN DEVELOPMENT / NOT READY for extension release**; no deployment/packaging.
