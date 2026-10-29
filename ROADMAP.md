@@ -13,8 +13,8 @@ Five ongoing chats: **Shared Lightspeed Services**, **Hobby Corner Manager**, **
 ## 1. Immediate coordination and stabilization
 
 ### Shared Lightspeed services
-- Review Phase 1 PR #32, now hardened through `527d764c` with passing final CI `40954269174`: canonical transport/policy/audit/idempotency, conservative uncertain-write handling, strict JSON/UTF-8/response-byte limits, safe API targets, payload mutation guards, durable PG unknown-key read-only inspection and expanded regressions. **Still unmerged, unapplied and not deployed.**
-- Keep Phase 2 PR #33 draft/stacked on #32; hardening is synchronized and code-head CI `40954212260` passed, but branch ancestry must be reconciled after the foundation is approved. No consumer is live on the shared gateway yet.
+- Review Phase 1 PR #32, now hardened through `0082eacc` with passing code/test CI `40955089606`: canonical default-read-only transport/policy/audit/idempotency, conservative uncertain-write handling, strict JSON/UTF-8/response-byte limits, safe API targets, payload mutation guards, durable PG unknown-key read-only inspection and expanded regressions. **Still unmerged, unapplied and not deployed.**
+- Keep Phase 2 PR #33 draft/stacked on #32; hardening is synchronized and code-head CI `40955104731` passed, but branch ancestry must be reconciled after the foundation is approved. No consumer is live on the shared gateway yet.
 - Convert read-only consumers first, then controlled writes.
 - Prevent new feature-specific production Lightspeed clients while conversion is underway.
 - Move cross-service consumers toward authenticated `lightspeed-api` contracts before removing duplicate credentials.
