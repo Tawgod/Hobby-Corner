@@ -13,7 +13,7 @@
   - **Ready for review; unmerged; un-deployed**
 - Phase 2 PR #33: https://github.com/Tawgod/Lightspeed/pull/33
   - Branch `feature/shared-lightspeed-services-phase2-reads-20261029`
-  - Head `baef5f654df994e8e1ec23ad950b7d335b345817`
+  - Head `bbfe24fd1d87f1b9dfa29b69df563a7dcf5e1e9a`
   - **Draft, stacked onto Phase 1 branch** (NOT the Railway-connected production branch)
 - Recovery record: `backups/2026-10-29-shared-services-phase1.md`
 - Private source-only Postgres schema archive: `Tawgod/Lightspeed-Importer:backup/hobby-corner-postgres-source-schema-20261029` (not a live database dump)
@@ -48,7 +48,7 @@
 
 - Phase 1 foundation + disposable Postgres 16 + Scanner and Core Operations tests passed: `40911078591`.
 - Phase 2 read contracts, authenticated HTTP denial/permission checks, and inherited foundation/Scanner/Core Operations tests passed on PR commit `6879bc89447be537bb8f8caa1f9dd3d8d9b829e2`: CI `40913405875`.
-- Current Phase 2 PR head `baef5f654df994e8e1ec23ad950b7d335b345817` CI **PASSED**: pull-request workflow `40919331215`, push workflow `40919318966`. Foundation, disposable PostgreSQL, strict read, staff permission matrix and identity-spoof tests, Scanner/Core Operations regressions, source audit and backend parse checks green.
+- Current Phase 2 PR head `bbfe24fd1d87f1b9dfa29b69df563a7dcf5e1e9a` CI **PASSED**: pull-request workflow `40920253500`, push workflow `40920241898`. Foundation, disposable PostgreSQL, strict read, staff permission matrix and identity-spoof tests, Scanner/Core Operations regressions, source audit and backend parse checks green.
 - Current Lightspeed docs confirm version-based PO cursor, offset-based search, SKU filter semantics and 2026-04 inventory API POST read behavior; see Phase 2 docs for URLs. **No actual Lightspeed tenant API calls** and no browser/employee acceptance tests.
 - Active PR #22/#24/#26/#28/#30/#31 changes were examined for shared service overlaps; current new shared paths are separate. Recheck at merge time.
 
