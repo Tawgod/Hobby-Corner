@@ -99,3 +99,11 @@ This workstream owns UI/UX consistency across Special Orders, Ordering, GW/regul
 - `LIGHTSPEED_SHARED_SERVICES.md`, `SHARED_STAFF_AUTH_PERMISSIONS.md`, `ROADMAP.md`, `FEATURE_INVOICE_RECONCILIATION.md`
 - `Tawgod/Lightspeed:integration/hobby-corner-consolidation/shared-ui/RECONCILIATION_20261028.md`
 - GitHub PRs #24, #27, #26, #22, #28, #29, #30, #31, #32, #33 and linked CI runs.
+
+## Continuing conversation — owner-confirmed 2026-10-29
+
+- The **Shared UI / UX Coordination** chat remains active after other tool-specific chats were archived. Four peer continuing chats are Hobby Corner Manager, Shared Lightspeed Services, Deployment Coordination and RMS Item Migration.
+- This chat continues to coordinate common branding/navigation/accessibility/extension surfaces across archived-feature handoffs. Do not assume an archived feature is cancelled or accept UI development as permission to change its business behavior.
+- RMS Item Migration remains a separate specialist development conversation. Its source code can be reused by tools when suitable and verified, but UI coordination must not assume its bulk migration routines are shared operational services.
+- No merge, extension release or production deployment is implied by retaining this chat.
+
