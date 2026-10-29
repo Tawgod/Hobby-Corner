@@ -1013,3 +1013,11 @@ No Lightspeed product records were created or updated in this test. The existing
 - Corrected stale project deployment notes, stale PR #33 checkpoint, roadmap shared-service state, and shared-services transition inventory.
 - Preserved planned Back Room Inventory, Service Requests/Repairs/Warranty/Commissions, Game Room Reservations, and Invoice Reconciliation requirements.
 - No PR merge, production deployment, database migration, credential change, Lightspeed write, employee/customer data change, or Chrome extension publication was performed.
+
+
+## 2026-10-29 — Manager channel continuity correction
+- Clarified that the designated **Hobby Corner Manager** conversation remains active and is **not** being archived or replaced.
+- The prior final-audit/reorganization prompt was used to refresh/reconcile manager state and Git records.
+- `handoffs/hobby-corner-manager.md` remains the durable manager snapshot for continuity and recovery, not an archive trigger.
+- Updated `HOBBY_CORNER_CHAT_TRANSITION.md` and `HOBBY_CORNER_PROJECT.md` to preserve this distinction.
+- No runtime code, PR merge, Railway deployment, credential change, Lightspeed write or Chrome extension release occurred.
