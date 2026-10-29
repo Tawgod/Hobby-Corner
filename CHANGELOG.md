@@ -1,5 +1,28 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-29 — Timeclock / Split Recall final handoff audit
+
+### Reconciled
+- Expanded `handoffs/timeclock-split-recall.md` from a narrow extension/identity snapshot into a complete current workstream handoff covering core clocking, PTO/time off, PTO eligibility, store hours, assigned/open shifts, Discord role notifications, entry browsing/corrections, non-Discord PIN onboarding, Central-time behavior, shared employee auth, Split/Recall and coordinated Chrome release requirements.
+- Verified Railway `timeclock`, `lightspeed-api` and `special-orders-test` are live from consolidated `f50c3309824986633c3ba37a95e6eb43aae15a3c`; Discord Timeclock `main.py` in current `main` is byte-identical to the latest successful deployed bot commit.
+- Verified Railway Postgres remains live with the 5 GB durable volume mounted at `/var/lib/postgresql/data`.
+
+### Defects found
+- The deployed Timeclock Admin missed-entry route calls undefined `createManualTimeEntry`; Create Missed Entry must not be treated as working until repaired/tested.
+- Employee-filtered entry browsing builds a malformed PostgreSQL bind placeholder in `listTimeEntries()`; employee-filter browsing must not be treated as working until repaired/tested.
+- PR #22 `feature/extension-launchers-shared-ui-20261027@f9e8f0af` is now 2 commits ahead / 7 behind current consolidated `f50c330982`; GitHub reports it non-mergeable until reconciliation. Consolidated `extension/content.js` itself is still byte-identical to PR #22's merge-base copy.
+
+### Preserved requirements
+- Payroll remains authoritative for PTO balances/accrual; Timeclock records PTO eligibility, paid vs unpaid intent and requested PTO hours.
+- Non-Discord employees may be provisioned with a Timeclock PIN without a Discord account.
+- Scheduling requirements include store hours, open/additional-hours shifts, optional role notifications, coverage shifts, employee My Schedule and manager weekly schedule.
+- Payroll finalization/post-payroll adjustments, configurable weekly overtime, midnight/pay-period splitting, five-year retention/archive and direct PIN rate limiting remain unfinished requirements.
+- Invoice Reconciliation remains a separate shared future feature and must reuse Timeclock employee identity; it may create/update an OPEN supplier PO only after approval and must never receive stock or change inventory on hand.
+
+### Documentation
+- Updated `HOBBY_CORNER_PROJECT.md`, `ROADMAP.md`, `HOBBY_CORNER_CHAT_TRANSITION.md`, `CHROME_EXTENSION_RELEASE_QUEUE.md`, PR #22 description and the stable Timeclock handoff.
+- No production deployment, employee/customer record change, Railway credential change, Lightspeed mutation, PR merge, extension version bump or Chrome publication was performed.
+
 ## 2026-10-29 — Core Operations archival handoff audit
 - Rewrote `handoffs/core-operations.md` as the complete verified system snapshot rather than a PR-only note.
 - Verified consolidated source `f50c3309824986633c3ba37a95e6eb43aae15a3c` includes merged PR #24 and is the exact latest successful deployment commit for Railway `lightspeed-api`, `timeclock` and `special-orders-test`.
