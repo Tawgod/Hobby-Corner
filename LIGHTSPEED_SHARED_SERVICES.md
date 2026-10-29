@@ -1,9 +1,9 @@
 # Hobby Corner Shared Lightspeed Services Architecture
 
 **Status:** In Development / Coordination  
-**Last verified:** 2026-10-28  
+**Last verified:** 2026-10-29  
 **Authoritative application base:** `Tawgod/Lightspeed:integration/hobby-corner-consolidation`  
-**Observed consolidated head during this audit:** `59a971d223eab70005c35b825d16cefdc025299a`
+**Verified consolidated head 2026-10-29:** `f50c3309824986633c3ba37a95e6eb43aae15a3c`
 
 ## Purpose
 
@@ -22,6 +22,8 @@ The code has **not been merged into** `integration/hobby-corner-consolidation`; 
 **In Development / Testing, not merged or deployed.** Stacked draft PR #33 (`Tawgod/Lightspeed:feature/shared-lightspeed-services-phase2-reads-20261029`) is based on Phase 1 PR #32, not the production-connected integration branch. Its candidate includes shared read-only modules for Products, Inventory, Sales, Fulfillments, Purchase Orders and Store Credit; hardened Customer and Catalog pagination; and an **unmounted** Timeclock-authorized read-gateway router.
 
 Current X-Series documentation confirms version cursors for PO/collection pagination and offset pagination for `/search`; these distinct contracts are unit-tested. Initial Phase 2 CI `40913405875` passed. No feature workflow has yet been switched to the shared gateway, no new production write is enabled, and live vendor API/role validation is a remaining gate. See `handoffs/lightspeed-shared-services.md` and `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase2-reads-20261029/docs/SHARED_LIGHTSPEED_PHASE2_READS.md`.
+
+Phase 2 includes an **unmounted and non-deployed** shared operation permission matrix under `services/lightspeed/permissions.js` (PR #33). New shared reads use current Timeclock verified active employee lookup permission; new production writes remain disabled by default even when Scanner review approval is true. The central current/pending permission distinction is recorded in `SHARED_STAFF_AUTH_PERMISSIONS.md`.
 
 ## Current state
 
