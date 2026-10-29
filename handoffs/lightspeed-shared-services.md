@@ -87,3 +87,12 @@
 ## Safety
 
 Do not deploy production, apply the shared Postgres schema, move credentials, delete records, alter Chrome extension releases, or enable new production writes without explicit approval.
+
+## Planned cross-tool feature — Invoice Reconciliation (intake 2026-10-29)
+
+- `FEATURE_INVOICE_RECONCILIATION.md` is the authoritative plan. No feature PR or implementation exists; **not part of Phase 1 #32 or Phase 2 #33 code scope**.
+- Supplier mail + PDF invoice extraction → unique PO identification → invoice line/product matching → shared Railway PostgreSQL staged proposals → Product Manager invoice-specific review and Scanner supplier-cost matching → final separate approval → status-safe Lightspeed PO apply via shared guarded mutations.
+- The new Invoice Updates Product Manager dropdown is shared across all logged-in employees, independent of employee-private layout profiles. Final PO write approval is a distinct permission, not inferred from read access or Scanner canApprove.
+- 90%+ candidate identity match auto-stages only; cost/MSRP/quantity exceptions and new secondary supplier mappings remain reviewable. Supplier invoice quantity is **not** receiving quantity.
+- Official X-Series PO mutation APIs operate on SUPPLIER consignments; generic bulk count/received operations have accumulation and status transition risks. Test an explicit safe status-aware apply contract and readback before any live write.
+- Future Scanner bridge entry is QUEUED in extension release queue; no extension packaging or production deployment was performed.
