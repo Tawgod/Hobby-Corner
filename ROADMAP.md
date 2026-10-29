@@ -7,8 +7,8 @@ This roadmap is the current planning view. Detailed implementation history remai
 ## 1. Immediate coordination and stabilization
 
 ### Shared Lightspeed services
-- Build the canonical Lightspeed transport/policy/audit foundation from `LIGHTSPEED_SHARED_SERVICES.md`.
-- Extract existing tested Special Orders customer/product/matching logic rather than rewriting it.
+- Review Phase 1 PR #32, which implements the canonical Lightspeed transport/policy/audit foundation and extracted customer/catalog/product-matching candidates; it is tested but unmerged/unapplied.
+- Keep Phase 2 PR #33 draft/stacked on #32 while validating shared read contracts and permissions; no consumer is live on the shared gateway yet.
 - Convert read-only consumers first, then controlled writes.
 - Prevent new feature-specific production Lightspeed clients while conversion is underway.
 - Move cross-service consumers toward authenticated `lightspeed-api` contracts before removing duplicate credentials.
