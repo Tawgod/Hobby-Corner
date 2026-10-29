@@ -35,7 +35,7 @@ The Scanner bridge is QUEUED for a later Chrome extension release, not part of c
 | Feature/chat | Stable handoff | Readiness | Outstanding pre-archive action |
 | --- | --- | --- | --- |
 | Shared Lightspeed services (this chat) | `handoffs/lightspeed-shared-services.md` | Exists | Keep current with PR #32/#33 and invoice create/update plan; consumer acceptance pending |
-| Core Operations / Special Orders | `handoffs/core-operations.md` | Exists, merged status corrected | Feature owner should check remaining real workflow tests and pending change history |
+| Core Operations / Special Orders | `handoffs/core-operations.md` | **Feature-owner archival audit complete 2026-10-29** | Safe to archive this Core Operations chat; remaining runtime, notification and Invoice Reconciliation work is fully recorded in Git |
 | Shared UI / UX Coordination | `handoffs/shared-ui.md` | Exists, merged status corrected | Keep the UI coordination chat; reconcile extension package state |
 | Product Manager | `handoffs/product-manager.md` | Exists | Head CI/staff profiles and invoice dropdown requirements require feature-owner signoff |
 | Scanner / Toolkit | `handoffs/product-scanner.md` | **Created, verified PR/CI** | Real Chrome PIN/supplier/scan acceptance and future invoice sender/price bridge owner review |
