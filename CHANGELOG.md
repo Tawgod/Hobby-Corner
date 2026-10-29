@@ -1,5 +1,16 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-29 — Shared staff authorization contract and new-chat pre-archive reconciliation
+
+- Added explicit `services/lightspeed/permissions.js` operation matrix and `tests/shared-lightspeed-permissions.test.mjs` on Phase 2 draft PR #33, stacked on unmerged PR #32; **no existing route or permission enforcement was changed**.
+- Verified Timeclock PIN/active employee checks via `staffAuthGateway.js` and Scanner Timeclock integration. Found Scanner currently grants lookup/approval to every active employee, irrespective of stored Scanner flags; documented that as a separate future policy decision.
+- New shared read permission maps to active Timeclock `canLookup`; new shared write grants default deny and require server-only exact-operation policy. No employee role string or client-supplied employee ID can grant access.
+- CI PR head `bbfe24fd1d87f1b9dfa29b69df563a7dcf5e1e9a`, run `40920253500` **PASS** including permission tests, disposable Postgres, Scanner and Core Ops regression.
+- Corrected stale master matrix and `handoffs/core-operations.md`/`handoffs/shared-ui.md`: PR #24 and PR #27 were already MERGED. Updated Chrome extension queue status without claiming a published extension.
+- Created `SHARED_STAFF_AUTH_PERMISSIONS.md`, `HOBBY_CORNER_CHAT_TRANSITION.md`, and `prompts/NEW_TOOL_CHAT_STARTUP.md` to prepare new feature chats.
+- Found only four stable handoffs in `handoffs/`; other feature handoffs must be verified and created before old conversations are archived.
+- No Railway config/deployment, production Lightspeed write, production DB/schema migration or employee record update.
+
 ## 2026-10-29 — Shared Lightspeed Phase 2 read-services candidate (unmerged)
 
 - Created stacked draft PR #33 on `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase2-reads-20261029`, based on Phase 1 PR #32. No automatic Railway deployment.
