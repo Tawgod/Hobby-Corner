@@ -1,47 +1,89 @@
 # Consignment Management — Current Handoff
 
-**Last verified:** 2026-10-29  
-**Status:** Testing — isolated beta and selective consolidated PR #30, not production-integrated.
+**Last verified:** 2026-10-29
+**Status:** Testing (synthetic isolated beta deployed; consolidated candidate not merged/deployed; live integrations unverified)
 
 ## Source
-- Repository: `Tawgod/Lightspeed`; authoritative application base `integration/hobby-corner-consolidation@f50c3309824986633c3ba37a95e6eb43aae15a3c`.
-- Current integration candidate: [PR #30](https://github.com/Tawgod/Lightspeed/pull/30), `feature/consignment-consolidated-v2-20261028@647a8f6cc4b5844c43e07b88cc256fc9ca6623d8`; **draft/open/unmerged**.
-- Predecessors: PR #11 and #25 selectively preserved/superseded. Do not restore obsolete direct `extension/popup.html` launcher or old server rewrites.
+- **Owning system:** Hobby Corner Consignment Management — customer-first used-item intake, staff approval/tagging, individual used products, customer portal, sale lifecycle and delayed 80% store credit. Not an independent Lightspeed platform, employee identity service or extension shell.
+- **Repository:** `Tawgod/Lightspeed`.
+- **Authoritative application branch:** `integration/hobby-corner-consolidation@f50c3309824986633c3ba37a95e6eb43aae15a3c` (current verified base in registry).
+- **Active candidate:** Draft/open [PR #30](https://github.com/Tawgod/Lightspeed/pull/30), `feature/consignment-consolidated-v2-20261028@647a8f6cc4b5844c43e07b88cc256fc9ca6623d8`. Current comparison: **28 ahead, 7 behind** consolidated — update/selectively reconcile before merging; previous 0-behind claim is stale.
+- **Predecessors:** [PR #11](https://github.com/Tawgod/Lightspeed/pull/11) `feature/consignment-layout-foundation@32a0a881...` and [PR #25](https://github.com/Tawgod/Lightspeed/pull/25) `feature/consignment-shared-nav-20261028@6726b4a7...` are CLOSED UNMERGED; preserve branches for history and existing beta. PR #24 Core Ops navigation and PR #27 shared UI have merged. No direct old extension popup code should return.
+- **Stable handoff:** this file replaces the prior incomplete snapshot, retains its valid references, and supersedes earlier status assertions only where verified.
 
-## Implemented
-- Isolated staff/customer Consignment intake, forms, staff review, product matching/preview, prototype credit eligibility, local beta route and separate SQL schema. Navigation reuses current Core Ops destinations and established shared design.
-- Pure read-only `services/consignmentSaleReconciliation.js` deduplicates events and rejects voided/returned/conflicting sales; existing 72-hour credit eligibility planner is not a live credit posting worker.
-- Test database writes require independently configured `CONSIGNMENT_BETA_DATABASE_URL`, staff key and explicit `CONSIGNMENT_BETA_ALLOW_DB_WRITES=true` opt-in. No production customer/product/inventory/store credit writes.
+## Requirements and business decisions — preserve even where not implemented
+- **Customer-first workflow:** customer completes contact details and all item disclosures online, often multiple items at once. Staff should normally **verify identity/item completeness, physical condition and required data, resolve product matches, approve, print/tag, and shelve**, not re-enter forms. Allow limited staff/paper-import fallback. Customer can save a profile for autofill/future submissions. Customer portal for item status and actual credit balance requires secure authentication/verified identity; investigate supported Lightspeed Online login/SSO without assuming it exists.
+- **Prioritize Games and Puzzles** in layout and workflow; also support RC, model trains and Other. Customer form must display **per-type condition descriptions** (New in Shrink, Like New, Very Good, Good, Fair, Poor, Scrap/Parts where applicable); missing component status (inventoried complete, confident but not inventoried, unsure, missing) and mandatory details if missing; smoking household; pets Cat/Dog/Other/None; musty/basement smell.
+- **Mechanical disclosures (RC/Trains):** tested Yes/No/Unknown and testing notes, manufacturer/brand, model/part number, brushed/brushless/other motor type; trains DC/DCC/Unknown and scale (N/HO/O/G/Other). More inspection fields may be refined against the owner's original paper forms. Staff must separately confirm physical inspection and category return rules.
+- **Consignor identity:** collect first/last or display name, phone, email, optional linked Discord. Find existing Lightspeed customer using trusted lookup and require manual review of ambiguous matches; stage and obtain employee approval for new customer creation before invoking shared customer write. Avoid duplicate customers and exposure of personal records.
+- **Staff queue:** clicking consignor name filters their submitted items; bulk-select multiple pending items for approval, with per-item required-information checks and audit trail; batch selection is not the same as authorization. Adjustable maximum active items per customer (paper default 5 when space tight), warning and authorized override.
+- **Notifications:** user chooses transactional store-credit-ready contact via linked Discord account, Klaviyo SMS, and/or Klaviyo email; preserve customer consent, account linking, opt-out/deliverability and eligibility; also coordinate these outbound channels with Special Orders. Current beta only previews preferences; nothing sends.
+- **Product creation:** use existing Scanner + Special Orders product matching (including active/inactive historical **new** product records) on online-submission review as well as staff review. Curated match suggestions require staff selection. Use `USED —` title, unique per-physical-item used SKU (`UG-`, `PZ-`, `RC-`, `TR-`/other as appropriate), category General > Consignment (verify real category UUID), and reusable canonical product template. **Never copy original photos**, SKU, UPC/barcode, inventory quantity, supplier/cost/reorder settings. Never reactivate an old sold item's SKU when another copy arrives: create a fresh physical item + SKU, reuse its template. In-store listing is default; online only after separate explicit approval. Preserve leading zeros and exact text/copy formatting. Used-product accounting `supply_price` treatment requires owner/finance approval before write.
+- **Store credit:** customer receives **80% of verified sale proceeds**, store retains 20%; wait **three full days (72 h)** after confirmed sale, reconcile returns/voids before posting, use durable idempotency and audit ledger, prevent duplicate credits and handle reversals/partial/refunded sales. The user's preference is automatic used-product POS deactivation after verified sale/credit reconciliation, but policy must account for returns/disputes; preserve sold historical item and never reactivate SKU. No actual credits/deactivation active.
+- **Returns:** Games/Puzzles: three-day customer return if misrepresented; RC: final sale/no returns per store policy; clarify train policy and formal terms and sales accounting before automation. Aging dashboard, proposed price reductions with consignor consent, consignor pickup/return to seller and audit history.
+- **Tags:** printable physical item tags, layout requires owner's approved label template and physical tests. Tags only after staff verifies/approves item.
+- **Architecture/UI:** standalone `/consignment` app integrated with Special Orders/core nav; responsive approved navy/blue/orange shared UI, original Hobby Corner logo. Lightweight shared extension launcher only after stable authenticated production destination and release queue approval. Do not restore direct feature-owned `extension/popup.html` edit or publish beta URL as permanent.
+- **Invoice Reconciliation:** separately Planned cross-tool feature; Consignment must not build a duplicate invoice engine or consume supplier PO writes. It will ingest supplier invoice/preorder/tracking emails, match existing PO or propose **new OPEN PO** only after full approval; 90%+ line matches staged, preserve primary/add secondary supplier, shipping sender aliases, PO tracking and Special Orders `On the way`. **Never receive products or alter inventory-on-hand.** Relevant where shared matching, PO and customer status integrations overlap.
+
+## Implemented (development source, NOT proof of production behavior)
+- Synthetic/browser-local staff dashboard: item search/type/status/aging, approval queue, per-consignor filtering, multi-select/bulk demo approval, condition/asking price edits, matching suggestions based on synthetic catalog, per-copy SKUs, demo sale, 72-hour hold and simulated 80% credit, example customer status/credit preview, item limits/settings. In-browser localStorage is **not shared or durable server persistence**.
+- Separate customer multi-item form with contact fields, Game/Puzzle/RC/Train/Other condition descriptions, missing components, household/mechanical disclosures and demo notification selections. **It does not transmit customer submissions to staff** or send messages.
+- Scoped shared UI/branding and compatible core nav; original logo preserved. Current candidate selectively ports useful PR #11/#25 items but excludes old `special-orders.html`, old full server rewrite, old shared CSS replacement and direct extension popup.
+- Initial **unapplied** `db/consignment_schema.sql`: consignor, submission, reusable product template, individual items, event audit, credit ledger. Protected `routes/consignmentBeta.js` supports test-only staff submissions/reviews and advisory matching, but **requires independent** `CONSIGNMENT_BETA_DATABASE_URL`, `CONSIGNMENT_BETA_STAFF_KEY`, and for isolated DB mutations `CONSIGNMENT_BETA_ALLOW_DB_WRITES=true`; default fail closed and no Lightspeed write. This **dedicated staff key is interim scaffolding, not approved production Timeclock authorization**.
+- `services/consignmentMatcher.js` reuses scanner's local + remote Special Orders matching contract; live match lookup not configured. `services/consignmentProductPreview.js` is a no-write payload preview; excluded image/identifiers and category/cost gates. `services/consignmentSaleReconciliation.js` is pure event replay/return/void/conflict logic; `services/consignmentCreditEligibility.js` is pure 72-hour/int-cent/idempotency eligibility. Neither is a sale webhook consumer, worker, POS mutation or credit writer.
 
 ## Tested
-- Exact head `647a8f6c...` CI: consolidated safety `40730699554` PASS, Scanner integration `40730699508` PASS, Chromium synthetic browser acceptance `40730699557` PASS (desktop, 900px/125%, 390px/200%, keyboard More, staff/customer forms).
-- Real employee Timeclock authentication, test DB persistence, live read-only customer/product matching and real sale/credit reconciliation remain **unverified**.
-- Existing isolated Railway beta previously documented on old feature branch; branch promotion to PR #30 has **not** been verified or authorized. Current main Railway production topology shows no PR #30 deployment.
+- Exact PR #30 head `647a8f6cc4b5844c43e07b88cc256fc9ca6623d8`: GitHub Actions **Consignment consolidated safety** run `40730699554` SUCCESS; **Scanner integration regression** `40730699508` SUCCESS; **Chromium browser acceptance** `40730699557` SUCCESS.
+- Chromium automated checks: staff/customer routes, More keyboard Enter, example bulk selection, add another item, 1440 px/100%, 900 px/125%, 390 px/200%; screenshot artifacts in CI. These are synthetic automated flows, not authorized employee or customer usability sign-off.
+- NOT tested: real customer submission roundtrip/employee identity/permissions, isolated database persistence/migration and restore, real API matching (including inactive product discovery), duplicate-safe Lightspeed creation, tag print alignment, actual sale webhooks/partial refunds, store-credit idempotent posting, POS deactivation, customer SSO, real Discord/Klaviyo sending and consent, live Chrome extension launcher, mobile accessibility audit.
+- **Potential source discrepancy:** `services/consignmentProductPreview.js` currently accepts UG/PZ/RC/US SKU prefixes but not TR, while `routes/consignmentBeta.js` can mint TR prefixes; fix and test before mechanical/train POS creation. Historical old documents may still call PR #30 up to date; comparison now shows 7 commits behind.
 
-## Deployed
-- Existing isolated beta: historically deployed separately, current exact test-service health not rechecked in this pass.
-- PR #30: **not merged, not deployed**, no production Lightspeed/credit writes, no extension package.
+## Deployed (actual Railway verification)
+- Existing isolated demo: Railway project **Hobby Corner Integration Test**, environment **test**, service `consignment-beta` (service `84faca8e-6587-4f71-8c34-502e57ecce10`), domain `https://consignment-beta-test.up.railway.app`; source **OLD** `feature/consignment-layout-foundation`; latest deployment **SUCCESS**, deployment ID `5e29cbd6-64e8-4e37-a67f-387dd88de9eb`, created 2026-10-27. No consignment database variable names configured. Runtime HTTP/browser health was not independently re-tested today.
+- Consolidated PR #30: **not merged, not deployed** on the isolated service; not production. The legacy deployed beta remains sample-only. No live Lightspeed customer/product/inventory/credit writes and no release of the extension recorded.
 
 ## Shared dependencies
-- PR #24 Core Ops navigation and PR #27 shared UI merged; PR #26 Scanner and PR #31 extension popup/manifest alignment; PR #32/#33 shared product/customer/sales/store-credit readers are unmerged.
-- Existing staff PIN gateway; isolate consignment customer data and product/credit permissions from normal operations.
-- Invoice Reconciliation is a separate planned PO/product review feature; no consignment-specific invoice writer should be introduced.
+- **Timeclock:** existing active PIN identity via `services/staffAuthGateway.js` and `services/scannerTimeclockIdentity.js`, including fresh verification and exact-operation grants. See `SHARED_STAFF_AUTH_PERMISSIONS.md`. Do not reuse a static staff key or new customer table as production employee identity. Current Scanner all-active-employee access does **not** authorize production product/credit mutations.
+- **Shared Lightspeed:** PR #32 (`feature/shared-lightspeed-services-phase1-20261029`, open/unmerged) and PR #33 (`feature/shared-lightspeed-services-phase2-reads-20261029`, open draft stacked on #32): reusable gateway/transport, audits/idempotency and read operations for customers, catalog, sales, store credit, PO etc. Both **not deployed**; use as future contract, not current available live API. Do not create another proprietary Lightspeed HTTP client, matching engine, permission service or writer.
+- **Product Scanner / Special Orders / Product Manager / PO Companion:** reuse product match + new product preview and queue, customer search, special order status, tags, optional employee profile display preferences. Product Manager's employee-specific draft/profile feature is separate from a customer identity and unrelated to consignment submission ownership. Shared Invoice Updates dropdown belongs to planned invoice feature, not an employee profile.
+- **Extension, UI/nav:** PR #24 and #27 merged into consolidated; PR #26 Scanner/Toolkit and PR #31 PO Companion still development dependencies, and `CHROME_EXTENSION_INTEGRATION.md` / `CHROME_EXTENSION_RELEASE_QUEUE.md` govern shared popup/manifest/release. Consignment beta remains a clearly labeled test destination. Future production launcher only after authenticated/stable `/consignment` path actually exists, is approved and has passed release coordination.
+- **Durable storage:** separate Railway PostgreSQL, transactional intake, typed inspection fields, customer-match staging, staff audit, idempotent sale/credit operation keys, backup/restore and environmental isolation. Do not silently use production `DATABASE_URL`.
+- **Discord/Klaviyo/Rewards:** customer identity/linking, consent and transactional notification event/receipt integration with existing Discord and Rewards/customer sync service. Do not infer a customer's Discord mapping from free-text handle or copy sensitive customer records into logs.
+- **Invoice:** `FEATURE_INVOICE_RECONCILIATION.md`, future shared email/pdf/PO reconciliation and Special Orders `On the way`; no inventory receiving or on-hand updates from invoices.
 
 ## Shared files / integration surfaces affected
-- `consignment-beta.html`/`.css`/`.js`, `consignment-customer.html`/`.js`, `db/consignment_schema.sql`, `routes/consignmentBeta.js`, pure `services/consignment*`, additive `server.js` beta route and scoped CSS. **No extension popup or manifest changed** in PR #30.
+- PR #30: `consignment-beta.{html,css,js}`, `consignment-customer.{html,js}`, `db/consignment_schema.sql`, `routes/consignmentBeta.js`, additive `server.js`, `services/consignment{Matcher,ProductPreview,FormRules,CreditEligibility,SaleReconciliation}.js`, `shared-ui/consignment-{adapter,brand}.css`, `tests/consignment-*.{mjs}`, `.github/workflows/consignment-{browser,consolidated}.yml`, `docs/consignment-consolidation-20261028.md`.
+- Shared surfaces *not modified* by PR #30: consolidated extension `popup.html`/`manifest.json`, Special Orders navigation files, master shared stylesheet. Do not overwrite these from historical branches.
 
-## Remaining blockers
-- Separate safe test service and isolated PostgreSQL, verified Timeclock auth, read-only live matching, product dedupe, sale-return audit, delayed credit idempotency and real browser signoff.
-- Do not present a beta-only route as a stable production launcher. Future `/consignment` URL only after authenticated production approval.
+## Remaining blockers, bugs and unimplemented tasks
+1. PR #30 trails current consolidated by **7 commits**; source and navigation compatibility/regression need re-verification before merge or even test promotion.
+2. Fully protected **customer-facing submission** needs authenticated account/consent, actual durable submission persistence and privacy policy; currently only preview. Staff-to-customer submission retrieval, exact customer match/new record approval and duplicate control not connected.
+3. Replace interim staff-key gate with shared Timeclock session, active-status verification and separate exact-operation permissions; define authorized override and credit approval.
+4. Provision independent test Postgres, apply versioned migrations explicitly, test transactions/idempotency/backup/restore; verify schema handles pending customer matches, consent, contact channels, missing/household/mechanical fields and unique physical item codes.
+5. Real read-only product/customer matching via shared gateway, support historical/inactive original products and manual match override without reactivating older used SKU.
+6. Gated duplicate-safe Lightspeed creation, actual category UUID, policy/accounting cost, tags and physical print acceptance, in-store/online channel approval.
+7. Verified sale/return/event ingestion and reconciliation across returns, disputed sales, partial refunds and RC final-sale terms; exactly-once delayed store-credit posting, reverse entries, credit balance checks and later POS used-product deactivation.
+8. Aging/pricing consent, per-customer capacity/override, secure customer status/credit portal and Lightspeed Online login feasibility, live notification preferences and Discord/Klaviyo service handoff.
+9. Full manual employee/customer keyboard/accessibility and print reviews, extension cross-tool navigation and stable launcher route; do not ship obsolete direct popup.
+10. Potential misalignment of prefix validation `TR` vs `consignmentProductPreview` (above), and default beta status terms must be checked against true server transitions.
 
-## Decisions needed
-- Approval for an **isolated test deployment only**; eventual production launcher, permissions and delayed-credit policy require separate approval.
+## Decisions requiring user/business approval
+- Explicit isolated beta deployment/DB provisioning and authorized test data scope (not production); staff roles for intake, verification, price reduction override, product creation and credit posting.
+- Confirm store-credit accounting basis, partial discounts/refunds/tax treatment and deactivation timing; confirm train/Other returns and consignor terms.
+- Confirm approved customer agreement, privacy/consent language, notification opt-in, printable label template, online listing policy and active-item limits.
+- Approve final authenticated production Consignment route/extension launcher after functional release gates, not current public beta URL.
 
 ## Recommended next action
-- Verify isolated Railway service/test DB permissions, then promote PR #30 **only in a separately approved test environment**, run real employee/live read-only matches and sale-credit reconciliation.
+1. Rebase/reconcile PR #30 onto latest consolidated source and rerun CI (preserving original beta deployment).
+2. Prepare versioned isolated test DB + Timeclock-backed auth and read-only customer/product match integration using PR #32/#33 shared services; provide a test-only deployment plan for explicit approval.
+3. Validate customer-first form-to-staff review end to end before any Lightspeed product/credit writes; fix train SKU discrepancy and extend acceptance tests.
+4. Only then stage sandbox product/credit reconciliation with explicit audit/idempotency before requesting a separate production go-live decision.
 
 ## Restrictions / safety
-- Do not touch production customer/product/inventory/credit data, post credit, merge PR #30 into Railway-connected integration or publish extension without explicit authorization.
+- This handoff is documentation only: no merges, deployments, variable/credential changes, production Lightspeed customer/product/inventory/credit changes, employee updates or extension packaging authorized.
+- Never infer successful delivery or user consent from demo controls. Never post credit from unverified transactions. No invoice receiving or stock-on-hand writes.
+- Maintain old beta branch and closed predecessors for historical recovery; never promote PR #30 merely because CI passed.
 
 ## Documentation
-- `docs/consignment-consolidation-20261028.md` on PR #30, `CHROME_EXTENSION_RELEASE_QUEUE.md`, `SHARED_STAFF_AUTH_PERMISSIONS.md`.
+- `HOBBY_CORNER_PROJECT.md` current matrix; `HOBBY_CORNER_CHAT_TRANSITION.md`; `ROADMAP.md`; `handoffs/README.md`; `handoffs/TEMPLATE.md`; `SHARED_ADDON_UI_UX.md`; `LIGHTSPEED_SHARED_SERVICES.md`; `SHARED_STAFF_AUTH_PERMISSIONS.md`; `FEATURE_INVOICE_RECONCILIATION.md`; `CHROME_EXTENSION_INTEGRATION.md`; `CHROME_EXTENSION_RELEASE_QUEUE.md`.
+- Source specifics: `Tawgod/Lightspeed:feature/consignment-consolidated-v2-20261028/docs/consignment-consolidation-20261028.md` and `https://github.com/Tawgod/Lightspeed/pull/30`.
