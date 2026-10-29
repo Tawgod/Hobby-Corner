@@ -2,9 +2,10 @@
 
 ## 2026-10-29 — Shared Lightspeed Services Phase 1 and recovery checkpoint
 - **Before application code changes**, created 57 Git recovery branches across six Hobby Corner repos; see `backups/2026-10-29-shared-services-phase1.md`. Railway service/volume topology recorded. This is **not** an independently verified full backup: Postgres contents, Railway secrets/config and external business data were not exported.
-- Created isolated Lightspeed Phase 1 branch `feature/shared-lightspeed-services-phase1-20261029` and draft PR #32 (head `7c85c00420541d0c7c31dcb63f1775a4542b6958`).
+- Created isolated Lightspeed Phase 1 branch `feature/shared-lightspeed-services-phase1-20261029` and draft PR #32 (head `c46e5a710bcacdf6a294ccbeece3baacee95ae1b`).
 - Added canonical transport, Timeclock/service policy adapter contract, append-only mutation audit interface, atomic idempotency interface, source direct-call inventory/guard, contract tests and CI.
-- Final head foundation CI passed on push `40901170536` and pull request `40901184148`. Prior intermediate CI failures were fixed.
+- Extended Phase 1 with read-only customer get/search, catalog reference reads/category parsing, and verbatim-extracted Special Orders product-scoring helpers (legacy callers unchanged).
+- Final head CI passed on push `40902082758` and PR `40902093964`, including foundation/read-contract tests, backend parse, Scanner regression, Core Operations auth/navigation regression and direct-access audit. Prior intermediate failures were fixed.
 - No consumer migration, durable store adapters, production database changes, Railway deployments, Lightspeed record writes or Chrome extension changes. Phase 1 remains **In Development** until durable adapters/compatibility and approval gates are complete.
 - Updated `handoffs/lightspeed-shared-services.md` and the authoritative project matrix.
 
