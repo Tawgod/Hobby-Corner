@@ -1,102 +1,88 @@
 # Shared Lightspeed Services — Current Handoff
 
-**Last verified:** 2026-10-28  
-**Status:** In Development
+**Last verified:** 2026-10-29
+**Status:** In Development (Phase 1 development branch and CI ready; not deployed)
 
 ## Source
 
-- Management repository: `Tawgod/Hobby-Corner`
+- Management repository: `Tawgod/Hobby-Corner:main`
 - Architecture: `LIGHTSPEED_SHARED_SERVICES.md`
 - Runtime repository: `Tawgod/Lightspeed`
-- Authoritative runtime branch: `integration/hobby-corner-consolidation`
-- Observed consolidated head during architecture audit: `59a971d223eab70005c35b825d16cefdc025299a`
-- Implementation PR: not started yet
+- Authoritative integration branch: `integration/hobby-corner-consolidation`
+- Pre-Phase-1 runtime baseline and backup source: `f50c3309824986633c3ba37a95e6eb43aae15a3c`
+- Phase 1 branch: `feature/shared-lightspeed-services-phase1-20261029`
+- Draft PR: https://github.com/Tawgod/Lightspeed/pull/32
+- Candidate head: `7c85c00420541d0c7c31dcb63f1775a4542b6958`
+- Git recovery record: `backups/2026-10-29-shared-services-phase1.md`
 
 ## Implemented
 
-- Project-wide target architecture documented.
-- Current shared vs duplicated Lightspeed integration patterns audited.
-- Canonical module boundaries defined for:
-  - transport/client
-  - authorization/write policy
-  - audit/idempotency
-  - customers
-  - product identity/matching
-  - products
-  - catalog references
-  - media
-  - inventory
-  - sales
-  - fulfillments
-  - purchase orders
-  - store credit
-  - customer custom fields
-- Cross-chat conversion prompt set created under `prompts/lightspeed-shared-services/`.
-- Explicit isolation rules documented for Scanner test-tenant writes and RMS bulk migration.
+- Canonical transport `services/lightspeed/client.js`: server-only validated domain, local API-only path, timeout, read-only retry, correlation IDs, bounded errors and uncertain-write flag.
+- Shared policy `services/lightspeed/policy.js`: explicit verified employee/service adapters, permission adapter, fail-closed behavior and server-construction-only write gates.
+- Append-only audit contract `services/lightspeed/audit.js` requiring durable persistence.
+- Idempotency contract `services/lightspeed/idempotency.js` requiring an atomic durable store, canonical SHA-256 payload fingerprinting, verified-only replay, and unknown-write handling.
+- Source inventory/new-direct-access check `scripts/audit-lightspeed-consumers.mjs` and new GitHub CI workflow.
+- Contract tests `tests/shared-lightspeed-foundation.test.mjs`, plus developer contract document `docs/SHARED_LIGHTSPEED_PHASE1.md`.
+- Recovery branches created for all 57 inventoried branches of six relevant GitHub repos before code work. Exact primary source SHAs and Railway topology captured in backup note.
 
 ## Tested
 
-- Architecture/source review only.
-- No runtime code refactor has been performed yet.
-- No production or browser testing applies yet.
+- Automated foundation contract tests **passed** on the final candidate: GitHub Actions push `40901170536` and PR `40901184148`.
+- Source inventory and added-direct-access CI check **passed** in those runs.
+- Earlier failing CI on intermediate commits was corrected: the direct-access guard initially flagged its own test fixture, and policy tests were updated after write gates moved to server construction.
+- Existing feature regressions were **not rerun** because old routes have not been switched.
+- No browser, employee acceptance, Railway runtime or production API write tests performed.
 
 ## Deployed
 
-- No.
-- No Railway service, credential, database or extension configuration changed.
+- **No.** Draft PR #32 is unmerged.
+- Railway production still references `Tawgod/Lightspeed:integration/hobby-corner-consolidation`.
+- No production DB/schema, credentials, Railway service, Lightspeed records or extension release modified.
 
 ## Shared dependencies
 
-- Timeclock-backed employee identity / staff auth
-- Special Orders product/customer logic
-- Product Scanner matching
-- PO Companion
-- Consignment
-- Product Manager
-- Split / Recall
-- Avery Labels
-- Rewards
-- RMS migration
-- Railway credential/security coordination
+- Existing staff-auth/Timeclock employee verification adapters.
+- Existing Special Orders and split/recall clients and matching logic.
+- Product Scanner isolated test tenant writer, which must remain separate.
+- Product Manager, PO Companion, Consignment, Avery, Rewards, and RMS migration consumers.
+- Durable Postgres-compatible audit/idempotency adapters must be designed and explicitly reviewed before any production write conversion.
 
 ## Shared files / integration surfaces affected
 
-Planned shared runtime namespace:
-- `services/lightspeed/*`
-- authenticated `lightspeed-api` gateway routes
-- compatibility wrappers in existing feature routes during migration
-
-Management/coordination files:
-- `LIGHTSPEED_SHARED_SERVICES.md`
-- `prompts/lightspeed-shared-services/*`
+- `services/lightspeed/client.js`, `policy.js`, `audit.js`, `idempotency.js` (new only).
+- `tests/shared-lightspeed-foundation.test.mjs`; `scripts/audit-lightspeed-consumers.mjs`.
+- `.github/workflows/shared-lightspeed-foundation.yml`; `docs/SHARED_LIGHTSPEED_PHASE1.md`.
+- No changes to current `services/lightspeedApi.js`, `special-orders.js`, routes or extension.
 
 ## Remaining blockers
 
-- Dedicated foundation implementation branch/PR has not been started.
-- Direct Lightspeed call inventory needs an executable/source-level regression guard.
-- Shared transport/policy/audit contracts need implementation.
-- Consumers must migrate incrementally without breaking existing behavior.
-- Credential ownership cannot be reduced until converted consumers are parity-tested.
+1. Backup is **not a complete offsite/project disaster recovery export**. Production Postgres volume data, secret/config backups and external business files still need a verified secure export and restore test.
+2. Audit and idempotency are interface contracts only; durable database adapters and safe recovery workflow are not implemented.
+3. New transport is not wired into the legacy compatibility wrapper or feature routes; backwards compatibility must be tested before switchover.
+4. Source inventory is static/best-effort, not a guarantee of complete detection of all indirect/raw clients.
+5. Feature-by-feature browser and runtime acceptance remain separate future gates.
+6. PR #32 is draft; do not merge until coordinated review and explicit approval.
 
 ## Decisions needed
 
-- Confirm implementation sequencing through the shared foundation prompt.
-- Decide exact internal route names/schema when coding begins.
-- Approve production deployment/credential changes separately after parity testing.
+- Approve a secure verified backup/export of production Postgres and external business data through an appropriate mechanism.
+- Approve production merges/deployments separately after completing CI and acceptance.
+- Select durable audit/idempotency database tables/migrations and key retention/reconciliation policy before mutation conversion.
 
 ## Recommended next action
 
-- Start the Shared Lightspeed Services Foundation development prompt from `prompts/lightspeed-shared-services/shared-lightspeed-services-foundation.md`.
-- In parallel, notify affected feature chats using the short sentences in the prompt index so they do not add new parallel Lightspeed code.
+- Review draft PR #32. Next implement a tested durable audit/idempotency adapter and compatibility migration for existing read-only Lightspeed calls. Preserve all existing current operations until parity checks succeed.
+- Use the latest architecture and this handoff as the authoritative setup for new feature chats.
 
 ## Restrictions / safety
 
-- No new production Lightspeed writes authorized.
-- No credential migration/removal authorized.
-- No production Railway deployment authorized.
-- Do not delete existing feature paths until all consumers are converted and tested.
+- No live Lightspeed mutation, production Railway deployment, credential migration, schema migration or Chrome extension publication authorized.
+- No independent duplicate production writers; maintain Scanner isolated test and RMS migration exceptions.
+- Don't delete old route paths until proven parity and regression tests pass.
 
 ## Documentation
 
-- `Tawgod/Hobby-Corner:main/LIGHTSPEED_SHARED_SERVICES.md`
-- `Tawgod/Hobby-Corner:main/prompts/lightspeed-shared-services/README.md`
+- `LIGHTSPEED_SHARED_SERVICES.md`
+- `backups/2026-10-29-shared-services-phase1.md`
+- `prompts/lightspeed-shared-services/README.md`
+- `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029/docs/SHARED_LIGHTSPEED_PHASE1.md`
