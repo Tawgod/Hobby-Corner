@@ -44,12 +44,13 @@ The Scanner bridge is QUEUED for a later Chrome extension release, not part of c
 | PO Companion | `handoffs/po-companion.md` | **Created, verified PR/CI** | Live read-only PO auth, pagination and invoice context; employee Chrome tests |
 | Consignment | `handoffs/consignment.md` | **Feature-owner audited 2026-10-29; Git verified** | Current PR #30 7 commits behind; beta on old branch; real employee/DB/customer/store-credit acceptance remains future work, all requirements preserved in handoff |
 | Avery PO Labels | `handoffs/avery-labels.md` | **Created, verified PR/CI** | Physical Avery 5960 print/native Chrome acceptance |
+| Ring Camera Integration | `handoffs/ring-cameras.md` | **Final research handoff committed 2026-10-29** | Requirements and official API uncertainties preserved; no Ring implementation/production changes; old chat can be archived after confirming its final audit response |
 | Rewards / Customer Sync | `handoffs/rewards.md` | **Created, source+Railway checked** | Read-only job/customer sync verification with owner |
 | RMS migration | `handoffs/rms-migration.md` | **Created, branch inventory checked** | Real data dry-run/collision and cutover owner review |
 | Deployment Coordination | `handoffs/deployment-coordination.md` | **Created, source+Railway checked** | Release order, test and production approval gates |
 | Railway Security / Config | `handoffs/railway-security.md` | **Created, source+Railway checked** | Secret reference and backup review, no credential values accessed |
 
-**All nine previously missing stable handoff files have now been created**, from verified available GitHub source/PR/CI evidence and Railway topology where relevant. These are coordination snapshots, not proof that every old-chat requirement has been transferred, tested or deployed. Feature owners should review their own handoffs for unique outstanding requirements before archiving previous chats. No missing handoff file remains in this inventory.
+**All nine previously missing stable handoff files have now been created**, from verified available GitHub source/PR/CI evidence and Railway topology where relevant. These are coordination snapshots, not proof that every old-chat requirement has been transferred, tested or deployed. Feature owners should review their own handoffs for unique outstanding requirements before archiving previous chats. No missing handoff file remains in this inventory. Ring Camera Integration has a separate research-only handoff, linked above.
 
 ## Proposed new chat startup prompt
 
@@ -73,6 +74,12 @@ Use `prompts/NEW_TOOL_CHAT_STARTUP.md`, replacing the workstream placeholder wit
 ### Manager chat exception
 
 The designated **Hobby Corner Manager** conversation is not part of the old-feature-chat archival migration unless the owner explicitly says otherwise. Audit/reorganization prompts entered there are for refreshing its authoritative state and cross-chat records. Its Git handoff exists for durability and coordination, not because the manager conversation should be replaced.
+
+### Ring research handoff checkpoint — 2026-10-29
+
+- Verified `handoffs/ring-cameras.md` on `main` (commit `e10879601d1c`). It preserves researched Ring OAuth/webhooks/live-feed and uncertain PTZ control capabilities, staff Timeclock permissions, Discord notification plans, privacy/retention questions, device-model compatibility and proof-of-concept restrictions. Status is **Planned**, with no implementation, API device testing or deployment.
+- Core Operations / Special Orders `handoffs/core-operations.md` was independently read after the old chat encountered a conversation-length limit. The complete current Git snapshot and original outstanding requirements remain present; the feature-owner audit and manager transition matrix mark it safe to archive. Conversation truncation itself does not remove Git-committed source or documentation.
+- Other chats still require their own old-history completeness check; a created handoff is not by itself an archive authorization.
 
 ## Archive checkpoint
 
