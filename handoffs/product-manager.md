@@ -1,13 +1,13 @@
 # Product Manager — Current Handoff
 
-**Last verified:** 2026-10-28  
+**Last verified:** 2026-10-29  
 **Status:** Testing
 
 ## Source
 - Repository: Tawgod/Lightspeed
 - Authoritative branch: integration/hobby-corner-consolidation
 - Current PR: #28 (feature/product-manager-current-base-20261028), not merged
-- Current commit: ce12016564fd8580fdf4eb46591acebe4b74059f (browser acceptance workflow added)
+- Current PR head: `e8938dee17718a2d9e30a38b03121cc7893600d0` (GitHub checked 2026-10-29); earlier browser-acceptance commit below is historical.
 - Superseded PR: #18 (safe to close; all unique Product Manager files preserved)
 
 ## Implemented
@@ -96,4 +96,4 @@
 - High-confidence (90%+) PDF invoice product matches should be prepared in shared Railway PostgreSQL staging and marked for review; never silently write Lightspeed before the full invoice is approved. New product proposals, cost/MSRP anomalies, supplier associations and edited invoice quantities remain auditable staging records.
 - Product Scanner will contribute matched UPC/SKU, supplier code and supplier-specific price proposals to the selected invoice line; use shared backend and existing Scanner matching, not a duplicate product identity engine.
 - Once invoice is resolved and explicitly approved, the shared Lightspeed gateway handles the PO sync through a status-safe audited writer; Product Manager UI does not own an independent PO API credential or write path.
-- **Not implemented on Product Manager PR #28**, not a new tool, not a production release. Requirements source: `FEATURE_INVOICE_RECONCILIATION.md`; cross-tool prompt: `prompts/lightspeed-shared-services/invoice-reconciliation-feature.md`.
+- **Not implemented on Product Manager PR #28**, not a new tool, not a production release. After approval the shared backend can **create a new OPEN supplier PO or update an existing one without ever receiving stock**. A verified shipping-sender alias can link tracking to supplier/invoice/PO, shown as informational **On the way** in Special Orders. Secondary supplier links must preserve the primary. Requirements source: `FEATURE_INVOICE_RECONCILIATION.md`; cross-tool prompt: `prompts/lightspeed-shared-services/invoice-reconciliation-feature.md`.
