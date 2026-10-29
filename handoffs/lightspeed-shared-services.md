@@ -1,93 +1,84 @@
 # Shared Lightspeed Services — Current Handoff
 
-**Last verified:** 2026-10-29
-**Status:** In Development (Phase 1 development branch and CI ready; not deployed)
+**Last verified:** 2026-10-29  
+**Status:** Testing — Phase 1 implementation completed; PR ready for review, not merged/deployed.
 
 ## Source
 
-- Management repository: `Tawgod/Hobby-Corner:main`
-- Architecture: `LIGHTSPEED_SHARED_SERVICES.md`
+- Architecture: `Tawgod/Hobby-Corner:main/LIGHTSPEED_SHARED_SERVICES.md`
 - Runtime repository: `Tawgod/Lightspeed`
-- Authoritative integration branch: `integration/hobby-corner-consolidation`
-- Pre-Phase-1 runtime baseline and backup source: `f50c3309824986633c3ba37a95e6eb43aae15a3c`
+- Current authoritative application branch: `integration/hobby-corner-consolidation`
+- Phase 1 PR: https://github.com/Tawgod/Lightspeed/pull/32 (**ready for review**, not merged)
 - Phase 1 branch: `feature/shared-lightspeed-services-phase1-20261029`
-- Draft PR: https://github.com/Tawgod/Lightspeed/pull/32
-- Candidate head: `c46e5a710bcacdf6a294ccbeece3baacee95ae1b`
-- Git recovery record: `backups/2026-10-29-shared-services-phase1.md`
+- Phase 1 candidate head: `7c20b3d9f90382b6fafeb5dc3d9a92108f4c14e1`
+- Pre-change base/recovery checkpoint: `f50c3309824986633c3ba37a95e6eb43aae15a3c`
+- Project source backup record: `backups/2026-10-29-shared-services-phase1.md`
+- Private source schema reference: `Tawgod/Lightspeed-Importer:backup/hobby-corner-postgres-source-schema-20261029`
 
 ## Implemented
 
-- Canonical transport `services/lightspeed/client.js`: server-only validated domain, local API-only path, timeout, read-only retry, correlation IDs, bounded errors and uncertain-write flag.
-- Shared policy `services/lightspeed/policy.js`: explicit verified employee/service adapters, permission adapter, fail-closed behavior and server-construction-only write gates.
-- Append-only audit contract `services/lightspeed/audit.js` requiring durable persistence.
-- Idempotency contract `services/lightspeed/idempotency.js` requiring an atomic durable store, canonical SHA-256 payload fingerprinting, verified-only replay, and unknown-write handling.
-- Read-only customer get/search contract `services/lightspeed/customers.js`, preserving existing Special Orders remote search query shape.
-- Catalog read contract `services/lightspeed/catalog.js`, with category hierarchy parsing extracted from Special Orders plus supplier/brand/tag reads.
-- Product identity candidate `services/lightspeed/productIdentity.js`: matching/token/scoring functions extracted verbatim from existing Special Orders; legacy route retains its copy pending full migration.
-- Source inventory/new-direct-access check `scripts/audit-lightspeed-consumers.mjs` and new GitHub CI workflow.
-- Contract tests `tests/shared-lightspeed-foundation.test.mjs`, plus developer contract document `docs/SHARED_LIGHTSPEED_PHASE1.md`.
-- Recovery branches created for all 57 inventoried branches of six relevant GitHub repos before code work. Exact primary source SHAs and Railway topology captured in backup note.
-- Supplemental source-derived PostgreSQL schema archive saved to private `Tawgod/Lightspeed-Importer:backup/hobby-corner-postgres-source-schema-20261029/backups/2026-10-29/`; 52 code-defined tables, no records, live catalog or data dump. See `backups/2026-10-29-shared-services-phase1.md`.
+**Foundation modules completed on PR #32:**
+
+- `services/lightspeed/client.js`: validated server-side transport, versioned local API paths, timeouts, safe GET/HEAD retries, normalized failures, correlation IDs.
+- `services/lightspeed/policy.js`: verified employee/service permissions, fail-closed read/write control and construction-only write authorization.
+- `services/lightspeed/staffAdapter.js`: adapter for existing Timeclock-backed `verifyEmployee(req)`; no parallel login.
+- `services/lightspeed/audit.js`: append-only audit contract requiring a durable receipt.
+- `services/lightspeed/idempotency.js`: stable request fingerprints, atomic lease, verified replay and blocked unknown writes.
+- `services/lightspeed/postgres.js`: durable PostgreSQL Pool-backed audit and idempotency stores.
+- `db/lightspeed_shared_foundation.sql`: additive, **unapplied** schema for audit and idempotency with append-only audit trigger.
+- `services/lightspeed/mutations.js`: audited/authorized mutation pipeline with environment/tenant bound from trusted server configuration.
+- `services/lightspeed/customers.js`: shared customer search/get read contracts.
+- `services/lightspeed/catalog.js`: shared category/supplier/brand/tag read contracts and category hierarchy parser.
+- `services/lightspeed/productIdentity.js`: extracted Special Orders product matching/scoring helpers.
+- `services/lightspeed/legacyReadAdapter.js`: read-only compatibility adapter for the eight current shared-client read operations.
+- Direct-client source inventory/guard and full Phase 1 CI suites.
+- Documentation: `docs/SHARED_LIGHTSPEED_PHASE1.md` and `docs/LIGHTSPEED_DIRECT_ACCESS_INVENTORY.md`.
+
+**Existing feature routes untouched.** There is no production code path using the new modules yet. Customer/catalog read interfaces and matching extraction are prepared for consumer conversion in Phase 2.
 
 ## Tested
 
-- Automated foundation, customer, catalog, and product-scoring contract tests **passed** on the final candidate: GitHub Actions push `40902082758` and PR `40902093964`.
-- Source inventory and added-direct-access CI check **passed** in those runs.
-- Existing Scanner integration regression and Core Operations navigation/auth regression **passed** in the same PR run. Backend syntax check passed.
-- Earlier failing CI on intermediate commits was corrected: the direct-access guard initially flagged its own test fixture, and policy tests were updated after write gates moved to server construction.
-- Live employee/browser end-to-end regressions were not run, because no routes were switched.
-- No browser, employee acceptance, Railway runtime or production API write tests performed.
+- Contract/unit tests for new transport, policy, audit, idempotency, customer/catalog reads, product matching and staff authentication adapter: **passed**.
+- Real PostgreSQL 16 test-container exercises atomic multi-claim concurrency, verified replay, unknown writes, tamper-blocking on append-only audit, and duplicate prevention: **passed**.
+- Legacy read-client path/envelope fixture tests: **passed**.
+- Scanner integration regression, Core Operations navigation/auth/session regression and backend syntax check: **passed**.
+- Direct/raw Lightspeed access source audit: **passed**.
+- Final PR CI: **SUCCESS**, https://github.com/Tawgod/Lightspeed/actions/runs/40911078591
+- No live Lightspeed tenant or Railway database tests; current upstream API versions, pagination, production roles and browser behavior still require acceptance when feature consumers are migrated.
 
 ## Deployed
 
-- **No.** Draft PR #32 is unmerged.
-- Railway production still references `Tawgod/Lightspeed:integration/hobby-corner-consolidation`.
-- No production DB/schema, credentials, Railway service, Lightspeed records or extension release modified.
+- **No.** PR #32 is unmerged and ready for review.
+- Current Railway production services remain attached to the authoritative consolidated integration branch.
+- No production DB migration, employee-table change, credential movement, Lightspeed write, or Chrome extension release occurred.
 
 ## Shared dependencies
 
-- Existing staff-auth/Timeclock employee verification adapters.
-- Existing Special Orders and split/recall clients and matching logic.
-- Product Scanner isolated test tenant writer, which must remain separate.
-- Product Manager, PO Companion, Consignment, Avery, Rewards, and RMS migration consumers.
-- Durable Postgres-compatible audit/idempotency adapters must be designed and explicitly reviewed before any production write conversion.
+- Existing staff-auth/Timeclock gateway and server-validated service identity.
+- Core Special Orders customer/product matching, sales/split/recall, Scanner, Product Manager, PO Companion, Consignment, Avery, Rewards and migration flows.
+- PostgreSQL schema migration is required **before** enabling any persistent shared mutation consumer, but is **not approved for Railway** yet.
 
-## Shared files / integration surfaces affected
+## Remaining blockers / next gates
 
-- `services/lightspeed/client.js`, `policy.js`, `audit.js`, `idempotency.js`, `customers.js`, `catalog.js`, `productIdentity.js` (new only).
-- `tests/shared-lightspeed-foundation.test.mjs`; `scripts/audit-lightspeed-consumers.mjs`.
-- `.github/workflows/shared-lightspeed-foundation.yml`; `docs/SHARED_LIGHTSPEED_PHASE1.md`.
-- No changes to current `services/lightspeedApi.js`, `special-orders.js`, routes or extension.
-
-## Remaining blockers
-
-1. Backup is **not a complete offsite/project disaster recovery export**. Production Postgres volume data, secret/config backups and external business files still need a verified secure export and restore test. The new source-derived table schema archive is not a live database snapshot.
-2. Audit and idempotency are interface contracts only; durable database adapters and safe recovery workflow are not implemented.
-3. New transport/read contracts are not wired into the legacy compatibility wrapper or feature routes; backwards compatibility and live read endpoint/version/pagination tests must pass before switchover.
-4. Source inventory is static/best-effort, not a guarantee of complete detection of all indirect/raw clients.
-5. Feature-by-feature browser and runtime acceptance remain separate future gates.
-6. PR #32 is draft; do not merge until coordinated review and explicit approval.
+1. Merge/deployment is restricted until explicit coordinated approval. Railway production automatically tracks the consolidation branch.
+2. Live test-store API read/permission/version/pagination contract verification has not happened and is a Phase 2 consumer-conversion gate.
+3. Database migration is verified in disposable CI only; real Railway application needs release planning before deployment.
+4. Production PostgreSQL full data backup unavailable; Git recovery branches and private source-derived schema reference do not include table rows. The user stated employee/timeclock data are not live and replaceable, but no existing data was removed.
+5. Existing legacy write paths must remain until all consumers migrate and their own regressions pass.
+6. Architecture source scanner is best-effort; manual pull-request review still required.
 
 ## Decisions needed
 
-- Approve a secure verified backup/export of production Postgres and external business data through an appropriate mechanism.
-- Approve production merges/deployments separately after completing CI and acceptance.
-- Select durable audit/idempotency database tables/migrations and key retention/reconciliation policy before mutation conversion.
+- Explicit approval before merging PR #32 to production-connected integration branch and allowing resulting automatic Railway deployments.
+- Release coordination for shared PostgreSQL schema migration, if/when a production mutation consumer is introduced.
+- Phase 2 priorities: customers and product identity first, then catalog/inventory/PO/sales/fulfillment reads.
 
 ## Recommended next action
 
-- Review draft PR #32. Next implement tested durable audit/idempotency adapters and compatibility migration for existing read-only Lightspeed calls; verify live read endpoint versions first. Preserve all existing current operations until parity checks succeed.
-- Use the latest architecture and this handoff as the authoritative setup for new feature chats.
+**Phase 1 code complete; do not restart the foundation.** Review PR #32 and begin Phase 2 as a distinct read-service/consumer migration PR when authorized. Read current `LIGHTSPEED_SHARED_SERVICES.md` and `docs/SHARED_LIGHTSPEED_PHASE1.md` first. Update this handoff after each milestone.
 
 ## Restrictions / safety
 
-- No live Lightspeed mutation, production Railway deployment, credential migration, schema migration or Chrome extension publication authorized.
-- No independent duplicate production writers; maintain Scanner isolated test and RMS migration exceptions.
-- Don't delete old route paths until proven parity and regression tests pass.
-
-## Documentation
-
-- `LIGHTSPEED_SHARED_SERVICES.md`
-- `backups/2026-10-29-shared-services-phase1.md`
-- `prompts/lightspeed-shared-services/README.md`
-- `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029/docs/SHARED_LIGHTSPEED_PHASE1.md`
+- Do not merge, deploy production, run Railway schema migrations, move credentials, publish a Chrome extension, delete old clients or run live Lightspeed mutations without explicit approval.
+- Preserve Scanner's isolated test-tenant writer and RMS bulk migration as documented exceptions.
+- Validate data before any Lightspeed mutation. No automatic retry of ambiguous writes.
