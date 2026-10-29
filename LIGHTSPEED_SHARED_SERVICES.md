@@ -17,6 +17,12 @@ The goal is not to force every feature into one application. Feature workflows r
 
 The code has **not been merged into** `integration/hobby-corner-consolidation`; existing production feature clients are still active. The additive SQL migration has **not been applied to Railway**. Phase 2 is consumer conversion, not a reason to rewrite the foundation. See `handoffs/lightspeed-shared-services.md` for current verified status and PR release gates. Recovery refs and the limitations of the source-derived Postgres schema archive are recorded in `backups/2026-10-29-shared-services-phase1.md`.
 
+## Phase 2 implementation checkpoint — 2026-10-29
+
+**In Development / Testing, not merged or deployed.** Stacked draft PR #33 (`Tawgod/Lightspeed:feature/shared-lightspeed-services-phase2-reads-20261029`) is based on Phase 1 PR #32, not the production-connected integration branch. Its candidate includes shared read-only modules for Products, Inventory, Sales, Fulfillments, Purchase Orders and Store Credit; hardened Customer and Catalog pagination; and an **unmounted** Timeclock-authorized read-gateway router.
+
+Current X-Series documentation confirms version cursors for PO/collection pagination and offset pagination for `/search`; these distinct contracts are unit-tested. Initial Phase 2 CI `40913405875` passed. No feature workflow has yet been switched to the shared gateway, no new production write is enabled, and live vendor API/role validation is a remaining gate. See `handoffs/lightspeed-shared-services.md` and `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase2-reads-20261029/docs/SHARED_LIGHTSPEED_PHASE2_READS.md`.
+
 ## Current state
 
 The current consolidated repository already contains useful shared pieces:
