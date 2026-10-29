@@ -278,3 +278,11 @@ The manager chat coordinates these records; it does not own feature-private sour
 - `CHROME_EXTENSION_RELEASE_QUEUE.md`
 - `RAILWAY_VARIABLE_SECURITY_AUDIT.md`
 - `BRANCH_AND_DEPLOYMENT_POLICY.md`
+
+## Post-archive chat topology — owner-confirmed 2026-10-29
+
+- **This manager conversation remains active.** Four other continuing conversations: **Shared Lightspeed Services**, **Shared UI / UX Coordination**, **Deployment Coordination**, **RMS Item Migration**. The owner reports that the prior tool-specific chats have otherwise been archived.
+- Archived tool handoffs and source/PR history remain active project records; archiving is not cancellation, implementation, testing, release or deployment. Launch a focused new tool chat only when the next development task justifies it, using `prompts/NEW_TOOL_CHAT_STARTUP.md`.
+- RMS Item Migration is a **separate active development workstream**, not a tool to consolidate into Product Manager or Scanner. Other tools may selectively adopt **reviewed source helpers** for exact SKU/UPC/collision handling and supplier/category/brand normalization after verification and testing. Do not adopt RMS-on-hand values, migration credentials, test-only persistence or bulk writes. Preserve migration ownership and record source and consumer references in the two relevant handoffs.
+- The project manager remains the authority for cross-tool priority, owner assignments and release decisions; this chat does not acquire ownership of every archived tool.
+
