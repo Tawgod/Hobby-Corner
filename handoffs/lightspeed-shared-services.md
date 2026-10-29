@@ -45,7 +45,7 @@
 
 - Phase 1 foundation + disposable Postgres 16 + Scanner and Core Operations tests passed: `40911078591`.
 - Phase 2 read contracts, authenticated HTTP denial/permission checks, and inherited foundation/Scanner/Core Operations tests passed on PR commit `6879bc89447be537bb8f8caa1f9dd3d8d9b829e2`: CI `40913405875`.
-- Current PR head `fc1a57467175c85b82522dd61fa04850d78e5be5` changes only documentation after the successful code/test commit; its final head CI should be checked before promoting review readiness.
+- Final Phase 2 PR head `fc1a57467175c85b82522dd61fa04850d78e5be5` CI **PASSED**: pull-request workflow `40913472758`, push workflow `40913462283`. All foundation, disposable PostgreSQL, strict read, Scanner, Core Operations, source audit and backend parse checks green.
 - Current Lightspeed docs confirm version-based PO cursor, offset-based search, SKU filter semantics and 2026-04 inventory API POST read behavior; see Phase 2 docs for URLs. **No actual Lightspeed tenant API calls** and no browser/employee acceptance tests.
 - Active PR #22/#24/#26/#28/#30/#31 changes were examined for shared service overlaps; current new shared paths are separate. Recheck at merge time.
 
@@ -66,7 +66,7 @@
 ## Remaining tasks and blockers
 
 1. Phase 1 PR #32 unmerged and production-connected. Requires explicit merge/deployment approval.
-2. Phase 2 PR #33 is stacked/draft. Require final-head CI, code review and controlled integration; **not yet a completed migration of consumers**.
+2. Phase 2 PR #33 is stacked/draft, with final-head CI passed. Require code review and controlled integration; **not yet a completed migration of consumers**.
 3. Current PO/customer/product/inventory read API versions and response/pagination envelopes must be validated against read-only Lightspeed test tenant access before enabling gateway routes.
 4. Inventory's documented bulk POST reads must be modeled separately; a POST for a read must not imply write authorization.
 5. Feature-level consumer conversions, UI/browser acceptance, and write-service Phase 3 remain ahead.
