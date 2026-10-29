@@ -11,6 +11,7 @@ Continue development of **<WORKSTREAM>** in the Hobby Corner Operations project.
 1. `HOBBY_CORNER_PROJECT.md` — **Current Authoritative Development Matrix** and dependencies.
 2. `HOBBY_CORNER_CHAT_TRANSITION.md` — current chat transition/restart status.
 3. `handoffs/<WORKSTREAM-STABLE-SLUG>.md` — this tool's latest verified snapshot.
+   - For Product Manager, Scanner/Toolkit, Special Orders/Ordering or PO Companion, also read `FEATURE_INVOICE_RECONCILIATION.md` and `prompts/lightspeed-shared-services/invoice-reconciliation-feature.md`. This is a **planned cross-tool feature**, not a separate new tool or a deployed invoice writer.
 4. `LIGHTSPEED_SHARED_SERVICES.md` — shared API/consumer contract.
 5. `SHARED_STAFF_AUTH_PERMISSIONS.md` — Timeclock identity, session and operation policies.
 6. This tool's existing specialized prompt under `prompts/lightspeed-shared-services/`.
