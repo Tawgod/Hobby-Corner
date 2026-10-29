@@ -33,7 +33,7 @@ Each development chat should:
 
 ## Registered cross-tool features (not new tool chats)
 
-**Invoice Reconciliation:** `FEATURE_INVOICE_RECONCILIATION.md` records the future email/PDF supplier invoice → Lightspeed PO matching → Product Manager shared **Invoice Updates** review → Scanner supplier-cost lookup → approved PO synchronization workflow. It is a new feature inside existing tools, **not a standalone tool or permission to enable PO writes**. Each involved tool's new chat should read `prompts/lightspeed-shared-services/invoice-reconciliation-feature.md` alongside its normal feature prompt. Scanner-to-Manager extension integration is QUEUED for a later release; no extension has shipped.
+**Invoice Reconciliation:** `FEATURE_INVOICE_RECONCILIATION.md` records the future email/PDF supplier invoice → match existing or propose new **OPEN** supplier PO → Product Manager global **Invoice Updates** review → Scanner supplier-cost lookup → approved PO create/update workflow, **never receiving inventory**. It also covers employee-verified sender aliases to map warehouse/shipping emails and tracking to a supplier, invoice and PO, with Special Orders informational **On the way** visibility. It is a new feature inside existing tools, **not a standalone tool or permission to enable PO writes**. Each involved tool's new chat should read `prompts/lightspeed-shared-services/invoice-reconciliation-feature.md` alongside its normal feature prompt. Scanner-to-Manager extension integration is QUEUED for a later release; no extension has shipped.
 
 ## Current development chats
 
