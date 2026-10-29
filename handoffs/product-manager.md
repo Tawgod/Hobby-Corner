@@ -89,3 +89,11 @@
 - New test: product-manager/profiles-http.test.mjs; updated Product Manager CI.
 - This is a mocked in-process Express/PostgreSQL test, **not a live Railway/PostgreSQL/Timeclock integration test**.
 - Next: add end-to-end mocked Timeclock browser testing for five-minute timer, sign-out save failure, session freeze and restore, then an isolated test DB migration and route wiring after review.
+
+## Future cross-tool feature dependency — Invoice Reconciliation (planned 2026-10-29)
+
+- New shared **Invoice Updates** dropdown is requested in Product Manager for **every signed-in employee**, not tied to that employee's saved layout/profile. Selecting an invoice must scope the entire review grid to that invoice's relevant existing/missing/ambiguous product lines and supplier costs.
+- High-confidence (90%+) PDF invoice product matches should be prepared in shared Railway PostgreSQL staging and marked for review; never silently write Lightspeed before the full invoice is approved. New product proposals, cost/MSRP anomalies, supplier associations and edited invoice quantities remain auditable staging records.
+- Product Scanner will contribute matched UPC/SKU, supplier code and supplier-specific price proposals to the selected invoice line; use shared backend and existing Scanner matching, not a duplicate product identity engine.
+- Once invoice is resolved and explicitly approved, the shared Lightspeed gateway handles the PO sync through a status-safe audited writer; Product Manager UI does not own an independent PO API credential or write path.
+- **Not implemented on Product Manager PR #28**, not a new tool, not a production release. Requirements source: `FEATURE_INVOICE_RECONCILIATION.md`; cross-tool prompt: `prompts/lightspeed-shared-services/invoice-reconciliation-feature.md`.
