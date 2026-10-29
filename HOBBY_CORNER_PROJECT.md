@@ -20,7 +20,7 @@ Use this section first. Historical entries below remain for change history and c
 | System / workstream | Current authoritative source | Current PR / branch | Status | Implemented | Tested | Deployed | Main remaining gate |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Consolidated Lightspeed platform | `Tawgod/Lightspeed:integration/hobby-corner-consolidation@24e9834a6` | authoritative base | Testing | Yes | Automated + selected runtime verification | Core Railway services yes | Real employee/browser acceptance and coordinated release discipline |
-| Shared Lightspeed services | `LIGHTSPEED_SHARED_SERVICES.md` + development PR #32 | PR #32 `feature/shared-lightspeed-services-phase1-20261029` | Testing | Phase 1 code complete: transport, Timeclock policy, Postgres audit/idempotency, mutation orchestration, legacy read adapter and customer/catalog/product matching candidates | Unit + disposable Postgres + Scanner/Core Ops regression CI PASS `40911078591`; live consumer checks pending | No | PR review and explicit merge/deployment approval; then Phase 2 read-service consumer conversion |
+| Shared Lightspeed services | `LIGHTSPEED_SHARED_SERVICES.md` + integration base | PR #32 (Phase 1 review) and stacked draft PR #33 (Phase 2 reads) | In Development | Phase 1 foundation complete; Phase 2 product/inventory/PO/sales/fulfillment/credit readers and unmounted auth gateway implemented | Phase 1 CI `40911078591`; Phase 2 code-head CI `40913405875` green; live tenant/consumer acceptance pending | No Phase 1/2 deployment | Review #32, validate Phase 2 vendor contracts, then migrate one feature read consumer |
 | Core Special Orders / Ordering / Preorders / GW | consolidated branch | PR #24 `feature/core-ops-ui-consistency-nav-20261028` for pending UI/nav refinement | Testing | Core workflows yes; PR #24 pending | Core automation/source checks; PR #24 browser acceptance pending | Core services yes; PR #24 no | Rebase PR #24 to current base, CI + browser/keyboard/zoom acceptance |
 | Shared UI foundation | consolidated `shared-ui/hc.css` | PR #27 `feature/shared-ui-foundation-reconcile-20261028` | In Development | Yes, selective reusable pieces | CI pass | No separate deployment | Confirm clipboard/API parity with PR #26; then retire PR #16 |
 | Scanner + Toolkit popup/navigation | consolidated base + PR #26 | PR #26 `feature/scanner-consignment-nav-alignment-20261028` | Testing | Yes | Automated integration/UI/clipboard/mock Chromium pass | No | Real Chrome employee, supplier, PIN and navigation acceptance |
@@ -82,6 +82,14 @@ Do not merge or deploy a superseded PR independently. Preserve it for history un
 - Final PR CI `40911078591` passed with disposable PostgreSQL concurrency, uncertain-write and immutable-audit tests, plus Scanner and Core Operations regressions.
 - Production Railway and Lightspeed data unchanged. Pre-change source recovery record and source-derived table schema reference are documented; no live data dump exists.
 - Phase 2 is not started. Do not merge production-connected PR or execute database migration without approval.
+
+### Shared-service Phase 2 candidate — 2026-10-29
+
+- Created draft stacked PR #33 `feature/shared-lightspeed-services-phase2-reads-20261029` against PR #32 branch, **not** production-connected integration.
+- Added read-only Product, Inventory, PO, Sales, Fulfillments and Store Credit domain modules, strict X-Series version/offset pagination, and an unmounted Timeclock permission-checked gateway router.
+- Official Lightspeed API documentation verified search offset pagination and PO version cursors. No live test tenant calls or consumer route swaps yet.
+- Phase 2 read tests passed with foundation/Postgres/Scanner/Core Ops regressions on CI `40913405875`; final documentation-head run is separately tracked in the handoff.
+- Railway still on consolidated integration branch. No new production writes, DB migrations, extension releases, credentials or employee records changed.
 
 ## System inventory
 
