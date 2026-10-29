@@ -33,4 +33,6 @@ Do not claim a live integration, test or deployment is complete unless you have 
 
 ## Current restart status
 
-See `HOBBY_CORNER_CHAT_TRANSITION.md` for handoff readiness. **Do not archive old development chats merely because this generic startup prompt exists.** Complete each missing tool-specific handoff first.
+The owner confirmed that the previous feature chats were archived on 2026-10-29; five coordination/development chats continue: Shared Lightspeed Services, Hobby Corner Manager, Shared UI / UX Coordination, Deployment Coordination, and the separate RMS Item Migration chat. Read `HOBBY_CORNER_CHAT_TRANSITION.md` for the current ownership model. Archived feature handoffs remain available; start new feature chats only when useful for prioritized development. **Do not treat archival as a claim of implementation or release.**
+
+RMS Item Migration stays independently owned. If this tool could benefit from its SKU/UPC matching, supplier/category/brand mapping, validation or collision-check algorithms, first inspect the actual migration code/branch and `handoffs/rms-migration.md`; extract only safe reviewed/tested pure logic and coordinate source/consumer handoffs. Do not copy migration bulk writers, RMS stock quantities or credentials.
