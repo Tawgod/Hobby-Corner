@@ -1,49 +1,69 @@
 # Deployment and Release Coordination — Current Handoff
 
 **Last verified:** 2026-10-29  
-**Status:** Testing / Maintenance — source reconciliation in progress; no new release initiated.
+**Status:** Maintenance / Testing — production baseline healthy; pending feature releases gated.
 
 ## Source
-- Application source: `Tawgod/Lightspeed:integration/hobby-corner-consolidation@f50c3309824986633c3ba37a95e6eb43aae15a3c`.
-- Project master: `Tawgod/Hobby-Corner:main/HOBBY_CORNER_PROJECT.md`, `ROADMAP.md`, `CHROME_EXTENSION_RELEASE_QUEUE.md`, `BRANCH_AND_DEPLOYMENT_POLICY.md`.
-- PR #24 and #27 are **MERGED**; do not repeat merge. Other current candidates: #22, #26, #28, #29, #30, #31, #32 and stacked #33, with differing release gates.
+- Repository: `Tawgod/Lightspeed`; authoritative branch `integration/hobby-corner-consolidation`, verified head `f50c3309824986633c3ba37a95e6eb43aae15a3c` (manager registry and Railway commit evidence).
+- Coordination repository: `Tawgod/Hobby-Corner:main`; stable handoff `handoffs/deployment-coordination.md`.
+- Merged: PR #27 (shared foundation; squash `cab74b667999a1f607dd82c4c51c298fd0e5d25a`), PR #24 (core navigation; squash `d40c1890a250d1d68348fff1377e08c5e190f24e`). A no-source-change push `61b344a60643409df5f4dfeab1273203c8d1d937` retriggered Railway after automatic deployment did not show; later integrations advanced head to `f50c330`. Do not mistake older deployment snapshots for current state.
+- Current unmerged candidates checked: #22 `f9e8f0a`, #26 `0b3e6f1`, #28 `e8938de`, #29 `a000c08`, #30 `647a8f6`, #31 `a4ef547`, #32 `7c20b3d` (ready for review), #33 `bbfe24f` (draft stacked on #32).
+- Superseded: PRs #16/#21/#23 by #27/#24; #19 by #26; #18 by #28; #20 by #29; #11/#25 by #30; #13 by #31. Some predecessor PRs remain open: do not merge or close solely for cleanup. Old extension beta `release/scanner-v0.3.25-beta-20261027` is not a verified production Chrome release.
 
 ## Implemented
-- Central consolidated integration branch and common Railway deployment source; central extension queue, shared UI/navigation and PR compatibility rules.
-- Source recovery refs for 57 pre-Phase 1 branches across six repos; source-derived SQL reference for 52 table names preserved privately, **not** live database rows or a full backup.
-- Shared-services PR #32 Phase 1 ready for review, not merged; PR #33 Phase 2 read/auth candidate **draft stacked on #32**, not merged. No new production API writer enabled.
-- Invoice Reconciliation added as **Planned cross-tool feature**, no new release: approved invoice may eventually create/update OPEN supplier PO but never receive inventory; supplier sender aliases/tracking will show On the way in Special Orders.
+- Coordinated GitHub PR/release audit, explicit safe merge sequencing and production deployment authorizations, shared extension integration/queue policy.
+- PR #27's unique shared exact-text / sanitized-rich clipboard helper and regression tests merged; PR #24's Consignment-inspired original-logo navy navigation across Special Orders, Ordering, Preorders and GW Preorders, with responsive More menu and Beta/Test label, merged while retaining current Timeclock-backed PIN/header sessions. Legacy workbook importer relocated to lower Special Orders page.
+- PR #24 manually accepted in store browser before merge: valid/invalid PIN, session restoration, sign-out, navigation and native zoom per PR record. Original PR #21/#23 functionality selectively preserved; no separate competing nav.
+- Recovery of Railway deployment triggers via empty-tree Git commit `61b344a` after PR #27 had deployed but PR #24 was absent from Railway. The GitHub push correctly started three new builds; later successful rollouts verified.
+- Shared Lightspeed architecture Phase 1 PR #32 and stacked Phase 2 PR #33 exist in development only (no deployed shared consumer conversion). Employee identity remains Timeclock-authoritative.
 
 ## Tested
-- GitHub PR statuses, current consolidated SHA and Railway production service sources verified 2026-10-29.
-- Current Railway `timeclock`, `lightspeed-api`, `special-orders-test`, Discord Bot, Rewards, Postgres and migration-test function show latest deployment status SUCCESS. **Exact deployed commit, endpoint health under user sessions and cross-tool Chrome acceptance not verified.**
-- PR #32 CI `40911078591` PASS, PR #33 CI `40920253500` PASS at last verified head; feature PR-specific CI tracked in their own stable handoffs.
+- Prior PR #27 shared UI CI passed and clipboard Git blob matched PR #26's extension copy (`248671105dd11dd9403fd10226567ed55a8dbe8a`).
+- PR #24 final-head CI passed: core navigation, Scanner regression and shared UI; browser smoke/auth tests and owner-reported real Chrome PIN, session and zoom acceptance. Browser acceptance is PR-specific, not blanket approval for later extension changes.
+- Current Railway live environment read on 2026-10-29: seven services ONLINE with SUCCESS latest deployments, no active critical/warning notifications or staged deployment work. This verifies Railway deployment status, not end-to-end real employee workflows.
+- PR #32 CI `40911078591` passed; PR #33 CI `40920253500` passed per latest manager/shared-services records; no live vendor/tenant consumer acceptance.
+- No fresh physical Avery print or real loaded-Chrome extension acceptance performed in this handoff audit.
 
 ## Deployed
-- Production Lightspeed app services follow `integration/hobby-corner-consolidation`; latest deployments SUCCESS.
-- PR #32/#33 and pending extension/feature PRs **not merged or deployed**, except PR #24/#27 source already merged.
-- No separate Chrome extension package/version release verified by this handoff.
-- Railway integration test beta Consignment service is separate and not proven promoted to PR #30.
+- Railway production environment `c562fbb2-8431-4beb-834d-6938b3a2ad10`, project `f7e91de7-43f6-472e-b4ca-46b0623f8e0e`.
+- `lightspeed-api` deployment `6d1d3cd4-dcd1-4827-b07a-8b36bf926df2`, `timeclock` `16f7d019-9267-4196-b85e-0d4c2b15f121`, `special-orders-test` `b327d98a-e178-495b-ad72-2936dccaee0a`: all SUCCESS, ONLINE, all at **`f50c3309824986633c3ba37a95e6eb43aae15a3c`**, created 2026-10-28 20:20 UTC. PR #24/#27 effects therefore incorporated into the deployed consolidated head; this is newer than the earlier `61b344a` success.
+- Railway `Hobby-Corner-Discord-Bot`, `Hobby-Corner-Rewards`, `Postgres` and `migration-test-bsi117` latest deployments also SUCCESS/ONLINE; those services are not represented as redeployed by PR #24.
+- Earlier PR #27 Special Orders rollout failed once but succeeded on replacement; earlier Railway deployment incident resolved. No pending deployment at this verification.
+- PRs #22/#26/#28/#29/#30/#31/#32/#33 **not merged/deployed**; historical isolated Consignment beta is a different deployed branch and does not establish PR #30 promotion.
+- No coordinated production Chrome extension package/version or Web Store release verified. The prior 0.3.25 unpacked scanner beta is not production publication.
 
 ## Shared dependencies
-- Release order: source review/feature acceptance; shared service PR #32; PR #33 test-tenant read validation and gated consumer conversion; feature-specific PRs; release branch; Chrome queue reconciliation; staff Chrome acceptance; then explicit deployment/extension release approval.
-- Active shared surfaces: `extension/popup.html`, `popup.js`, `manifest.json`, `extension/content.js`, `server.js`, `shared-ui/*`, staff session and PO read APIs.
-- New invoice feature belongs to Product Manager/Scanner/Special Orders, not a standalone app; no PO receive/stock mutation.
+- `LIGHTSPEED_SHARED_SERVICES.md` and `SHARED_STAFF_AUTH_PERMISSIONS.md`: share one Lightspeed client/gateway and durable Postgres audit/idempotency, retain Timeclock PIN/session verification; authorize operations server-side. Phase 2 PR #33 stacks on Phase 1 PR #32, whose migrations require separate review/approval; employee-specific Product Manager profiles are keyed by verified employee ID, not a parallel auth system.
+- Chrome extension: `CHROME_EXTENSION_INTEGRATION.md` and `CHROME_EXTENSION_RELEASE_QUEUE.md`; PR #26 owns popup/shared nav, PR #22 content script and PR #31 PO Companion manifest/popup components. Acceptance of all plus approved Consignment launcher decision must precede a single current-base release candidate; do not invent beta routes.
+- Product Scanner matching, Special Orders / Ordering / Preorders, PO Companion authenticated PO read, Consignment credit safety, Rewards/Discord customer notifications, and durable PostgreSQL records all require feature-local acceptance and cross-API safeguards.
+- Invoice Reconciliation: **Planned only** inside existing Product Manager, Scanner, Ordering/PO Companion and Special Orders. Email/PDF ingestion, verified supplier/sender aliases and tracking, staged >=90% product matches with review, secondary supplier association, employee-independent invoice dropdown, and approved create of NEW **OPEN** PO or update existing PO. **Never receive products, mark a PO received, or change stock on hand**. Show verified tracking as informational **On the way**, not customer availability. Depend on shared services #32/#33 and idempotent, permission-controlled PO writes.
+
+## Shared files / integration surfaces affected
+- Core pages: `special-orders.html`, `ordering.html`, `preorders.html`, `gw-preorders.html`, `shared-ui/core-ops-compat.css`, wordmark asset, selected server routing and tests.
+- Common extension conflict surfaces: `extension/manifest.json`, `extension/popup.html`, `extension/popup.js`, `extension/content.js`, `extension/shared-ui/*`; employee session/permissions, `server.js`, shared Lightspeed service modules and Postgres migration assets.
+- Deployment coordination does not independently own feature-specific business implementations.
 
 ## Remaining blockers
-- Test tenant vendor API parity, production Postgres full backup/recovery gap, controlled DB migration planning.
-- PR #22 and #26 real extension acceptance; PR #31 secure live PO load and branch overlap; #28 Product Manager live read/auth; #29 physical Avery print; #30 isolated Consignment test.
-- Chrome release queue READY/QUEUED/BLOCKED full reconciliation before any build.
+- Real loaded-extension Chrome employee/Scanner/Timeclock/Split/PO acceptance (#26/#22/#31); joint popup/manifest/authorization validation; Consignment launcher decision; full READY/QUEUED/BLOCKED Chrome queue reconciliation.
+- PO Companion live read/auth; Product Manager authenticated/live-read and saved profiles; Avery physical print; Consignment isolated DB, staff auth, read-only matching, sale/return and exactly-once credit; migration/production Postgres backup and recovery validation.
+- #32/#33 production schema migrations, tenant API parity and conversion of first read-only consumer remain unapproved/unverified. No standalone invoice feature PR exists.
+- Recheck fresh CI/branch comparisons prior to each future merge; historical status alone is insufficient.
 
 ## Decisions needed
-- Explicit integration merge/automatic Railway deployment approval; Chrome version/package/release approval; isolated test service promotion vs production.
-- Which suppliers and invoice mailbox may later support the planned invoice feature (not a release prerequisite).
+- Separate approval for every production-connected integration merge (may auto-deploy Railway), test/production data migration, and extension version/package/publication.
+- Extension Consignment launcher target and all release acceptance; timing of shared-gateway consumer migration; future Invoice Reconciliation suppliers/mailbox, test tenant and approved PO writes.
 
 ## Recommended next action
-- Reconfirm active PR heads/CI and Railways before approved integration; do **not** merge PR #32/#33 or make a new extension release as a side effect of documentation/handoffs.
+1. Confirm the stable Railway baseline and protect it; no deployment required for handoff.
+2. Complete PR #32 foundation and stacked PR #33 gateway read-only review, schema backup/testing before any integration.
+3. Carry out per-tool real Chrome/print/PO/Consignment acceptance and recheck current PR bases.
+4. Only after #26/#22/#31 acceptance and Consignment launcher decision, prepare one extension release candidate, fully reconcile queue, request release authorization.
+5. Keep invoice reconciliation specified but unimplemented until shared service dependency and write gates are approved.
 
 ## Restrictions / safety
-- Never auto-merge production-connected consolidated code, run production schema migrations, remove volumes, alter secrets or publish extension without explicit authorization.
+- No merge, deploy, production DB or Lightspeed data write, employee/customer change, secret change, volume deletion, or Chrome version/package/publish performed in this handoff audit.
+- Railway SUCCESS is not proof of feature/browser acceptance; never silently equate git merge with live deployment.
+- No inventory receive or stock movement from invoice reconciliation. Preserve API contracts, idempotency and staff auth; do not deploy unverified changes.
 
 ## Documentation
-- `HOBBY_CORNER_PROJECT.md`, `CHROME_EXTENSION_INTEGRATION.md`, `CHROME_EXTENSION_RELEASE_QUEUE.md`, `HOBBY_CORNER_CHAT_TRANSITION.md`, `FEATURE_INVOICE_RECONCILIATION.md`.
+- `HOBBY_CORNER_PROJECT.md`, `HOBBY_CORNER_CHAT_TRANSITION.md`, `handoffs/README.md`, `handoffs/TEMPLATE.md`, `ROADMAP.md`, `LIGHTSPEED_SHARED_SERVICES.md`, `SHARED_STAFF_AUTH_PERMISSIONS.md`, `FEATURE_INVOICE_RECONCILIATION.md`, `CHROME_EXTENSION_INTEGRATION.md`, `CHROME_EXTENSION_RELEASE_QUEUE.md`, `BRANCH_AND_DEPLOYMENT_POLICY.md`, and feature-specific stable handoffs.
