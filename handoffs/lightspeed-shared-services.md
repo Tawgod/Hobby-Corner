@@ -96,3 +96,12 @@ Do not deploy production, apply the shared Postgres schema, move credentials, de
 - 90%+ candidate identity match auto-stages only; cost/MSRP/quantity exceptions and new secondary supplier mappings remain reviewable. Supplier invoice quantity is **not** receiving quantity. Sender aliases from shipping firms/warehouses require verified supplier linking; Special Orders displays **On the way** tracking, never stock receipt.
 - Official X-Series PO creation uses `POST /api/2026-07/consignments` with type SUPPLIER/OPEN; existing PO mutation APIs operate on SUPPLIER consignments. Generic bulk count/received operations have accumulation/status transition risks and must not be used to receive in this feature. Test an explicit safe status-aware apply contract and readback before any live write.
 - Future Scanner bridge entry is QUEUED in extension release queue; no extension packaging or production deployment was performed.
+
+## Post-archive operating agreement — owner-confirmed 2026-10-29
+
+- This **Shared Lightspeed Services conversation remains open and active**, alongside Hobby Corner Manager, Shared UI/UX Coordination, Deployment Coordination and the separate RMS Item Migration chat. Archived tool-chat handoffs remain authoritative when feature work resumes.
+- Maintain canonical Timeclock-backed identity, Lightspeed client/policy, read services and durable audit/idempotency/write gates for future tool consumers; do not create new tool-specific production Lightspeed clients.
+- **Migration code reuse:** inspect the current `Tawgod/Hobby-Corner-Discord-Bot` RMS branch/source and `handoffs/rms-migration.md` before adapting any SKU/UPC identity, supplier mapping, category/brand normalization, collision detection, staged extraction or validation utility. Prefer pure shared helpers with fixtures and regression tests; coordinate any extraction with the ongoing RMS chat.
+- Never import migration-only writers, RMS historical on-hand inventory values, source credentials or temporary schemas into the shared production adapter. Do not assume migration branch code is merged, deployed or safe for writes.
+- Feature-specific development may be restarted in targeted chats from handoffs when approved/prioritized; existing PRs #32/#33 still need their own verification/acceptance/deployment decisions.
+
