@@ -1,5 +1,14 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-29 — Planned Invoice Reconciliation cross-tool feature registered
+
+- Created `FEATURE_INVOICE_RECONCILIATION.md` as a **planned feature inside Product Manager, Product Scanner, Special Orders/Ordering and PO Companion**, not a standalone new tool.
+- Defined supplier email ingestion (invoice/PDF, preorders, tracking/shipping), secure extraction/provenance, unique Lightspeed PO association, 90%+ product match candidate staging, unmatched/new-product proposals, non-primary supplier linking and cost/MSRP variance review in shared Railway PostgreSQL.
+- Planned Product Manager global **Invoice Updates** dropdown for any verified employee; selected invoice exclusively scopes review, regardless of private employee layouts. Scanner will contribute supplier-specific price and product-identity proposals.
+- Flagged that supplier **invoiced quantities are separate from physical receipts**. X-Series supplier PO mutations use `consignments`, where bulk `count` can accumulate and `received` may alter DISPATCHED status. Final approved apply will require guarded status-aware write policy, durable audit/idempotency and readback.
+- Registered the feature in `ROADMAP.md`, `HOBBY_CORNER_PROJECT.md`, `LIGHTSPEED_SHARED_SERVICES.md`, feature handoffs, clean-chat startup documentation, and `prompts/lightspeed-shared-services/invoice-reconciliation-feature.md`. Queued the **future** Scanner/extension link in `CHROME_EXTENSION_RELEASE_QUEUE.md` without shipping it.
+- No email content fetched, PDF invoice processed, new feature branch, Railway DB change, Lightspeed PO/product update, Chrome extension package or production deployment.
+
 ## 2026-10-29 — Shared staff authorization contract and new-chat pre-archive reconciliation
 
 - Added explicit `services/lightspeed/permissions.js` operation matrix and `tests/shared-lightspeed-permissions.test.mjs` on Phase 2 draft PR #33, stacked on unmerged PR #32; **no existing route or permission enforcement was changed**.
