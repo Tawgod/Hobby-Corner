@@ -13,6 +13,14 @@ This repository is the project-wide management index for Hobby Corner systems. R
 5. Project conversations — historical requirements and decisions
 
 
+## Active conversation ownership — confirmed by owner 2026-10-29
+
+Only five chats remain active: **Shared Lightspeed Services (this development chat)**, **Hobby Corner Manager**, **Shared UI / UX Coordination**, **Deployment Coordination**, and **RMS Item Migration**. All other prior feature/development chats have been archived **per the owner's report**; their Git handoffs and code/PRs remain authoritative and their features retain their separate project status. Do not represent archival as completion or deployment. See `HOBBY_CORNER_CHAT_TRANSITION.md` for the active ownership map.
+
+**RMS Item Migration is a separate, active migration project**. Operations tools may selectively **reuse reviewed and tested RMS migration logic** (product identity, supplier/category/brand mapping, collision checks, staged validation) after verifying exact source/branch, avoiding duplication, and documenting adaptation in both relevant handoffs. Do not import historical RMS on-hand inventory quantities, raw credentials, migration-only bulk writers or temporary source schemas into production tool workflows. Standard production Lightspeed access remains through the shared, Timeclock-authorized, audited gateway with independent approval before writes.
+
+Archived feature handoffs are the restart entrypoints when prioritized; there is **no requirement to keep an always-open chat for every feature**. The Hobby Corner Manager remains active and coordinates new development conversations as needed.
+
 ## Current Authoritative Development Matrix — 2026-10-29
 
 Use this section first. Historical entries below remain for change history and context but may reference superseded branches or PRs.
@@ -32,7 +40,7 @@ Use this section first. Historical entries below remain for change history and c
 | Avery PO Label Maker | consolidated base + PR #29 | PR #29 `feature/labels-shared-ui-reconciled-20261028@a000c084` draft; **7 behind current consolidated** | Testing | Shared style additive label UI; PDF/template/geometry unchanged | PR-head CI `40730902857` and Scanner `40730902922` pass; physical Avery 5960 print/native zoom pending | Existing production label system unchanged; PR #29 no | Physical printing/native zoom acceptance; `handoffs/avery-labels.md` |
 | Rewards | `Tawgod/Hobby-Corner-Discord-Bot:main` + Railway Rewards service | deployed service | Deployed | Yes | Runtime in service | Yes | Ongoing operational verification; no current UI consolidation blocker |
 | Railway variable/security consolidation | Railway production + audit docs | no feature PR | Testing / Maintenance | Shared/reference topology implemented | Core service deployment verification completed | Yes | Remaining credential rotation/sealing and legacy-secret retirement |
-| RMS migration / legacy importer | migration-specific repos/tools | separate migration branches/tools | Testing / Maintenance | Yes | Controlled migration testing | Not a Railway production app | Finish cutover validation and retire legacy credential paths |
+| RMS item migration / legacy importer | `handoffs/rms-migration.md` + separate active RMS Item Migration conversation | Independent migration branches; exact heads verified per task | Testing / Maintenance | Migration import/mapping and read-bridge tooling remain migration-owned; other tools may reuse reviewed pure matching/normalization/collision logic | Controlled rehearsals still pending; no general production parity claim | No migration PR automatically deployed as routine tool | Keep standalone migration workflow, run collision/cutover rehearsal, maintain boundary against production tool writers and RMS on-hand stock |
 | Back Room Inventory | planned | none | Planned | No | No | No | Architecture/data model and Lightspeed inventory-read design |
 | Service Requests / Repairs / Warranty / Commissions | planned | none | Planned | No | No | No | Workflow/data model, Special Orders/Timeclock/Lightspeed integration design |
 | Game Room Reservations & Events | planned | none | Planned | No | No | No | Resource map/calendar/reservation architecture |
