@@ -400,3 +400,11 @@ Do not package, version, deploy, or publish the extension until #26, #31, #22 an
 Feature chats should write their current manager snapshot directly to `Tawgod/Hobby-Corner:main/handoffs/<system>.md` using the format in `handoffs/TEMPLATE.md`.
 
 The release queue remains authoritative for extension shipping state; the handoff file is the concise current feature snapshot. Update both when extension work changes release readiness, dependencies, blockers, tests, or shared-file ownership.
+
+## 2026-10-29 — Final Product Scanner / Toolkit transition audit
+- **Current source correction:** consolidated `integration/hobby-corner-consolidation@f50c3309824986633c3ba37a95e6eb43aae15a3c`; PR #26 `feature/scanner-consignment-nav-alignment-20261028@0b3e6f110932efea94dc23c23903cc97ee20e541` is **7 ahead / 7 behind** consolidated (not 0 behind). Rebase/targeted reconciliation is required before integration.
+- **Disposition:** PR #26 remains `BLOCKED / Testing` for next coordinated release. Existing integration `40724995019`, UI/clipboard `40724981558`, mocked Chromium `40725500639` passed at old head; no fresh rerun, no real employee Chrome acceptance, and no combined #22/#26/#31 acceptance.
+- **Historical unique branch audit:** `feature/scanner-review-queue-foundation-20261027`, `feature/scanner-timeclock-employee-access`, and `feature/scanner-secure-match-gateway` still require selective comparison for outstanding queue/auth tests or code. PR #19 compatible UI already in PR #26; do not merge old copies wholesale.
+- **Invoice bridge:** `FEATURE_INVOICE_RECONCILIATION.md` is Planned; Scanner supplier UPC/SKU/cost proposals feed one shared invoice context only after shared backend exists. Any approved PO create/update must leave inventory unreceived and on-hand unchanged. Sender aliases and Special Orders `On the way` tracking belong to shared workflow. Bridge is QUEUED for a later release, not part of #26.
+- **Deployment:** Railway `lightspeed-api`, `timeclock`, `special-orders-test` successful on consolidated source; `lightspeed-api` deployment `6d1d3cd4-dcd1-4827-b07a-8b36bf926df2` reports `f50c330`. PR #26 NOT merged/deployed; no version bump/package/publication.
+- **Full handoff:** `handoffs/product-scanner.md` updated 2026-10-29. No Chrome release is authorized by documentation changes.
