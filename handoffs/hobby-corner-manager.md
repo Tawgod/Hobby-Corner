@@ -289,7 +289,7 @@ The manager chat coordinates these records; it does not own feature-private sour
 
 ## Shared Lightspeed foundation hardening milestone — 2026-10-29
 
-- PR #32 candidate head `0082eacc5acde5bde52bdc5e70924f3edaf6d778`, code/test CI `40955089606` **PASS**. PR #33 stacked candidate head `b2d97d327f92ec4f42bb3f531d61654c31a8b626`, code/test CI `40955104731` **PASS**.
+- PR #32 candidate head `0082eacc5acde5bde52bdc5e70924f3edaf6d778`, final-head CI `40955180232` **PASS**. PR #33 stacked candidate head `b2d97d327f92ec4f42bb3f531d61654c31a8b626`, final-head CI `40955195986` **PASS**.
 - Hardened default-read-only transport (all mutation methods require explicit opt-in), HTTP write uncertainty, bounded JSON/UTF-8 response handling and stricter API targets); JSON fingerprint/replay safety and mutable payload race prevention; DB-only read-only pending/unknown-key inspection; PostgreSQL audit immutability and post-write audit-failure regression tests.
 - Both PRs remain **unmerged, unmounted, no production DB migration and no real tenant verification**. Neither is authorization to enable API writes. PR #33 remains stacked on the former Phase 1 base and requires explicit ancestry reconciliation after PR #32 approval.
 - Release coordination: verify independent PostgreSQL backup/restore decision, schema review, vendor/test-tenant read contracts, auth scopes, unknown-key manual reconciliation runbook and browser consumer acceptance; seek explicit approval before any production-connected merge or deployment.
