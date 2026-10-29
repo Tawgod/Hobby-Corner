@@ -1,5 +1,14 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-29 — Five continuing chats and independent RMS Item Migration
+
+- Recorded owner-confirmed chat topology: only **Shared Lightspeed Services**, **Hobby Corner Manager**, **Shared UI / UX Coordination**, **Deployment Coordination**, and **RMS Item Migration** remain active. All other prior development chats are **reported archived**; their Git handoffs, PRs and code remain valid records of unfinished work. Archived does not mean implemented, tested or deployed.
+- Retained RMS Item Migration as a **separate active migration workstream** rather than folding it into routine operations tools or their release cadence.
+- Authorized **selective, reviewed code reuse as a future option**, not a live change: exact SKU/UPC matching, supplier/category/brand normalization, collision checks, staged validation and pure utilities may be extracted with test fixtures and version/source references by other tools.
+- Prohibited silent reuse of migration credentials, importer bulk-write routines, historical RMS on-hand quantities, temporary schemas and unapproved direct Lightspeed production clients. Shared auth/API/audit gates remain canonical for production tools.
+- Updated `HOBBY_CORNER_CHAT_TRANSITION.md`, `HOBBY_CORNER_PROJECT.md`, `ROADMAP.md`, `handoffs/README.md`, `handoffs/rms-migration.md`, four continuing coordination handoffs and `prompts/NEW_TOOL_CHAT_STARTUP.md`.
+- Documentation/coordination change only: no Git code PR merge, Railway deployment, migration/PO/product record change, database migration, credential change or Chrome extension release.
+
 ## 2026-10-29 — Ring handoff and Special Orders archive continuity verification
 
 - Verified Ring Camera Integration exploratory handoff committed to `handoffs/ring-cameras.md` at `e10879601d1c`. Research and architecture preserved; no Ring account/device integration, real API tests, camera control or deployment. Registered its Planned status in the current project matrix and transition inventory.
