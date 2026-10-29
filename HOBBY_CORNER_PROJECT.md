@@ -96,13 +96,14 @@ Do not merge or deploy a superseded PR independently. Preserve it for history un
 ### Current coordination order
 
 1. Keep `integration/hobby-corner-consolidation` as the only application integration base.
-2. Rebase/reconcile PR #24 to the current consolidated head and complete its acceptance.
-3. Finish PR #27's unique shared-UI reconciliation; retire PR #16 after verification.
+2. Treat merged PR #24 Core Operations navigation and merged PR #27 shared UI as the current baseline; continue runtime acceptance rather than recreating their merge work.
+3. Review shared-service PR #32 and stacked PR #33 before converting Core Operations or other consumers to the new shared API/permission layer.
 4. Complete feature acceptance independently for PR #29, PR #28 and PR #30.
 5. Complete PR #31 authenticated read-only PO contract and real Chrome acceptance.
-6. Complete real Chrome acceptance for PR #26 and PR #22.
+6. Reconcile PR #26 and PR #22 from the current consolidated head and complete real Chrome acceptance.
 7. Build one coordinated extension release-testing branch from the then-current consolidated source, selectively integrating compatible #26 + #22 + #31 and only an approved Consignment launcher.
 8. Reconcile every entry in `CHROME_EXTENSION_RELEASE_QUEUE.md`, run cross-feature browser tests, then request explicit release approval before versioning/packaging/publishing.
+9. Keep Invoice Reconciliation as a shared staged feature across Product Manager/Scanner/Core Operations/PO Companion; start with read-only ingestion/staging, never physical receiving.
 
 
 ### Shared-service Phase 1 completion — 2026-10-29
