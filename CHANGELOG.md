@@ -1,5 +1,16 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-29 — Shared Lightspeed Services Phase 1 implementation complete (not deployed)
+
+- Completed Phase 1 implementation in `Tawgod/Lightspeed` PR #32 (`feature/shared-lightspeed-services-phase1-20261029`, head `7c20b3d9f90382b6fafeb5dc3d9a92108f4c14e1`). PR marked ready for review, not merged.
+- Added durable PostgreSQL audit and idempotency adapters, additive SQL migration candidate, append-only audit protection, atomic mutation claims, verified-only replay, and unknown-write reconciliation gates.
+- Added Timeclock-backed staff-auth policy adapter and server-fixed tenant/environment mutation scope. No new independent staff login or live write endpoint.
+- Added read-only legacy method adapter, customer/catalog contracts and extracted Special Orders product-matching functions, without switching current production consumers.
+- Added tests on disposable PostgreSQL 16 and existing Scanner/Core Operations regressions. Final PR CI `40911078591` PASSED: contract tests, concurrent DB claims, unknown-write handling, audit append-only, source guard and feature regressions.
+- Documented ownership and next steps in `docs/SHARED_LIGHTSPEED_PHASE1.md`, `docs/LIGHTSPEED_DIRECT_ACCESS_INVENTORY.md`, `handoffs/lightspeed-shared-services.md`, and project development matrix.
+- No Railway schema or service configuration changed; no production deployment, employee deletion, Lightspeed mutation, credentials change or Chrome release. No live PostgreSQL table data export exists; private schema archive is reference only.
+- Phase 2 not started; separate approval required before merging production-connected PR #32.
+
 ## 2026-10-29 — Source-derived PostgreSQL schema archive
 - Verified Railway PostgreSQL service is live with persistent 5,000 MB volume, but the Railway OAuth connector withholds credentials and has no SQL/dump operation.
 - Archived SQL schema declarations from Special Orders, Timeclock, Scanner and Rewards into the **private** `Tawgod/Lightspeed-Importer` backup branch `backup/hobby-corner-postgres-source-schema-20261029` (52 named tables in source).
