@@ -75,14 +75,14 @@
 4. Inventory's documented bulk POST reads must be modeled separately; a POST for a read must not imply write authorization.
 5. Feature-level consumer conversions, UI/browser acceptance, and write-service Phase 3 remain ahead.
 6. Actual Railway Postgres table data was never dumped; backup consists of Git source refs and source-derived schema reference, not live employee/order rows.
-7. The chat-transition inventory `HOBBY_CORNER_CHAT_TRANSITION.md` found only four existing stable handoffs. Most tool-specific development handoffs still need verification before older chats can be archived.
+7. The central transition inventory now contains stable handoffs for all currently tracked active workstreams, including the Hobby Corner Manager. Individual feature chats may still have manual acceptance or owner-signoff blockers before archival, but missing handoff files are no longer the blocker.
 
 ## Recommended next action
 
 - Keep PR #32 ready for coordinated review and PR #33 draft stacked on it; do not merge production-connected branches automatically.
 - Once authorization permits, test the read contracts against the test Lightspeed tenant and convert **one read-only consumer** (prefer PO Companion) with parity tests. Then stage other readers.
 - If a current feature changes the relevant API contract, update this central handoff and `LIGHTSPEED_SHARED_SERVICES.md`.
-- Prepare missing feature handoffs and fresh chat startup prompts using `HOBBY_CORNER_CHAT_TRANSITION.md` and `prompts/NEW_TOOL_CHAT_STARTUP.md`.
+- Keep existing feature handoffs current and start replacement chats from `HOBBY_CORNER_CHAT_TRANSITION.md` and `prompts/NEW_TOOL_CHAT_STARTUP.md`; do not recreate already-established handoff files.
 
 ## Safety
 
