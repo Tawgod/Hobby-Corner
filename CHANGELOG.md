@@ -981,3 +981,12 @@ No Lightspeed product records were created or updated in this test. The existing
 - Added central conversion prompt index and per-chat prompts under `prompts/lightspeed-shared-services/`.
 - Added `handoffs/lightspeed-shared-services.md`.
 - No runtime refactor, production deployment, credential move, database migration or new Lightspeed write authorization occurred.
+
+
+## 2026-10-29 — Hobby Corner Manager final transition audit
+- Added `handoffs/hobby-corner-manager.md` as the stable cross-project manager handoff.
+- Reverified GitHub: consolidated `f50c3309824986633c3ba37a95e6eb43aae15a3c`; PR #24/#27 merged; #22/#26/#28/#29/#30/#31 open and 7 commits behind current consolidated; PR #32 current-base/unmerged; PR #33 stacked/unmerged with final CI `40920253500` PASS.
+- Reverified Railway production: `lightspeed-api`, `timeclock`, and `special-orders-test` SUCCESS at consolidated `f50c330`; Rewards, Discord Bot, Postgres and migration-test latest deployments also SUCCESS; no staged work.
+- Corrected stale project deployment notes, stale PR #33 checkpoint, roadmap shared-service state, and shared-services transition inventory.
+- Preserved planned Back Room Inventory, Service Requests/Repairs/Warranty/Commissions, Game Room Reservations, and Invoice Reconciliation requirements.
+- No PR merge, production deployment, database migration, credential change, Lightspeed write, employee/customer data change, or Chrome extension publication was performed.
