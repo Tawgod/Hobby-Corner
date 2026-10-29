@@ -1,5 +1,15 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-29 — Core Operations archival handoff audit
+- Rewrote `handoffs/core-operations.md` as the complete verified system snapshot rather than a PR-only note.
+- Verified consolidated source `f50c3309824986633c3ba37a95e6eb43aae15a3c` includes merged PR #24 and is the exact latest successful deployment commit for Railway `lightspeed-api`, `timeclock` and `special-orders-test`.
+- Preserved current Timeclock PIN/session behavior and current all-active-employee Core Operations edit/create policy; no permission policy change was made.
+- Documented Special Orders, Ordering, receiving/notification queues, Preorders/Discord Watch, GW Preorders, legacy workbook placement, incomplete production notification senders and Discord bot capture gaps.
+- Reconciled planned Invoice Reconciliation requirements: approved existing-PO update or new OPEN PO creation, secondary supplier links, shipping-sender aliases and Special Orders On the way status; never receive stock or alter inventory-on-hand.
+- Corrected stale roadmap/project/Chrome release instructions that still treated PR #24/#27 as pending. PR #22 and PR #26 remain open/unmerged and were verified 7 commits behind current consolidated.
+- Updated the transition index to mark the Core Operations chat feature-owner audit complete. No merge, deployment, live Lightspeed/customer/employee mutation, credential change or Chrome extension publication was performed by this audit.
+
+
 ## 2026-10-29 — Invoice PO creation / shipping sender matching and tool handoff preparation
 
 - Clarified `FEATURE_INVOICE_RECONCILIATION.md`: **no receiving or inventory adjustment** in this feature, ever. After an entire invoice is resolved and approved, the authorized backend may **create a new supplier PO in OPEN state** (if no unambiguously matching PO exists) or **update the existing PO**, preserving separate invoiced vs physically received quantities. Official X-Series supplier consignment creation contract reviewed.
