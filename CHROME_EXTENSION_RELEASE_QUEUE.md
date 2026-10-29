@@ -78,13 +78,13 @@ Do not package from superseded PRs. Preserve them for history until the owning f
 
 ### Next coordinated release gate
 
-1. Bring PR #24 and PR #27 to current-base accepted state.
+1. Treat PR #24 and PR #27 as **merged baseline source**. Their merge does not constitute an extension release and they must not be re-merged.
 2. Finish PR #31 read-only/authenticated PO workflow and browser acceptance.
-3. Finish real Chrome acceptance for PR #26 and PR #22.
-4. Decide whether a Consignment launcher is approved and which stable route it will use.
+3. Rebase/reconcile PR #26 and PR #22 from the current consolidated head, then finish real Chrome acceptance.
+4. Decide whether a Consignment launcher is approved and which stable employee-authorized route it will use.
 5. Create one current-base release-testing branch and selectively integrate compatible changes.
 6. Run cross-feature regression plus real Chrome employee acceptance.
-7. Reconcile every queue item as INCLUDED, DEFERRED, BLOCKED, or RELEASED.
+7. Reconcile every queue item as INCLUDED, DEFERRED, BLOCKED, or RELEASED, including the planned Invoice Reconciliation bridge as deferred/blocked until its backend exists.
 8. Seek explicit release authorization before version bump, packaging, distribution update, or Web Store publication.
 
 ## Current queue
