@@ -408,3 +408,13 @@ The release queue remains authoritative for extension shipping state; the handof
 - **Invoice bridge:** `FEATURE_INVOICE_RECONCILIATION.md` is Planned; Scanner supplier UPC/SKU/cost proposals feed one shared invoice context only after shared backend exists. Any approved PO create/update must leave inventory unreceived and on-hand unchanged. Sender aliases and Special Orders `On the way` tracking belong to shared workflow. Bridge is QUEUED for a later release, not part of #26.
 - **Deployment:** Railway `lightspeed-api`, `timeclock`, `special-orders-test` successful on consolidated source; `lightspeed-api` deployment `6d1d3cd4-dcd1-4827-b07a-8b36bf926df2` reports `f50c330`. PR #26 NOT merged/deployed; no version bump/package/publication.
 - **Full handoff:** `handoffs/product-scanner.md` updated 2026-10-29. No Chrome release is authorized by documentation changes.
+
+
+### Final manager transition audit — 2026-10-29
+- Verified consolidated production baseline: `integration/hobby-corner-consolidation@f50c3309824986633c3ba37a95e6eb43aae15a3c`; Railway `lightspeed-api`, `timeclock`, and `special-orders-test` latest deployments are SUCCESS at that commit.
+- Current extension-related branches are not current-base: PR #22 and PR #26 are each 7 commits behind consolidated; PR #31 is also 7 behind. Existing CI remains valid for their recorded heads but must be rerun after reconciliation.
+- PR #30 Consignment is 7 behind as well; no Consignment launcher is approved for release.
+- PR #24/#27 remain merged baseline, not extension release items.
+- Shared backend PR #32 is unmerged/current-base; PR #33 is stacked on #32 with final CI `40920253500` PASS. Neither is deployed and neither authorizes Chrome packaging or production Lightspeed writes.
+- Invoice Reconciliation remains QUEUED/planning-only for a later release bridge; it may create/update an OPEN supplier PO only after approval and must never receive inventory or alter stock-on-hand.
+- No extension version bump, ZIP/package, distribution update, or Web Store publication occurred in this audit.
