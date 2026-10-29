@@ -4,6 +4,12 @@ Last verified: 2026-10-29
 
 This roadmap is the current planning view. Detailed implementation history remains in `HOBBY_CORNER_PROJECT.md`; Chrome extension release state remains in `CHROME_EXTENSION_RELEASE_QUEUE.md`.
 
+## Current development coordination (owner-confirmed 2026-10-29)
+
+Five ongoing chats: **Shared Lightspeed Services**, **Hobby Corner Manager**, **Shared UI / UX Coordination**, **Deployment Coordination**, and separate **RMS Item Migration**. Previous feature tool chats were archived; their requirements, unfinished work, PRs and handoffs remain active project work, not completed or cancelled. Restart focused feature chats as priorities arise using the GitHub handoff/startup instructions.
+
+**RMS migration remains standalone:** other tools may adopt reviewed pure product matching/normalization/collision-check logic when valuable, through test-backed shared modules and coordinated integration, **not** through migration bulk writers, historical on-hand stock import, live credentials or automatic migration-branch merges.
+
 ## 1. Immediate coordination and stabilization
 
 ### Shared Lightspeed services
