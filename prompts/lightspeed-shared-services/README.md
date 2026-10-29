@@ -31,6 +31,10 @@ Each development chat should:
 - update the Chrome release queue when extension work is affected;
 - not deploy production or enable new Lightspeed writes without explicit authorization.
 
+## Registered cross-tool features (not new tool chats)
+
+**Invoice Reconciliation:** `FEATURE_INVOICE_RECONCILIATION.md` records the future email/PDF supplier invoice → Lightspeed PO matching → Product Manager shared **Invoice Updates** review → Scanner supplier-cost lookup → approved PO synchronization workflow. It is a new feature inside existing tools, **not a standalone tool or permission to enable PO writes**. Each involved tool's new chat should read `prompts/lightspeed-shared-services/invoice-reconciliation-feature.md` alongside its normal feature prompt. Scanner-to-Manager extension integration is QUEUED for a later release; no extension has shipped.
+
 ## Current development chats
 
 | Chat / workstream | Short sentence to send | Full prompt |
