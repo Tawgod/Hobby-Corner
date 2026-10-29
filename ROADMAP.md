@@ -1,6 +1,6 @@
 # Hobby Corner Development Roadmap
 
-Last verified: 2026-10-28
+Last verified: 2026-10-29
 
 This roadmap is the current planning view. Detailed implementation history remains in `HOBBY_CORNER_PROJECT.md`; Chrome extension release state remains in `CHROME_EXTENSION_RELEASE_QUEUE.md`.
 
@@ -139,6 +139,16 @@ Status: Maintenance
 - Remove the legacy credential path when remaining dependencies are retired.
 
 ## 6. Planned store-operations workstreams
+
+### Invoice Reconciliation — planned shared Product Manager / Scanner / Special Orders feature
+- Requirements and API safety plan: `FEATURE_INVOICE_RECONCILIATION.md` (recorded 2026-10-29). This is **not a new tool**.
+- Read-only mailbox ingest for supplier invoices, preorders/acknowledgments, shipping and tracking; secured PDF parsing and provenance.
+- Match each invoice to the existing Lightspeed PO and products; stage 90%+ confidence candidates, non-primary supplier associations, and new-product/price variance reviews in Railway PostgreSQL.
+- Product Manager gets a shared, authenticated **Invoice Updates** dropdown, filtered by selected invoice, regardless of an employee's private saved profile.
+- Scanner supplies verified SKU/UPC and supplier-specific cost proposals. Special Orders/PO Companion show PO/invoice/tracking context without automatically changing stock or notifying customers.
+- After all lines are reviewed and the invoice approved, reconcile approved PO changes through shared audited/idempotent Lightspeed service; **invoice quantity is not physical received quantity**.
+- Prioritize email/PDF format validation and staged review before PO write implementation; real X-Series consignment APIs have status-changing quantity semantics.
+- No mailbox, PO, employee, production or Chrome changes authorized by this planning item.
 
 ### Back Room Inventory
 - Track back-room quantity and floor capacity by product.
