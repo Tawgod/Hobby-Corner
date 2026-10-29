@@ -3,6 +3,14 @@
 **Last verified:** 2026-10-29  
 **Status:** In Development — not ready to archive all old feature chats.
 
+## Shared future feature to carry into existing tool chats — Invoice Reconciliation
+
+On 2026-10-29 the owner requested one new feature spanning **existing** Product Manager, Product Scanner, Special Orders/Ordering and PO Companion. Source of truth: `FEATURE_INVOICE_RECONCILIATION.md`; development intro `prompts/lightspeed-shared-services/invoice-reconciliation-feature.md`. It is **Planned**, not an independent new tool and not merged/deployed.
+
+Every replacement chat for those tools must read the feature specification as a dependency. Product Manager needs a shared invoice-select dropdown (not an employee profile); Scanner must submit supplier UPC/SKU/cost proposals; Special Orders/PO Companion must link verified invoice/PO/tracking context. The shared gateway will stage 90%+ match candidates and eventually apply a fully approved invoice with status-safe PO updates. No feature chat should independently create email ingestion or PO write credentials.
+
+The Scanner bridge is QUEUED for a later Chrome extension release, not part of current extension packaging. **Do not treat this planned item as a blocker to creating new chats after their handoffs are complete**; carry the written requirements forward.
+
 ## Source of truth and restart order
 
 1. Read `HOBBY_CORNER_PROJECT.md` **Current Authoritative Development Matrix**.
