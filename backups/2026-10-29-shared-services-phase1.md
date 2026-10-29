@@ -48,3 +48,12 @@ For every listed repository and every branch that was present during the invento
 ## Development boundary
 
 Phase 1 is restricted to isolated development branch changes, test files and documentation. Do not alter production Lightspeed data, Railway service configuration, production database or live Chrome extension. No production deployment approval is implied by this backup checkpoint.
+
+## 2026-10-29 supplemental source-derived Postgres table archive
+
+- Saved private **source-derived schema reference** to `Tawgod/Lightspeed-Importer:backup/hobby-corner-postgres-source-schema-20261029/backups/2026-10-29/`.
+- Main file: `SCHEMA_FROM_SOURCE_NOT_LIVE_DUMP.sql`; `README.md` has source provenance and recovery limitations.
+- Identified 52 distinct table declarations in versioned source (32 Special Orders, 9 Timeclock, 2 Scanner, 9 Rewards). This **does not prove** there are 52 live tables.
+- This is not a live `pg_dump`: no table records, active database schema/catalog inspection, grants, ownership, or sequence state were captured; restore not tested.
+- Railway OAuth connector offers no database SQL/pg_dump access, and production Postgres has no exposed TCP proxy. Database credential values are redacted; no credentials were changed or requested.
+- User stated store and tools are not live and current Railway plan cannot make a backup. Continue isolated development only; preserve no-production-mutation restrictions. Do **not** claim full backup completeness.
