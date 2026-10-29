@@ -2,6 +2,12 @@
 
 This directory is the central Git-backed handoff location for Hobby Corner development conversations.
 
+## Current conversation topology (owner-confirmed 2026-10-29)
+
+The ongoing chats are **Shared Lightspeed Services**, **Hobby Corner Manager**, **Shared UI / UX Coordination**, **Deployment Coordination**, and **RMS Item Migration**. The other prior development chats were archived by the owner. Keep their handoffs in this folder as source-backed restart points; don't mark features completed or deployed merely because their chat was archived. Start a new feature-specific chat only when needed.
+
+**RMS Item Migration remains an independent active project.** Production tools may reuse selected reviewed and tested migration helpers for SKU/UPC, supplier/category mappings, validation or collision preflight, with source/consumer attribution and regression checks. Never copy migration bulk-write paths, RMS on-hand values or credentials into standard tools. Read `handoffs/rms-migration.md` and `HOBBY_CORNER_CHAT_TRANSITION.md` before reuse.
+
 ## Purpose
 
 Feature/development chats should write their current manager handoff directly into this directory instead of requiring the owner to copy and paste status back into the Hobby Corner Manager conversation.
