@@ -36,6 +36,7 @@ Use this section first. Historical entries below remain for change history and c
 | Back Room Inventory | planned | none | Planned | No | No | No | Architecture/data model and Lightspeed inventory-read design |
 | Service Requests / Repairs / Warranty / Commissions | planned | none | Planned | No | No | No | Workflow/data model, Special Orders/Timeclock/Lightspeed integration design |
 | Game Room Reservations & Events | planned | none | Planned | No | No | No | Resource map/calendar/reservation architecture |
+| Ring Camera Integration | `handoffs/ring-cameras.md` | Research only; no code PR or deployed service | Planned | 2026-10-29 research/architecture handoff preserved: device capability verification, official API/OAuth/webhook/PTZ limits, Timeclock staff UI, Discord alerts, privacy | No Ring API/device/employee tests | No | Verify exact camera models and official developer eligibility before any isolated proof of concept |
 
 ### Timeclock final handoff reconciliation — 2026-10-29
 
@@ -99,6 +100,12 @@ Use this section first. Historical entries below remain for change history and c
 - The final handoff/audit prompt was used to refresh and reconcile this chat, not to initiate its archival.
 - `handoffs/hobby-corner-manager.md` is the durable Git-backed snapshot for cross-chat continuity, recovery and source reconciliation.
 - Individual development chats may still be reorganized or archived according to `HOBBY_CORNER_CHAT_TRANSITION.md`; that process does not automatically apply to the Manager chat.
+
+### Ring and Special Orders archival verification — 2026-10-29
+
+- Verified Ring research chat handoff committed as `handoffs/ring-cameras.md` (`e10879601d1c`): **Planned**, no Ring implementation or deployment, preserves official API capability uncertainties, PTZ limitations, employee authorization/privacy and Discord notification requirements.
+- The Special Orders/Core Operations chat hit its conversation length limit, but its feature-owner archival audit and full Git handoff `handoffs/core-operations.md` were successfully committed. The manager transition index explicitly marks the old Core Operations conversation safe to archive; future code/testing tasks remain documented and do not require keeping that long chat active.
+- Other workstreams must be archived only after each owner's final audit confirms no unique requirements remain solely in old chat history. The designated Hobby Corner Manager chat remains active.
 
 ### Current supersession map
 
