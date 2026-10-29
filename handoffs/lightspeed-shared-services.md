@@ -44,6 +44,25 @@
 
 - Full contract and migration plan in `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase2-reads-20261029/docs/SHARED_LIGHTSPEED_PHASE2_READS.md`.
 
+## Phase 1 foundation reliability hardening — 2026-10-29 (code/test verified)
+
+- **PR #32** `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029@527d764c1331500a7f43b3874d62e146223eec1f`, still open/unmerged. Final-head CI [40954269174](https://github.com/Tawgod/Lightspeed/actions/runs/40954269174) **PASS** with new safety tests, disposable PostgreSQL 16, Scanner and Core Operations regressions and source guard.
+- **PR #33** `feature/shared-lightspeed-services-phase2-reads-20261029@48d3258e37ea749a6541163ba70658577b90a8ad`, still draft/stacked on the older Phase 1 base. Phase 2 hardening was synchronized into the stacked branch; code/test-head CI [40954212260](https://github.com/Tawgod/Lightspeed/actions/runs/40954212260) **PASS**. Later documentation-only head has no new code. Before integration, explicitly reconcile its ancestry with finalized PR #32 and preserve Phase 2 read/permission tests.
+- **Writes:** HTTP error responses on a write are now conservatively flagged `mayHaveWritten` (including 4xx/409/429/5xx), without automatic retry; read failures retain bounded safe-read retries.
+- **Transport:** strict local API target validation (encoded dot/fragment/control rejection), streamed response byte bounds (2 MiB default), valid UTF-8 and JSON requirements; no raw invalid upstream response exposed.
+- **Idempotency:** canonical plain-JSON mutation payloads with depth/node/size limits; reject dates/classes/getters/`toJSON`/undefined/BigInt/sparse or cyclic objects; writer receives a detached approved JSON snapshot, and payload changes before/after execution fail closed.
+- **Recovery:** PostgreSQL idempotency now has a backend-only **read-only** `inspect(scope,key)` for fingerprint/state/timestamps, excluding lease, stored receipt and customer payloads. No automatic pending/unknown release/retry/reconciliation was added; manual vendor-side verification and separately approved recovery procedure remain required.
+- **Tests additionally prove** the append-only audit blocks UPDATE/DELETE/TRUNCATE; lost terminal audit after a verified operation does not cause a second vendor write; and real PostgreSQL idempotency concurrency/replay remains intact.
+- **Implemented:** candidate branch only. **Tested:** new CI passed, no real tenant/browser acceptance. **Deployed:** NO. No Railway DB migration, Lightspeed write, service route, Chrome release or production branch merge.
+
+### Remaining release-quality gates after hardening
+
+1. Code/security review and independent database schema/backup decision before PR #32 integration.
+2. Explicit manager + Deployment Coordination authorization before any merge to the Railway-tracked integration branch, production DB migration or deployment.
+3. Controlled test-tenant API version/response/employee permission validation; no production write trials.
+4. Future mutation consumers must use the detached approved payload, store only minimal non-sensitive verified receipts, and implement a formal reviewed manual-unknown reconciliation runbook before writes can be enabled.
+5. Coordinate PR #33 branch ancestry and consumer contract changes after PR #32 reaches approved integration state; never silently rebase onto production or alter live permissions.
+
 ## Testing
 
 - Phase 1 foundation + disposable Postgres 16 + Scanner and Core Operations tests passed: `40911078591`.
