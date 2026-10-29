@@ -26,7 +26,7 @@ The Scanner bridge is QUEUED for a later Chrome extension release, not part of c
 - Consolidated application: `Tawgod/Lightspeed:integration/hobby-corner-consolidation@f50c3309824986633c3ba37a95e6eb43aae15a3c`.
 - PR #24 Core Operations navigation and PR #27 shared UI: **merged**.
 - PR #32: Phase 1 Shared Lightspeed foundation, code/testing complete, **ready for review, unmerged, not deployed**.
-- PR #33: Phase 2 read-service and explicit permissions candidate, **draft stacked on PR #32, unmerged, not deployed**. Current branch `feature/shared-lightspeed-services-phase2-reads-20261029` @ `baef5f654df994e8e1ec23ad950b7d335b345817`. Automated CI `40919331215` PASS.
+- PR #33: Phase 2 read-service and explicit permissions candidate, **draft stacked on PR #32, unmerged, not deployed**. Current branch `feature/shared-lightspeed-services-phase2-reads-20261029` @ `bbfe24fd1d87f1b9dfa29b69df563a7dcf5e1e9a`. Final automated CI `40920253500` PASS.
 - The new shared operation matrix `SHARED_STAFF_AUTH_PERMISSIONS.md` does not change current Core Operations or Scanner permissions. All production-capable new shared writes remain denied by default.
 - Git recoverable source branches exist; the source-derived Postgres schema is NOT a dump of live database rows.
 
@@ -34,7 +34,8 @@ The Scanner bridge is QUEUED for a later Chrome extension release, not part of c
 
 | Feature/chat | Stable handoff | Readiness | Outstanding pre-archive action |
 | --- | --- | --- | --- |
-| Shared Lightspeed services (this chat) | `handoffs/lightspeed-shared-services.md` | Exists | Keep current with PR #32/#33 and invoice create/update plan; consumer acceptance pending |
+| Hobby Corner Manager / Cross-project coordination | `handoffs/hobby-corner-manager.md` | **Final audit complete 2026-10-29** | Safe to transition to a new manager chat using the stable manager handoff and current matrix |
+| Shared Lightspeed services | `handoffs/lightspeed-shared-services.md` | Exists | Keep current with PR #32/#33 and invoice create/update plan; consumer acceptance pending |
 | Core Operations / Special Orders | `handoffs/core-operations.md` | **Feature-owner archival audit complete 2026-10-29** | Safe to archive this Core Operations chat; remaining runtime, notification and Invoice Reconciliation work is fully recorded in Git |
 | Shared UI / UX Coordination | `handoffs/shared-ui.md` | Exists, merged status corrected | Keep the UI coordination chat; reconcile extension package state |
 | Product Manager | `handoffs/product-manager.md` | Exists | Head CI/staff profiles and invoice dropdown requirements require feature-owner signoff |
