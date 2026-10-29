@@ -104,10 +104,21 @@ Status: Testing
 - Merge independently only after acceptance because label geometry must remain unchanged.
 
 ### Timeclock + Split / Recall
-Status: Testing
-- Run real Chrome acceptance for PR #22.
-- Preserve PIN identity, overlay state, sale identification, fulfillment, eligible-order and Retrieve-to-Register behavior.
-- Keep UI alignment separate from business-logic changes.
+Status: Testing / Blocked
+- Core Timeclock backend and Discord control plane are deployed from current sources; PR #22 remains an unmerged Chrome visual candidate.
+- Preserve Timeclock as the shared employee/PIN identity authority. Discord is optional for basic clocking; non-Discord employees can be provisioned by employee-name PIN assignment.
+- Preserve Sunday-Saturday weeks, 1-15 / 16-end-of-month pay periods, Central-time presentation, 14-hour auto-close/review and audited corrections.
+- PTO balance remains authoritative in payroll. Timeclock records PTO eligibility, PTO vs unpaid requests and requested PTO hours only.
+- Scheduling scope includes store hours, assigned/open shifts, role-notified extra hours, shift claiming and optional coverage shift creation from approved time off.
+- Repair the verified deployed backend defects before further expansion: the manual missed-entry route calls an undefined `createManualTimeEntry`, and employee-filtered entry browsing builds an invalid PostgreSQL placeholder.
+- Add focused regression coverage for PTO/time-off/store-hours/shifts/manual-entry/entry-browser paths.
+- Complete real employee acceptance for non-Discord onboarding, PTO review, open-shift claim/role notification, store hours, corrections and entry browsing.
+- Next scheduling UX: employee My Schedule plus manager Sunday-Saturday weekly schedule; add conflict detection, affected-shift/time-off reconciliation and multi-day coverage handling.
+- Payroll finalization/post-payroll adjustment, configurable weekly overtime, robust midnight/pay-period splitting, five-year retention/archive policy and PIN rate limiting remain unfinished requirements.
+- PR #22 is currently 2 commits ahead / 7 behind consolidated `f50c330982`; its owned `extension/content.js` baseline is unchanged, but the branch must be reconciled to current consolidated before release integration.
+- Run real Chrome acceptance for PR #22 on Sell/webregister and fulfillment/pickup, including valid/invalid PIN, keyboard/focus/close, native 100/125/200% zoom, host CSS isolation, Split/Recall, Partial Pickup and Retrieve to Register.
+- Keep UI alignment separate from business-logic changes and do not add a second shared navigation implementation to `extension/content.js`.
+- See `handoffs/timeclock-split-recall.md` for the verified full requirement/bug/deployment snapshot.
 
 ## 4. Security and infrastructure
 
