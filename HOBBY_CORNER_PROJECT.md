@@ -90,8 +90,15 @@ Use this section first. Historical entries below remain for change history and c
 - PR #22/#26/#28/#29/#30/#31 are each 7 commits behind current consolidated; their existing successful CI evidence is head-specific and must be rerun after reconciliation.
 - PR #32 remains current-base, ready for coordinated review, unmerged/unapplied. PR #33 is stacked on #32 at `bbfe24fd1d87f1b9dfa29b69df563a7dcf5e1e9a` with final CI `40920253500` PASS; unmerged/unmounted/unapplied.
 - Central handoff files now cover all tracked active workstreams. Feature-specific manual acceptance may still block archiving individual feature chats, but no manager requirement is only present in this conversation.
-- The manager conversation itself is safe to transition to a new manager chat using this registry, `HOBBY_CORNER_CHAT_TRANSITION.md`, and `handoffs/hobby-corner-manager.md`.
+- The designated Hobby Corner Manager conversation remains the active project-management channel. Its stable Git handoff is for durable coordination/recovery; do not replace or archive the manager chat unless the owner explicitly requests it.
 - No merge, production deployment, database migration, credential change, Lightspeed write or Chrome release occurred during this final manager audit.
+
+### Manager channel continuity — 2026-10-29
+
+- The Hobby Corner Manager chat remains the designated active project-management conversation.
+- The final handoff/audit prompt was used to refresh and reconcile this chat, not to initiate its archival.
+- `handoffs/hobby-corner-manager.md` is the durable Git-backed snapshot for cross-chat continuity, recovery and source reconciliation.
+- Individual development chats may still be reorganized or archived according to `HOBBY_CORNER_CHAT_TRANSITION.md`; that process does not automatically apply to the Manager chat.
 
 ### Current supersession map
 
