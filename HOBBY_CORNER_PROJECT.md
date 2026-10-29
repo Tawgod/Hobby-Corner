@@ -119,7 +119,7 @@ Do not merge or deploy a superseded PR independently. Preserve it for history un
 - Created draft stacked PR #33 `feature/shared-lightspeed-services-phase2-reads-20261029` against PR #32 branch, **not** production-connected integration.
 - Added read-only Product, Inventory, PO, Sales, Fulfillments and Store Credit domain modules, strict X-Series version/offset pagination, and an unmounted Timeclock permission-checked gateway router.
 - Official Lightspeed API documentation verified search offset pagination and PO version cursors. No live test tenant calls or consumer route swaps yet.
-- Phase 2 final PR head `fc1a57467175c85b82522dd61fa04850d78e5be5` passed CI `40913472758`, including foundation/Postgres/Scanner/Core Ops regressions and new read checks.
+- Phase 2 current PR head `bbfe24fd1d87f1b9dfa29b69df563a7dcf5e1e9a` passed final CI `40920253500`, including foundation/Postgres/permissions/Scanner/Core Ops regressions and new read checks.
 - Railway still on consolidated integration branch. No new production writes, DB migrations, extension releases, credentials or employee records changed.
 
 ## System inventory
@@ -161,7 +161,7 @@ Dependencies:
 - Lightspeed Retail X-Series APIs
 
 Deployment note:
-The deployed services do not currently track `LivBranch`; they deploy from `feature/order-split-poc`. Treat branch merges carefully.
+Current Railway verification (2026-10-29): `lightspeed-api`, `timeclock`, and `special-orders-test` deploy from `integration/hobby-corner-consolidation`; latest successful production deployments are at `f50c3309824986633c3ba37a95e6eb43aae15a3c`. Historical feature-branch deployment notes are superseded.
 
 ### Lightspeed API / Order Split Backend
 Status: Testing
@@ -172,7 +172,7 @@ Repository: `Tawgod/Lightspeed`
 Deployed branch: `integration/hobby-corner-consolidation`
 Railway service: `lightspeed-api`
 Environment: production
-Last verified deployment: SUCCESS, 2026-10-06
+Last verified deployment: SUCCESS, 2026-10-28 at `f50c3309824986633c3ba37a95e6eb43aae15a3c`
 
 Verified backend areas include order split execution, deposit conversion, work-order combine, and Lightspeed API helpers.
 
