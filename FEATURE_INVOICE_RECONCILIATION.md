@@ -10,14 +10,14 @@
 ## User-requested behavior
 
 1. Pull supplier emails that contain invoices, supplier preorder confirmations, tracking and shipping data.
-2. Extract PDF invoice details, match each invoice to the correct existing Lightspeed purchase order, and reconcile invoice line items to existing product/PO lines.
+2. Extract PDF invoice details; locate a uniquely matching existing Lightspeed purchase order **or prepare a NEW purchase order** if no suitable PO exists. Never create a duplicate when an existing PO may match. Include explicit supplier/outlet selection and reviewed reference values for a new PO.
 3. High-confidence (90%+) existing-product matches should be prepared automatically for invoice quantity and unit cost reconciliation. They must remain **staged until the complete invoice is reviewed and approved** to honor the final-approval requirement.
 4. If a product exists but this supplier is not yet linked, propose a **secondary** product–supplier association, keeping the current first/primary supplier unchanged.
 5. Suspected new products, missing matches and anomalies (MSRP difference, significant cost movement, quantity discrepancy) go into durable **Railway PostgreSQL staging**, not into live Lightspeed as incomplete/ghost products.
 6. Product Manager gains a global **Invoice Updates** dropdown available to any currently authenticated employee, independent of their personal profile/layout. Choosing an invoice filters the grid and review actions to that invoice's products and unresolved lines only.
 7. Product Scanner participates in invoice reconciliation: scan/reuse product matching and collect/verify supplier-specific code and supplier price, sending a proposed line resolution to the shared queue and Product Manager.
-8. Once all invoice items have been resolved, the invoice is approved and the current PO is rechecked, update applicable Lightspeed PO lines and supplier relationships automatically through the shared backend with audit, idempotency and readback.
-9. Keep preorder/shipping/tracking events discoverable in the linked PO and Special Orders workflow; do not automatically change customer promises or send messages from unverified emails.
+8. Once all invoice items have been resolved and the invoice is approved, automatically **update the matched PO or create the new supplier PO in OPEN/draft state** through the shared gateway, then apply approved supplier associations and invoice-supported PO details with audit, idempotency and readback. Never change stock on hand, receive products or mark a PO received.
+9. Maintain an employee-reviewable registry of **supplier shipping-sender aliases** (sender email/domain/name vs actual supplier). Match tracking/shipping emails to the correct supplier and then a specific invoice/PO/shipment using tracking number, PO/invoice/order references, items and dates. Show verified **On the way / In transit** information in Special Orders for related items without claiming physical receipt, customer availability or guaranteed ETA; never automatically change customer promises or send messages from unverified emails.
 
 ## Required distinction: invoiced vs ordered vs received
 
@@ -31,6 +31,22 @@ Store at least:
 - PO/supplier identifiers, invoice number/date, line numbers, document/page evidence, manufacturer UPC/SKU and supplier SKU, MSRP and current retail price.
 
 **Invoice approval must never imply receiving stock or dispatching a PO**. Where the Lightspeed endpoint cannot represent invoiced quantity separately, preserve it in the Hobby Corner reconciliation database and update only supported, explicitly approved PO fields. Do not fake it by writing `received`.
+
+## Confirmed scope — 2026-10-29 follow-up
+
+**No product receiving — ever in this feature.** The feature may **create** a supplier purchase order or **update** a suitable existing PO from the supplier invoice after the invoice is fully reviewed and approved. It must not trigger Lightspeed receiving, increase/decrease inventory on hand, set a physical `received` quantity, set a PO status to `RECEIVED`, or mark Special Orders lines available for pickup. An invoice and a shipping notice are documentary evidence, **not an inventory event**.
+
+**New purchase order path:** If no uniquely matching PO exists, stage a `create_new_po` proposal. Verify supplier identity, target outlet, PO/invoice uniqueness, acceptable draft line items and the selected invoice source; obtain the same final invoice approval as for updating a PO. Create a `SUPPLIER` consignment **only as OPEN** through the authorized backend, with idempotent identity and creation-result recovery, read it back, then add reviewed lines using a status-safe non-receiving API. Existing-PO and new-PO actions must not race: immediately recheck for duplicates before any new PO creation. If the API cannot safely represent a field, retain it in the Hobby Corner invoice staging model instead of writing a dangerous substitute field.
+
+**Secondary supplier:** For a product already known in Lightspeed, an additional invoice supplier should be linked as **non-primary**, with supplier code and supplier-specific cost, without replacing existing supplier relationships, preference, or pricing. Approve and read back the association alongside the invoice changes.
+
+**Shipping sender identity:** Supplier invoices can originate from one email/domain while warehouse dispatches, logistics contractors or fulfillment systems use entirely different names and addresses. Maintain a reusable, employee-verifiable sender alias table mapping each shipping address/domain/name to a supplier (and optional carrier/fulfillment entity). Do not make an irreversible alias from one unconfirmed email. Shared/cross-supplier fulfillment senders require manual disambiguation.
+
+**Tracking linkage:** Parse carrier, tracking ID(s), order/reference number(s), invoice number, supplier shipment/packing ID, item identifiers, quantities, expected ship/delivery dates and source message. Prefer exact invoice/PO reference and supplier match; then use verified aliases, unique tracking number, temporal and line-item evidence to propose a link. If more than one PO/invoice is plausible or evidence conflicts, keep `tracking_unmatched`/`tracking_needs_review`, not a false link. Permit one invoice to many shipments, one shipment to multiple invoice lines and partial/backorders.
+
+**Special Orders visibility:** Where a supplier invoice/PO/shipment is linked to Special Orders or preorders, show a distinct **On the way** status with supplier, PO, carrier, tracking reference, last event and ETA if known. The source (supplier email vs carrier confirmation), confidence and last-verified timestamp should be visible. This is informational only: no automatic RECEIVED/READY/ALLOCATED state, no inventory movement and no customer notification. Unverified ETA must never be presented as a guaranteed arrival date.
+
+**API verification:** Current official X-Series API documentation describes PO creation as `POST /api/2026-07/consignments` with `type: SUPPLIER` and `OPEN` as an allowed initial state; it cannot create a `DISPATCHED` or `RECEIVED` consignment directly. Requires `consignments:write:stock_order` scope. See https://x-series-api.lightspeedhq.com/v2026.07/reference/createconsignment and https://x-series-api.lightspeedhq.com/v2026.07/docs/inventory_creating_stock_orders . **No API write tested or authorized here.**
 
 ## Mail ingestion and security
 
@@ -98,10 +114,12 @@ Store at least:
 - `invoice_line_matches`: product/PO line candidate, score, reasons, verified codes, staff resolution, conflict reason and current review version.
 - `invoice_change_proposals`: proposed supplier link, new product, PO cost/quantity or annotation, before/after snapshots, audit metadata, approval state.
 - `invoice_sync_attempts`: idempotency scope/key, audited per-write receipts, readback and partial/unknown manual reconciliation.
-- `invoice_shipments`: tracking, supplier promised ETA, PO association and email provenance, separate from physical receiving.
+- `supplier_sender_aliases`: normalized sender email/domain/display name and carrier/fulfillment-service aliases, verified supplier ID, source examples, confidence, approval/override, last seen, audit and active status. One alias may be ambiguous across suppliers; do not silently assume a permanent mapping.
+- `invoice_shipments`: tracking number, carrier, sender alias, shipment/packing reference, source email, invoice/PO associations, promised/estimated ETA, partial line mappings and verification state; distinct from physical receiving. Preserve multiple tracking numbers, split shipments and invoice-to-multiple-tracking relationships.
+- `invoice_po_actions`: decision `match_existing` vs `create_new`, uniqueness/duplicate-check snapshot, reviewed outlet/supplier/reference, attempted operation key, created PO ID, readback and any reconcile-required state; no automatic dispatch/receive.
 - Invoice-specific events/versions support multiple simultaneous employees and draft restoration without overriding each other's changes.
 
-**Initial state machine:** `discovered` -> `extracted` -> `po_match_pending` -> `matching` -> `needs_review` -> `ready_for_approval` -> `approved` -> `applying` -> `applied`. Include explicit `blocked`, `partial_failure`, `reconcile_required`, `superseded` and `cancelled`. No duplicate auto-apply for a previously approved source version.
+**Initial state machine:** `discovered` -> `extracted` -> `po_match_pending` (including `new_po_proposed`) -> `matching` -> `needs_review` -> `ready_for_approval` -> `approved` -> `applying` -> `applied`.  Include explicit `blocked`, `partial_failure`, `reconcile_required`, `superseded` and `cancelled`. No duplicate auto-apply for a previously approved source version.
 
 ## Critical Lightspeed API findings (verified against current official documentation)
 
@@ -125,7 +143,7 @@ Store at least:
 2. **PO match and staging:** shared PO reads, immutable invoice lines, existing Scanner/Special Orders identity matcher, 90%+ scoring calibration, staged supplier/new-product/price/qty proposals, initial test fixtures.
 3. **Cross-tool UI:** Product Manager Invoice Updates shared dropdown and invoice-scoped grid; Scanner lookup/price proposal; PO Companion/Ordering/Special Orders PO-linked views. Multi-employee concurrency, restore and review.
 4. **Approval and dry run:** explicit final invoice approval, complete line resolution, PO version/status guard, preview of *exact* intended differences and side effects; supplier link review, no stock received.
-5. **Controlled test-tenant apply:** only after approved write contract and endpoint/scopes confirmed. Use atomic per-op persistence, readback and manual intervention for partial/ambiguous outcomes; establish recovery and retry policy.
+5. **Controlled test-tenant apply:** test both updating a matched supplier PO and **creating a new OPEN supplier PO** with approved lines. Require supplier/outlet, duplicate-preflight immediately before creation, exact readback, atomic operation keys and manual intervention for partial/ambiguous outcomes. No `received` quantity, receive-stock endpoint, stock-on-hand adjustment, automatic dispatch or status transition. Establish recovery and retry policy.
 6. **Coordinated production release:** employee acceptance and permissions, secure mail integration, test tenant parity and release approval. No future extension packaging without release queue reconciliation.
 
 ## Decisions still open
@@ -138,6 +156,8 @@ Store at least:
 - Whether approval can be per invoice line or always full invoice final review (proposed: full invoice approval required).
 - When supplier invoice costs should update the product's supplier price versus only PO cost, and how landed costs/freight should be allocated.
 - Product creation timing relative to final PO apply and partial shipment/backorder handling.
+- Shipping sender alias policy: who can verify an alias, how shared fulfillment addresses map to multiple suppliers, and the review threshold for linking a tracking message to an invoice/PO.
+- Handling invoices with no existing PO: create a new **OPEN** PO after final review/approval, how to choose outlet/supplier/reference and whether approved supplier/line data should initiate a supplier-facing email (default: **no automated send**).
 - Tracking update/cross-feature notification policy; no customer notification without explicit separate approval.
 
 ## Handoff and safety
