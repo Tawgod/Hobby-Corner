@@ -1,5 +1,14 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-29 — Shared Lightspeed Phase 2 read-services candidate (unmerged)
+
+- Created stacked draft PR #33 on `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase2-reads-20261029`, based on Phase 1 PR #32. No automatic Railway deployment.
+- Added read-only domain contracts for exact Product identity (leading-zero/duplicate safeguards), PO lists and line items, Sales searches, Inventory by product, Fulfillments and Store Credit. Added permission-checked read gateway factory, **not mounted in server.js**.
+- Hardened customer and catalog pagination; implemented documented X-Series version cursors for collections and offset pagination for `/search`, with bounded completeness and no arbitrary redirects.
+- Added read-contract fixtures and HTTP authorization tests; Phase 2 code commit `6879bc89447be537bb8f8caa1f9dd3d8d9b829e2` passed CI `40913405875`, including inherited disposable PostgreSQL, Scanner and Core Ops regressions.
+- Verified current X-Series reference for PO, search and inventory versioning; live Lightspeed tenant acceptance and consumer conversions are not yet done.
+- Updated architecture handoff and project matrix. No production database migrations, live Lightspeed mutations, Railway config changes or extension releases.
+
 ## 2026-10-29 — Shared Lightspeed Services Phase 1 implementation complete (not deployed)
 
 - Completed Phase 1 implementation in `Tawgod/Lightspeed` PR #32 (`feature/shared-lightspeed-services-phase1-20261029`, head `7c20b3d9f90382b6fafeb5dc3d9a92108f4c14e1`). PR marked ready for review, not merged.
