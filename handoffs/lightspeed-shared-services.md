@@ -27,6 +27,7 @@
 - Source inventory/new-direct-access check `scripts/audit-lightspeed-consumers.mjs` and new GitHub CI workflow.
 - Contract tests `tests/shared-lightspeed-foundation.test.mjs`, plus developer contract document `docs/SHARED_LIGHTSPEED_PHASE1.md`.
 - Recovery branches created for all 57 inventoried branches of six relevant GitHub repos before code work. Exact primary source SHAs and Railway topology captured in backup note.
+- Supplemental source-derived PostgreSQL schema archive saved to private `Tawgod/Lightspeed-Importer:backup/hobby-corner-postgres-source-schema-20261029/backups/2026-10-29/`; 52 code-defined tables, no records, live catalog or data dump. See `backups/2026-10-29-shared-services-phase1.md`.
 
 ## Tested
 
@@ -60,7 +61,7 @@
 
 ## Remaining blockers
 
-1. Backup is **not a complete offsite/project disaster recovery export**. Production Postgres volume data, secret/config backups and external business files still need a verified secure export and restore test.
+1. Backup is **not a complete offsite/project disaster recovery export**. Production Postgres volume data, secret/config backups and external business files still need a verified secure export and restore test. The new source-derived table schema archive is not a live database snapshot.
 2. Audit and idempotency are interface contracts only; durable database adapters and safe recovery workflow are not implemented.
 3. New transport/read contracts are not wired into the legacy compatibility wrapper or feature routes; backwards compatibility and live read endpoint/version/pagination tests must pass before switchover.
 4. Source inventory is static/best-effort, not a guarantee of complete detection of all indirect/raw clients.
