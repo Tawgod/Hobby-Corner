@@ -23,6 +23,16 @@
 - Legacy import scripts are not a new Railway production application. Branches above are not verified deployed; main Discord/Rewards services deployed separately.
 - Migration-specific Railway Bun test function exists; direct Lightspeed actions must be treated as sensitive until retired or tightly controlled.
 
+## Continuing conversation and reuse boundary — owner decision 2026-10-29
+
+- The **RMS Item Migration** conversation remains active and intentionally **separate from the production operations tools**. It continues developing, testing and reconciling the migration and is **not an archived feature chat**.
+- Other Hobby Corner tools may reuse appropriate **reviewed migration code** or algorithms, but this does not transfer migration ownership or mandate a common release cadence.
+- Candidate reusable areas: product name/category/brand/supplier normalization, exact SKU/UPC fidelity (leading zeros), duplicate/collision preflight, supplier mappings, validation, staged previews and source provenance.
+- Before reuse: verify the active migration branch, exact source commit, licenses/dependencies and tests; prefer extracting **pure, read-only, deterministic helpers** or shared contracts with regression fixtures. If adapting source into the canonical shared Lightspeed layer, have this chat and the consuming tool coordinate and document adopted code, test coverage and behavior changes.
+- Boundaries: **never** copy live migration credentials, private source records, test-tenant hardcoding, RMS on-hand quantities, migration-only import scripts or direct bulk Lightspeed writers into production features. Standard tools must continue using shared Timeclock auth, product matching/PO reads and authorized audited/idempotent Lightspeed operations.
+- Keep the current migration code and histories intact; do not merge, deploy, rename, retire, or refactor migration branches merely because a tool needs a helper. The migration owner makes migration-specific decisions; manager and Deployment Coordination approve any production adoption.
+- Context/status must be reverified against GitHub when the RMS conversation makes further progress; branch SHAs above are the **2026-10-29 snapshot**, not perpetual current pointers.
+
 ## Shared dependencies
 - `LIGHTSPEED_SHARED_SERVICES.md`, planned read-only Product and supplier contracts (PR #32/#33 unmerged), source-specific migration test approvals.
 - Invoice Reconciliation must **not** use RMS historical invoice rows to trigger live PO writes. Future invoice sender alias matching must be verified against current supplier identities, not assumed from legacy labels.
