@@ -1,5 +1,11 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-29 — Ring handoff and Special Orders archive continuity verification
+
+- Verified Ring Camera Integration exploratory handoff committed to `handoffs/ring-cameras.md` at `e10879601d1c`. Research and architecture preserved; no Ring account/device integration, real API tests, camera control or deployment. Registered its Planned status in the current project matrix and transition inventory.
+- Verified the long Core Operations / Special Orders chat's complete current Git handoff survives the chat-length limit. `handoffs/core-operations.md` preserves full requirements, verified consolidated/deployed code, known bugs, tests, future Invoice Reconciliation and next steps. The existing owner audit and manager transition matrix explicitly mark that old chat safe to archive.
+- No code changes, production merge/deploy, Railway configuration edits, data changes, extension package or Git branch cleanup performed. Other old feature chats still need their individual archival signoff.
+
 ## 2026-10-29 — Timeclock / Split Recall final handoff audit
 
 ### Reconciled
