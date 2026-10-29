@@ -25,6 +25,18 @@ Current X-Series documentation confirms version cursors for PO/collection pagina
 
 Phase 2 includes an **unmounted and non-deployed** shared operation permission matrix under `services/lightspeed/permissions.js` (PR #33). New shared reads use current Timeclock verified active employee lookup permission; new production writes remain disabled by default even when Scanner review approval is true. The central current/pending permission distinction is recorded in `SHARED_STAFF_AUTH_PERMISSIONS.md`.
 
+## Future shared feature — Invoice Reconciliation (planned, not a new tool)
+
+Reference: `FEATURE_INVOICE_RECONCILIATION.md`. This is planned functionality across **existing Product Manager, Product Scanner, Special Orders, Ordering and PO Companion**, not another independently owned application or unapproved production writer.
+
+The future invoice ingest worker will classify supplier invoice, preorder, shipping/tracking and credit-note emails; securely extract PDF line items; and stage each invoice in shared Railway PostgreSQL with a uniquely verified PO association. Product Manager's employee-independent **Invoice Updates** selector displays only one invoice's unresolved product/price/supplier proposals at a time; Scanner submits verified UPC/SKU/supplier-cost matching proposals via backend APIs. Any authenticated employee may discover the shared invoice list, but final PO application requires a separate authorized role and complete invoice approval.
+
+90%+ match confidence **auto-stages a candidate**, never silently creates a product or updates Lightspeed before approval. Secondary suppliers must not replace primary supplier mappings. Quantities `ordered`, `invoiced` and `received` are separate: a supplier invoice alone must never mark stock physically received.
+
+X-Series PO mutations currently run through SUPPLIER `consignments`, not the new PO read API. Field `count` can have accumulation semantics and `received` may change PO status to DISPATCHED; the future write adapter must implement status-specific, nonduplicating application and readback rather than assuming safe generic bulk updates. Use the existing Phase 1 audit/idempotency/write policy and Phase 2 PO/product/catalog reads (PR #32/#33), and keep any browser/extension mutation disabled.
+
+No new feature source or live email/PO changes have been made. The future Scanner extension bridge is recorded as QUEUED in `CHROME_EXTENSION_RELEASE_QUEUE.md`; it is not part of the current release candidate.
+
 ## Current state
 
 The current consolidated repository already contains useful shared pieces:
