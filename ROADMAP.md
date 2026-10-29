@@ -21,14 +21,14 @@ This roadmap is the current planning view. Detailed implementation history remai
 - Do not resume development from superseded branches without selective reconciliation.
 
 ### Current shared UI / navigation convergence
-- Rebase and validate PR #24 for Special Orders / Ordering / Preorders / GW Preorders navigation and UI consistency.
-- Finish PR #27 shared UI reconciliation, preserving only unique reusable pieces; retire PR #16 after verification.
+- PR #24 Core Operations navigation/UI and PR #27 shared UI foundation are **merged** into the consolidated branch; do not repeat their merge work.
+- Continue runtime/employee acceptance on the deployed consolidated Core Operations pages, especially receiving and notification/delivery edge cases.
 - Continue Product Manager on PR #28.
 - Continue Avery Label Maker on PR #29.
 - Continue Consignment on PR #30.
 - Continue PO Companion on PR #31.
-- Continue Scanner/Toolkit on PR #26.
-- Continue Timeclock + Split/Recall extension UI on PR #22.
+- Continue Scanner/Toolkit on PR #26; it remains unmerged and requires current-base reconciliation/real Chrome acceptance.
+- Continue Timeclock + Split/Recall extension UI on PR #22; it remains unmerged and requires current-base reconciliation/real Chrome acceptance.
 
 ### Real employee acceptance
 Automated tests are not sufficient for release. Complete real browser/store acceptance for:
@@ -57,12 +57,13 @@ Release sequence:
 ## 3. Current feature completion
 
 ### Special Orders / Ordering / Preorders / GW Preorders
-Status: Testing
-- Complete browser acceptance of Timeclock-backed employee PIN/header login.
-- Confirm receiving review against representative Lightspeed POs.
-- Verify customer notification review and delivery queues.
-- Finish Discord notification worker testing before production cutover.
-- Implement or explicitly document manual handling for email/SMS/Messenger/WhatsApp delivery until senders exist.
+Status: Testing / Deployed
+- PR #24 is merged and the current consolidated source is deployed on the three core Railway services.
+- Store-browser acceptance passed for valid/invalid PIN, refresh session restoration, persistent sign-out, native zoom and core buttons/navigation.
+- Continue receiving-review and notification/delivery edge-case acceptance against representative live/test data.
+- Production Discord ready-order delivery and Discord preorder-watch capture are not verified on the deployed bot `main`; complete or explicitly defer those workers.
+- Email/SMS/Messenger/WhatsApp are queue/manual paths until production senders are implemented and accepted.
+- Preserve current all-active-employee edit/create behavior unless the owner explicitly approves a new permission policy.
 
 ### Product Scanner
 Status: Testing
