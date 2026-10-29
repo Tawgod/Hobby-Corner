@@ -40,7 +40,7 @@ The Scanner bridge is QUEUED for a later Chrome extension release, not part of c
 | Shared UI / UX Coordination | `handoffs/shared-ui.md` | Exists, merged status corrected | Keep the UI coordination chat; reconcile extension package state |
 | Product Manager | `handoffs/product-manager.md` | Exists | Head CI/staff profiles and invoice dropdown requirements require feature-owner signoff |
 | Scanner / Toolkit | `handoffs/product-scanner.md` | **Created, verified PR/CI** | Real Chrome PIN/supplier/scan acceptance and future invoice sender/price bridge owner review |
-| Timeclock / Split Recall | `handoffs/timeclock-split-recall.md` | **Created, verified PR/CI** | Real Chrome/session and Split workflow acceptance |
+| Timeclock / Split Recall | `handoffs/timeclock-split-recall.md` | **Final audit expanded 2026-10-29** | Fix verified missed-entry/entry-filter backend defects; accept PTO/shifts/non-Discord onboarding; rebase 7-behind PR #22 and complete real Chrome Split/Recall acceptance |
 | PO Companion | `handoffs/po-companion.md` | **Created, verified PR/CI** | Live read-only PO auth, pagination and invoice context; employee Chrome tests |
 | Consignment | `handoffs/consignment.md` | **Feature-owner audited 2026-10-29; Git verified** | Current PR #30 7 commits behind; beta on old branch; real employee/DB/customer/store-credit acceptance remains future work, all requirements preserved in handoff |
 | Avery PO Labels | `handoffs/avery-labels.md` | **Created, verified PR/CI** | Physical Avery 5960 print/native Chrome acceptance |
@@ -61,6 +61,14 @@ Use `prompts/NEW_TOOL_CHAT_STARTUP.md`, replacing the workstream placeholder wit
 - Verified PR head and automated test run evidence for #22, #26, #29, #30 and #31; verified Rewards/Discord app source and deployment status; verified migration branches and Railway production environment.
 - These handoffs do not certify live Chrome, real PO/employee, physical printing, migration rehearsal or restore testing. Old chats can be retired **only after** feature owners check uncommitted/historical requirements and release blockers.
 - The planned invoice feature includes approved **new OPEN PO creation or existing PO updates**, secondary supplier links, sender aliases, multi-shipment tracking and a separate Special Orders On the way indicator; never physical receipt.
+
+## Timeclock / Split Recall final-chat checkpoint — 2026-10-29
+
+- The stable handoff was expanded after reviewing this conversation's full available history against current source and Railway. It now preserves PTO/payroll-authority decisions, requested PTO hours, PTO eligibility, time off, store hours, shifts/open shifts, role notification, non-Discord onboarding, entry browsing/correction, Central-time behavior, shared staff auth and the complete Split/Recall release gate.
+- Current deployed backend is consolidated `f50c330982`; current deployed Discord Timeclock `main.py` is byte-identical to repository `main.py`.
+- Two source defects must follow into the replacement chat: undefined `createManualTimeEntry` behind the Admin missed-entry route and malformed employee-filter SQL bind placeholder in `listTimeEntries()`.
+- PR #22 remains `f9e8f0af` but is now 2 ahead / 7 behind current consolidated. Its content-script base did not change, but the PR must be reconciled before release integration. GitHub currently reports the PR non-mergeable until that reconciliation is resolved.
+- This workstream is documented sufficiently to start a replacement chat without relying on old conversation memory, but it is not feature-complete or release-ready.
 
 ## Archive checkpoint
 
