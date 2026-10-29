@@ -75,3 +75,11 @@
 - Preserve environment boundaries, rollback and least-privilege credentials. No RMS on-hand stock import, migration-only writer adoption, test data promotion or other destructive action without explicit approval.
 - Continue honoring `CHROME_EXTENSION_RELEASE_QUEUE.md`, shared feature readiness and separate approvals for production-connected merges, Railway deploys and Chrome packaging.
 
+
+## Shared Lightspeed foundation hardening milestone — 2026-10-29
+
+- PR #32 candidate head `527d764c1331500a7f43b3874d62e146223eec1f`, final CI `40954269174` **PASS**. PR #33 stacked candidate head `48d3258e37ea749a6541163ba70658577b90a8ad`, code-head CI `40954212260` **PASS**.
+- Hardened read/write transport semantics (HTTP write uncertainty, bounded JSON/UTF-8 response handling and stricter API targets); JSON fingerprint/replay safety and mutable payload race prevention; DB-only read-only pending/unknown-key inspection; PostgreSQL audit immutability and post-write audit-failure regression tests.
+- Both PRs remain **unmerged, unmounted, no production DB migration and no real tenant verification**. Neither is authorization to enable API writes. PR #33 remains stacked on the former Phase 1 base and requires explicit ancestry reconciliation after PR #32 approval.
+- Release coordination: verify independent PostgreSQL backup/restore decision, schema review, vendor/test-tenant read contracts, auth scopes, unknown-key manual reconciliation runbook and browser consumer acceptance; seek explicit approval before any production-connected merge or deployment.
+
