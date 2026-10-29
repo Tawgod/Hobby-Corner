@@ -41,7 +41,7 @@ The Scanner bridge is QUEUED for a later Chrome extension release, not part of c
 | Scanner / Toolkit | `handoffs/product-scanner.md` | **Created, verified PR/CI** | Real Chrome PIN/supplier/scan acceptance and future invoice sender/price bridge owner review |
 | Timeclock / Split Recall | `handoffs/timeclock-split-recall.md` | **Created, verified PR/CI** | Real Chrome/session and Split workflow acceptance |
 | PO Companion | `handoffs/po-companion.md` | **Created, verified PR/CI** | Live read-only PO auth, pagination and invoice context; employee Chrome tests |
-| Consignment | `handoffs/consignment.md` | **Created, verified PR/CI** | Test service health/isolation and real employee/store acceptance |
+| Consignment | `handoffs/consignment.md` | **Feature-owner audited 2026-10-29; Git verified** | Current PR #30 7 commits behind; beta on old branch; real employee/DB/customer/store-credit acceptance remains future work, all requirements preserved in handoff |
 | Avery PO Labels | `handoffs/avery-labels.md` | **Created, verified PR/CI** | Physical Avery 5960 print/native Chrome acceptance |
 | Rewards / Customer Sync | `handoffs/rewards.md` | **Created, source+Railway checked** | Read-only job/customer sync verification with owner |
 | RMS migration | `handoffs/rms-migration.md` | **Created, branch inventory checked** | Real data dry-run/collision and cutover owner review |
