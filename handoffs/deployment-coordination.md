@@ -108,3 +108,11 @@
 - Design documentation updated: `STAFF_SECURITY_BASELINE.md`, `SHARED_STAFF_AUTH_PERMISSIONS.md` and `CHROME_EXTENSION_RELEASE_QUEUE.md`. Extension work stays BLOCKED/Planned; reconcile PR #22/#26 and consolidated source before implementation/release.
 - No production endpoint, extension package, deployment, browser/device enrollment or secret changed by this decision.
 
+
+### Authenticator TOTP future launch gate — 2026-10-30
+
+- PR #32 and stacked #33 now contain an unmounted Google Authenticator-compatible six-digit TOTP candidate with encrypted secret storage, approved enrollment hooks, code replay protection and PostgreSQL tests (CI `41116233000` / `41116244954` PASS).
+- Not a live IdP or employee MFA enrollment: before production, verify separately administered AES-GCM key storage/rotation/backup, manager-approved factor enrollment/recovery and audit, QR/no-store UI, server-signed employee/session-bound MFA, distributed rate limiting and authentic Timeclock route protection.
+- TOTP is not phishing-resistant and by default can only satisfy normal remote tool access, not privileged product/PO/inventory/sales/credit/admin writes. Preserve passkey/key/approved managed MFA step-up for those.
+- Both PRs unmerged, no Railway schema application or extension package. A production rollout or Timeclock route change needs explicit authorization and tested fallback.
+
