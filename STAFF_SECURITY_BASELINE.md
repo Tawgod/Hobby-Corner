@@ -37,6 +37,17 @@ A four-digit PIN (10,000 combinations, often less entropy if human-chosen) is **
 
 A **valid PIN alone cannot satisfy either the trusted-station or independent strong-factor requirement**. Registered station proof must be cryptographically verified by a trusted backend; requests cannot self-label as a station. Strong sign-in should use passkeys/security keys or approved OIDC/MFA, with Timeclock employee IDs bound server-side to a stable IdP subject.
 
+## Durable two-axis login throttle — candidate implementation (2026-10-30)
+
+Unmounted code added to both PR #32 and stacked PR #33:
+- `services/security/staffLoginThrottle.js`: token-bucket admissions by **employee ID** and **server-observed IP independently**, using HMAC-hashed bucket keys, deterministic lock ordering, transaction row locks, and PostgreSQL time for consistent refill. A selected employee ID is a login identifier, **not proof of identity**.
+- `db/hc_staff_auth_throttle.sql`: **separate, unapplied** additive schema. It stores token balances, updated times and only HMAC hashes (never raw employee/PIN/IP).
+- `tests/shared-staff-throttle-postgres.test.mjs`: disposable PostgreSQL concurrency tests, distributed account guessing prevention, per-source cross-account ceilings, denial of service via failing DB, non-extending lock windows, and refill recovery. Test code must not be pointed at live databases.
+
+This candidate uses stronger independent per-account and per-source limits instead of only a global shared bucket, but **it does not replace an edge bot defense, a strong remote factor, registered store device proof, or Timeclock route authentication**. Integrate only after the login screen takes an explicit non-secret employee selector, Railway/proxy source-address handling is verified, staff cooldown/recovery is accepted, and Timeclock's own credential verification is gated. It is not sufficient to connect it only to the web-app login while leaving a separate Timeclock name/PIN path reachable.
+
+**Implementation/tested/deployed:** code implemented in isolated PR branches; dedicated mocked security tests and PostgreSQL CI passed; no production schema, login route or edge policy changed.
+
 ## Layered anti-guessing controls (to implement before public rollout)
 
 1. **At edge:** managed WAF/bot controls, TLS, route allowlisting and identity-aware access to staff tools; do not leave a bypassing raw Railway/public-origin host reachable. Edge protection is supplemental to backend authorization.
