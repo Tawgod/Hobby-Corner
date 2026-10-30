@@ -75,3 +75,14 @@ These questions should not block safe read-service development. They **do block 
 
 See `STAFF_SECURITY_BASELINE.md` for policy categories, sequence, owner decisions and security acceptance tests.
 
+
+## Store extension and convention-mobile dual-access decision — 2026-10-30
+
+The owner proposed using the privately distributed Chrome extension as the additional validation channel on store computers while retaining **extension-free access from phones/tablets at conventions**. The shared policy design is recorded in `STAFF_SECURITY_BASELINE.md` and is **not yet implemented in live login flows**.
+
+- **Store desktop:** existing Timeclock employee/PIN verification + a distinct enrolled workstation credential proven through backend challenge/signature. Possessing the extension alone, extension ID, Origin or IP is not authentication. Device trust never grants write permissions by itself.
+- **Mobile or off-site:** responsive web/PWA with employee-bound passkey/WebAuthn or managed IdP MFA in the mobile browser; no Chrome extension requirement. Recommend remote enrollment initially for owner/approved managers, pending explicit owner decision.
+- **All tools:** resolve both paths to the same active Timeclock employee ID and exact operation grants. Sensitive product/PO/inventory/credit/admin writes still need fresh employee-bound strong-factor validation, audit and idempotency; revocation, stolen-phone and lost-device recovery are required.
+- Existing PR #32/#33 `staffAccessBaseline.js` can accept either server-verified workstation or strong proof for routine actions and requires strong proof for sensitive operations. **Actual enrollment, cryptographic verifier, mobile login, and legacy Timeclock route migration are not built or deployed.**
+- Chrome implementation is cross-surface and queued as BLOCKED/Planned in `CHROME_EXTENSION_RELEASE_QUEUE.md`; don't break existing in-store clocking.
+
