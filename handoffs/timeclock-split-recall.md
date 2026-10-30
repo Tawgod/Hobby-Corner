@@ -278,3 +278,13 @@ Invoice Reconciliation is a future shared feature documented in `FEATURE_INVOICE
 - `FEATURE_INVOICE_RECONCILIATION.md`
 - `handoffs/README.md`
 - `handoffs/TEMPLATE.md`
+
+## Authentication security audit — 2026-10-30 (priority blocker)
+
+- Source review verified that the legacy Timeclock status and clock-in/clock-out behavior can resolve a staff member through an employee name or four-digit PIN without the new short-lived signed staff session. The Chrome `extension/content.js` overlay calls this legacy contract. Treat the current path as **not sufficient for internet-exposed identity assurance**; do not claim that sharing the newer Staff Auth PIN login protects every legacy Timeclock route.
+- Shared staff gateway already has a durable pre-verification login limiter, but PIN-only online authentication has low entropy, and the existing global counter creates a possible attack-induced lockout for legitimate staff. CORS restrictions alone are not authorization.
+- A new, unmounted policy candidate was added to PR #32 (and synchronized to PR #33). It requires verified employee session plus independently verified trusted station or strong remote sign-in, and fresh step-up/grants for high-risk changes. This is **not implemented in the deployed Timeclock routes**.
+- Required next work: coordinate signed clock sessions and authenticated staff-status with an approved in-store device/multi-factor access model; update current Chrome content-script behavior through the shared release queue; add login/abuse, legacy bypass, employee/offboarding, session-revocation and real clocking regression tests; then explicitly authorize deployment.
+- **No Timeclock route, PIN, session secret, employee record or extension package was changed by this audit.** Existing store clocking is intentionally preserved until its replacement is tested and approved.
+- Architecture: `STAFF_SECURITY_BASELINE.md`; extension release prerequisite: `CHROME_EXTENSION_RELEASE_QUEUE.md`.
+
