@@ -319,3 +319,11 @@ The manager chat coordinates these records; it does not own feature-private sour
 - Record in `STAFF_SECURITY_BASELINE.md`, `SHARED_STAFF_AUTH_PERMISSIONS.md` and `CHROME_EXTENSION_RELEASE_QUEUE.md`. Existing PR #32/#33 policy is compatible but no enrollment/service/phone login/live route protection is delivered.
 - Prioritize decisions about which staff get remote access and registration/recovery, then jointly migrate Timeclock backend and Chrome; do not disable working clocking or deploy without explicit approval.
 
+
+### Google Authenticator optional second factor — 2026-10-30
+
+- Owner requested support for Google Authenticator codes alongside mobile passkeys and Chrome extension station proof. New unmounted RFC 6238 TOTP + AES-GCM PostgreSQL store candidate in PR #32 / stacked #33; no external Google connection needed.
+- Normal remote tool reads can accept PIN plus backend-verified six-digit TOTP; high-risk business writes remain gated to stronger verified factors and exact employee permission by default. Pending enrollment requires separate trusted approval; code reuse blocked by a persisted time step; secret recovery, QR UI and session binding are still missing.
+- CI PR #32 `41116233000` PASS and PR #33 `41116244954` PASS on code/test heads. Docs and statuses: `STAFF_SECURITY_BASELINE.md`, `SHARED_STAFF_AUTH_PERMISSIONS.md` and `handoffs/lightspeed-shared-services.md`.
+- No PR merge, Railway schema migration, live factor enrollment, Timeclock credential changes or Chrome extension release. Keep legacy Timeclock authentication risk prioritized.
+
