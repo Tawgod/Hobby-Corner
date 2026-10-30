@@ -56,6 +56,31 @@ A four-digit PIN (10,000 combinations, often less entropy if human-chosen) is **
 
 **Standards/compatibility:** iOS/iPadOS Safari, Android Chrome, and current Chrome on iOS/iPadOS support browser passkeys subject to device/software/provider availability. See official [Apple browser passkey guidance](https://developer.apple.com/documentation/authenticationservices/passkey-use-in-web-browsers), [Google supported environments](https://developers.google.com/identity/passkeys/supported-environments) and [Chromium extension security FAQ](https://chromium.googlesource.com/chromium/src/+/main/extensions/docs/security_faq.md).
 
+## Optional Google Authenticator codes — implementation candidate, 2026-10-30
+
+**Owner request:** Support Google Authenticator as an additional sign-in choice on phones, tablets and other browsers, **without removing passkeys or the registered Chrome workstation path**. This uses interoperable RFC 6238 TOTP codes; no Google API, account linkage or provider connection is required. Any standard authenticator that supports SHA-1 / six digits / 30 seconds should work.
+
+### Employee workflow (planned, not live)
+
+1. A manager-approved employee starts authenticator enrollment while already strongly authenticated. A trusted staff administrator or existing enrolled strong factor must approve adding or replacing an authenticator; **a guessed four-digit PIN cannot self-enroll**.
+2. Hobby Corner generates a unique random 160-bit secret and presents an `otpauth://` enrollment URI (future UI will show a QR code) **once** on a private, no-store setup page. The employee scans it in Google Authenticator, enters the displayed six-digit code and confirms enrollment.
+3. At a convention, the employee can sign in through the normal mobile website using their Timeclock identity/PIN **plus their enrolled six-digit authenticator code**, with server-side session binding and independent per-employee/source attempt limits. Passkey/WebAuthn remains another option; the store Chrome extension is not required.
+4. Once the code is accepted, the server issues a new short-lived **signed, employee/session-bound MFA claim**. Merely submitting a code or returning a client JSON object is not authorization. Each tool continues to check active Timeclock status and operation grants.
+5. High-risk product/PO/inventory/credit/staff-permission writes remain **passkey/security key or trusted IdP MFA only by default**; TOTP is an allowed second factor for routine reads and staging, not an automatic downgrade of protected write permissions. Review specific privileged operation policy separately.
+6. Lost phone / app reset requires a manager-controlled, separately verified recovery or pre-enrolled backup authenticator, with audit and notification. **Never fall back to a four-digit PIN alone.**
+
+### Backend candidate added to PRs #32/#33
+
+- `services/security/staffTotp.js`: RFC 6238-compatible TOTP, six-digit SHA-1, 30-second windows with ±1-step clock skew, cryptographically random employee secret, provisioning URI. No external authenticator service.
+- `services/security/staffTotpPostgres.js`: unmounted begin/confirm/verify adapter. Requires trusted Timeclock employee-session verification, separate approved-enrollment callback, durable per-employee/source throttle, and a server-only 32-byte encryption key. Each employee's secret is encrypted using AES-256-GCM with random nonce and employee-bound associated data before being saved.
+- `db/hc_staff_totp.sql`: **unapplied** PostgreSQL table for encrypted secrets, pending enrollment expiry/attempt count, active status and atomic last-accepted time step. Transaction row locks reject OTP replay across app replicas, even within neighboring time windows.
+- `services/security/staffAccessBaseline.js`: accepts only a **backend-verified** `totp` second-factor claim for normal tool access; high-impact mutations remain on the stronger existing proof methods.
+- `tests/shared-staff-totp.test.mjs` and `tests/shared-staff-totp-postgres.test.mjs`: RFC vectors, secure enrollment URI, encrypted-at-rest records, failure caps, concurrency and replay checks, and permission downgrade prevention.
+
+**Not implemented:** No staff registration/QR web screen, mobile login route, production secret or encryption key, signed MFA session issuance/binding, backup/recovery workflow, real employee enrollment or Railway schema deployment. Existing Timeclock name-based route remains unchanged and must be fixed before internet-access claims. Production encryption-key custody/rotation and backup/restore handling must be approved by Deployment Coordination before rollout.
+
+**Security distinction:** TOTP codes can be phished or relayed in real time, unlike properly implemented passkeys. Prefer passkeys for highly sensitive and administrative operations. OWASP guidance calls for time-limited single-use OTPs, strict attempt throttling, protected secrets and safe factor recovery: https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html.
+
 ## Target assurance and permission matrix
 
 | Operation category | Minimum proof | Additional gate | Status |
