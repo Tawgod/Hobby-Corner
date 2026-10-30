@@ -96,3 +96,11 @@ The owner proposed using the privately distributed Chrome extension as the addit
 - Enrollment/replacement must require separately verified owner/manager approval or a pre-enrolled strong factor; recovery, device loss and encryption-key custody remain implementation gates.
 - **No new live authentication:** neither PR is merged, no secret/QR setup, MFA session issuance, mobile endpoint, DB schema or Timeclock legacy route fix has been deployed. See `STAFF_SECURITY_BASELINE.md`.
 
+
+## Employee Security Settings implementation candidate — 2026-10-30
+
+- Standalone responsive page `staff-security.html` and `routes/staffSecuritySettings.js` in PR #32 and stacked PR #33 provide **unmounted** Authenticator setup/confirmation, local QR and manual key, safe status and session UI.
+- Every employee-specific endpoint requires a trusted signed Timeclock session **plus** an independent `authorizeSettings` permission/assurance callback; PIN alone cannot enroll a factor. `staffTotpPostgres.status` reveals only enrollment state, never seeds or accepted code counters.
+- Live backend station/passkey/manager approval, factor recovery, secure mobile login-session upgrade, legacy clock-route hardening and employee rollout are still blocked. No new user directory or production endpoint created.
+- Source contract: `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029/docs/STAFF_SECURITY_SETTINGS.md`.
+
