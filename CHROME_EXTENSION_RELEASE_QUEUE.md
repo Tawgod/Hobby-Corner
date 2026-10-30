@@ -88,6 +88,14 @@ Do not package from superseded PRs. Preserve them for history until the owning f
 7. Reconcile every queue item as INCLUDED, DEFERRED, BLOCKED, or RELEASED, including the planned Invoice Reconciliation bridge as deferred/blocked until its backend exists.
 8. Seek explicit release authorization before version bump, packaging, distribution update, or Web Store publication.
 
+### Authenticator app alternative for convention mobiles — development-only update (2026-10-30)
+
+- **Status:** BLOCKED / Planned UI integration, not released. Owner requested optional Google Authenticator six-digit codes for phone/tablet login **without installing the Chrome extension**.
+- Backend implementation candidate in unmerged PR #32, stacked PR #33: RFC6238 TOTP, encrypted PostgreSQL enrollment, one-time replay prevention and attempt throttling; CI `41116457586` / `41116470412` PASS. No public TOTP registration or verification route is mounted.
+- Normal remote reads/staging may use Timeclock identity plus separately verified TOTP, or passkey. High-impact mutations remain on strong-factored employee authorization and exact grants; code alone does not authorize writes.
+- **No extension changes required for the mobile authenticator option itself.** The separately queued store workstation proof/legacy Timeclock Chrome migration remains BLOCKED/Planned with PR #22/#26 coordination and in-store acceptance required.
+- Missing before deployment: approved setup/QR/recovery UI, server-signed employee/session-bound MFA, backend identity/limiter, encryption-key custody/restore, end-to-end mobile tests and explicit owner deployment authorization. No version bump, package, PIN change or Railway deployment performed.
+
 ### Store-device Chrome assertion and convention-mobile alternative — design update (2026-10-30)
 
 - **Status:** BLOCKED / Planned; not bundled, released or connected to production.
