@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-30 — Dual-access security design for store and convention devices
+
+- Recorded owner request to retain the private Hobby Corner Chrome extension as a convenient secondary trust channel on registered in-store workstations, while allowing owner/authorized staff to use tools from a phone or tablet browser at conventions without extensions.
+- Updated `STAFF_SECURITY_BASELINE.md` and `SHARED_STAFF_AUTH_PERMISSIONS.md` with two assurance paths: Timeclock PIN plus unique enrolled extension-device challenge signature on store terminals; employee-bound WebAuthn passkey/approved IdP MFA from mobile browsers. Neither extension ID/private distribution nor Origin/source IP is authentication.
+- Retained exact server permissions and fresh strong employee factor for sensitive Lightspeed, financial and staff-permission writes. Defined enrollment, revocation, session binding, lost-device recovery, replay prevention and browser/extension acceptance tests.
+- Updated `CHROME_EXTENSION_RELEASE_QUEUE.md`, shared-services/manager/deployment handoffs, roadmap and project index. **Documentation and planning only:** no code, login, key, database, production network, Chrome extension or deployment changes.
+
 ## 2026-10-30 — Staff access assurance baseline / Timeclock PIN security review
 
 - Audited existing `Tawgod/Lightspeed` production-base `timeclock/server.js`, Chrome `extension/content.js`, `services/scannerLoginLimiter.js`, `services/staffAuthGateway.js`, `services/scannerSessions.js`, and PR #32 policy/transport. Verified legacy Timeclock clock/status identification accepts employee name/PIN outside the newer signed staff-session contract; existing PIN HMAC and Postgres login limiter alone do not secure those flows.
