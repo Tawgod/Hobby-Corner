@@ -294,3 +294,12 @@ The manager chat coordinates these records; it does not own feature-private sour
 - Both PRs remain **unmerged, unmounted, no production DB migration and no real tenant verification**. Neither is authorization to enable API writes. PR #33 remains stacked on the former Phase 1 base and requires explicit ancestry reconciliation after PR #32 approval.
 - Release coordination: verify independent PostgreSQL backup/restore decision, schema review, vendor/test-tenant read contracts, auth scopes, unknown-key manual reconciliation runbook and browser consumer acceptance; seek explicit approval before any production-connected merge or deployment.
 
+
+## Shared authentication risk and migration baseline — 2026-10-30
+
+- Owner requested protection against public online guessing of four-digit Timeclock employee PINs across all Hobby Corner tools. Audited current Timeclock, shared gateway, Scanner login limiter and Chrome Timeclock caller.
+- Existing PIN HMAC, PostgreSQL rate limits and signed staff sessions protect some paths; however a legacy Timeclock status/clock flow still accepts employee-name/PIN identifiers outside the newer signed session, and global login limiting can impede legitimate staff during abuse. **Do not treat the current production system as fully protected.**
+- `STAFF_SECURITY_BASELINE.md` now owns phased architecture for verified store workstation/strong remote MFA, exact grants, backend route audit, revocation, proxy-safe throttling, monitoring and test-first migration. New policy candidate in PR #32, mirrored to PR #33, is unmounted with CI passed.
+- Chrome extension auth migration queued `BLOCKED/Planned` in `CHROME_EXTENSION_RELEASE_QUEUE.md`; Coordinate with Deployment and UI UX chat. Preserve in-store clocking until backend and content-script conversion are both tested and approved.
+- Production changes and credential/device/identity-provider choices remain **unapproved**.
+
