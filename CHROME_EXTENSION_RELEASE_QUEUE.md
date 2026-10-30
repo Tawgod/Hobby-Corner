@@ -52,6 +52,7 @@ Use this snapshot first. Older queue entries below are retained for history and 
 | Feature | Current candidate | Status | Shared surfaces | Main blocker |
 | --- | --- | --- | --- | --- |
 | Scanner + Toolkit popup/navigation | PR #26 / `feature/scanner-consignment-nav-alignment-20261028` | BLOCKED / Testing | popup, scanner, shared navigation/UI | Real employee/supplier/browser acceptance |
+| Timeclock verified-session migration (security) | Coordinated future backend + content script | BLOCKED / Planned | `extension/content.js`, Timeclock route contract | Legacy clock actions require a new authenticated workflow, registered workstation or step-up proof, real employee tests and owner-approved release |
 | Timeclock + Split / Recall | PR #22 / `feature/extension-launchers-shared-ui-20261027` | BLOCKED / Testing | `extension/content.js` | Reconcile 7-behind branch to current consolidated, then real Sell/fulfillment/PIN/zoom/focus acceptance |
 | Purchase Order Companion | PR #31 / `feature/po-companion-consolidated-20261028` | IN DEVELOPMENT | manifest, popup, shared navigation/UI + feature files | Authenticated read-only PO retrieval, employee auth, real PO Chrome acceptance |
 | Consignment launcher | PR #30 is current Consignment feature candidate; launcher not yet approved for release | BLOCKED | shared popup/navigation if added | Isolated test promotion, stable destination, explicit launcher decision |
@@ -86,6 +87,20 @@ Do not package from superseded PRs. Preserve them for history until the owning f
 6. Run cross-feature regression plus real Chrome employee acceptance.
 7. Reconcile every queue item as INCLUDED, DEFERRED, BLOCKED, or RELEASED, including the planned Invoice Reconciliation bridge as deferred/blocked until its backend exists.
 8. Seek explicit release authorization before version bump, packaging, distribution update, or Web Store publication.
+
+### Staff Timeclock authentication migration — security prerequisite, not a release (2026-10-30)
+
+- **Feature/system:** Timeclock clock/status identity hardening and consistent staff security assurance for the Chrome extension.
+- **Source:** Shared Lightspeed Services security review; authority `STAFF_SECURITY_BASELINE.md`.
+- **Status:** BLOCKED / Planned (requires coordinated backend and extension development; not released).
+- **Requested behavior:** Replace unverified name/PIN-only browser clock/status actions with Timeclock-verified active employee session and server-verified registered workstation or independent strong sign-in. Preserve in-store employee clocking, sign-out, expiry and partial pickup/Split/Recall; do not silently widen privileges.
+- **Source/branch:** Existing deployed `Tawgod/Lightspeed:integration/hobby-corner-consolidation`; PR #22 currently owns `extension/content.js`. New shared policy candidate in PR #32, stacked in PR #33; neither is mounted.
+- **Extension surfaces:** `extension/content.js`, shared PIN/session bridge and possibly manifest/worker only after shared release coordination. Do not individually package PR #22.
+- **Backend dependencies:** Timeclock route authentication and revocation, backend-only device proof or verified IdP MFA, safe login throttling, service-to-service boundary, audit and permission matrix.
+- **Testing:** Policy candidate automated tests only; no loaded extension/Timeclock/PIN/edge penetration acceptance. Test good/bad PIN, offline device, employee offboarding, spoofed Origin/headers, expiry, remote and in-store flows; no live brute-force trials.
+- **Target release:** Not the current immediate extension release; plan migration in a single coordinated release alongside backend acceptance.
+- **Block/defer reason:** Existing content script and Timeclock route semantics must be migrated together; applying the new requirement to backend alone would break employees' clocking. Need an approved device/remote-login model and explicit production authorization.
+- **Release version/date:** None. No extension source, package, publishing or production configuration changed by this queue entry.
 
 ## Current queue
 
