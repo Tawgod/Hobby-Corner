@@ -210,3 +210,11 @@ A feature is not considered current merely because code exists. The manager shou
 - New separate *unmounted* PostgreSQL login-throttle candidate now covers independent per-employee and per-source budgets, hashed keys, concurrency and fail-closed recovery (PR #32/33). Code/PG tests passed. Next: verify Railway proxy source-IP interpretation, decide login employee selector and trusted-station/IdP enrollment, then coordinate legacy Timeclock backend plus extension migration with session revocation. Migrate Timeclock backend + `extension/content.js` together with real employee tests before blocking the legacy path. Keep existing store clocking functional until authorization and release approval.
 - Product/PO/inventory/credit/admin writes require separate step-up MFA, exact grant, audit/idempotency/readback regardless of PIN. No forced PIN reset authorized.
 
+
+### Cross-device employee access: store Chrome + convention mobile (2026-10-30)
+
+- Design direction: existing Timeclock PIN plus **registered cryptographic workstation assertion via private Chrome extension** for store desktops; **mobile passkey/WebAuthn/IdP MFA in a normal browser** for owner/approved convention staff, without extension.
+- Shared Timeclock IDs, operation permissions and high-risk step-up regardless of device. Unlisted/private extension distribution and ID/Origin are not a secure factor.
+- Still Planned/Blocked for rollout: enroll/revoke device keys and passkeys, decide remote roles/recovery, harden legacy Timeclock clock/status routes, test browser/phone/tablet, coordinate extension release, approve production.
+- Source: `STAFF_SECURITY_BASELINE.md` and `CHROME_EXTENSION_RELEASE_QUEUE.md`. No live functionality has changed.
+
