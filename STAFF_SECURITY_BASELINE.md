@@ -24,6 +24,38 @@ A four-digit PIN (10,000 combinations, often less entropy if human-chosen) is **
 - PR #32 provides fail-closed shared Lightspeed policy/audit/idempotency and a default-read-only transport; PR #33 provides an unmounted exact-operation permission registry. **Neither is live.**
 - No current evidence of a production IdP / passkey / managed-station credential gate covering every exposed application route. This is a verification gap, not a claim that no external edge protection exists.
 
+## Dual-access model: registered Chrome workstation and mobile convention access — owner proposal, 2026-10-30
+
+**Goal:** Keep low-friction PIN sign-in on Hobby Corner's approved desktop Chrome workstations, while allowing the owner and explicitly approved staff to access the same authorized tools from a phone or tablet at conventions and off-site **without installing a Chrome extension**. This is a design direction, not deployed access or an approved factor provider.
+
+**Path A — store desktop + private extension:**
+1. Staff selects their Timeclock identity and enters their existing four-digit PIN (verified server-side with durable throttle), receiving a short-lived identity session.
+2. An **independently registered installation/device credential** proves the workstation is trusted. The backend issues a fresh, single-use challenge, verifies a signature from the registered device key, checks scope, expiry and revocation, and binds the assertion to the session. Keys must be unique per installation and must not be hardcoded, shipped in the extension bundle, or accepted merely because an extension ID or Chrome Origin header matches.
+3. Only backend-approved actions execute. A device assertion is *device assurance*, not employee identity or general permission. For sensitive financial/inventory/PO/employee-management writes, obtain a recent employee-bound strong factor plus exact operation grants and audit.
+
+**Path B — phone/tablet or off-site laptop (no extension):**
+1. Open the same responsive Hobby Corner web tool in a normal mobile browser (optionally installed as a PWA shortcut, not an extension).
+2. Sign in using a **registered employee-bound WebAuthn passkey** or an approved managed IdP with MFA, validated on the server (challenge, origin, relying-party ID, authenticator/user verification, employee binding and revocation). Face ID, Touch ID or an Android screen lock can satisfy local passkey user verification when the platform supports it. Do not require a private extension or approve arbitrary mobile devices simply based on an IP address.
+3. Authorize the current, active Timeclock employee and the specific operation. Restrict remote access eligibility by policy; recommend owner/approved managers first. High-risk writes still require a *fresh* strong authentication assertion, exact grant and mutation safeguards.
+4. Have a secure backup passkey/security key and owner-controlled recovery process for a lost convention phone; **never fall back to four-digit PIN alone**.
+
+**Extension security caveat:** Private/unlisted distribution limits ordinary access to the installation package but does **not** make the extension code or ID a secret. An extension can be copied or imitated, and untrusted web clients can forge request headers. Chromium explicitly notes that an unpacked extension ID can be imitated. Therefore `chrome-extension://...`, manifest ID, `Origin`, `X-Extension-ID`, a bundled API token, and a workstation IP are **not valid secondary factors** by themselves. A challenge signed with a uniquely enrolled key and independently verified by the backend is a stronger proof, but does not itself guarantee uncompromised hardware; consider hardware-backed registration or OS/device-management controls for sensitive shared terminals.
+
+**Shared infrastructure:** Both paths resolve to the *same Timeclock employee ID, session lifecycle, per-operation permissions, audit and Lightspeed gateway*. This does not introduce separate tool accounts or a parallel staff-role directory. Distinguish `employee-authenticated`, `registered-station`, and `strong-employee-factor` claims server-side. Every tool must enforce these claims, rather than only showing/hiding buttons in the extension or mobile UI.
+
+**Deployment/release boundary:** The existing unmounted `services/security/staffAccessBaseline.js` in PRs #32/#33 already permits the architectural split (session + verified workstation for lower-risk operations, or server-validated strong proof; strong proof for high-risk writes). **Actual Chrome key enrollment/challenge service, mobile WebAuthn registration and recovery, Timeclock legacy route conversion, CORS/edge review, real device tests and public access controls are NOT implemented.** Coordinate extension code through `CHROME_EXTENSION_RELEASE_QUEUE.md` and preserve legacy clock-in availability until both flows pass acceptance.
+
+### Minimum acceptance scenarios
+
+- Approved registered store Chrome station + valid Timeclock employee PIN works; unregistered/copycat extension + correct guessed PIN fails.
+- Direct HTTP calls with only extension ID/Origin headers, arbitrary forwarded IP, stale/replayed challenges or revoked workstation key fail.
+- Approved remote employee on iPhone/iPad/Android browser can use an enrolled passkey without the extension; an unapproved employee or device cannot self-enroll or escalate permissions.
+- Lost phone, recovered passkey, removed staff member, rotated PIN and disabled device all revoke the right capability without locking the entire store out of legitimate clocking.
+- Product/PO/inventory/store-credit changes always require a recent strong employee assertion, even if the request comes from the registered extension, and preserve durable audit/idempotency protections.
+- Network loss, expired signed session, broken extension, multi-device login, shared terminal sign-out, rate-limit cooldown, phone biometrics refusal and backup-factor recovery have explicit, employee-friendly behavior.
+
+**Standards/compatibility:** iOS/iPadOS Safari, Android Chrome, and current Chrome on iOS/iPadOS support browser passkeys subject to device/software/provider availability. See official [Apple browser passkey guidance](https://developer.apple.com/documentation/authenticationservices/passkey-use-in-web-browsers), [Google supported environments](https://developers.google.com/identity/passkeys/supported-environments) and [Chromium extension security FAQ](https://chromium.googlesource.com/chromium/src/+/main/extensions/docs/security_faq.md).
+
 ## Target assurance and permission matrix
 
 | Operation category | Minimum proof | Additional gate | Status |
