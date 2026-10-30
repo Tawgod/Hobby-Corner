@@ -1,5 +1,13 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-30 — Employee Security Settings first development milestone
+
+- Added **unmounted** responsive employee settings UI `staff-security.html/css/client.js` and backend `routes/staffSecuritySettings.js` to unmerged PR #32, synchronized to draft stacked PR #33. The UI supports Timeclock session status, Authenticator enrollment QR PNG generated locally with existing `bwip-js` (no external QR service), manual key, six-digit code confirmation, secret clearing on sign-out/page hiding, and passkey/lost-phone information.
+- Added safe factor `status({context})` to `staffTotpPostgres.js`: returns active/pending/not-enrolled metadata without seed or accepted counter. Every factor-management API requires verified current Timeclock employee identity AND separately approved enrollment/station/strong-factor authorization. No PIN-only self-enrollment or recovery bypass was introduced.
+- Added `tests/shared-staff-settings.test.mjs` for malicious headers, missing approval, malformed requests, real QR PNG, CSP/no-store, safe status and confirmation; expanded disposable PG status tests and CI client parse check. Latest full-head CI PR #32 `41118627025` **PASS**, PR #33 `41118638408` **PASS**.
+- New technical document `docs/STAFF_SECURITY_SETTINGS.md` on both PR branches; synchronized `STAFF_SECURITY_BASELINE.md`, staff permissions, roadmap, project index, and Shared Services/Shared UI/Manager/Deployment handoffs.
+- **Not live:** no route mount, independent enrollment verifier implementation, mobile session upgrade, real browser acceptance, recovery/reset, Railway secrets, database migration, Chrome extension change, PR merge or production deployment.
+
 ## 2026-10-30 — Google Authenticator-compatible optional staff second factor (development only)
 
 - Implemented RFC 6238 six-digit SHA-1 TOTP core `services/security/staffTotp.js`, AES-256-GCM encrypted PostgreSQL enrollment/verification `staffTotpPostgres.js`, unapplied `db/hc_staff_totp.sql` and pure/PG tests on unmerged shared Lightspeed PR #32; synchronized into stacked draft PR #33.
