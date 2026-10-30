@@ -88,6 +88,18 @@ Do not package from superseded PRs. Preserve them for history until the owning f
 7. Reconcile every queue item as INCLUDED, DEFERRED, BLOCKED, or RELEASED, including the planned Invoice Reconciliation bridge as deferred/blocked until its backend exists.
 8. Seek explicit release authorization before version bump, packaging, distribution update, or Web Store publication.
 
+### Store-device Chrome assertion and convention-mobile alternative — design update (2026-10-30)
+
+- **Status:** BLOCKED / Planned; not bundled, released or connected to production.
+- **Owner request:** Keep the private Hobby Corner Chrome extension as the convenient station-side channel for employee PIN sign-in. Preserve extension-free access on a phone/tablet at conventions through server-validated passkeys/WebAuthn or approved managed IdP MFA.
+- **Security boundary:** The extension's private distribution, manifest ID, Origin, headers, hardcoded token or source IP alone are not an authenticator. Proposed backend validates a *distinct registered installation key's signature on a fresh challenge*, binds it to the active Timeclock employee session, and supports key revocation. High-impact writes require recent employee-bound MFA even on a store workstation.
+- **Extension components potentially affected:** `extension/content.js`, shared staff login/worker messaging, storage/permissions only if reviewed. Current `Tawgod/Lightspeed:integration/hobby-corner-consolidation` extension and open PRs #22 (Timeclock overlay) / #26 (popup integration) must be reconciled before editing or packaging.
+- **Mobile alternative:** Normal responsive web app/PWA in iOS/iPadOS Safari or Chrome and Android Chrome, no extension; bind passkey to the same Timeclock employee identity and shared exact-operation permissions. Owner/approved managers are the recommended first remote enrollment group, pending policy decision.
+- **Backend dependencies:** Device-key registration/admin revocation; nonce/challenge validation; staff session binding; mobile WebAuthn registration/authentication/recovery; proxy-safe rate limiting; per-operation authorization; legacy Timeclock clock/status route migration.
+- **Tests required:** Correct PIN on approved device, copied/absent extension, direct forged Origin, challenge replay, revoked station, lost-phone recovery, phone/tablet WebAuthn, off-site connectivity, employee permissions and existing in-store clocking acceptance.
+- **Release target:** Not approved. Cannot ship without backend+extension acceptance and a safe rollback for staff clocking. No extension version, packaging, production or PIN changes performed.
+- **Canonical design:** `STAFF_SECURITY_BASELINE.md`, dual-access section.
+
 ### Staff Timeclock authentication migration — security prerequisite, not a release (2026-10-30)
 
 - **Feature/system:** Timeclock clock/status identity hardening and consistent staff security assurance for the Chrome extension.
