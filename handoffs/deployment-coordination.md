@@ -92,3 +92,11 @@
 - Do not close the Timeclock legacy route until the replacement extension/UI and employee clocking have passed end-to-end tests. Also verify proxy IP handling, per-account/source throttles, true IdP/MFA/device proof, origin bypass, timeclock-offline behavior, employee offboarding/revocation and alerts.
 - No Railway variables/edge policy/extension package/PINs/production authentication were changed in this audit. Production enforcement and release need explicit approval.
 
+
+### Login security and Timeclock migration launch gate — 2026-10-30
+
+- Staff security design: `STAFF_SECURITY_BASELINE.md`; PIN-only name/clocking route remains a priority risk and must be migrated together with Chrome content-script changes before claiming internet-safe tool authentication.
+- Unmounted shared policy plus independent employee/source durable throttle candidate in PR #32 `59fe71f1` and stacked #33 `6519590b`; final-head PostgreSQL/Node CI runs `41093074109` and `41093089253` **PASS**.
+- Never apply `db/hc_staff_auth_throttle.sql` to Railway without approved migration/backup. Verify public/raw Railway origin bypass, proxy IP trust, WAF/IdP MFA, registered device proof, lockout availability, Timeclock backend and extension compatibility before activation.
+- No live access policy, employee PIN, Railway credential, Timeclock backend, extension ZIP or deployment changed.
+
