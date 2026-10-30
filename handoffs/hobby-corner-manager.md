@@ -303,3 +303,11 @@ The manager chat coordinates these records; it does not own feature-private sour
 - Chrome extension auth migration queued `BLOCKED/Planned` in `CHROME_EXTENSION_RELEASE_QUEUE.md`; Coordinate with Deployment and UI UX chat. Preserve in-store clocking until backend and content-script conversion are both tested and approved.
 - Production changes and credential/device/identity-provider choices remain **unapproved**.
 
+
+### PIN guessing protection implementation milestone — 2026-10-30
+
+- Shared security baseline `STAFF_SECURITY_BASELINE.md` is backed by a **non-deployed** common action assurance policy and new separate PostgreSQL login-throttle candidate, both in PR #32 and stacked PR #33.
+- Independent per-employee and per-server-observed-source budgets, HMAC-only stored identifiers, serialized concurrent token claims, fail-closed DB errors and non-extending block duration are covered by disposable PostgreSQL CI. Final-head runs: PR #32 `41093074109` PASS, PR #33 `41093089253` PASS.
+- Existing publicly reachable legacy Timeclock name/PIN clock/status route semantics have NOT been fixed: prioritize backend+extension session conversion, real staff testing, proxy/WAF checks and strong remote factor provider before any production claim.
+- Security modernization must not rotate PIN pepper, disrupt existing Timeclock clocking or bypass PR #32/33 deployment approvals.
+
