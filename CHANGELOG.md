@@ -1,5 +1,13 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-30 — Google Authenticator-compatible optional staff second factor (development only)
+
+- Implemented RFC 6238 six-digit SHA-1 TOTP core `services/security/staffTotp.js`, AES-256-GCM encrypted PostgreSQL enrollment/verification `staffTotpPostgres.js`, unapplied `db/hc_staff_totp.sql` and pure/PG tests on unmerged shared Lightspeed PR #32; synchronized into stacked draft PR #33.
+- Requires server-trusted Timeclock employee session, independently approved factor enrollment, separate durable employee/source throttle, pending enrollment expiry and failure cap. Each accepted step atomically consumed to prevent replay across replicas. TOTP is accepted for ordinary remote read/staging only; high-risk mutations remain on stronger authenticator and exact permission gates.
+- Automated RFC 6238, enrollment URI, encrypted-storage, concurrent replay, denied reset and permission downgrade tests passed on final heads: PR #32 `20b5a293` workflow `41116457586` PASS; PR #33 `370e25d` workflow `41116470412` PASS.
+- Updated `STAFF_SECURITY_BASELINE.md`, staff permissions, master registry, roadmap, and shared/manager/deployment handoffs. Real mobile QR/setup UI, factor recovery, signed MFA login session and legacy Timeclock route conversion are **not built**.
+- **No live changes:** no PR merge, Chrome release, production DB application, Railway config/deploy, Google connection, employee PIN/secret enrollment or Lightspeed write.
+
 ## 2026-10-30 — Dual-access security design for store and convention devices
 
 - Recorded owner request to retain the private Hobby Corner Chrome extension as a convenient secondary trust channel on registered in-store workstations, while allowing owner/authorized staff to use tools from a phone or tablet browser at conventions without extensions.
