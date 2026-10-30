@@ -61,3 +61,17 @@ These questions should not block safe read-service development. They **do block 
 - Source reviewed: `services/staffAuthGateway.js`, `services/scannerTimeclockIdentity.js`, `timeclock/server.js`, `services/lightspeed/{policy,staffAdapter}.js`.
 - Unit tests added to Phase 2 PR #33: `tests/shared-lightspeed-permissions.test.mjs`, including active vs inactive, unverified flags, forged role, missing grants, service caller restrictions and valid/invalid signed-session adapter behavior.
 - No Railway credential or active employee records changed. Current production permission behavior is **not changed** by this documentation or development candidate.
+
+## Staff login assurance and online-guessing mitigation — 2026-10-30
+
+**Decision in development (not live):** A Timeclock four-digit PIN remains the existing employee identity/clocking credential, but is **not sufficient by itself for internet-facing staff access or high-risk writes**. The new shared baseline is `STAFF_SECURITY_BASELINE.md`; `Tawgod/Lightspeed` PR #32 adds an unmounted `services/security/staffAccessBaseline.js` with regression tests. The candidate is synchronized into stacked PR #33.
+
+- First confirm a signed session and current active employee record from Timeclock.
+- Low-risk in-store clocking and approved tool reads/staging require independently server-verified registered station proof **or** strong remote login; no browser claim, IP, Origin, employee name or PIN is sufficient by itself.
+- High-risk product/PO/inventory/sale/credit/permission writes require fresh, employee-bound MFA/passkey proof **plus** exact operation grant, audited gateway, idempotency and readback. Login does not grant writes.
+- The existing PostgreSQL login limiter does provide atomic pre-verification global/source/PIN throttling, but does not replace account-bound/source-bound bot protection; its shared global bucket has potential employee-denial-of-service risk. Remote access needs an edge and backend policy, and rate limits must work with actual proxy forwarding.
+- **High-priority legacy gap:** current Timeclock status/clock routes can accept employee names or PINs without the new signed session. The existing Chrome Timeclock workflow uses that legacy contract; coordinated backend + extension migration and real employee testing are required to close it without breaking clocking. Session revocation after PIN reset and explicit remote second-factor enrollment also remain to be designed.
+- PR #32 and PR #33 are not merged/deployed; this baseline is **not security enforcement on existing live routes**.
+
+See `STAFF_SECURITY_BASELINE.md` for policy categories, sequence, owner decisions and security acceptance tests.
+
