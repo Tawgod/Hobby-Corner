@@ -135,3 +135,12 @@ Do not deploy production, apply the shared Postgres schema, move credentials, de
 - Existing durable login limiter has global/source/PIN buckets but is not a substitute for verified trusted station/strong remote access and per-account controls. Do not change in-store clocking or rotate `TIMECLOCK_PIN_PEPPER` without a signed-off migration.
 - Specification, dependencies, acceptance and owner decisions: `STAFF_SECURITY_BASELINE.md`; current operational permissions: `SHARED_STAFF_AUTH_PERMISSIONS.md`. No merge, Railway deployment, DB change, production login/authorization restriction or Chrome release in this milestone.
 
+
+### Durable anti-guessing foundation — 2026-10-30
+
+- Added **unmounted** `services/security/staffLoginThrottle.js`, separate unapplied `db/hc_staff_auth_throttle.sql`, and disposable PostgreSQL integration tests to PR #32 and stacked #33.
+- Uses **independent hashed account and source-IP token buckets** with transaction locks across replicas, no raw PIN/IP storage, fail-closed database errors, controlled refill and non-extending blocked windows. Designed for future employee-selector login, not as an unapproved production replacement for the current PIN-only login.
+- PR #32 final full-head CI [41093074109](https://github.com/Tawgod/Lightspeed/actions/runs/41093074109) **PASS**; PR #33 code/test-head CI [41092968743](https://github.com/Tawgod/Lightspeed/actions/runs/41092968743) **PASS** and documentation head to be separately checked.
+- **Unverified:** store workstation proof, passkey/IdP provider, actual Railway trusted proxy mapping, account selection, live legacy Timeclock route migration, employee recovery tests and production deployment.
+- New staff security scope does not authorize direct production writes, change existing permissions, modify Timeclock PINs, or replace the extension. Prioritize the legacy clock/status authentication gap, then per-route deployment acceptance. Source of truth: `STAFF_SECURITY_BASELINE.md`.
+
