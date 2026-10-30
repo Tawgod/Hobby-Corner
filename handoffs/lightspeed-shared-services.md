@@ -144,3 +144,6 @@ Do not deploy production, apply the shared Postgres schema, move credentials, de
 - **Unverified:** store workstation proof, passkey/IdP provider, actual Railway trusted proxy mapping, account selection, live legacy Timeclock route migration, employee recovery tests and production deployment.
 - New staff security scope does not authorize direct production writes, change existing permissions, modify Timeclock PINs, or replace the extension. Prioritize the legacy clock/status authentication gap, then per-route deployment acceptance. Source of truth: `STAFF_SECURITY_BASELINE.md`.
 
+
+**Final security checkpoint CI:** PR #32 `59fe71f1bf7d9e5f4ca5475c7eb2d9a490bec704` final-head run `41093074109` PASS; stacked PR #33 `6519590b61066732a5b4fabb13d7007cd5327062` final-head run `41093089253` PASS. Neither merged or deployed; both still require security review and controlled Timeclock/Chrome consumer acceptance.
+
