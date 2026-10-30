@@ -83,3 +83,12 @@
 - Both PRs remain **unmerged, unmounted, no production DB migration and no real tenant verification**. Neither is authorization to enable API writes. PR #33 remains stacked on the former Phase 1 base and requires explicit ancestry reconciliation after PR #32 approval.
 - Release coordination: verify independent PostgreSQL backup/restore decision, schema review, vendor/test-tenant read contracts, auth scopes, unknown-key manual reconciliation runbook and browser consumer acceptance; seek explicit approval before any production-connected merge or deployment.
 
+
+## Staff security launch gate — 2026-10-30
+
+- Review `STAFF_SECURITY_BASELINE.md` and `SHARED_STAFF_AUTH_PERMISSIONS.md` before any shared auth, public routing or extension release.
+- Four-digit Timeclock PIN must not authorize internet-facing tools alone. Legacy Timeclock clock/status paths currently bypass the new signed staff session; an authenticated backend plus Chrome migration and real store acceptance are prerequisites.
+- PR #32/PR #33 include an **unmounted** staff-access assurance policy candidate, automated security checks passing (`41091313029` / `41091370610`); neither branch is approved for production integration on this basis.
+- Do not close the Timeclock legacy route until the replacement extension/UI and employee clocking have passed end-to-end tests. Also verify proxy IP handling, per-account/source throttles, true IdP/MFA/device proof, origin bypass, timeclock-offline behavior, employee offboarding/revocation and alerts.
+- No Railway variables/edge policy/extension package/PINs/production authentication were changed in this audit. Production enforcement and release need explicit approval.
+
