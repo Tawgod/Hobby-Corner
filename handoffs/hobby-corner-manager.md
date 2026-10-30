@@ -327,3 +327,12 @@ The manager chat coordinates these records; it does not own feature-private sour
 - CI PR #32 `41116233000` PASS and PR #33 `41116244954` PASS on code/test heads. Docs and statuses: `STAFF_SECURITY_BASELINE.md`, `SHARED_STAFF_AUTH_PERMISSIONS.md` and `handoffs/lightspeed-shared-services.md`.
 - No PR merge, Railway schema migration, live factor enrollment, Timeclock credential changes or Chrome extension release. Keep legacy Timeclock authentication risk prioritized.
 
+
+## Employee security settings first milestone — 2026-10-30
+
+- New employee settings web UI and unmounted TOTP status/enrollment/confirmation API candidate committed to shared Lightspeed PR #32 and synchronized to stacked PR #33. QR generated with local `bwip-js`; manual enrollment key, session status, lost-phone and passkey guidance, phone/tablet-friendly UI.
+- Enrollment API requires signed Timeclock employee session **plus independently verified manager/station/strong-factor approval**; a guessed PIN or forged extension ID/Origin cannot enroll a factor. No reset/recovery endpoint exists yet.
+- Automated UI route, PIN-only denial, QR, status, encrypted database and concurrency tests passed in development. Central contract: `STAFF_SECURITY_BASELINE.md`; repo technical plan: `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029/docs/STAFF_SECURITY_SETTINGS.md`.
+- Implementation not mounted/deployed; next essential milestone is approved enrollment verifier, recovery policy, employee-bound MFA session and test/production rollout plan. Existing live Timeclock name/PIN path risk remains.
+- No production code merge, Railway/database change, Chrome extension release or employee account update made.
+
