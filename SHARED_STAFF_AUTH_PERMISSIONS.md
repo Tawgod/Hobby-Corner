@@ -86,3 +86,13 @@ The owner proposed using the privately distributed Chrome extension as the addit
 - Existing PR #32/#33 `staffAccessBaseline.js` can accept either server-verified workstation or strong proof for routine actions and requires strong proof for sensitive operations. **Actual enrollment, cryptographic verifier, mobile login, and legacy Timeclock route migration are not built or deployed.**
 - Chrome implementation is cross-surface and queued as BLOCKED/Planned in `CHROME_EXTENSION_RELEASE_QUEUE.md`; don't break existing in-store clocking.
 
+
+## Optional authenticator code factor — 2026-10-30
+
+- Owner requested Google Authenticator six-digit codes as an additional remote sign-in factor alongside extension-registered store devices and mobile passkeys. This uses vendor-neutral RFC 6238 TOTP; no Google account or Google API integration.
+- Candidate `Tawgod/Lightspeed` PR #32 and stacked PR #33 now include `services/security/staffTotp.js`, `staffTotpPostgres.js`, separate unapplied `db/hc_staff_totp.sql`, and dedicated pure/PG regression tests. Stored secrets use AES-256-GCM and are bound to employee IDs; server-confirmed codes are single-use per time step and code attempts require durable account/source throttling.
+- The trusted `staffAccessBaseline` recognizes **server-verified** `totp` for routine read/staging; TOTP alone is *not* accepted by the baseline for high-impact product/PO/inventory/sales/store-credit/admin writes. Continue requiring a fresh passkey/security key or trusted managed MFA and an exact server-side operation grant for those.
+- Planned convention/mobile login: verified Timeclock employee identity + PIN + enrolled authenticator code, or a bound passkey. Backend must issue a signed, employee/session-bound MFA claim; never authorize using a client-supplied `verified` property or an `otpauth` provisioning URI.
+- Enrollment/replacement must require separately verified owner/manager approval or a pre-enrolled strong factor; recovery, device loss and encryption-key custody remain implementation gates.
+- **No new live authentication:** neither PR is merged, no secret/QR setup, MFA session issuance, mobile endpoint, DB schema or Timeclock legacy route fix has been deployed. See `STAFF_SECURITY_BASELINE.md`.
+
