@@ -311,3 +311,11 @@ The manager chat coordinates these records; it does not own feature-private sour
 - Existing publicly reachable legacy Timeclock name/PIN clock/status route semantics have NOT been fixed: prioritize backend+extension session conversion, real staff testing, proxy/WAF checks and strong remote factor provider before any production claim.
 - Security modernization must not rotate PIN pepper, disrupt existing Timeclock clocking or bypass PR #32/33 deployment approvals.
 
+
+### Employee access at store and conventions — security requirement (2026-10-30)
+
+- Preserve one Timeclock employee/permissions authority and two approved access modes: privately distributed Chrome extension on **registered store workstations** as a channel for proof of a separately enrolled device key plus Timeclock PIN; extension-free **mobile browser passkey/MFA** for owner/approved off-site staff at conventions.
+- Do not mistake possession of the extension, extension ID, Origin or source IP for a secure factor; backend cryptographic challenge/response, revocation and safe enrollment are required. Sensitive writes require current employee-bound strong verification regardless of access route.
+- Record in `STAFF_SECURITY_BASELINE.md`, `SHARED_STAFF_AUTH_PERMISSIONS.md` and `CHROME_EXTENSION_RELEASE_QUEUE.md`. Existing PR #32/#33 policy is compatible but no enrollment/service/phone login/live route protection is delivered.
+- Prioritize decisions about which staff get remote access and registration/recovery, then jointly migrate Timeclock backend and Chrome; do not disable working clocking or deploy without explicit approval.
+
