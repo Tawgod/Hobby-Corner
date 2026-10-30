@@ -116,3 +116,10 @@
 - TOTP is not phishing-resistant and by default can only satisfy normal remote tool access, not privileged product/PO/inventory/sales/credit/admin writes. Preserve passkey/key/approved managed MFA step-up for those.
 - Both PRs unmerged, no Railway schema application or extension package. A production rollout or Timeclock route change needs explicit authorization and tested fallback.
 
+
+## Employee Security Settings release coordination — 2026-10-30
+
+- PR #32 new settings UI + unmounted `routes/staffSecuritySettings.js` and Postgres status method, synchronized to stacked draft PR #33. API is **not mounted**, no employee/public link; Authenticator QR/confirmation is test candidate only.
+- Before live deployment: verify independent approved enrollment policy (manager/registered station/recent MFA, never PIN alone), stable active Timeclock identity adapter, production encryption key/rotation, signed MFA session exchange, lost-device recovery, CSRF/CSP/edge review, legacy Timeclock clocking migration, real Chrome/mobile browser acceptance, Postgres backup/restore, and authorization.
+- Existing source and unit/PG tests passed; no branch merge, Railway DB schema application, public login route, Chrome package or secret/PIN change. Technical contract: `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029/docs/STAFF_SECURITY_SETTINGS.md`.
+
