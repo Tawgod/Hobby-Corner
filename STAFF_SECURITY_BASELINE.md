@@ -148,3 +148,15 @@ This candidate uses stronger independent per-account and per-source limits inste
 - [NIST SP 800-63B-4](https://pages.nist.gov/800-63-4/sp800-63b.html)
 
 **Deployment status:** no staff baseline route, PIN/IdP configuration, edge firewall, database migration, Chrome extension update or security enforcement change deployed from this work.
+
+## Employee Security Settings first implementation milestone — 2026-10-30
+
+A responsive **development-only** employee settings UI and enrollment API candidate now exists in `Tawgod/Lightspeed` PR #32, synchronized to stacked PR #33. Detailed contract: `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029/docs/STAFF_SECURITY_SETTINGS.md`.
+
+- UI: `staff-security.html`, `staff-security.css`, `staff-security-client.js`. Phone/tablet-friendly account session, Authenticator enrollment/confirmation, QR code generated locally by existing `bwip-js`, manual code, status and recovery/passkey guidance.
+- Unmounted backend: `routes/staffSecuritySettings.js`; status/enroll/confirm endpoints require current signed Timeclock employee identity **and a separate trusted `authorizeSettings` callback** before accessing security settings. Existing PIN-derived session alone is intentionally insufficient.
+- `services/security/staffTotpPostgres.js` adds metadata-only enrollment status; it never returns an active secret. Setup keys/QR are returned only once after explicitly approved enrollment and remain in browser memory only.
+- Tests: `tests/shared-staff-settings.test.mjs` checks forged header/device claims, no PIN-only enrollment, secret privacy, locally generated valid QR PNG, safe confirmation, CSP/no-store policy and no reset shortcut. Existing disposable PG tests now verify pending/active status with no factor secret leakage.
+- Both branches' full tests passed before final source/CI-documentation synchronization. This is **implementation + automated testing**, not real employee/mobile/browser acceptance.
+- **Not live:** route not mounted on `server.js`, no approved factor-enrollment UI/administrator/registered-station verification service, no remote-login MFA exchange, no phone recovery provider, no database migration, no Chrome release and no production approval. Do not link the page in employee navigation or relax Timeclock PIN-only protections until the upstream security model is fully implemented.
+
