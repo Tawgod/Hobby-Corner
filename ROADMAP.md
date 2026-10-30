@@ -225,3 +225,11 @@ A feature is not considered current merely because code exists. The manager shou
 - Planned staff workflow: optional authenticator codes with Timeclock PIN for normal remote phone/tablet access, alongside passkeys and private Chrome workstation assurance. High-risk writes still require stronger backend-verified factor and operation permission.
 - Blockers: QR/enrollment UI, server-bound MFA session, backup/recovery, key lifecycle, legacy Timeclock bypass, live edge/mobile acceptance and explicit production deployment approval. No deployed authentication behavior changed.
 
+
+### Employee security settings — first UI/API milestone (2026-10-30)
+
+- New responsive web settings candidate and independently gated Authenticator enrollment/status/confirmation API committed to PR #32 and mirrored on stacked PR #33. QR is generated locally, with manual entry fallback; code and encrypted Postgres tests pass (latest PR #32 `41118627025`, PR #33 `41118638408`).
+- **Implemented and tested only in branches**; not mounted in `server.js`, linked to employee nav, or deployed. Settings must reject guessed Timeclock PIN alone without separately validated manager/device/strong-factor assurance.
+- Next milestones: trusted enrollment approval (device/passkey and role policy), server-signed bound second-factor session, secure recovery/audit, real mobile/Chrome acceptance and coordinated Timeclock legacy route repair. Only after safety approval should the settings page be exposed.
+- Source: `STAFF_SECURITY_BASELINE.md`; technical acceptance: `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029/docs/STAFF_SECURITY_SETTINGS.md`.
+
