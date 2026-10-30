@@ -218,3 +218,10 @@ A feature is not considered current merely because code exists. The manager shou
 - Still Planned/Blocked for rollout: enroll/revoke device keys and passkeys, decide remote roles/recovery, harden legacy Timeclock clock/status routes, test browser/phone/tablet, coordinate extension release, approve production.
 - Source: `STAFF_SECURITY_BASELINE.md` and `CHROME_EXTENSION_RELEASE_QUEUE.md`. No live functionality has changed.
 
+
+### Optional Google Authenticator login — 2026-10-30
+
+- Candidate backend exists on PR #32 and stacked PR #33: standard six-digit/30s TOTP, secret encryption at rest, trusted enrollment hooks, persisted one-use time step and durable throttling; new pure/PG CI `41116233000` / `41116244954` PASS.
+- Planned staff workflow: optional authenticator codes with Timeclock PIN for normal remote phone/tablet access, alongside passkeys and private Chrome workstation assurance. High-risk writes still require stronger backend-verified factor and operation permission.
+- Blockers: QR/enrollment UI, server-bound MFA session, backup/recovery, key lifecycle, legacy Timeclock bypass, live edge/mobile acceptance and explicit production deployment approval. No deployed authentication behavior changed.
+
