@@ -147,3 +147,12 @@ Do not deploy production, apply the shared Postgres schema, move credentials, de
 
 **Final security checkpoint CI:** PR #32 `59fe71f1bf7d9e5f4ca5475c7eb2d9a490bec704` final-head run `41093074109` PASS; stacked PR #33 `6519590b61066732a5b4fabb13d7007cd5327062` final-head run `41093089253` PASS. Neither merged or deployed; both still require security review and controlled Timeclock/Chrome consumer acceptance.
 
+
+### Dual-access security direction — store Chrome extension and mobile convention login (2026-10-30)
+
+- Owner wants the private Chrome extension to facilitate secondary **store workstation** validation while retaining **phone/tablet access** to the same tools away from the store at conventions.
+- Accepted architectural direction for design (not deployed): a *separately registered per-installation key* verified using backend challenge/signature alongside Timeclock PIN session on enrolled store computers; browser WebAuthn passkey or managed IdP MFA on iOS/iPadOS/Android browsers without an extension. Bind both to current Timeclock employee identity and server-side operation grants.
+- Extension installation/ID/Origin/headers and private distribution alone do not establish authentication; no bundled static extension secret. High-impact Lightspeed/credit/PO/inventory writes still require recent employee-bound step-up even from a registered store workstation.
+- Existing unmounted PR #32/#33 staff assurance policy can express both trusted device and strong user factor, but **no** device enrollment, WebAuthn login, account recovery, staff UI changes or live endpoint gating has been built. Timeclock legacy auth migration remains the blocker.
+- Spec: `STAFF_SECURITY_BASELINE.md`; extension work is BLOCKED/Planned in release queue. No code branch, deployment or extension package changed by this design update.
+
