@@ -288,3 +288,9 @@ Invoice Reconciliation is a future shared feature documented in `FEATURE_INVOICE
 - **No Timeclock route, PIN, session secret, employee record or extension package was changed by this audit.** Existing store clocking is intentionally preserved until its replacement is tested and approved.
 - Architecture: `STAFF_SECURITY_BASELINE.md`; extension release prerequisite: `CHROME_EXTENSION_RELEASE_QUEUE.md`.
 
+
+### Proposed shared login throttle — 2026-10-30
+
+- A new **unmounted** `services/security/staffLoginThrottle.js` plus `db/hc_staff_auth_throttle.sql` candidate now exists on PR #32 and PR #33. Unlike the legacy global/PIN counters, it maintains independent hashed employee selector and source-IP budgets with transaction-safe persisted refill; final-head CI `41093074109` and `41093089253` PASS.
+- Existing Timeclock legacy clock/status endpoints are still unchanged and do not consume the new throttle. Integrate only in a coordinated signed-session + registered workstation or remote MFA migration with current Chrome client; validate trusted proxy `req.ip` and employee selector before moving staff onto it.
+
