@@ -1792,3 +1792,11 @@ No production deployment, credential migration or new write authorization was gr
 - Remediation remains blocked on a coordinated backend/Chrome migration and store acceptance. No current live route/credential/PIN reset or production policy changed. The generic shared web login limiter can deny legitimate access when its global bucket is exhausted; address anti-abuse/availability carefully.
 - Chrome extension migration logged as BLOCKED/Planned in `CHROME_EXTENSION_RELEASE_QUEUE.md`; existing PR #22 must be reconciled. Security architecture must be included as prerequisite for any future tool public-exposure or high-risk write authorizations.
 
+
+### Store extension and convention-mobile shared login architecture — 2026-10-30
+
+- Owner proposed using privately installed Hobby Corner Chrome extension for store workstation secondary verification while preserving authenticated access from a phone/tablet browser at conventions. Recorded dual-mode access design in `STAFF_SECURITY_BASELINE.md` and `SHARED_STAFF_AUTH_PERMISSIONS.md`.
+- **Store:** verified Timeclock PIN session + unique enrolled installation cryptographic challenge/response; private package, extension ID, Origin and fixed source IP are not second factors. **Mobile:** browser WebAuthn passkey/approved managed IdP MFA, bound server-side to the same Timeclock employee record. Owner/approved remote staff first, pending policy.
+- High-impact product/PO/inventory/sale/store-credit/staff administration requires fresh employee-bound strong authentication and exact server-side grants regardless of location. Lost-phone/device revocation/recovery and safe in-store clocking migration are mandatory.
+- Existing unmounted PR #32/#33 assurance policy expresses these requirements but does not implement device enrollment, passkey login or legacy route hardening. Extension planning recorded as BLOCKED/Planned in the queue; no production changes.
+
