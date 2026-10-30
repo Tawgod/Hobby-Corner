@@ -100,3 +100,11 @@
 - Never apply `db/hc_staff_auth_throttle.sql` to Railway without approved migration/backup. Verify public/raw Railway origin bypass, proxy IP trust, WAF/IdP MFA, registered device proof, lockout availability, Timeclock backend and extension compatibility before activation.
 - No live access policy, employee PIN, Railway credential, Timeclock backend, extension ZIP or deployment changed.
 
+
+### Dual-path staff access release constraint — 2026-10-30
+
+- Owner requires **extension-free phone/tablet access at conventions** while using the private Chrome extension for convenience on registered store desktops. Backend must verify unique enrolled device proof, not extension ID/Origin/headers/static packaged secret; mobile uses employee-bound passkey/WebAuthn or approved IdP MFA.
+- The same Timeclock employee status, exact operation grants, audit and strong step-up apply across both paths. Mobile approval/enrollment and lost-device recovery need testing, not automatic permission escalation.
+- Design documentation updated: `STAFF_SECURITY_BASELINE.md`, `SHARED_STAFF_AUTH_PERMISSIONS.md` and `CHROME_EXTENSION_RELEASE_QUEUE.md`. Extension work stays BLOCKED/Planned; reconcile PR #22/#26 and consolidated source before implementation/release.
+- No production endpoint, extension package, deployment, browser/device enrollment or secret changed by this decision.
+
