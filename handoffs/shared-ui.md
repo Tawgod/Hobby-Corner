@@ -107,3 +107,11 @@ This workstream owns UI/UX consistency across Special Orders, Ordering, GW/regul
 - RMS Item Migration remains a separate specialist development conversation. Its source code can be reused by tools when suitable and verified, but UI coordination must not assume its bulk migration routines are shared operational services.
 - No merge, extension release or production deployment is implied by retaining this chat.
 
+
+## Employee Security Settings UI coordination — 2026-10-30
+
+- Shared Lightspeed Services produced a responsive **development-only** employee-security page: `staff-security.html`, `staff-security.css`, `staff-security-client.js`, unmounted settings router, all on `Tawgod/Lightspeed` PR #32 and mirrored into stacked #33.
+- UI contains Timeclock session status, Authenticator QR/manual key enrollment and confirmation, factor-status badge, private sign-out, passkey/recovery information. No production navigation or extension launcher was added.
+- Shared UI/UX should review design consistency against `shared-ui/hc.css`, accessibility/mobile sizing and employee-friendly error text **before** adoption. Existing settings page intentionally does not reuse legacy PIN-only auth as proof of independent factor enrollment; server checks must remain authoritative.
+- No extension packaging, Chrome popup change, deployment or actual staff enrollment occurred. Future navigation/extension entrypoints require cross-tool release queue reconciliation.
+
