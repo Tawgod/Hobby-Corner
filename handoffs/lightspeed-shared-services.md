@@ -125,3 +125,13 @@ Do not deploy production, apply the shared Postgres schema, move credentials, de
 - Never import migration-only writers, RMS historical on-hand inventory values, source credentials or temporary schemas into the shared production adapter. Do not assume migration branch code is merged, deployed or safe for writes.
 - Feature-specific development may be restarted in targeted chats from handoffs when approved/prioritized; existing PRs #32/#33 still need their own verification/acceptance/deployment decisions.
 
+
+## Shared staff security baseline — 2026-10-30
+
+- PR #32 now includes `services/security/staffAccessBaseline.js` and `tests/shared-staff-security.test.mjs`; PR #33 stacked branch contains matching candidate code. **Unmounted/non-deployed**; no existing route or employee PIN changed.
+- Access levels: active Timeclock-verified session **plus** server-proven registered device or independent strong sign-in for in-store/normal read/staging; independent recent passkey/security-key/OIDC MFA **plus** exact permission for product/PO/inventory/sale/store-credit/employee-permission operations.
+- Mocked security-policy regression CI: PR #32 `41091313029` PASS; PR #33 `41091370610` PASS. Tests reject PIN-only, forged browser role/device headers, inactive employees, unbound/expired MFA, unauthorized operations and failing verifiers. These checks do not establish deployed device enrollment/IdP, live route protection or production pen-test results.
+- Source audit uncovered a legacy Timeclock status/clock identification path outside the new Staff Auth session: requires coordinated backend+Chrome employee acceptance, and new rate-limit/abuse controls before system-wide security can be considered established.
+- Existing durable login limiter has global/source/PIN buckets but is not a substitute for verified trusted station/strong remote access and per-account controls. Do not change in-store clocking or rotate `TIMECLOCK_PIN_PEPPER` without a signed-off migration.
+- Specification, dependencies, acceptance and owner decisions: `STAFF_SECURITY_BASELINE.md`; current operational permissions: `SHARED_STAFF_AUTH_PERMISSIONS.md`. No merge, Railway deployment, DB change, production login/authorization restriction or Chrome release in this milestone.
+
