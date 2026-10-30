@@ -1,5 +1,13 @@
 # Hobby Corner Project Changelog
 
+## 2026-10-30 — Staff access assurance baseline / Timeclock PIN security review
+
+- Audited existing `Tawgod/Lightspeed` production-base `timeclock/server.js`, Chrome `extension/content.js`, `services/scannerLoginLimiter.js`, `services/staffAuthGateway.js`, `services/scannerSessions.js`, and PR #32 policy/transport. Verified legacy Timeclock clock/status identification accepts employee name/PIN outside the newer signed staff-session contract; existing PIN HMAC and Postgres login limiter alone do not secure those flows.
+- Created `STAFF_SECURITY_BASELINE.md` with phased assurance matrix, independently verified store-device or passkey/IdP MFA for internet-facing tools, exact operation permissions, incident/abuse/rate-limit/recovery requirements, session revocation, Timeclock extension migration and non-disruptive rollout gates.
+- Added **unmounted** `services/security/staffAccessBaseline.js` and `tests/shared-staff-security.test.mjs` to PR #32, synchronized to stacked PR #33; added CI triggers and tests. Phase 1 code/test CI `41091313029` **PASS**, stacked Phase 2 code/test CI `41091370610` **PASS**. Browser role/Origin, PIN-only, expired/unbound MFA and denied permissions rejected by mock regression checks.
+- Updated `SHARED_STAFF_AUTH_PERMISSIONS.md`, core project registry, roadmap, Timeclock/shared-services/manager/deployment handoffs and queued Timeclock Chrome auth migration as `BLOCKED / Planned` in `CHROME_EXTENSION_RELEASE_QUEUE.md`.
+- **No production effect:** no merge, deployment, PIN reset/rotation, IdP enrollment, WAF/access change, Timeclock route replacement, Railway schema/data/config or Chrome package published. Live legacy clocking still needs coordinated remediation and explicit approval.
+
 ## 2026-10-29 — Shared Lightspeed foundation reliability hardening (PR #32/#33)
 
 - Implemented Phase 1-only branch hardening on PR #32 at `0082eacc5acde5bde52bdc5e70924f3edaf6d778`. Changed canonical Lightspeed transport, idempotency fingerprint/execute contract and read-only PostgreSQL reconciliation inspection; expanded targeted tests and docs. Final-head CI `40955180232` **PASS**.
