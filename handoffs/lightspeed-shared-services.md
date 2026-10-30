@@ -156,3 +156,12 @@ Do not deploy production, apply the shared Postgres schema, move credentials, de
 - Existing unmounted PR #32/#33 staff assurance policy can express both trusted device and strong user factor, but **no** device enrollment, WebAuthn login, account recovery, staff UI changes or live endpoint gating has been built. Timeclock legacy auth migration remains the blocker.
 - Spec: `STAFF_SECURITY_BASELINE.md`; extension work is BLOCKED/Planned in release queue. No code branch, deployment or extension package changed by this design update.
 
+
+### Optional Google Authenticator integration candidate — 2026-10-30
+
+- Implemented **unmounted** standard six-digit/30s TOTP primitives and encrypted PostgreSQL enrollment/confirmation/one-use-code verification on PR #32, mirrored to stacked PR #33; no Google cloud/API dependency.
+- Dedicated `services/security/staffTotp.js`, `staffTotpPostgres.js`, additive-but-unapplied `db/hc_staff_totp.sql`, tests `tests/shared-staff-totp*.test.mjs`; final code tests [Phase 1 41116233000](https://github.com/Tawgod/Lightspeed/actions/runs/41116233000) PASS and [Phase 2 41116244954](https://github.com/Tawgod/Lightspeed/actions/runs/41116244954) PASS.
+- Shared policy accepts backend-verified TOTP for routine mobile access but **denies TOTP-only high-risk writes**, which retain stronger authenticator and exact permission requirements. Timeclock identity, throttling, one-time code replay prevention and encrypted server-only seed storage are preserved.
+- **Missing before any rollout:** approved enrollment/backup/revocation workflow; real mobile QR/setup UI, signed factor-bound session, trusted-source IP, tested Timeclock browser integration, key rotation/runbook, live employee tests and separate production approval.
+- Full architecture: `STAFF_SECURITY_BASELINE.md`. PR #32 remains open/unmerged; PR #33 remains draft/stacked. No existing PIN, live login, database or Railway deployment was changed.
+
