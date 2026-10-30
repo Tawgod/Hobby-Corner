@@ -165,3 +165,12 @@ Do not deploy production, apply the shared Postgres schema, move credentials, de
 - **Missing before any rollout:** approved enrollment/backup/revocation workflow; real mobile QR/setup UI, signed factor-bound session, trusted-source IP, tested Timeclock browser integration, key rotation/runbook, live employee tests and separate production approval.
 - Full architecture: `STAFF_SECURITY_BASELINE.md`. PR #32 remains open/unmerged; PR #33 remains draft/stacked. No existing PIN, live login, database or Railway deployment was changed.
 
+
+### Employee Security Settings first candidate — 2026-10-30
+
+- Implemented on PR #32; mirrored to stacked PR #33: unmounted `routes/staffSecuritySettings.js`, responsive `staff-security.html/css/client.js`, status-only PostgreSQL method and `tests/shared-staff-settings.test.mjs`.
+- Enrolled Authenticator status, pending QR/secret handling, six-digit confirmation and sign-out are designed for store/mobile browsers. QR PNG is rendered **locally on the backend** with existing barcode dependency; no third-party QR service receives the enrollment secret.
+- Every factor-management API requires current Timeclock employee session plus **independent** approved enrollment/station/strong-factor verification; spoofed browser role/device/Origin claims are rejected. No automatic reset/recovery route. Sensitive seed/code data is no-store and cleared on browser navigation/hide.
+- Actual Authenticator/mobile sign-in, signed MFA step-up, manager-approved recovery, station verification, key custody, live staff acceptance and legacy Timeclock bypass remediation remain unfinished. This page is **not mounted, linked or deployed**.
+- Tested: secured route/QR/source checks and encrypted PG metadata with passing development CI. Exact code+test status must be reverified before integration. Contract: `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029/docs/STAFF_SECURITY_SETTINGS.md`.
+
