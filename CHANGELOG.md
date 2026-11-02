@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-02 — WebAuthn passkey candidate, isolated testing
+
+- Added passkey backend, test-only browser page, PostgreSQL schema candidate and automated cryptographic authentication tests to the existing shared-services development branches.
+- Automated Phase 1 security, Scanner and Core Operations suites passed. Test coverage now includes manager passkey verification authorizing a separate employee's Authenticator setup request through existing server-side permissions.
+- Independent owner credential bootstrap, hardware browser registration, recovery, live Timeclock migration and deployment approvals remain outstanding. No production changes were made.
+
+
 ## 2026-11-02 — Registered workstation proof: actual cryptographic and HTTP tests (unmounted)
 
 - Implemented backend-only per-installation Ed25519 station registration, signed one-use workstation challenges, employee/session-bound five-minute station claims, immediate revocation and append-only audit. No static extension secret and no automatic PIN-only registration.
