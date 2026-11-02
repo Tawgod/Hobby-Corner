@@ -1106,3 +1106,9 @@ No Lightspeed product records were created or updated in this test. The existing
 - `handoffs/hobby-corner-manager.md` remains the durable manager snapshot for continuity and recovery, not an archive trigger.
 - Updated `HOBBY_CORNER_CHAT_TRANSITION.md` and `HOBBY_CORNER_PROJECT.md` to preserve this distinction.
 - No runtime code, PR merge, Railway deployment, credential change, Lightspeed write or Chrome extension release occurred.
+
+## 2026-11-02 — Admin-issued Discord onboarding invitation (test-only)
+
+- Created draft Hobby Bot PR #3: `/hc security_setup` role-checked private employee invitations; no TOTP secrets sent to Discord. Added Lightspeed hashed, one-use PostgreSQL invitations, active Timeclock account binding, one-time employee redemption and optional invite-only enrollment UI on Phase 1/2 development branches.
+- Passed isolated Bot syntax/role CI `41486273875`; backend E2E QR and TOTP confirmation in foundation CI `41485971503`; Scanner/Core Ops regressions passed. No hardware/browser or live Discord test was performed.
+- Initial owner passkey bootstrap, staging deployment and real employee acceptance are still blocked. **No production deploy/DB migration/Chrome release**.
