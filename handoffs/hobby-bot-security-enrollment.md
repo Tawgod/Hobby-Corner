@@ -63,3 +63,10 @@ Arrange independent owner passkey bootstrap and an isolated HTTPS, disposable-Po
 
 - Do not merge PRs, deploy bot main, mount production routes, apply live migration or read live secrets without separate authorization.
 - Keep QR/TOTP seeds off Discord; bot invitation is not itself approval.
+
+## Railway isolated test provisioning staged — 2026-11-02
+
+- User authorized beginning Railway test environment configuration. Existing project `Hobby Corner Integration Test` (`c4586f88-0a5e-4582-8e0f-3861d851567b`), environment `test` (`24b41ef2-e3d8-4c7a-b011-355204ecf075`).
+- **Staged only, not deployed:** Railway PostgreSQL template (includes its own `postgres-volume`), empty `staff-security-staging` service (`5c4e9d67-8ac0-4958-adf6-92387c7cdbca`), empty `hobby-bot-security-test` service (`55bea846-a9c0-4f2e-8ed6-abde18d90269`); patch `ae35bd65-381a-4b33-804c-a7bbdfb4853d` contains 46 pending changes after non-secret environment labels. `consignment-beta` was not touched. The flags `HC_ENROLLMENT_MODE` and `SECURITY_ENROLLMENT_MODE` are labels only, not enforced auth controls.
+- **No source connected, no service deployed, no test Postgres initialized, no public domain exposed and no credentials configured.** The general Lightspeed package starts production `server.js`; do not connect that as a staging service until an isolated security-only entrypoint exists. The Discord bot likewise needs an isolated startup and test bot application token, never the live bot token.
+- Next: create dedicated security-staging HTTP entrypoint with test-only trusted staff account lookup and independently verified owner-passkey bootstrap; configure test Discord bot application/guild roles and dedicated service secrets safely; review stage patch before accepting changes. No live employee, Lightspeed, or Timeclock dataset should be connected without explicit scope approval.
