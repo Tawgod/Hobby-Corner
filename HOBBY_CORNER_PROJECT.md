@@ -1822,6 +1822,6 @@ No production deployment, credential migration or new write authorization was gr
 ### Shared staff session/MFA bridge checkpoint — 2026-11-02
 
 - Added unmounted, tested server-side Timeclock-bound staff session/MFA permission bridge to open PR #32, mirrored into stacked draft PR #33. No production route, database or Chrome extension change.
-- PR #32 bridge test/CI `41467459820` PASS; PR #33 mirror is code-present but current-head CI not yet verified. Keep separate **implemented / tested / deployed** labels; deployed = NO.
+- PR #32 latest bridge test/CI `41468102070` PASS, Scanner `41468102136` PASS, Core Operations `41468102173` PASS (test head `72dc6902`); PR #33 mirror is code-present but current-head CI not yet verified. Keep separate **implemented / tested / deployed** labels; deployed = NO.
 - Railway production remains linked to consolidated integration branch; services `lightspeed-api`, `timeclock`, and `special-orders-test` most recently show successful 2026-10-28 deployments, no staged changes as of 2026-11-02.
 - Actual trusted station registration and manager-approved passkey/IdP, secure Timeclock legacy-route migration, live employee/device acceptance and deployment authorization remain blockers. See `handoffs/lightspeed-shared-services.md` for branch commits and remaining gates.
