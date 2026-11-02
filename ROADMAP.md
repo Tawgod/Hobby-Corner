@@ -233,3 +233,9 @@ A feature is not considered current merely because code exists. The manager shou
 - Next milestones: trusted enrollment approval (device/passkey and role policy), server-signed bound second-factor session, secure recovery/audit, real mobile/Chrome acceptance and coordinated Timeclock legacy route repair. Only after safety approval should the settings page be exposed.
 - Source: `STAFF_SECURITY_BASELINE.md`; technical acceptance: `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029/docs/STAFF_SECURITY_SETTINGS.md`.
 
+
+### November 2 staff-settings security stabilization
+
+- Reverified PR #32/#33 contain unmounted manager enrollment request/approval, session-bound TOTP MFA proof and audited factor revocation. Fixed mobile six-digit code and token syntax validation with real browser-client regression; latest CI `41456103369` / `41456127545` PASS.
+- Remaining security dependency: manager/device stronger identity provider and administration interface, Timeclock/Chrome legacy-route repair, real browser and recovery testing, proxy/edge audit and explicit production release approval. No login or Railway rollout performed.
+
