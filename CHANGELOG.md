@@ -4,7 +4,7 @@
 
 - Implemented backend-only per-installation Ed25519 station registration, signed one-use workstation challenges, employee/session-bound five-minute station claims, immediate revocation and append-only audit. No static extension secret and no automatic PIN-only registration.
 - Added isolated PostgreSQL schema, an explicitly unmounted local HTTP challenge/verification adapter, tests covering actual Ed25519 signatures and Timeclock signed-session binding, and a developer test plan. Mirrored code into Phase 2 draft PR #33; preserved existing service behavior.
-- Phase 1 foundation CI `41470656707` passed real-key/disposable PG/HTTP tests. Final head and Phase 2 CI still require separate readback. Manager passkey in automated tests is a controlled mock; real WebAuthn/IdP, extension key ceremony and employee acceptance remain unimplemented.
+- Final Phase 1 PR #32 head `2c77d91` passed foundation `41470826329` (real-key/PG/HTTP), Scanner `41470826405`, and Core Operations `41470826368`. Phase 2 CI remains unverified. Manager passkey in automated tests is a controlled mock; real WebAuthn/IdP, extension key ceremony and employee acceptance remain unimplemented.
 - Production Railway services and Chrome extension unchanged. No secrets, real employee enrollment, schema application, sensitive Lightspeed operations, merge or deployment performed.
 
 
