@@ -1831,3 +1831,8 @@ No production deployment, credential migration or new write authorization was gr
 - Shared Services now has an unmounted cryptographic station enrollment/challenge backend and localhost HTTP integration tests, mirrored on PR #32 and stacked draft PR #33. See `handoffs/lightspeed-shared-services.md` and Lightspeed `docs/STAFF_STATION_TESTING.md`.
 - **Implemented:** development code only. **Tested:** Phase 1 final-head foundation `41470826329` PASS with disposable PostgreSQL, real Ed25519 and HTTP; Scanner `41470826405` PASS, Core Operations `41470826368` PASS; Phase 2 latest-head CI remains unverified. **Deployed:** NO.
 - Hardware/extension key ceremony, real manager passkey, legacy Timeclock bypass fix and staff/mobile acceptance still block public pilot and production rollout. Do not represent a test-double approval as live strong identity verification.
+
+### Real manager WebAuthn passkey bridge — 2026-11-02
+
+- **Implemented:** unmounted manager/employee WebAuthn registration, proof and native browser pilot on shared services PR #32; mirrored onto Phase 2 draft #33. **Tested:** Phase 1 foundation `41474392635`, Scanner `41474392499`, Core Operations `41474392819` PASS; real signed ES256 authentication and exact manager permission integration, but registration verifier still a fixture. **Deployed:** NO.
+- First-owner independently verified bootstrap, backup/recovery, actual browser passkey enrollment, legacy Timeclock clock/status security and Railway proxy/edge review are blocked. Details in `handoffs/lightspeed-shared-services.md` and Lightspeed `docs/STAFF_PASSKEY_TESTING.md`.
