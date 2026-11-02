@@ -1829,5 +1829,5 @@ No production deployment, credential migration or new write authorization was gr
 ### Registered workstation crypto pilot — 2026-11-02
 
 - Shared Services now has an unmounted cryptographic station enrollment/challenge backend and localhost HTTP integration tests, mirrored on PR #32 and stacked draft PR #33. See `handoffs/lightspeed-shared-services.md` and Lightspeed `docs/STAFF_STATION_TESTING.md`.
-- **Implemented:** development code only. **Tested:** Phase 1 full foundation `41470656707` PASS with disposable PostgreSQL, real Ed25519 and signed Timeclock-session HTTP tests; remaining CI per latest head and Phase 2 need readback. **Deployed:** NO.
+- **Implemented:** development code only. **Tested:** Phase 1 final-head foundation `41470826329` PASS with disposable PostgreSQL, real Ed25519 and HTTP; Scanner `41470826405` PASS, Core Operations `41470826368` PASS; Phase 2 latest-head CI remains unverified. **Deployed:** NO.
 - Hardware/extension key ceremony, real manager passkey, legacy Timeclock bypass fix and staff/mobile acceptance still block public pilot and production rollout. Do not represent a test-double approval as live strong identity verification.
