@@ -336,3 +336,11 @@ The manager chat coordinates these records; it does not own feature-private sour
 - Implementation not mounted/deployed; next essential milestone is approved enrollment verifier, recovery policy, employee-bound MFA session and test/production rollout plan. Existing live Timeclock name/PIN path risk remains.
 - No production code merge, Railway/database change, Chrome extension release or employee account update made.
 
+
+## Security enrollment progress — 2026-11-02
+
+- Shared Services verified PR #32/#33 already contain nonproduction manager enrollment approval requests, strict manager strong-factor approval hooks, short-lived employee-session-bound MFA tokens and audited recovery/revocation logic. No duplicate approval service was introduced.
+- Fixed employee settings mobile six-digit code handling and signed MFA proof syntax; added actual browser-client regression test to both branches. Latest code CI passed PR #32 `41456103369`, PR #33 `41456127545`.
+- Remaining blocker for deployment: **real registered store-device or passkey/IdP manager authentication**, secure manager administration UI, Timeclock/Chrome legacy endpoint remediation, and real staff/mobile acceptance. PIN-only login remains insufficient.
+- Separate decisions required on approval authority, passkey provider/enrollment, lost-phone recovery and production rollout; **no merge or deployment authorized or performed**.
+
