@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-02 — Employee settings mobile verification regression and security handoff
+
+- Reviewed current Shared Lightspeed Services PR #32 / stacked draft PR #33 and confirmed unmounted, source-backed manager enrollment approval, session-bound signed MFA tokens and manager-only audited authenticator recovery already exist. Avoided implementing duplicates.
+- Corrected employee settings browser's six-digit Authenticator and token format validation, and added a VM-executed browser regression for valid MFA exchange, invalid input and loss-of-focus proof clearing to both branches.
+- CI for PR #32 `41456103369` and PR #33 `41456127545` passed. Updated manager, shared services and deployment handoffs and both PR descriptions.
+- No active staff login behavior, factor enrollment, Railway settings, database migration, Chrome release, live Lightspeed data or production deployment changed. Independent approved manager/device identity and live integration remain blocked.
+
 ## 2026-10-30 — Employee Security Settings first development milestone
 
 - Added **unmounted** responsive employee settings UI `staff-security.html/css/client.js` and backend `routes/staffSecuritySettings.js` to unmerged PR #32, synchronized to draft stacked PR #33. The UI supports Timeclock session status, Authenticator enrollment QR PNG generated locally with existing `bwip-js` (no external QR service), manual key, six-digit code confirmation, secret clearing on sign-out/page hiding, and passkey/lost-phone information.
