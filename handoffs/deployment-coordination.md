@@ -123,3 +123,10 @@
 - Before live deployment: verify independent approved enrollment policy (manager/registered station/recent MFA, never PIN alone), stable active Timeclock identity adapter, production encryption key/rotation, signed MFA session exchange, lost-device recovery, CSRF/CSP/edge review, legacy Timeclock clocking migration, real Chrome/mobile browser acceptance, Postgres backup/restore, and authorization.
 - Existing source and unit/PG tests passed; no branch merge, Railway DB schema application, public login route, Chrome package or secret/PIN change. Technical contract: `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029/docs/STAFF_SECURITY_SETTINGS.md`.
 
+
+## Staff authentication candidate update — 2026-11-02
+
+- PR #32 and stacked draft PR #33 now pass full CI including the added browser-level employee-settings MFA test (`41456103369` / `41456127545`). Fixed code-validation escaping in `staff-security-client.js`.
+- Source already includes unmounted durable manager approval, independently validated strong approver callbacks, signed short-lived session-bound TOTP proof and factor-revocation audit. **No live verifier or route integration is established.**
+- Do not route, merge, migrate SQL, issue production signing/encryption keys, enroll employees or enable remote tool access until registered-device/IdP identity proof, manager administration, recovery controls, edge/proxy review, Timeclock/Chrome legacy migration and employee tests are complete and explicit approval is granted.
+
