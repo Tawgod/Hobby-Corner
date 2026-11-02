@@ -1,5 +1,13 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-02 — Registered workstation proof: actual cryptographic and HTTP tests (unmounted)
+
+- Implemented backend-only per-installation Ed25519 station registration, signed one-use workstation challenges, employee/session-bound five-minute station claims, immediate revocation and append-only audit. No static extension secret and no automatic PIN-only registration.
+- Added isolated PostgreSQL schema, an explicitly unmounted local HTTP challenge/verification adapter, tests covering actual Ed25519 signatures and Timeclock signed-session binding, and a developer test plan. Mirrored code into Phase 2 draft PR #33; preserved existing service behavior.
+- Phase 1 foundation CI `41470656707` passed real-key/disposable PG/HTTP tests. Final head and Phase 2 CI still require separate readback. Manager passkey in automated tests is a controlled mock; real WebAuthn/IdP, extension key ceremony and employee acceptance remain unimplemented.
+- Production Railway services and Chrome extension unchanged. No secrets, real employee enrollment, schema application, sensitive Lightspeed operations, merge or deployment performed.
+
+
 ## 2026-11-02 — Staff-session MFA policy bridge (candidate)
 
 - Added unmounted `services/security/staffSecurityBridge.js` and `tests/shared-staff-bridge.test.mjs` to Lightspeed Phase 1 PR #32 and mirrored onto stacked Phase 2 PR #33. Enforced current signed Timeclock employee/session binding, signed TOTP proof for permitted routine actions, and separate strong-factor + exact-permission gates for sensitive writes. No trusting browser role, Origin or device headers.
