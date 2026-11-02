@@ -3,7 +3,7 @@
 ## 2026-11-02 — Staff-session MFA policy bridge (candidate)
 
 - Added unmounted `services/security/staffSecurityBridge.js` and `tests/shared-staff-bridge.test.mjs` to Lightspeed Phase 1 PR #32 and mirrored onto stacked Phase 2 PR #33. Enforced current signed Timeclock employee/session binding, signed TOTP proof for permitted routine actions, and separate strong-factor + exact-permission gates for sensitive writes. No trusting browser role, Origin or device headers.
-- Included bridge regressions in both CI definitions. Phase 1 foundation run `41467459820` passed with bridge tests; Phase 2 latest-head verification remains pending. Documented usage and blockers in both branches' `docs/STAFF_SECURITY_SETTINGS.md`.
+- Included bridge regressions in both CI definitions. Phase 1 final-head foundation run `41468102070` passed, including expired Timeclock session denial; Scanner `41468102136` and Core Operations `41468102173` passed. Phase 2 latest-head verification remains pending. Documented usage and blockers in both branches' `docs/STAFF_SECURITY_SETTINGS.md`.
 - Railway production source remains the consolidated integration branch with no staged changes; no PR merge, schema application, employee/Chrome release or Lightspeed write. Follow-up requires registered station/strong provider integrations and live Timeclock/employee acceptance.
 
 
