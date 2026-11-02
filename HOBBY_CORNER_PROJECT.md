@@ -1825,3 +1825,9 @@ No production deployment, credential migration or new write authorization was gr
 - PR #32 latest bridge test/CI `41468102070` PASS, Scanner `41468102136` PASS, Core Operations `41468102173` PASS (test head `72dc6902`); PR #33 mirror is code-present but current-head CI not yet verified. Keep separate **implemented / tested / deployed** labels; deployed = NO.
 - Railway production remains linked to consolidated integration branch; services `lightspeed-api`, `timeclock`, and `special-orders-test` most recently show successful 2026-10-28 deployments, no staged changes as of 2026-11-02.
 - Actual trusted station registration and manager-approved passkey/IdP, secure Timeclock legacy-route migration, live employee/device acceptance and deployment authorization remain blockers. See `handoffs/lightspeed-shared-services.md` for branch commits and remaining gates.
+
+### Registered workstation crypto pilot — 2026-11-02
+
+- Shared Services now has an unmounted cryptographic station enrollment/challenge backend and localhost HTTP integration tests, mirrored on PR #32 and stacked draft PR #33. See `handoffs/lightspeed-shared-services.md` and Lightspeed `docs/STAFF_STATION_TESTING.md`.
+- **Implemented:** development code only. **Tested:** Phase 1 full foundation `41470656707` PASS with disposable PostgreSQL, real Ed25519 and signed Timeclock-session HTTP tests; remaining CI per latest head and Phase 2 need readback. **Deployed:** NO.
+- Hardware/extension key ceremony, real manager passkey, legacy Timeclock bypass fix and staff/mobile acceptance still block public pilot and production rollout. Do not represent a test-double approval as live strong identity verification.
