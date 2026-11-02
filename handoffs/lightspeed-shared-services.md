@@ -174,3 +174,12 @@ Do not deploy production, apply the shared Postgres schema, move credentials, de
 - Actual Authenticator/mobile sign-in, signed MFA step-up, manager-approved recovery, station verification, key custody, live staff acceptance and legacy Timeclock bypass remediation remain unfinished. This page is **not mounted, linked or deployed**.
 - Tested: secured route/QR/source checks and encrypted PG metadata with passing development CI. Exact code+test status must be reverified before integration. Contract: `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029/docs/STAFF_SECURITY_SETTINGS.md`.
 
+
+## Employee security follow-up — verified 2026-11-02
+
+- Reinspected current PR #32 `feature/shared-lightspeed-services-phase1-20261029` and draft stacked PR #33. Source already contains durable employee-bound manager enrollment requests (`staffEnrollmentApprovals.js`), passkey/IdP-strength manager approval adapter hooks, base-session-bound signed TOTP MFA tokens (`staffMfaSessions.js`), and audited backend-only factor revocation (`staffFactorRecovery.js`). All remain **unmounted**.
+- Corrected `staff-security-client.js` mobile verification regex for six-digit codes and signed MFA token structure on both branches. Added `tests/shared-staff-settings-client.test.mjs`, exercising the real browser script's six-digit request to `/staff-security/api/mfa/session`, bad-input rejection before network activity, and clearing verification state when hidden.
+- Updated both foundation CI workflows. PR #32 latest code/test CI `41456103369` **PASS**; PR #33 `41456127545` **PASS**.
+- Remaining critical integration: independently enrolled manager passkey/IdP MFA or registered workstation proof, actual verified manager UI, secure employee identity/session binding and permission integration on live routes, robust recovery and key custody, proxy/IP review, Chrome/Timeclock legacy clock bypass migration, device acceptance and explicit production authorization.
+- **No production code merge, database schema, Railway deployment, live staff enrollment, credentials or Chrome release changed.** Never expose this unmounted candidate as if login protection were already active.
+
