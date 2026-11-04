@@ -1112,3 +1112,10 @@ No Lightspeed product records were created or updated in this test. The existing
 - Created draft Hobby Bot PR #3: `/hc security_setup` role-checked private employee invitations; no TOTP secrets sent to Discord. Added Lightspeed hashed, one-use PostgreSQL invitations, active Timeclock account binding, one-time employee redemption and optional invite-only enrollment UI on Phase 1/2 development branches.
 - Passed isolated Bot syntax/role CI `41486273875`; backend E2E QR and TOTP confirmation in foundation CI `41485971503`; Scanner/Core Ops regressions passed. No hardware/browser or live Discord test was performed.
 - Initial owner passkey bootstrap, staging deployment and real employee acceptance are still blocked. **No production deploy/DB migration/Chrome release**.
+
+## 2026-11-04 — Isolated staff security sign-in ready for staging activation
+
+- Added synthetic-only Timeclock employee PIN adapter with salted scrypt hash, signed sessions, PostgreSQL-backed login throttling, dedicated same-origin `/test-login` browser page and strict private database migration gate to Lightspeed Phase 1/2 development branches. Existing production Lightspeed and Timeclock routes were not modified.
+- CI passed on pinned test source `d0d0be4b349c45c00285be3609c60418f38f6d06`: foundation `41844243506`, scanner `41844243658`, Core Ops `41844243509`.
+- Railway `Hobby Corner Integration Test/test` staged only isolated PostgreSQL + volume and `staff-security-staging`. Canceled **unprovisioned** superseded Malcor/Hobby Bot service placeholders; preserved running Consignment. Stage-only random test PIN hash, fresh session and throttle secrets, explicit owner/guild/branch SHA. **No deployment, domain, database migration or live sign-in yet.**
+- User approval required to commit the test-only deployment; independent first Owner passkey and real authenticator QR remain separate, blocked milestones.
