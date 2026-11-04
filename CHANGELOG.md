@@ -1126,3 +1126,9 @@ No Lightspeed product records were created or updated in this test. The existing
 - PostgreSQL `631b2e07-6362-47fc-9776-6fd375aa65aa` and security API `28b37d6f-329d-4273-8b29-de2f05845b11` both Railway SUCCESS, one online replica each, API healthcheck `/health` succeeded. Security API deploy uses pinned Lightspeed commit `d0d0be4b349c45c00285be3609c60418f38f6d06`.
 - Created `https://staff-security-staging-test.up.railway.app/test-login`. External HTTP/browser access and interactive PIN sign-in **not independently verified** from available environment; no TOTP/approval routes activated. User needs a securely communicated/reset synthetic PIN for acceptance testing.
 - Recorded exact deployment and next verification steps in `handoffs/hobby-bot-security-enrollment.md` and `HOBBY_CORNER_PROJECT.md`. Malcor live bot, live Consignment, Timeclock production and Lightspeed production were not modified.
+
+## 2026-11-04 — Isolated test employee self-service PIN setup
+
+- Added `/test-pin-setup` to the dedicated `staff-security-staging` service so the owner can select a four-digit **synthetic test-only** PIN without putting it or its hash in chat. Protected by a separate Railway-only high-entropy one-time setup credential, exact HTTPS origin/staging environment checks, and atomic PostgreSQL one-use persistence.
+- Updated synthetic sign-in to read the freshly salted scrypt PIN hash from test PostgreSQL; earlier production Timeclock, factor approval and Authenticator routes untouched.
+- CI: foundation `41859426437` passed on rerun (first failed on a concurrent Postgres test-schema race), Scanner `41859426419` and Core Ops `41859426993` passed. Test-only Railway deployment `c0d9623e-e6f3-4f3a-aabc-4eaa417ee5f7` **SUCCESS**, `/health` passed, database and Consignment online. Actual owner PIN setup and browser sign-in still require acceptance.
