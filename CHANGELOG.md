@@ -1119,3 +1119,10 @@ No Lightspeed product records were created or updated in this test. The existing
 - CI passed on pinned test source `d0d0be4b349c45c00285be3609c60418f38f6d06`: foundation `41844243506`, scanner `41844243658`, Core Ops `41844243509`.
 - Railway `Hobby Corner Integration Test/test` staged only isolated PostgreSQL + volume and `staff-security-staging`. Canceled **unprovisioned** superseded Malcor/Hobby Bot service placeholders; preserved running Consignment. Stage-only random test PIN hash, fresh session and throttle secrets, explicit owner/guild/branch SHA. **No deployment, domain, database migration or live sign-in yet.**
 - User approval required to commit the test-only deployment; independent first Owner passkey and real authenticator QR remain separate, blocked milestones.
+
+## 2026-11-04 — Approved staging sign-in deployment and HTTPS domain
+
+- After explicit user approval, committed reviewed Railway `Hobby Corner Integration Test/test` patch `ae35bd65-381a-4b33-804c-a7bbdfb4853d` containing only isolated `Postgres`, its storage volume, and `staff-security-staging`. Removed two never-live obsolete bot placeholders beforehand; no destructive change to running services.
+- PostgreSQL `631b2e07-6362-47fc-9776-6fd375aa65aa` and security API `28b37d6f-329d-4273-8b29-de2f05845b11` both Railway SUCCESS, one online replica each, API healthcheck `/health` succeeded. Security API deploy uses pinned Lightspeed commit `d0d0be4b349c45c00285be3609c60418f38f6d06`.
+- Created `https://staff-security-staging-test.up.railway.app/test-login`. External HTTP/browser access and interactive PIN sign-in **not independently verified** from available environment; no TOTP/approval routes activated. User needs a securely communicated/reset synthetic PIN for acceptance testing.
+- Recorded exact deployment and next verification steps in `handoffs/hobby-bot-security-enrollment.md` and `HOBBY_CORNER_PROJECT.md`. Malcor live bot, live Consignment, Timeclock production and Lightspeed production were not modified.
