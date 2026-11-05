@@ -1894,3 +1894,5 @@ Verified Railway service deployment `c0d9623e-e6f3-4f3a-aabc-4eaa417ee5f7` **SUC
 **Still staged, not deployed:** Malcor owner-only read-only security status patch `0d760293-efc3-40bd-87b4-58893b905e31`; invitation flag false. Production bot and extension unchanged.
 
 **Next action:** Owner reopens [test-login](https://staff-security-staging-test.up.railway.app/test-login) and uses the same private synthetic PIN. Once confirmed, proceed to separately reviewed passkey test deployment/key provisioning. Current central handoff: `handoffs/hobby-bot-security-enrollment.md`.
+
+**CI maintenance (2026-11-05):** Phase 1 PR #32 latest head `5db3b8d8850247433939de59b5d7141f20f7f1c9` passed foundation `42045052408`, Scanner `42045052388`, Core Operations `42045052696`. The disposable PostgreSQL integration suite is serialized to prevent intermittent concurrent-table DDL races. Stacked Phase 2 PR #33 source/head `1ca3f33bbcc092bb2d6e373696b6a05b6b6b0915` has mirrored workflow and test source; independent Phase 2 CI was not returned. Neither change is deployed.
