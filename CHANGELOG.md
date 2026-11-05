@@ -1157,3 +1157,9 @@ No Lightspeed product records were created or updated in this test. The existing
 
 - Updated the shared Lightspeed foundation workflow to recognize stacked Phase 2 PRs targeting Phase 1 and serialized disposable PostgreSQL schema integration tests, avoiding the previously observed intermittent table-DDL race. Mirrored the workflow into Phase 2 without changing runtime code.
 - Phase 1 CI at `5db3b8d8850247433939de59b5d7141f20f7f1c9`: foundation `42045052408`, Scanner `42045052388`, Core Operations `42045052696` all **PASS**. Phase 2 own head CI remains unverified. No Railway deploy or PR merge from this CI-only change.
+
+## 2026-11-05 — Owner bootstrap credential browser handling
+
+- Updated the isolated Owner passkey browser client to clear the private one-use setup key from the password input **before** any registration network request or native WebAuthn prompt. A cancelled prompt or rejected authorization leaves no private key in the form and requires re-entry.
+- Added read-only browser VM regressions for denied registration, cancelled passkey prompts, exact header usage and no follow-on verification request after cancellation. Phase 1 foundation CI `42059458931`, Scanner `42059458658`, Core Operations `42059458824` all passed; synchronized code, tests and documentation to stacked Phase 2.
+- Reviewed Railway: current synthetic PIN login remains healthy and user verified; no new deploy. The pending test patch has concurrently changed to include Owner approval flag and a newer source pin, so it was intentionally **not accepted**. First Owner WebAuthn registration, manager approval and Authenticator QR remain disabled. Production untouched.
