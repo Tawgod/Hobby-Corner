@@ -6,7 +6,7 @@
 ## Current authoritative snapshot
 
 ### Ownership and sources
-- Backend: `Tawgod/Lightspeed` PR #32, `feature/shared-lightspeed-services-phase1-20261029`. Latest confirmed Phase 1 head `24e543b55071c072baa49113d164130ade5a2b99`, Foundation / Scanner / Core Operations CI all **SUCCESS**. Stacked Phase 2 draft PR #33 `feature/shared-lightspeed-services-phase2-reads-20261029` now mirrors the isolated PIN and Owner passkey code/schema/test assets; its latest branch-head CI remains independently unverified.
+- Backend: `Tawgod/Lightspeed` PR #32, `feature/shared-lightspeed-services-phase1-20261029`. Latest confirmed Phase 1 head `8fcc5969a2929eacf460c1921fb887ff5d61b5be`, Foundation `42044613103`, Scanner `42044613210`, Core Operations `42044613036` all **SUCCESS**. Stacked Phase 2 draft PR #33 head `a99563a287c35c7cb0c5c98e21b1aff5f967051c` now mirrors the relevant isolated PIN and Owner passkey code/schema/test assets; its latest branch-head CI remains independently unverified. Foundation workflow was updated to allow Phase 1 as a PR target, but no Phase 2 CI was returned by the connected GitHub tool.
 - Malcor: `Tawgod/Malcor` draft PR #8, `feature/hobby-corner-owner-security-test-20261103`; owner-only `@Malcor hc security status` and separate disabled invitation candidate. Shared module docs in draft PR #3. Current live bot/AI unchanged.
 
 ### Implemented and tested
