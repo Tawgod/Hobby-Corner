@@ -1,36 +1,34 @@
 # Hobby Corner Security Enrollment — Current Handoff
 
-**Last verified:** 2026-11-04  
-**Status:** Test PIN login: **Deployed / user tested** | PIN key retirement: **Testing / staged only** | First Owner passkey: **Testing / not deployed** | Malcor enrollment: **In Development / not deployed**
+**Last verified:** 2026-11-05  
+**Status:** Synthetic test PIN login: **Deployed / user-tested before latest update** | One-time setup retirement: **Deployed / CI passed / browser retest pending** | First Owner passkey: **Testing / not deployed** | Malcor status and invitations: **In Development / not deployed**
 
-## Current authoritative snapshot (supersedes dated notes below)
+## Current authoritative snapshot
 
-### Source
-- Lightspeed: `Tawgod/Lightspeed` PR #32, branch `feature/shared-lightspeed-services-phase1-20261029`, last automated shared-foundation success at commit `ed9481d82ea619e335aab7a99633e5c354433c7a`; stacked PR #33 is only partially mirrored for the latest bootstrap files.
-- Malcor: private `Tawgod/Malcor`, draft PR #8 `feature/hobby-corner-owner-security-test-20261103`; staged owner-only status source `d876b822ba3d31c72dd4d002ca95c2a0cadaa261`. Shared module registry/change tracking in separate draft PR #3.
-- Live source: `staff-security-staging` is still pinned to earlier deployed commit `7a74a47195c2c6a59898948989aab7ca93cf69cd`. **Unmerged development code is not live.**
+### Ownership and sources
+- Backend: `Tawgod/Lightspeed` PR #32, `feature/shared-lightspeed-services-phase1-20261029`. Latest confirmed Phase 1 head `24e543b55071c072baa49113d164130ade5a2b99`, Foundation / Scanner / Core Operations CI all **SUCCESS**. Stacked Phase 2 draft PR #33 `feature/shared-lightspeed-services-phase2-reads-20261029` now mirrors the isolated PIN and Owner passkey code/schema/test assets; its latest branch-head CI remains independently unverified.
+- Malcor: `Tawgod/Malcor` draft PR #8, `feature/hobby-corner-owner-security-test-20261103`; owner-only `@Malcor hc security status` and separate disabled invitation candidate. Shared module docs in draft PR #3. Current live bot/AI unchanged.
 
 ### Implemented and tested
-- Owner confirmed successful synthetic PIN creation and browser sign-in using employee `901`; no real Timeclock account or employee records were accessed.
-- PIN retirement fix separates database-backed PIN reads from the one-use setup UI; tests pass even after `HC_STAGING_PIN_SETUP_ENABLED=false` and setup key revocation.
-- First Owner WebAuthn candidate: exact test owner/guild, independent one-time high-entropy Railway bootstrap credential, signed staff session, verified WebAuthn, atomic PostgreSQL grant consumption and audit, no PIN-only approval.
-- Lightspeed foundation `41868475342` **PASS**, Scanner `41868475386` **PASS**, Core Operations `41868475167` **PASS**. Includes real disposable Postgres commit/rollback of Owner bootstrap grants. Physical device registration **not tested**.
-- Malcor owner-only `hc security status` read-only candidate implemented; targeted TypeScript compilation and synthetic owner/health tests passed locally. Latest GitHub CI and real Discord test are **not independently verified**.
+- The synthetic account (`901`, owner Discord ID `115626919134887940`) previously completed real browser PIN creation and successful sign-in; the user has not yet re-tested login after the 2026-11-05 update.
+- **PIN hardening:** database-backed PIN validation is independent of the one-time setup route and setup key. Regression tests cover correct PIN after closing setup, incorrect PIN, and rejected setup.
+- **First Owner passkey candidate:** exact staging owner/guild/host, signed synthetic employee session + separately provisioned 256-bit independent bootstrap key, real WebAuthn registration verification, DB-backed challenge, four-hour one-use grant and append-only audit. A denied bootstrap rolls back the credential plus event atomically; disposable PostgreSQL tests, client regression, and route preflight passed. **Not deployed, no secret provisioned, no device acceptance yet.**
+- Read-only audit identified high severity `adm-zip` and `xlsx` dependencies; tracked at `Tawgod/Hobby-Corner` [issue #1](https://github.com/Tawgod/Hobby-Corner/issues/1). Remediation and import/export testing not yet completed.
 
-### Actual deployment and staged changes
-- Test Railway project `Hobby Corner Integration Test` / `test`: security API `c0d9623e-e6f3-4f3a-aabc-4eaa417ee5f7` **SUCCESS / online**, isolated Postgres **online**, existing Consignment **online**. Test login URL `https://staff-security-staging-test.up.railway.app/test-login`.
-- **Pending, not deployed:** test patch `679a3524-f460-45ce-84fe-f451127a851b`, four non-destructive updates to `staff-security-staging` only: source `49c81533fe2c6bbeb3189319afc039299b95be96`, database PIN storage mode, disable setup UI, blank spent setup key.
-- **Pending, not deployed:** separate Malcor/staging patch `0d760293-efc3-40bd-87b4-58893b905e31`, owner-only status flag/host, exact test IDs and pinned draft PR #8 source; invitation flag remains **false**. Existing Malcor AI bot is still online on main.
-- The first Owner passkey bootstrap feature is **not** staged or deployed. No passkey or TOTP secret generated for any real account.
+### Verified Railway deployment
+- **User-authorized test-only retirement** `Hobby Corner Integration Test / test`: accepted narrow Railway patch `679a3524-f460-45ce-84fe-f451127a851b` on 2026-11-05. Source pinned to Lightspeed `49c81533fe2c6bbeb3189319afc039299b95be96`. `HC_STAGING_PIN_STORE_MODE=database`; `HC_STAGING_PIN_SETUP_ENABLED=false`; consumed `HC_STAGING_PIN_SETUP_KEY` set empty. Security API deployment **`ce2d7703-5e14-413d-8e21-f57299733038` SUCCESS**, `/health` Railway healthcheck passed, 1/1 replica online. Isolated PostgreSQL and existing Consignment both online, unchanged. No other service or production deployment.
+- External HTTP checks from this tool environment cannot resolve the generated HTTPS hostname. User must confirm `/test-login` still signs in with the existing test PIN; retired `/test-pin-setup` should not allow PIN creation.
+- **Staged only, NOT deployed**: next test patch `43c28c64-63db-436e-b5ce-909f97949a4d` pins newer verified Phase 1 commit `24e543b55071c072baa49113d164130ade5a2b99` with `HC_STAGING_OWNER_PASSKEY_ENABLED=false`. It would introduce the guarded but disabled passkey code, not factor enrollment. Require separate approval before accepting.
+- **Staged only, NOT deployed:** Malcor separate `staging` patch `0d760293-efc3-40bd-87b4-58893b905e31` contains only the Malcor service source/owner test configuration, with `MALCOR_HC_STATUS_ENABLED=true` and `MALCOR_HC_SECURITY_ENABLED=false`. No CI evidence for latest Malcor PR #8 or real Discord round-trip. Do not accept without separate review and user authorization.
 
-### Dependencies / blockers / safety
-- User approval needed before accepting either Railway patch; after PIN retirement, owner should re-test their existing PIN and confirm setup routes are closed. Preserve any current working login until that succeeds.
-- Independent first Owner passkey: provision a new protected Railway bootstrap credential and signing secret, approve an isolated migration/rollout, test on a real device, design backup/recovery. No first-passkey bootstrap via PIN or Discord ownership alone.
-- No employee Authenticator QR or Malcor invitation backend until manager proof, exact permission checks, database migrations and secure web UI are separately tested. Production Timeclock, Lightspeed, Discord Bot and Chrome extension unchanged.
-- Read-only npm audit found **two high-severity package findings**: `adm-zip` and `xlsx`, tracked in [Hobby Corner issue #1](https://github.com/Tawgod/Hobby-Corner/issues/1). Do not auto-force dependency upgrades without import/export regression testing.
+### Dependencies, safety and blockers
+- No real Timeclock employee integration, no first Owner passkey, no manager approval, no TOTP QR or factor enrollment deployed. Production Lightspeed, Timeclock, Chrome extension and production Hobby Bot unchanged.
+- Before opening Owner passkey pilot: confirm successful PIN login after retirement, review passkey bootstrap key handoff via secure Railway administration, generate separate WebAuthn signing secret, approve isolated migrations, test the real device, design backup/recovery and audit.
+- Before activating Malcor invitation: connect independently authorized security backend and verify exact `staff.authenticator.invite` permission, one-time tokens, separate manager proof, and private delivery. Never use PIN or Discord owner role alone as approval.
+- Complete the dependency risk review before treating test login as production-grade.
 
 ### Recommended next action
-Approve and test the **PIN retirement patch first**, then the **Malcor status-only patch**. After preserving both working services, separately authorize a reviewed first Owner passkey staging pilot. Do not merge either PR or enable factor enrollment through these approvals.
+Owner re-tests [staging login](https://staff-security-staging-test.up.railway.app/test-login) using the existing four-digit **test** PIN (never provide the PIN in chat). After that, seek explicit separate approval for the disabled-passkey-code staging patch and status-only Malcor patch; later prepare reviewed one-use first Owner passkey ceremony. Neither staged patch should be conflated with permission to enable QR enrollment.
 
 ---
 
