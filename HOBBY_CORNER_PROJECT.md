@@ -1896,3 +1896,11 @@ Verified Railway service deployment `c0d9623e-e6f3-4f3a-aabc-4eaa417ee5f7` **SUC
 **Next action:** Owner reopens [test-login](https://staff-security-staging-test.up.railway.app/test-login) and uses the same private synthetic PIN. Once confirmed, proceed to separately reviewed passkey test deployment/key provisioning. Current central handoff: `handoffs/hobby-bot-security-enrollment.md`.
 
 **CI maintenance (2026-11-05):** Phase 1 PR #32 latest head `5db3b8d8850247433939de59b5d7141f20f7f1c9` passed foundation `42045052408`, Scanner `42045052388`, Core Operations `42045052696`. The disposable PostgreSQL integration suite is serialized to prevent intermittent concurrent-table DDL races. Stacked Phase 2 PR #33 source/head `1ca3f33bbcc092bb2d6e373696b6a05b6b6b0915` has mirrored workflow and test source; independent Phase 2 CI was not returned. Neither change is deployed.
+
+### Owner passkey browser hardening — 2026-11-05
+
+**In Development / Testing, not deployed:** The isolated Owner WebAuthn page now clears the high-entropy bootstrap key input **before** requesting registration options or opening a native passkey prompt. Both denied authorization and cancelled device prompts require private re-entry. Added `tests/shared-security-owner-bootstrap-browser.test.mjs`; Lightspeed Phase 1 foundation `42059458931`, Scanner `42059458658`, Core Operations `42059458824` **PASS** at `0b2d0bd41a496563f5f5dc23a255b56d1ef2863c`. Mirrored to Phase 2 draft PR #33; Phase 2 own CI unverified.
+
+**Deployed / user tested:** The user's existing synthetic PIN still signs in after setup-key retirement. Test-only Railway `staff-security-staging`, isolated Postgres and Consignment remain healthy.
+
+**Staged / not deployed:** Railway patch `43c28c64-63db-436e-b5ce-909f97949a4d` was changed by concurrent development and now contains a different pinned commit plus `HC_STAGING_OWNER_APPROVAL_ENABLED` in addition to passkey flag. Its earlier two-change deployment description is obsolete; review the complete staged patch and flags before any approval/accept-deploy. Owner passkey and Authenticator enrollment have not been enabled. See current security handoff.
