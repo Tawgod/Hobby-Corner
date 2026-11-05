@@ -1,6 +1,6 @@
 # Hobby Corner Project Registry
 
-Last verified: 2026-10-29
+Last verified: 2026-11-05
 
 This repository is the project-wide management index for Hobby Corner systems. Runtime code remains in the owning repositories. Statuses are: Planned, In Development, Testing, Deployed, Blocked, Maintenance.
 
@@ -1882,3 +1882,15 @@ Verified Railway service deployment `c0d9623e-e6f3-4f3a-aabc-4eaa417ee5f7` **SUC
 **PIN sign-in (Deployed / user tested):** test PIN login still works in live Railway, and the non-destructive retirement patch `679a3524-f460-45ce-84fe-f451127a851b` remains **staged only** pending approval; it is deliberately pinned before the newly developed passkey code. Review/test this patch before enabling passkeys.
 
 **Dependency risk:** Read-only npm audit found high-severity `adm-zip` and `xlsx` advisories; [tracked separately](https://github.com/Tawgod/Hobby-Corner/issues/1). No automatic production or test dependency upgrades made.
+
+## 2026-11-05 — Isolated PIN retirement deployed; passkey code staged only
+
+**Deployed / user browser retest pending:** `Hobby Corner Integration Test/test` `staff-security-staging` successfully deployed narrow PIN-retirement patch `679a3524-f460-45ce-84fe-f451127a851b`, Lightspeed source `49c81533fe2c6bbeb3189319afc039299b95be96`, deployment `ce2d7703-5e14-413d-8e21-f57299733038`. Railway reports SUCCESS, 1/1 replica, `/health` PASS. Existing test PIN stays stored as a salted hash in Postgres; `HC_STAGING_PIN_SETUP_ENABLED=false` and the spent setup key is empty. Postgres and Consignment remain healthy. User's **earlier** PIN login passed before this deploy; new browser login retest is still outstanding.
+
+**Testing / staged only:** New non-destructive test patch `43c28c64-63db-436e-b5ce-909f97949a4d` pins CI-passing Lightspeed PR #32 head `24e543b55071c072baa49113d164130ade5a2b99` while `HC_STAGING_OWNER_PASSKEY_ENABLED=false`. It does not enable any WebAuthn or Authenticator enrollment. Await distinct approval; do not accept the patch as part of PIN retirement.
+
+**Branch reconciliation:** Existing stacked draft Lightspeed PR #33 now mirrors 12 relevant Phase 1 files for Owner passkey, PIN setup, backend/migrations and tests, with zero detected content mismatches in the checked set. Latest Phase 2 branch head `5645e1f5dbcc98aca09b15b961e4cd162b0dffa0`; its own CI not independently confirmed. No merge to live integration or production.
+
+**Still staged, not deployed:** Malcor owner-only read-only security status patch `0d760293-efc3-40bd-87b4-58893b905e31`; invitation flag false. Production bot and extension unchanged.
+
+**Next action:** Owner reopens [test-login](https://staff-security-staging-test.up.railway.app/test-login) and uses the same private synthetic PIN. Once confirmed, proceed to separately reviewed passkey test deployment/key provisioning. Current central handoff: `handoffs/hobby-bot-security-enrollment.md`.
