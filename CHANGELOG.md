@@ -1152,3 +1152,8 @@ No Lightspeed product records were created or updated in this test. The existing
 - Configuration now retains the existing test PIN in Postgres-backed verification while disabling one-time setup and emptying the consumed setup credential. **Live manual browser PIN re-test remains to be confirmed**; external HTTP checks were unavailable from the tool runtime.
 - Mirrored previously incomplete Phase 1 PIN/Owner WebAuthn components and tests into stacked Lightspeed Phase 2 PR #33. Checked 12 relevant files across branches with matching content; Phase 2 latest-head CI independently unverified.
 - Staged (but **did not deploy**) an optional feature-disabled test code update: Railway patch `43c28c64-63db-436e-b5ce-909f97949a4d`, pinned Lightspeed PR #32 head `24e543b55071c072baa49113d164130ade5a2b99`, `HC_STAGING_OWNER_PASSKEY_ENABLED=false`. Passkey bootstrap, Malcor enrollment, TOTP QR and recovery remain unactivated. Production Lightspeed, Timeclock, Discord bot, extension and shared data unchanged.
+
+## 2026-11-05 — Shared security stacked CI reliability
+
+- Updated the shared Lightspeed foundation workflow to recognize stacked Phase 2 PRs targeting Phase 1 and serialized disposable PostgreSQL schema integration tests, avoiding the previously observed intermittent table-DDL race. Mirrored the workflow into Phase 2 without changing runtime code.
+- Phase 1 CI at `5db3b8d8850247433939de59b5d7141f20f7f1c9`: foundation `42045052408`, Scanner `42045052388`, Core Operations `42045052696` all **PASS**. Phase 2 own head CI remains unverified. No Railway deploy or PR merge from this CI-only change.
