@@ -264,3 +264,12 @@ Do not deploy production, apply the shared Postgres schema, move credentials, de
 - Staged and committed the two passkey/bootstrap flags to **false** while retaining Authenticator enrollment/manager approval disabled; triggered protected recovery deploy `46d23628-82f2-4353-a000-bb624ac506cf`. Recovery deployment **SUCCESS verified** on Railway: `46d23628-82f2-4353-a000-bb624ac506cf`; passkey/bootstrap flags remain disabled until independently valid owner-held credentials are provided.
 - To continue, Owner must generate **two independent cryptographically random values** privately and replace the corresponding Railway test service variables: passkey signing secret minimum 32 characters; bootstrap key base64url characters `[A-Za-z0-9_-]`, length 43-256. Retain the bootstrap key privately, without pasting in chat. Later activate bootstrap-only flags and test hardware passkey; only retire bootstrap after successful first passkey registration.
 - No production deployment, database changes, actual Timeclock PIN, Chrome extension, customer or Lightspeed data touched.
+
+
+## Owner passkey bootstrap reactivation after corrected keys — 2026-11-05
+
+- Owner reported the two isolated staging credentials had been corrected privately. Railway variable names were confirmed present, values remain redacted and were not retrieved.
+- A credential-update deployment `bb463c0d-a4b3-4b82-8a48-7edaef9d9390` reached SUCCESS with passkey/bootstrap flags disabled.
+- Explicitly staged and reviewed a non-destructive patch affecting only `staff-security-staging`, enabling `HC_STAGING_OWNER_PASSKEY_ENABLED=true` and `HC_STAGING_OWNER_BOOTSTRAP_ENABLED=true`, while keeping `HC_STAGING_OWNER_ENROLLMENT_ENABLED=false` and `HC_STAGING_OWNER_APPROVAL_ENABLED=false`; existing database-backed PIN mode and one-time PIN setup disabled.
+- Committed patch `6e37e8e9-3c12-4d2d-bdee-67b20815552e` to isolated test environment; deployment `0c69a644-3f4e-40e7-8812-f7042665bf1f` was DEPLOYING at last check. Do not report passkey registration ready until latest deploy is SUCCESS. Review failure diagnostics by configuration **name** only if it fails.
+- No production deployment, Timeclock employee modification, secret disclosure, or Chrome extension release. When latest deployment is healthy, Owner alone can complete real WebAuthn registration with the private synthetic staging PIN and separately stored bootstrap key at `https://staff-security-staging-test.up.railway.app/test-owner-passkey`, followed by a verification ceremony.
