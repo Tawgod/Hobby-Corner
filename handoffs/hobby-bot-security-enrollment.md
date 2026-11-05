@@ -1,7 +1,7 @@
 # Hobby Corner Security Enrollment — Current Handoff
 
 **Last verified:** 2026-11-05  
-**Status:** Synthetic test PIN login: **Deployed / user-tested before latest update** | One-time setup retirement: **Deployed / CI passed / browser retest pending** | First Owner passkey: **Testing / not deployed** | Malcor status and invitations: **In Development / not deployed**
+**Status:** Synthetic test PIN login: **Deployed / user-tested before latest update** | One-time setup retirement: **Deployed / CI passed / user browser login verified** | First Owner passkey: **Testing / not deployed** | Malcor status and invitations: **In Development / not deployed**
 
 ## Current authoritative snapshot
 
@@ -10,25 +10,30 @@
 - Malcor: `Tawgod/Malcor` draft PR #8, `feature/hobby-corner-owner-security-test-20261103`; owner-only `@Malcor hc security status` and separate disabled invitation candidate. Shared module docs in draft PR #3. Current live bot/AI unchanged.
 
 ### Implemented and tested
-- The synthetic account (`901`, owner Discord ID `115626919134887940`) previously completed real browser PIN creation and successful sign-in; the user has not yet re-tested login after the 2026-11-05 update.
+- The synthetic account (`901`, owner Discord ID `115626919134887940`) previously completed real browser PIN creation and successful sign-in; the user confirmed on 2026-11-05 that the existing PIN still works after retirement.
 - **PIN hardening:** database-backed PIN validation is independent of the one-time setup route and setup key. Regression tests cover correct PIN after closing setup, incorrect PIN, and rejected setup.
 - **First Owner passkey candidate:** exact staging owner/guild/host, signed synthetic employee session + separately provisioned 256-bit independent bootstrap key, real WebAuthn registration verification, DB-backed challenge, four-hour one-use grant and append-only audit. A denied bootstrap rolls back the credential plus event atomically; disposable PostgreSQL tests, client regression, and route preflight passed. **Not deployed, no secret provisioned, no device acceptance yet.**
 - Read-only audit identified high severity `adm-zip` and `xlsx` dependencies; tracked at `Tawgod/Hobby-Corner` [issue #1](https://github.com/Tawgod/Hobby-Corner/issues/1). Remediation and import/export testing not yet completed.
 
 ### Verified Railway deployment
 - **User-authorized test-only retirement** `Hobby Corner Integration Test / test`: accepted narrow Railway patch `679a3524-f460-45ce-84fe-f451127a851b` on 2026-11-05. Source pinned to Lightspeed `49c81533fe2c6bbeb3189319afc039299b95be96`. `HC_STAGING_PIN_STORE_MODE=database`; `HC_STAGING_PIN_SETUP_ENABLED=false`; consumed `HC_STAGING_PIN_SETUP_KEY` set empty. Security API deployment **`ce2d7703-5e14-413d-8e21-f57299733038` SUCCESS**, `/health` Railway healthcheck passed, 1/1 replica online. Isolated PostgreSQL and existing Consignment both online, unchanged. No other service or production deployment.
-- External HTTP checks from this tool environment cannot resolve the generated HTTPS hostname. User must confirm `/test-login` still signs in with the existing test PIN; retired `/test-pin-setup` should not allow PIN creation.
+- External HTTP checks from this tool environment cannot resolve the generated HTTPS hostname. User confirmed the original `/test-login` still works with the existing test PIN after retirement. The retired `/test-pin-setup` should no longer allow creation; browser verification of that route remains outstanding.
 - **Staged only, NOT deployed**: next test patch `43c28c64-63db-436e-b5ce-909f97949a4d` pins newer verified Phase 1 commit `24e543b55071c072baa49113d164130ade5a2b99` with `HC_STAGING_OWNER_PASSKEY_ENABLED=false`. It would introduce the guarded but disabled passkey code, not factor enrollment. Require separate approval before accepting.
 - **Staged only, NOT deployed:** Malcor separate `staging` patch `0d760293-efc3-40bd-87b4-58893b905e31` contains only the Malcor service source/owner test configuration, with `MALCOR_HC_STATUS_ENABLED=true` and `MALCOR_HC_SECURITY_ENABLED=false`. No CI evidence for latest Malcor PR #8 or real Discord round-trip. Do not accept without separate review and user authorization.
 
 ### Dependencies, safety and blockers
 - No real Timeclock employee integration, no first Owner passkey, no manager approval, no TOTP QR or factor enrollment deployed. Production Lightspeed, Timeclock, Chrome extension and production Hobby Bot unchanged.
-- Before opening Owner passkey pilot: confirm successful PIN login after retirement, review passkey bootstrap key handoff via secure Railway administration, generate separate WebAuthn signing secret, approve isolated migrations, test the real device, design backup/recovery and audit.
+- Before opening Owner passkey pilot: review passkey bootstrap key handoff via secure Railway administration, generate separate WebAuthn signing secret, approve isolated migrations, test the real device, design backup/recovery and audit.
 - Before activating Malcor invitation: connect independently authorized security backend and verify exact `staff.authenticator.invite` permission, one-time tokens, separate manager proof, and private delivery. Never use PIN or Discord owner role alone as approval.
 - Complete the dependency risk review before treating test login as production-grade.
 
 ### Recommended next action
 Owner re-tests [staging login](https://staff-security-staging-test.up.railway.app/test-login) using the existing four-digit **test** PIN (never provide the PIN in chat). After that, seek explicit separate approval for the disabled-passkey-code staging patch and status-only Malcor patch; later prepare reviewed one-use first Owner passkey ceremony. Neither staged patch should be conflated with permission to enable QR enrollment.
+
+
+## 2026-11-05 — PIN retirement browser acceptance verified
+- **User acceptance (2026-11-05):** "Pin still works." The existing four-digit synthetic staging PIN successfully signs in after deployed retirement `ce2d7703-5e14-413d-8e21-f57299733038`. This closes the live sign-in regression check. The PIN was not disclosed or stored in chat/GitHub.
+- **Still to verify:** direct browser access to the retired PIN setup page is blocked; passkey and Authenticator routes remain off. Do not enable factor enrollment without independent device/approval tests.
 
 ---
 
