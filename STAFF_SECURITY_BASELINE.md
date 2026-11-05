@@ -160,3 +160,13 @@ A responsive **development-only** employee settings UI and enrollment API candid
 - Both branches' full tests passed before final source/CI-documentation synchronization. This is **implementation + automated testing**, not real employee/mobile/browser acceptance.
 - **Not live:** route not mounted on `server.js`, no approved factor-enrollment UI/administrator/registered-station verification service, no remote-login MFA exchange, no phone recovery provider, no database migration, no Chrome release and no production approval. Do not link the page in employee navigation or relax Timeclock PIN-only protections until the upstream security model is fully implemented.
 
+## Owner clarification — staff tool access independent of payroll clocking (2026-11-05)
+
+**Confirmed requirement:** Authorized active staff, including the owner, must be able to access Hobby Corner tools even when not clocked in or scheduled. Owner access must not require any time entry. Timeclock remains the *employee identity directory and PIN verifier*, not an on-the-clock authorization prerequisite.
+
+- Authentication checks active/non-disabled employee identity, signed session validity, workstation/passkey/TOTP assurance and exact backend operation permissions. It must **not** check clock-in state, open time entry, shift, schedule, PTO or paid hours to determine ordinary tool access.
+- Keep `timeclock.clock` and payroll records separate from tool access. An employee who clocks out should retain appropriately authenticated tool access until their session expires or is revoked; offboarding or disabled status must deny access regardless of clock state.
+- Owner reports an existing PIN linked to their owner account in the older Timeclock architecture. Verify the actual account/identity mapping and existing PIN-to-employee ID bridge safely; do not request or store the PIN in chat, create a duplicate owner identity, reset the credential or automatically grant new privileged permissions.
+- A test PIN that is not employee-linked must remain ineligible for the production shared staff session. Use synthetic enrolled test identities and independently approved owner bootstrap for staging.
+- Add regression acceptance for active off-clock staff and owner allowed with valid assurance/grants; active on-clock staff denied without those grants; inactive/disabled staff denied even if formerly clocked in; clock-out does not revoke tools or grant extra permissions.
+- This is a specification clarification, not authorization to deploy, relax MFA, alter Timeclock payroll data or change existing employee PINs.
