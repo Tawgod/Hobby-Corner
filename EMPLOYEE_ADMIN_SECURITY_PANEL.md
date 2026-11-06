@@ -62,3 +62,28 @@ One browser-accessible administration area for owner and delegated authorized ma
 - Whether managers may approve each other's credential recovery; whether only Owner may alter permissions/session policy or delegate to selected managers.
 - Which employee non-Lightspeed attributes should be editable in the panel, and which Timeclock payroll/PTO data should be read-only.
 - Distribution mechanism/version/signature for approved workstation installation: extension package/managed installer with verified location and ownership.
+
+## Central Tool Settings catalog and staged foundation — 2026-11-06
+
+**Additional owner requirement:** This panel is the **single management menu for every setting** created in existing or future Hobby Corner tools, not only staff/security preferences. Existing tools are not assumed to expose configurable options without auditing their source and ownership.
+
+### Settings ownership and discovery rules
+- Every tool may register source-owned, stable, uniquely keyed descriptors with category, display name, owning service, current implementation state, read operation and write operation. Categories cover Security, Employees, Timeclock, Tool Permissions, Tool Settings and future named modules.
+- The admin menu discovers only vetted descriptors; arbitrary client-supplied paths, write targets, role claims, values or code are not allowed. Metadata marked `requires-audit` is a discovery candidate, **not** confirmation the listed setting actually exists.
+- Read-only display is the safe initial phase. A future settings adapter for each tool must define a schema, safe bounds, exact admin operation permission, dry-run/impact preview, audited old/new version, atomic write, readback and rollback. Settings affecting Lightspeed business data still go through the shared approved gateway.
+- Examples to evaluate through owner review: Scanner behavior; Product Manager item/draft defaults and creation permissions; Ordering and PO processing defaults; Special Orders workflow options; Timeclock schedules/eligibility; Consignment; other future tools. Avoid duplicating settings owned natively by Lightspeed or payroll.
+- Distinguish tool-wide defaults from individual employee permission grants and temporary employee-owned preferences; those are not interchangeable. Global settings require stronger reauthentication and review where they can change operational access.
+- Display an explicit **Not connected / Planned** state rather than presenting an inert setting as functional.
+
+### Actual source implemented (development only)
+- New draft PR: `https://github.com/Tawgod/Lightspeed/pull/34`; branch `feature/employee-admin-security-foundation-20261106` stacked on Phase 1 PR #32. **Not merged, not deployed, no employee data changed.**
+- `services/security/adminSettingsRegistry.js`: static, validated source-owned catalog for central settings discovery, with separate read/write operation metadata, no mutation adapter.
+- `services/security/employeeAdminAccess.js`: fail-closed admin admission requiring a valid active signed employee session, recent independent passkey or TOTP, exact backend admin permission; stronger proof mandatory for privileged actions. No trusted-device-only or PIN-only admin admission.
+- `routes/employeeAdmin.js`: unmouted read-only overview/settings metadata API, no PATCH/POST config writer, HTTP no-store and strong verification gate. Static generic shell requires authenticated backend to display settings.
+- `admin/employee-admin.html`, `admin/employee-admin.css`, `admin/employee-admin-client.js`: responsive inert admin UI; never collects or persists raw PIN, QR secret or session proof.
+- `services/security/adminSessionPolicy.js`: immutable local/remote timeout policy validation/preview only; defaults remain 900 seconds for both classes. **Not a live policy switch**. A verified workstation credential, not IP/location/browser claim, is the only proposed way to classify a local trusted device.
+- Tests `tests/employee-admin-access.test.mjs`, `tests/employee-admin-router.test.mjs`, `tests/employee-admin-client.test.mjs`, `tests/employee-admin-session-policy.test.mjs`; included in the Shared Lightspeed foundation workflow for the draft PR. Confirm CI before marking tested.
+- Blocked next stage: connecting actual Timeclock employee/owner grants and verified browser passkey/TOTP proof adapter, then durable audited policy/settings stores and allowed workforce/permissions APIs. No new publicly accessible admin login should be enabled before this is complete.
+
+### Proposed user experience
+One navigation route `Employee Administration`, with Employees, Security & Login Windows, Verified Computers, Timeclock, Tool Permissions, Tool Settings and Audit. Each future tool contributes supported settings by registry integration; clear owner, effective value, scope, enforcement status and last update. Workstation download link must use a verified released artifact; current new enrollment package is not yet released.
