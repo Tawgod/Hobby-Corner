@@ -394,3 +394,15 @@ Do not deploy production, apply the shared Postgres schema, move credentials, de
 - Earlier automated checks cover out-of-window code rejection, last-used-step enforcement, MFA proof TTL, base session expiry and factor/session binding. These tests are not substitutes for live concurrent PostgreSQL replay tests.
 - Remaining acceptance: real-device five-minute step-up expiry, fifteen-minute base session expiration, cross-session denial, concurrent replay and other unauthorized enrollment paths. No production security rollout authorized or performed.
 - No tokens, OTP values, invitation fragments or seeds stored in this handoff.
+
+## Server-checked Authenticator status button — 2026-11-06
+
+**Status: Deployed in isolated staging; automated tests PASS; real-device UI acceptance pending.**
+
+- Added a **Check verification status** button directly under the Secure convention access Authenticator code field in `staff-security.html`, with adjacent accessible `mfaStatusMessage` status text.
+- `staff-security-client.js` checks the **existing** memory-only signed MFA proof via same-origin `GET /staff-security/api/mfa/session` (bearer signed base employee session and `x-hc-mfa-session` header). It does not submit another six-digit code or place token/seed in storage or URL.
+- On a valid server result, shows **Verified** and a confirmed-server status; on local five-minute expiry or server 401, clears proof and shows **Expired** with re-verification guidance. If no proof (e.g., signing out or leaving tab), shows **Not verified**; on connectivity/503 failure shows an error instead of claiming expired or server verified.
+- Added `tests/shared-staff-mfa-status-button.test.mjs` with server-verified, unauthorized, local expiry and service outage cases; mirrored HTML, JS and test to Phase 2. Updated Phase 1/Phase 2 shared foundation CI to run the test. Phase 1 source commit `56f11d40153c3ad48f1b70cefcfa430ad62fd75b`; Phase 2 source commit `b894a0f89484501ec5ff78c185738533a0e77f16`.
+- GitHub Actions for Phase 1 commit `56f11d4`: Shared Lightspeed foundation `42263080311` **SUCCESS**, Scanner `42263080232` **SUCCESS**, Core Operations `42263080259` **SUCCESS**.
+- Reviewed isolated staging non-destructive, one-field (source commit only) patch `170c51ad-eab0-418c-a19c-d1ea5ad96fce`, then applied to Railway **Hobby Corner Integration Test** / **test** / **staff-security-staging**. New deployment `4f16bfc3-2475-48c2-ad1e-3a87434b2316` **SUCCESS**. No changes to Malcor, Timeclock or other production services, and no employee credential changes.
+- **Remaining acceptance:** user opens `https://staff-security-staging-test.up.railway.app/staff-security/`, signs into synthetic employee, verifies a fresh Authenticator code, clicks **Check verification status** before five minutes to see server-confirmed Verified, then after five minutes clicks again to see Expired and verify again. Note existing security policy clears the ephemeral proof when document becomes hidden or unloads, so remain on the same tab for the test.
