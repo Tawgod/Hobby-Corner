@@ -369,3 +369,10 @@ Do not deploy production, apply the shared Postgres schema, move credentials, de
 - **Deployed staging references already verified:** Malcor invitation bot `ff682637-312f-455d-810c-0855c02445b6`; isolated staff-security service `6146da26-691d-4b18-aa49-0136970f560d`. No production Lightspeed, Timeclock, or employee security settings changed.
 - **Not yet verified:** incorrect/expired TOTP rejection, replay resistance, invitation replay/expiry, session expiry, cross-employee authorization and recovery behavior. Do not classify employee rollout as ready until these fail-closed tests are completed.
 - **Next:** carry out negative-path staging tests, then document independent security review and decide whether to plan production rollout. Never record PINs, invitation links, QR seeds, or OTP codes in GitHub.
+
+## Invalid Authenticator code acceptance — 2026-11-06
+
+- Owner confirmed user-visible **Verified** after correct six-digit Authenticator challenge, then tested deliberately incorrect six-digit code in the isolated staging **Secure convention access** form.
+- UI cleared prior proof state to **Not verified** and displayed **“Your session or code was not accepted. Please sign in or try a new six-digit code.”** Owner located error in top-of-page notification. **Result: incorrect code rejected (user-confirmed).**
+- Source `staff-security-client.js` calls `discardMfa()` before POST `/staff-security/api/mfa/session`; it only stores ephemeral proof in memory if server returns a signed token with valid shape and expiry. Backend audit/replay/expired-code/unauthorized-access checks remain to do.
+- **UX issue:** security failure notification is distant from the convention verification form. Recommend duplicating an accessible inline error adjacent to the code field while preserving generic authentication error wording, throttling and absence of sensitive debug details. No rollout or production deployment authorized by this acceptance report.
