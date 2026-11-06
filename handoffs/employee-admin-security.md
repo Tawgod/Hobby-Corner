@@ -119,3 +119,17 @@ Owner requirement: Owner must be visible as `Owner` (after real Timeclock identi
 - **Next:** owner approval of safe isolated-only PR #34 commit deployment/feature flag; review rollback; then real-browser synthetic login + MFA/passkey, admin authorization denial, five-minute proof expiration; only later wire a real Timeclock Owner principal and delegated managers with protected employee directory. Do not deploy production or merge PR #34 without explicit authorization.
 
 The prior staged security page and its current functioning PIN+Authenticator tests remain untouched. The real-device fifteen-minute PIN session expiry acceptance check remains independent.
+
+## Read-only admin isolated staging deployment — 2026-11-06
+
+**Status: Deployed to isolated staging; automated tests passed; real-browser acceptance pending.**
+
+Owner approved proceeding with the isolated-only read-only preview. Rechecked admin branch and test authentication composition (existing signed employee 901, existing WebAuthn passkey and TOTP verification; no admin mutation adapters mounted). GitHub Actions **Shared Lightspeed foundation `42293979612` SUCCESS** for the functional source commit after staging test harness correction; subsequent only documentation changes.
+
+**Railway change scope verified before deploy:** `Hobby Corner Integration Test` / `test` / `staff-security-staging` only, patch `96f9d8e7-f146-404f-b759-a378994f60bc`, exactly source branch, pinned commit, and new `HC_STAGING_ADMIN_READONLY_ENABLED=true` variable; not destructive, no other services, secrets, database or Timeclock changes. Prior deployment `c0f9ccb3-e076-4ce4-8b4d-62ffd0416a04` source `d2a90b49e0f58104f17391c1f67623c256950326` was rollback reference.
+
+**New Railway deployment:** `06537f54-d009-4329-823b-daa444c67eef` **SUCCESS**, source `Tawgod/Lightspeed:feature/employee-admin-security-foundation-20261106` pinned commit `160fc84e4c2d2478a706222282941def71e5bdce`. Railway environment reports `online` with zero warnings/critical issues, no remaining staged patch. Railway-managed staging domain `staff-security-staging-test.up.railway.app` verified as assigned to the service. **The admin page is available at** `https://staff-security-staging-test.up.railway.app/employee-admin/` **based on deployed route/source**, but direct unauthenticated remote HTTP probing was inconclusive because outbound DNS/web fetch was unavailable in this environment; browser manual acceptance remains pending.
+
+**Test next:** User opens the admin page, signs in with the synthetic staging PIN; should remain outside admin after PIN only. They then verify an enrolled Google Authenticator code or registered passkey; server should authorize metadata-only dashboard marked test Owner. Verify a refreshed or expired proof is denied, and that no grant/PIN/tool-setting write endpoint is exposed. Do NOT share codes or security proofs. If errors occur, inspect Railway runtime logs, health status and frontend scripts before assuming a user mistake.
+
+**Rollout safety:** This is NOT production admin Owner commissioning, no real Timeclock employee records are connected. The verified synthetic 901 profile is a staging-only fixture; delegated access, employee onboarding, tool permission grants and actual tool-settings changes are not enabled. Do not conflate staged read-only UI with production authorization.
