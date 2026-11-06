@@ -283,3 +283,20 @@ Do not deploy production, apply the shared Postgres schema, move credentials, de
 - Retirement redeploy `95347218-88b1-4ddd-af73-15fd0734312a` was verified **SUCCESS** in Railway. With bootstrap disabled, source routing selects `test-owner-passkey-verify.html` (verification-only mode); a live authenticated UI/HTTP check was not performed in this chat.
 - Staging test identity `901` is not the production Timeclock Owner account. Subsequent manager-approved Authenticator enrollment requires separate strong secrets, explicit flag staging, and actual permission/replay verification. Do not enable enrollment automatically.
 - No production deploy, real Timeclock PIN, live Lightspeed API, Chrome extension, or employee records changed.
+
+
+## Owner-approved continued development: passkey-gated Authenticator enrollment (2026-11-06)
+
+**System:** Shared Lightspeed security / isolated staging. **Status:** In Development; automated tests PASS; NOT deployed. User instructed to continue development until real participation required.
+
+**Verified source review:** Existing `staging/isolated-owner-enrollment.js`, `staging/isolated-owner-approval-policy.js`, `services/security/staffSecuritySubsystem.js`, `staff-passkey-client.js`, and `staging/migrate-isolated-test-login.js` already compose invitation-backed, passkey-approved, signed-staff-session-bound TOTP enrollment, with recovery disabled. Enrollment migration additionally confirms a first Owner passkey exists and that the one-time bootstrap was consumed. Source never requires a clock-in status.
+
+**Gap fixed:** Retired-bootstrap `/test-owner-passkey` UI hid manager approval even when enrollment flags would be enabled. Added `staging/test-owner-passkey-approve.html` and gated source selection in `staging/isolated-test-login.js`: only when independently configured `HC_STAGING_OWNER_ENROLLMENT_ENABLED=true` is the approval UI served. Passkey registration remains closed, and an active five-minute proof plus an exact pending request ID is still required. Added regression to `tests/shared-security-isolated-owner-enrollment.test.mjs` for the approval-enabled page versus verify-only disabled state.
+
+**Git branches:** Phase 1 `feature/shared-lightspeed-services-phase1-20261029`, tested feature commit `31d456dcd049828a9544d72fbbd2851c2d6824dc` (subsequent documentation commit `974d532704835902ad3356b5351a8bcaa2f3b60a`); mirrored Phase 2 `feature/shared-lightspeed-services-phase2-reads-20261029`, feature commit `04b5ad724d75b28bda435a043ce882e0b3e267ae`, documentation commit `75f26199fa8a39821715f9efa03284defe9aed74`. New guide `docs/STAFF_SECURITY_STAGING_ENROLLMENT.md`.
+
+**Automated validation:** Phase 1 feature commit CI SUCCESS: Shared Lightspeed foundation `42234670004`, Scanner regression `42234670089`, Core Operations UI `42234670079`. Phase 2 latest-head CI unverified. Actual device/bot/TOTP approval flow not yet acceptance-tested.
+
+**Railway read-only audit:** The isolated `Hobby Corner Integration Test/test/staff-security-staging` variable inventory lacks all five required independent enrollment secrets: `HC_STAGING_APPROVAL_HMAC_SECRET`, `HC_STAGING_MFA_SESSION_SECRET`, `HC_STAGING_INVITE_BOT_SECRET`, `HC_STAGING_INVITE_TOKEN_SECRET`, `HC_STAGING_TOTP_ENCRYPTION_KEY`. Values cannot be read from connector; never request them in chat. Current feature flags remain disabled. No staging redeployment, production changes, database schema writes, bot deployment, or Chrome release in this development step.
+
+**Next action needing owner:** Privately provision four *different* independent 32+-character random strings and one distinct standard-Base64 encoded 32-byte AES TOTP key in the isolated Railway test service; test Bot invitation credentials and restricted staging delivery also need to be established. After verifying keys and exact test-only permissions, stage/verify/activate approval and enrollment flags; then owner performs real passkey-approved Google Authenticator acceptance. Do NOT automatically enable enrollment or production without all prerequisites.
