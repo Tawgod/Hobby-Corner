@@ -452,3 +452,13 @@ The owner extended the admin panel requirement to include **all settings from cu
 **Unimplemented:** actual Timeclock owner/admin grants, real passkey/TOTP proof adapter injection for the separate admin UI, real employee roster reads, signed session idle/absolute enforcement, live audited PIN reset, device installer/registration front end, and exact per-tool setting storage/permission adapters. The registry identifies possibilities but does not assert all tool settings already exist. No admin route exposed to users. All existing production employee PINs, Clock/Scanner behavior, Lightspeed records, Chrome releases and Railway services remain unchanged.
 
 **Next:** connect real strong admin admission + read-only roster in isolated staging, review permission matrix with Owner, then separately implement and test audited policy writes and per-tool settings adapters. The user-confirmed five-minute MFA expiry is already documented; 15-minute real-device PIN expiry and concurrent replay test are separate outstanding security checks.
+
+## Admin isolated read-only stage integration — 2026-11-06
+
+**Status: In Development, CI verified, not deployed.** Admin draft PR #34 (branch `feature/employee-admin-security-foundation-20261106`) now contains the disabled-by-default read-only isolated admin staging integration: signed synthetic employee 901 staff session + independently verified passkey OR Google Authenticator, exact read-only admin permissions, memory-only browser proofs, and responsive admin sign-in/menu. A read-only capability resolver avoids mounting grant/PIN/settings writes. Existing staging login, passkey and TOTP services reused.
+
+Automated GitHub Actions Shared Lightspeed foundation `42293979612` **SUCCESS**; tests verify PIN-only denial, forged headers, cross-origin rejection, server-side verified factor access, no mutation route, volatile browser factor clearing. Detailed code and status in `handoffs/employee-admin-security.md`, PR #34 and PR branch `docs/EMPLOYEE_ADMIN_FOUNDATION.md`.
+
+Isolated Railway `staff-security-staging` still `c0f9ccb3-e076-4ce4-8b4d-62ffd0416a04` **SUCCESS** on previous Phase 1 source `d2a90b49e0f58104f17391c1f67623c256950326`. New opt-in `HC_STAGING_ADMIN_READONLY_ENABLED` is off; no staging patch or deployment applied, production unchanged.
+
+Next decision: approval to update the isolated staging service source and enable opt-in for real-device browser acceptance. No real employee Owner commissioning, manager provisioning, PIN resets or permission changes authorized.
