@@ -453,3 +453,15 @@ The release queue remains authoritative for extension shipping state; the handof
 - Shared backend PR #32 is unmerged/current-base; PR #33 is stacked on #32 with final CI `40920253500` PASS. Neither is deployed and neither authorizes Chrome packaging or production Lightspeed writes.
 - Invoice Reconciliation remains QUEUED/planning-only for a later release bridge; it may create/update an OPEN supplier PO only after approval and must never receive inventory or alter stock-on-hand.
 - No extension version bump, ZIP/package, distribution update, or Web Store publication occurred in this audit.
+
+### Verified workstation setup link from Employee Admin Panel — 2026-11-06
+
+- **Feature/system:** Admin-managed trusted store computer enrollment and canonical approved Hobby Corner extension download link.
+- **Source:** Shared Lightspeed Services / Employee Administration & Security panel request. Architecture `Tawgod/Hobby-Corner:main/EMPLOYEE_ADMIN_SECURITY_PANEL.md`.
+- **Status:** QUEUED / Planned only. No extension package change, release or verified installer URL yet.
+- **Requested behavior:** Owner/admin panel offers a versioned, verified installation/download link for the released store extension/setup utility; with fresh manager passkey approval, register a distinct installation public key and prove it via backend challenge, show device inventory and support immediate revocation. Copying extension/knowing installer URL must not enroll/verify device.
+- **Source/branch:** Backend candidate `Tawgod/Lightspeed:feature/shared-lightspeed-services-phase1-20261029` `services/security/staffWorkstationsPostgres.js`, `routes/staffStationProof.js`; extension's authoritative source remains `Tawgod/Lightspeed:integration/hobby-corner-consolidation`. No extension implementation branch assigned yet.
+- **Potential extension files:** installation-specific key handling and trusted challenge channel in extension background/service worker/manifest and shared authentication integration; exact affected files await audit against PR #22/#26/#31 and current integration. Do not package or change Chrome extension now.
+- **Dependencies:** durable independently approved registration/revocation, server staff auth integration, audit, managed distribution host/signature/version and current release queue reconciliation.
+- **Testing:** Existing backend workstation proof/PG/HTTP regression tests only. No real store Chrome installation/approval/revocation/download validation completed.
+- **Release target:** Unassigned; **BLOCKED from shipping** pending reviewed implementation, authoritative extension source reconciliation, real Chrome employee acceptance and explicit release authorization. Released version/commit/date: none.
