@@ -87,3 +87,15 @@ One browser-accessible administration area for owner and delegated authorized ma
 
 ### Proposed user experience
 One navigation route `Employee Administration`, with Employees, Security & Login Windows, Verified Computers, Timeclock, Tool Permissions, Tool Settings and Audit. Each future tool contributes supported settings by registry integration; clear owner, effective value, scope, enforcement status and last update. Workstation download link must use a verified released artifact; current new enrollment package is not yet released.
+
+## Owner designation and per-employee delegated admin permissions — 2026-11-06
+
+Owner-confirmed: the requesting owner must appear as **Owner** in Employee Administration, after securely linking the actual current Timeclock employee ID and a verified passkey/strong factor. This **must not** be inferred from synthetic staging employee 901, a Discord role, the first user to visit the page, or an unverified PIN. The system must preserve an independently approved Owner commissioning/recovery path, with no public registration for Owner.
+
+The Owner can assign or revoke **administrator entry** and individual management permissions to employees. A manager with admin entry is not automatically allowed to view private employee information. Suggested initial manager template: `admin.read`, `employees.onboard`, `tools.settings.read`, `tools.settings.manage`, `permissions.read`, `permissions.manage`, plus only explicitly approved tool-operation and tool-settings scopes. Employee private details, Timeclock records, PIN/security resets, audit history, session-policy edits, computer enrollment and admin delegation remain blocked unless separate Owner-authorized operations (and stronger factor requirements) permit them.
+
+**Current implementation:** [Tawgod/Lightspeed draft PR #34](https://github.com/Tawgod/Lightspeed/pull/34) adds the exact permission catalog, source-owned Owner/delegated-admin tables and scoped grants, server-gated management endpoints, owner/manger-specific UI sections and audit, with disposable PostgreSQL tests. The registration of real Owner identity, real Timeclock employee onboarding, full tool settings writes and production permissions gateway enforcement are **not implemented**. No Owner account, manager grant, PIN or employee record was modified.
+
+Manager onboarding must use a restricted create/invite flow with the minimum identity fields, without granting employee directory/private record browse. Manager per-tool permissions grant operations must be limited to Owner-approved scopes and must never allow self/Owner modification or automatic elevation to Admin. Administrative login must continue requiring enrolled passkey or TOTP everywhere; privileged writes require fresh stronger factor.
+
+Default deny applies if the admin grant is absent, disabled, expired or the Timeclock employee is inactive. A delegated manager must not be able to invite another manager or delegate admin access. Every grant/revocation requires a specific operation, reason, verified actor and immutable audit entry.
