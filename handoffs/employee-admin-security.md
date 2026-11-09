@@ -177,3 +177,7 @@ This validates the browser sign-in and verified TOTP-to-read-only-admin-overview
 - **Deployed:** No new deployment; isolated read-only Admin staging remains on `staff-security-staging` source commit `21a44f4f06ebaacec3d005344faa89f8907feb46` deployment `41a3ee7d-6fb9-4ac1-9f5f-a27120f95256` per latest known verification. Production Timeclock, scanner, employee data, PINs, employee permissions, Lightspeed and Chrome extension untouched.
 
 **Next integration gates:** approve and separately deploy the non-sync Timeclock directory endpoint; connect server-side admin HTTP adapter only after independently verified real Owner principal and directory grant; test manager onboarding-only user receives 403 and no directory; audit required workforce/private fields and role permissions. Do not convert legacy employee list into an unguarded browser endpoint. Live Owner commissioning and per-tool settings writes remain pending.
+
+## Short tab-switch behavior owner acceptance — 2026-11-09
+
+**Testing — user feedback:** After isolated staging deployment `41a3ee7d-6fb9-4ac1-9f5f-a27120f95256` (source `21a44f4f06ebaacec3d005344faa89f8907feb46`) preserving a five-minute verified factor across brief tab switches and performing server revalidation on return, the Owner reported **“That looks better”** and requested continuation of development. This is positive real-browser UX acceptance for the short tab-switch behavior, though it does not independently prove precise MFA expiry, passkey sign-in, or long-idle session revocation. No production changes.
