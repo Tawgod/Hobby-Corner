@@ -101,3 +101,11 @@ No merge, production write, staging deployment or extension release was authoriz
 **Remaining:** dedicated isolated Admin grants schema and SELECT-only connection, secure real Owner commissioning with bound passkey, per-manager explicit grants, real signed staff/browser verification with revoke and MFA step-up. These require separate staging security setup/approval; the disposable PostgreSQL tests are not equivalent to deployed live credentials or real-staff acceptance. Canonical design: `Tawgod/Lightspeed:feature/unified-hierarchical-navigation-20261109/docs/ADMIN_NAVIGATION_ACCESS.md`.
 
 **Next:** Prepare a reviewed isolated Admin schema/SELECT-only role and separately deploy the navigation branch to an appropriate *test-only* core-ops service. Test owner/manager/ordinary employee distinction with no live staff data. Keep real production rollout blocked until commissioned identities and explicit authorization.
+
+## Database credential privilege acceptance — 2026-11-09
+
+**Status: Tested on disposable real PostgreSQL, no live deployment.** Extended `tests/admin-navigation-postgres.test.mjs` on `Tawgod/Lightspeed:feature/unified-hierarchical-navigation-20261109` to create a transaction-scoped **actual SELECT-only PostgreSQL role** `hc_nav_reader_ci`, grant it SELECT on synthetic TEMP `hc_admin_principals` and `hc_admin_grants`, and assert `verifyAdminNavigationReadOnlyDatabase()` accepts it. The same preflight rejects the write-capable test database owner. All test resources roll back; no live role created. This complements the Owner/delegated manager/ordinary employee and revocation matrix.
+
+**Final tested functional commit** `3313e9e325bc65c5df0042f7eff1077f47a35b7f` — all five GitHub checks **SUCCESS**: Navigation Admin permission contract `42678728467`, unified hierarchical navigation `42678728077`, Scanner `42678728634`, Shared UI `42678728081`, Core Operations `42678727853`.
+
+**Remaining real staging gate:** an independently reviewed Admin grant schema plus dedicated SELECT-only credentials must be provisioned in a separately scoped test environment, with synthetic-only verified sessions and no real Owner identity inferred. The existing isolated Admin staging service has NOT been updated as part of this milestone. No production deployment or employee access changes.
