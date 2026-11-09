@@ -1,6 +1,6 @@
 # Hobby Corner Project Registry
 
-Last verified: 2026-11-05
+Last verified: 2026-11-09
 
 This repository is the project-wide management index for Hobby Corner systems. Runtime code remains in the owning repositories. Statuses are: Planned, In Development, Testing, Deployed, Blocked, Maintenance.
 
@@ -1978,3 +1978,12 @@ Verified Railway service deployment `c0d9623e-e6f3-4f3a-aabc-4eaa417ee5f7` **SUC
 **Test blocker:** newly triggered Shared foundation `42672182306` and Scanner `42672182349` reported failure without jobs or diagnostic steps available through connector. Treat new integration candidate **UNVERIFIED** until diagnosed and green, even though previous PR #34 security/Scanner CI `42669190828` / `42669190918` succeeded. Do not merge or stage the new cross-project candidate meanwhile.
 
 **Next:** diagnose CI, align shared web nav per issue #36, independently verify Timeclock no-sync roster and real owner grant integration in test, then rollout per-tool exact operation checks behind flags with real staff acceptance. No Chrome version/package, production policy, PIN, employee record, tool data or Lightspeed write changed.
+
+
+### CI recovery and unified Admin navigation alignment — 2026-11-09
+
+**Status: In Development / automated Testing, not deployed.** The earlier integration-contract CI blocker is resolved for the newly added code by fresh successful checks; **intermittent GitHub workflow startup failures with no jobs remain unexplained**. `Tawgod/Lightspeed:feature/employee-admin-security-foundation-20261106` includes read-only exact-grant tool inventory, plus a targeted Actions workflow. [Admin integration run 42673992585](https://github.com/Tawgod/Lightspeed/actions/runs/42673992585) **SUCCESS** and [Shared foundation 42673992885](https://github.com/Tawgod/Lightspeed/actions/runs/42673992885) **SUCCESS** on commit `cc433e396545402b1aa32bb442f8a3f5f2dccc38`. Scanner no-jobs run failed but prior Admin-source Scanner run `42673574765` passed; no code-level regression established.
+
+**Unified navigation:** `Tawgod/Lightspeed:feature/unified-hierarchical-navigation-20261109` implements Special Orders dashboard > Preorders > GW, Purchasing under Special Orders, Store Tools grouping and Priority Review. Added server-confirmed `admin.read` conditional Admin link with same-origin no-store check, fail-closed defaults, staff sign-in/sign-out refresh, immediate link revocation and visibility checks. Tested commit `17a35003c7b570f9a810000fd4b6ea77ab8e61cb`: navigation Admin contract `42674514784` SUCCESS, hierarchical nav `42674514692` SUCCESS, shared UI `42674515031` SUCCESS, Scanner `42674514795` SUCCESS, Core Operations `42674514777` SUCCESS. **Actual same-origin `/api/admin/navigation-access` backend has NOT been mounted**, so Admin link remains hidden until real server-verified employee permissions are integrated; no client-role workaround allowed.
+
+**Coordination:** central `HOBBY_CORNER_INTEGRATION_CONTRACT.md`, updated `handoffs/cross-project-integration.md`, and [navigation issue #36](https://github.com/Tawgod/Lightspeed/issues/36). No PR merge, staging/production deployment, real employee account/permissions modification, Lightspeed write, Chrome extension packaging or release. Next gate: implement trustworthy same-origin Admin navigation authorization endpoint on a reviewed integration branch, then isolated real permission/identity acceptance.
