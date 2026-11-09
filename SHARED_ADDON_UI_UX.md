@@ -169,3 +169,19 @@ Source-by-source disposition documented in `Tawgod/Lightspeed:feature/shared-ui-
 - **Disposition:** No additional unique reusable functionality from PR #16 is required. PR #16 may be **closed as superseded** (not merged, not deleted); PR #27 remains the authoritative shared UI reconciliation candidate.
 - **Current dependencies:** PR #24 core operations, PR #26 Scanner/Toolkit, PR #30 Consignment replacement of #11/#25, PR #31 PO Companion replacement of #13, and PR #22 Timeclock/Split extension. Treat the Current Authoritative Development Matrix as primary.
 - **Acceptance pending:** actual hosted navigation, original logo render, keyboard, 100/125/200% zoom, errors/status, employee PIN and supplier capture. No production deployment or extension package approved.
+
+
+## Hierarchical cross-tool navigation decision — 2026-11-09
+
+**New owner requirement:** Every tool page should offer links to the other available Hobby Corner tools. A tool that is dependent on a parent workflow should be **nested in that parent**, not presented as an unrelated top-level destination or a competing application. Consignment Manager remains the visual benchmark (original logo, navy header, shaded panels).
+
+**Initial development candidate:** [Tawgod/Lightspeed PR #35](https://github.com/Tawgod/Lightspeed/pull/35), branch `feature/unified-hierarchical-navigation-20261109`. Its `shared-ui/operations-nav.mjs` supplies a single **web** navigation manifest; all four consolidated Core Operations pages consume the same groups while retaining existing PIN controls and business logic:
+- Orders & Fulfillment → **Special Orders** → **Preorder Campaigns**, **GW Preorders** (nested)
+- Purchasing → **Ordering**
+- Store Tools → **Lightspeed Toolkit** and **Consignment Manager (Beta / Test)**
+
+**Meaning of nested:** Phase one is a nested navigation hierarchy, preserving the existing working destination URLs. Phase two may make dependent tools appear as *tabs/subviews within the parent workspace* after each owning feature has validated session state, deep links, back/forward navigation, and lifecycle cleanup. Do not naively embed full pages as unsafe iframes, remove old routes, or silently merge independent backends.
+
+**Coverage gate:** Web pilot includes only currently verified routes. Product Manager, Scanner, Timeclock, PO Companion, Avery Labels, Split/Recall, and future Invoice Reconciliation must appear in the final directory when a stable, authorized deep link or launcher is verified. Their parent group and route must be agreed with PRs #26/#22/#31/#30/#28/#29; beta/test targets require visible environment labeling. Never add fake links to unmerged tools. All tools should inherit one agreed taxonomy while runtime-specific web/extension menus may use distinct renderers. A menu does not grant employee permissions.
+
+**Testing:** PR #35 adds an automated registry/HTML/route/auth test plus updates the prior Core Ops navigation assertions. Required remaining checks: deployed URL clickthrough from each page, real employee PIN preserved, pointer/keyboard/Escape/focus, mobile and 100/125/200% zoom, logo and external/Beta notices. No production deploy or Chrome extension release authorized by this PR.
