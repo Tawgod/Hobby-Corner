@@ -1,73 +1,62 @@
 # Cross-Project Integration — Current Handoff
 
 **Last verified:** 2026-11-09  
-**Status:** In Development / Blocked for cross-system rollout
+**Status:** In Development / Testing — cross-project production rollout not authorized
 
 ## Source
-- Project contract: `Tawgod/Hobby-Corner:main/HOBBY_CORNER_INTEGRATION_CONTRACT.md`
-- Canonical production Lightspeed base: `Tawgod/Lightspeed:integration/hobby-corner-consolidation`
-- Shared services Phase 1/2: draft PRs #32 and #33 (stacked)
-- Employee Administration: draft PR #34, `feature/employee-admin-security-foundation-20261106`
-- Web navigation: `feature/unified-hierarchical-navigation-20261109` (13 ahead / 0 behind consolidated when checked)
-- Navigation integration issue: [#36](https://github.com/Tawgod/Lightspeed/issues/36)
-- Chrome release gate: `CHROME_EXTENSION_RELEASE_QUEUE.md` and `CHROME_EXTENSION_INTEGRATION.md`
-- Owner-visible runtime: Railway projects `Hobby Corner` production and `Hobby Corner Integration Test` test
+- Canonical integration/release contract: `Tawgod/Hobby-Corner:main/HOBBY_CORNER_INTEGRATION_CONTRACT.md`
+- Production Lightspeed base: `Tawgod/Lightspeed:integration/hobby-corner-consolidation`
+- Shared services Phase 1 / Phase 2: draft PRs #32 / #33 (stacked)
+- Employee Administration: draft [PR #34](https://github.com/Tawgod/Lightspeed/pull/34), `feature/employee-admin-security-foundation-20261106` functional integration workflow commit `cc433e396545402b1aa32bb442f8a3f5f2dccc38`
+- Web navigation: `feature/unified-hierarchical-navigation-20261109` tested commit `17a35003c7b570f9a810000fd4b6ea77ab8e61cb`
+- Navigation coordination: [issue #36](https://github.com/Tawgod/Lightspeed/issues/36)
+- Chrome release gate: `CHROME_EXTENSION_RELEASE_QUEUE.md`, `CHROME_EXTENSION_INTEGRATION.md`
 
 ## Implemented
-- Inspected shared source, cross-feature PR/branch inventory and production/test Railway services. Documented source-of-truth ordering and shared identity, exact permission and hierarchy contracts.
-- Read-only Admin integration inventory candidate in PR #34: `services/security/adminIntegrationCatalog.js`, `GET /api/integrations` in `routes/employeeAdmin.js`. Only independently verified admin users may read it. Entries identify source owners, intended nesting and operation IDs and are marked **permissionEnforcement: not-integrated**, **settingsAdapter: not-connected**. This does not activate any tool.
-- Source-owned integration and navigation metadata tests: `tests/employee-admin-integrations.test.mjs`, added to Shared Lightspeed foundation workflow.
-- Current navigation branch mismatch recorded and tracked in GitHub issue #36 rather than editing another development conversation's shared navigation files or creating a second navigation registry.
+- Existing source reconciled across Admin PR #34, unified web navigation branch, shared services PRs #32/#33, Timeclock/Scanner and Railway production/test deployments.
+- Admin PR #34: `services/security/adminIntegrationCatalog.js`, optional read-only `GET /api/integrations`, `tests/employee-admin-integrations.test.mjs`, targeted `.github/workflows/employee-admin-integration.yml`. Metadata lists ten tool areas, source owners, intended nested navigation and exact candidate permissions. Every permission adapter explicitly reports `not-integrated`, settings adapter `not-connected`. It creates no privileges and changes no business data.
+- Unified navigation branch: current web nav already uses **Special Orders dashboard > Preorders > GW Preorders**, with **Purchasing / Ordering under Special Orders**, plus top-level **Store Tools**. Added conditional `Employee Administration` navigation only after a fresh **same-origin** response from `GET /api/admin/navigation-access` explicitly confirming `authenticated:true`, `allowed:true`, `operation:'admin.read'`. Any failure/absence denies display. Staff sign-in/sign-out emits `hc-staff-auth-changed`, listened to on `window`; sign-out removes Admin immediately; tab visibility resume rechecks server. No browser role/sessionStorage assertion confers admin.
+- Navigation test `tests/hierarchical-navigation-admin.test.mjs` covers denied grants/spoofs, intended hierarchy, conditional visibility and revocation. Existing `hierarchical-navigation.test.mjs` Priority Review expectations aligned with the latest read-only operational dashboard. Added targeted `.github/workflows/navigation-admin-contract.yml` job. No parallel navigation registry created.
+- Created central contract `HOBBY_CORNER_INTEGRATION_CONTRACT.md`; documented nav owner requirement in issue #36 and maintained draft PR #34.
 
 ## Tested
-- **Previous admin foundation** CI passed at functional source `81a78d933711836b395c0d50e2dabcb118165ee0`: shared foundation `42669190828`, Scanner `42669190918`.
-- **New integration candidate test status: NOT VERIFIED.** The new workflows `42672182306` (Shared Lightspeed) and `42672182349` (Scanner) reported failure, but the connector returned zero jobs and no failure log/step details. Do not mark this integration candidate tested or deploy it until the workflow problem is diagnosed and the tests pass.
-- Real browser: previous isolated admin staging synthetic Owner Google Authenticator login and brief tab-switch UX accepted; not representative real employee or delegated manager acceptance.
-- No production feature or cross-system CI acceptance claimed.
+**Admin branch** at `cc433e396545402b1aa32bb442f8a3f5f2dccc38`:
+- [Employee Admin integration contract 42673992585](https://github.com/Tawgod/Lightspeed/actions/runs/42673992585) **SUCCESS**.
+- [Shared Lightspeed foundation 42673992885](https://github.com/Tawgod/Lightspeed/actions/runs/42673992885) **SUCCESS**.
+- Scanner workflow `42673993023` reported failure with no jobs; the prior Admin-branch Scanner run `42673574765` **SUCCESS**. No evidence of an actual Scanner test regression from the no-jobs run. Root cause of intermittent no-job workflow startup is unverified; don't claim fixed GitHub infrastructure.
+
+**Navigation branch** at `17a35003c7b570f9a810000fd4b6ea77ab8e61cb`:
+- [Navigation admin permission contract 42674514784](https://github.com/Tawgod/Lightspeed/actions/runs/42674514784) **SUCCESS**.
+- [Unified hierarchical navigation 42674514692](https://github.com/Tawgod/Lightspeed/actions/runs/42674514692) **SUCCESS**.
+- [Shared UI reconciliation 42674515031](https://github.com/Tawgod/Lightspeed/actions/runs/42674515031) **SUCCESS**.
+- [Scanner integration regression 42674514795](https://github.com/Tawgod/Lightspeed/actions/runs/42674514795) **SUCCESS**.
+- [Core Operations UI navigation 42674514777](https://github.com/Tawgod/Lightspeed/actions/runs/42674514777) **SUCCESS**.
+- Browser/manual staff acceptance for new conditional Admin navigation **not performed**.
 
 ## Deployed
-- Production Railway project `Hobby Corner`: `store-map`, `lightspeed-api`, `special-orders-test`, `timeclock`, `Hobby-Corner-Discord-Bot`, `migration-test-bsi117`, `Hobby-Corner-Rewards`, `Postgres` all **online/SUCCESS**, 0 active warnings/criticals at check.
-- Isolated `Hobby Corner Integration Test`: `staff-security-staging`, `consignment-beta`, `Postgres` all online/SUCCESS. Admin staging service still previous deployment `41a3ee7d-6fb9-4ac1-9f5f-a27120f95256` from `21a44f4f06ebaacec3d005344faa89f8907feb46`.
-- **This integration batch was not deployed anywhere.** No production employee identity, PIN, Lightspeed data, tool grants or Chrome extension changed.
+- **No new staging or production deployment from this work.**
+- Previous Railway verification: production `store-map`, `lightspeed-api`, `special-orders-test`, `timeclock`, `Hobby-Corner-Discord-Bot`, `migration-test-bsi117`, `Hobby-Corner-Rewards`, `Postgres` all online/SUCCESS at check, no warnings/criticals.
+- Isolated `staff-security-staging`, `consignment-beta`, `Postgres` online/SUCCESS. Staging admin remains deployment `41a3ee7d-6fb9-4ac1-9f5f-a27120f95256` on earlier commit `21a44f4f06ebaacec3d005344faa89f8907feb46`.
+- No Timeclock roster, employee, PIN, grant, Lightspeed record, Chrome extension file/package or production configuration changed.
 
 ## Shared dependencies
-- Canonical Timeclock employee roster and non-mutating read API; shared signed session + bound passkey/TOTP.
-- Shared Lightspeed gateway Phase 1/2, audited exact operations, employee active-state and store-device trust.
-- Navigation branch must align owner-approved Special Orders parent, nested Purchasing, Preorder Campaigns > GW, Store Tools and conditional Admin link.
-- Every candidate tool must define owner, permission IDs, actual availability, write audit, API base, and regression tests before enabling its integration.
-- Chrome extension popup/manifest/content release is separate and still blocked by its coordinated queue.
-
-## Shared files / integration surfaces affected
-- `Tawgod/Lightspeed` draft PR #34: `services/security/adminIntegrationCatalog.js`, `routes/employeeAdmin.js`, `tests/employee-admin-integrations.test.mjs`, `.github/workflows/shared-lightspeed-foundation.yml`.
-- No shared extension files edited. No web navigation source edited.
-- `Tawgod/Hobby-Corner:main/HOBBY_CORNER_INTEGRATION_CONTRACT.md`; this handoff and the master project index updated.
+- **Outstanding backend nav gate:** `GET /api/admin/navigation-access` is not currently mounted on the consolidated Special Orders runtime. Until a trusted server-side `admin.read` resolver is provided, the navigation correctly hides Admin for everyone. This is a *safe incomplete integration*, not a functioning production Admin link.
+- Real Owner Timeclock identity has not been securely commissioned; synthetic staging employee 901 is not a production Owner.
+- Admin and tool permissions need an independently verified active Timeclock session, exact operation scopes and factor proof, enforced by each destination backend. Client-side nav hiding alone is not authorization.
+- Shared services Phase 1/2, Timeclock no-sync roster API and approved onboarding flow require separate review/deployment; tool-specific settings and writes remain unconnected.
+- Chrome extension remains governed by the coordinated release queue and has not been packaged or versioned.
 
 ## Remaining blockers
-- Integration workflows failed without accessible job details. Must independently diagnose/rerun before any merge or staging promotion.
-- Real Owner commissioning and delegated staff authorization unavailable. Do not adopt synthetic Owner 901 as production identity.
-- Non-mutating Timeclock directory endpoint and onboarding provisioning unmounted. Tool-permission grants candidate not enforced on live Scanner/PO/etc.
-- Web nav branch #36 needs reconciliation and tests; current separate Purchasing and sibling GW hierarchy contradict owner decisions.
-- Extension queue items remain unshipped; no package or version bump.
-- Configuration settings registry is metadata only; actual adapters and deployment-state synchronization unimplemented.
-
-## Decisions needed
-- No immediate decisions to continue non-destructive development.
-- Later: explicit authorization for production migrations, Owner enrollment/identity proof, tool-by-tool permission switch, Chrome release and session policy defaults.
+- Wire the same-origin `admin.read` nav capability endpoint to vetted staff-session and delegated grants on a tested integration branch. Do not infer permissions from PIN, UI roles or test Owner.
+- Complete browser acceptance across real permitted/denied employee sessions, passkey/TOTP Admin step-up and sign-out.
+- Coordinate integration of PR #32/#33/#34 and unified-nav source into a release candidate; never wholesale merge overlapping shared files.
+- Investigate intermittent GitHub Actions startup failures with zero jobs when feasible; new targeted and full test runs provide green verification but root cause remains unclear.
+- Separate approval required before production migrations, tool authorization switch, Chrome extension release or deployment.
 
 ## Recommended next action
-1. Investigate integration CI failures/no-jobs before promoting the new metadata endpoint.
-2. Align web navigation on existing branch per issue #36, keeping admin link conditional on trusted backend grants.
-3. Stage the non-mutating Timeclock directory and Admin grant adapters in an isolated setup with no real employee data.
-4. Integrate exact tool operations per service behind feature flags, with rollback and real employee browser testing.
-5. Obtain explicit approval before production writes, merges or any extension release.
+1. Build a same-origin **read-only admin-navigation access adapter**, verifying the signed Timeclock session and exact `admin.read`, behind an opt-in integration gate with default deny.
+2. Wire vetted Timeclock no-sync directory service and real Owner commissioning in isolated staging, with separate Admin grant migration and browser tests.
+3. Perform branch integration review and staged release testing before any real employee or Lightspeed permission write.
 
-## Restrictions / safety
-No production merge, Railway rollout, employee data change, Lightspeed write, or Chrome extension package/release occurred. Treat the new integration registry as development-only metadata, not an active entitlement system.
-
-## Documentation
-- `HOBBY_CORNER_INTEGRATION_CONTRACT.md`
-- `HOBBY_CORNER_PROJECT.md`
-- `handoffs/employee-admin-security.md`
-- `CHROME_EXTENSION_RELEASE_QUEUE.md`
-- `CHROME_EXTENSION_INTEGRATION.md`
-- `Tawgod/Lightspeed:feature/employee-admin-security-foundation-20261106/docs/EMPLOYEE_ADMIN_FOUNDATION.md`
+## Restrictions and documentation
+No merge, production write, staging deployment or extension release was authorized/performed in this pass. Project specifications: `HOBBY_CORNER_INTEGRATION_CONTRACT.md`, `HOBBY_CORNER_PROJECT.md`, `handoffs/employee-admin-security.md`, `CHROME_EXTENSION_RELEASE_QUEUE.md`.
