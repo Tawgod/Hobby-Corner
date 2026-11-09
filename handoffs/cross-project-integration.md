@@ -85,3 +85,19 @@ No merge, production write, staging deployment or extension release was authoriz
 **Actual deployment:** No new staging or production deploy. Real Owner identity, source-owned Admin schema and separate DB service approval still missing; feature flag remains default off. Keep Chrome extension queue unchanged.
 
 **Next safe integration:** prepare isolated dedicated Admin permission DB + real/synthetic segregated test fixtures; perform browser acceptance with authorized, denied and revoked employees; coordinate the Admin destination's fresh-factor authentication independently. No production role seeding or environment changes without authorization.
+
+## Disposable Admin database authorization acceptance — 2026-11-09
+
+**System:** Unified navigation ↔ Admin permissions ↔ signed Timeclock employee session. **Status:** In Development; PostgreSQL integration TESTED; not staged or deployed.
+
+**Source:** `Tawgod/Lightspeed:feature/unified-hierarchical-navigation-20261109`; latest tested functional commit `7a1179355c8495d5e94e2b678252d94a1b72c26b`. New `tests/admin-navigation-postgres.test.mjs` and `tests/fixtures/admin-navigation-grants-ci.sql` exercise a disposable local `hc_test` PostgreSQL 16 database using temporary tables in a transaction that rolls back. Test verifies non-provisioned employee denied, synthetic Owner after separate test-only grant admitted, manager denied without exact `admin.read`, unrelated manager permission insufficient, manager admitted after explicit grant, immediately denied after revocation, inactive admin denied, ordinary staff denied, expired/revoked signed session denied, no write API. No live employee IDs or Railway Postgres accessed. Fixture is compatibility testing only; authoritative schema remains Admin PR #34.
+
+**Least privilege:** new `verifyAdminNavigationReadOnlyDatabase` checks the configured Admin-grants database login has SELECT for both required tables, no INSERT/UPDATE/DELETE/TRUNCATE on either and no CREATE on the current schema. The optional Special Orders Admin route refuses to mount and closes its pool if schema/privileges unavailable. This protects against accidentally configuring a write-capable credential. `HC_ADMIN_NAV_ENABLED` remains OFF by default. No production/admin role creation or database migration.
+
+**GitHub Actions — all SUCCESS** on `7a1179355c8495d5e94e2b678252d94a1b72c26b`: Navigation Admin permission contract `42678214253`, Unified hierarchical navigation `42678214634`, Scanner regression `42678215025`, Shared UI reconciliation `42678213854`, Core Operations UI navigation `42678213851`.
+
+**Railway verified unchanged:** `Hobby Corner Integration Test/test/staff-security-staging` deployment `41a3ee7d-6fb9-4ac1-9f5f-a27120f95256` SUCCESS on old SHA `21a44f4f06ebaacec3d005344faa89f8907feb46`, no staged patch. No production route, real Timeclock employee, PIN, grant, Lightspeed, or Chrome changes.
+
+**Remaining:** dedicated isolated Admin grants schema and SELECT-only connection, secure real Owner commissioning with bound passkey, per-manager explicit grants, real signed staff/browser verification with revoke and MFA step-up. These require separate staging security setup/approval; the disposable PostgreSQL tests are not equivalent to deployed live credentials or real-staff acceptance. Canonical design: `Tawgod/Lightspeed:feature/unified-hierarchical-navigation-20261109/docs/ADMIN_NAVIGATION_ACCESS.md`.
+
+**Next:** Prepare a reviewed isolated Admin schema/SELECT-only role and separately deploy the navigation branch to an appropriate *test-only* core-ops service. Test owner/manager/ordinary employee distinction with no live staff data. Keep real production rollout blocked until commissioned identities and explicit authorization.
