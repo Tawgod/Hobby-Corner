@@ -185,3 +185,18 @@ Source-by-source disposition documented in `Tawgod/Lightspeed:feature/shared-ui-
 **Coverage gate:** Web pilot includes only currently verified routes. Product Manager, Scanner, Timeclock, PO Companion, Avery Labels, Split/Recall, and future Invoice Reconciliation must appear in the final directory when a stable, authorized deep link or launcher is verified. Their parent group and route must be agreed with PRs #26/#22/#31/#30/#28/#29; beta/test targets require visible environment labeling. Never add fake links to unmerged tools. All tools should inherit one agreed taxonomy while runtime-specific web/extension menus may use distinct renderers. A menu does not grant employee permissions.
 
 **Testing:** PR #35 adds an automated registry/HTML/route/auth test plus updates the prior Core Ops navigation assertions. Required remaining checks: deployed URL clickthrough from each page, real employee PIN preserved, pointer/keyboard/Escape/focus, mobile and 100/125/200% zoom, logo and external/Beta notices. No production deploy or Chrome extension release authorized by this PR.
+
+
+### Proposed full workspace hierarchy (design proposal, not active routes) — 2026-11-09
+
+- **Home / Store Operations**: proposed future landing dashboard, no fabricated operational metrics or connection statuses; deploy only with real data/authorized employee session.
+- **Orders & Fulfillment → Special Orders → Preorder Campaigns, GW Preorders**, with future verified invoice/shipping `On the way` indicators as contextual subviews, not a separate invoice writer.
+- **Purchasing → Ordering → PO Companion, Avery PO Labels**, and eventually Invoice Reconciliation once shared authorized backend / approvals exist.
+- **Catalog / Product Management → Product Manager → Product Scanner**, with Scanner also reachable from supplier capture/stock workflows as a contextual tool.
+- **Staff & Register → Timeclock → My Schedule (when implemented); Split / Recall** remains an operational tool accessible from its verified Sell/fulfillment host context.
+- **Consignment Management** remains an independent workflow domain with its own staff/customer beta state. Only a verified approved launcher can appear in universal navigation, prominently labeled Beta / Test until production accepted.
+- **Lightspeed Toolkit** is a cross-workflow launcher and must remain available wherever appropriate.
+
+Every workspace must include access to a complete directory of currently verified destinations, including other categories. **Nested navigation** is the first phase; integrated same-page tabs/subviews are phase two and require individual feature-owner acceptance for authentication, deep linking, browser back/forward, cleanup on tab change, and retaining original routes as fallback. Avoid iframe shortcuts and duplicate service clients. Show future tools as documented proposals only, not active broken links. Do not expose feature routes solely because a visible menu exists: the backend must enforce permissions.
+
+**Visual exploration:** Two illustrative design mockups were created in the Shared UI Coordination conversation on 2026-11-09: (1) a consistent Orders & Fulfillment sidebar/tabbed workspace, and (2) a potential Store Operations landing dashboard. They use fictitious records, metrics and system statuses and are **not screenshots or assertions about live Hobby Corner data**. Actual production UI must use original owner-approved branding assets, not regenerated brand art.
