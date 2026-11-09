@@ -28,7 +28,7 @@
 - The other utilities belong under **Store Tools**. Each page links to the shared navigation, not a feature-private launcher. Links must be verified; beta/staging links visibly identified.
 - **Employee Administration** is visible only when the signed-in employee has independent backend-confirmed `admin.read` and can pass the admin factor gate. Never assume a privileged navigation item is the same as permission to use the destination.
 - Design/implementation ownership of shared web nav stays with `feature/unified-hierarchical-navigation-20261109`. Do not make an independent competing nav system in the Admin branch. Extension popup navigation stays in the coordinated Chrome queue.
-- **Source discrepancy found 2026-11-09:** `shared-ui/operations-nav.mjs` currently uses top-level `Orders & Fulfillment` and separate `Purchasing`, and has GW as a sibling of Preorder Campaigns. Align this branch against the above owner-approved nesting before merged release. Do not claim done until nav source and tests show it.
+- **Resolved in development source 2026-11-09:** `feature/unified-hierarchical-navigation-20261109` now implements this exact nesting. Admin link is conditional on a fresh same-origin backend `GET /api/admin/navigation-access` result with authenticated `admin.read`; the backend resolver is **not yet connected**, so the link intentionally remains hidden. No deployment implied.
 
 ## System ownership and onboarding
 | System | Canonical owner | Shared integration | Current gate |
