@@ -3,6 +3,13 @@
 **Last verified:** 2026-10-29  
 **Status:** Testing (shared foundation and core navigation merged; tool-by-tool/extension acceptance incomplete)
 
+## Latest development checkpoint — 2026-11-09
+- **Active new candidate:** [PR #35](https://github.com/Tawgod/Lightspeed/pull/35), `feature/unified-hierarchical-navigation-20261109` (draft, **not merged/deployed**). The Core Ops pages share `shared-ui/operations-nav.mjs` with nested Special Orders → Preorders/GW, Ordering under Purchasing, and distinct Toolkit / Consignment Beta destinations. Existing Timeclock PIN header and operational handlers preserved.
+- **New requirement:** Each tool must expose other **verified, permitted** tools and dependent features belong in parent navigation/workspace; implement nested subviews only with owning-tool state/auth/browser compatibility checks, not iframe shortcuts or removal of working URLs.
+- **Implemented:** Web pilot in PR #35 on branch; **tested:** source/CI navigation check passed, comprehensive browser/manual pending; **deployed:** NO. PR #24/#27 foundations remain merged, not replaced.
+- **Dependencies:** Coordinate eventual directory coverage with PR #26 Scanner/Toolkit, #22 Timeclock/Split, #31 PO Companion, #30 Consignment, #28 Product Manager, #29 Avery and planned invoice reconciliation. Never invent links to unreleased extension-only features. Original brand and Consignment visual standard remain mandatory.
+- **Next:** Complete PR #35 full CI and actual mouse/keyboard/native zoom review, then agree stable per-tool destinations and nested-workspace design with owning chats. No production merge, Chrome packaging or deployment approval.
+
 ## Source
 - Repository: `Tawgod/Lightspeed`.
 - Authoritative application branch: `integration/hobby-corner-consolidation`.
