@@ -1,5 +1,21 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Alternative production PostgreSQL backup path — 2026-11-10
+
+**Owner input:** Railway's managed/volume backup feature is unavailable on the user's current account tier. This does not waive the prior production release backup gate; no PR #59 merge, Timeclock deployment or production migration has occurred.
+
+**Prepared alternative (not executed):** [Codespaces backup and recovery guide](https://github.com/Tawgod/Hobby-Corner/blob/main/docs/POSTGRES_BACKUP_WITHOUT_RAILWAY_TIER.md) and two manually run, private scripts in `Tawgod/Hobby-Corner:main/scripts/`:
+- `backup-production-postgres-codespaces.sh`: authorized operator uses Railway CLI `railway connect Postgres --environment production --tunnel-only` in private Codespaces, then streams full read-only PG18 `pg_dump` custom archive directly through `age --passphrase` to an encrypted file outside the repository. Never sends DB password or archive to chat, PR, or Actions.
+- `verify-production-postgres-backup-codespaces.sh`: decrypts the private archive into a disposable network-disabled PostgreSQL 18 Docker container, runs `pg_restore --exit-on-error` and confirms at least one restored table; removes test container at exit.
+- Shell script syntax was checked in the authoring environment; **the scripts have not been executed against a Railway tunnel, real database, live credential, Codespace, or Docker restore**. Actual backup/restore remains unverified. Operator must retain the encrypted file in independent secure storage and separate passphrase in password manager. Neither GitHub repository nor Codespaces is long-term backup storage.
+- Railway's published [Postgres backup/restore guide](https://railway.com/guides/postgres-backups-restores) documents `pg_dump` and SSH tunneling as a manual logical-backup alternative. It is not equivalent to continuous PITR or a database-volume snapshot; a restore drill is necessary.
+
+**Next user action:** open a private Codespace on `Tawgod/Hobby-Corner:main`, follow `docs/POSTGRES_BACKUP_WITHOUT_RAILWAY_TIER.md`, authorize Railway device login privately, export the **existing Hobby Corner production Postgres** via a tunneled `pg_dump`, complete the isolated restore drill and secure the encrypted archive off-Codespace. Report only backup/restore success or failure and UTC timestamp/checksum—not secrets or records.
+
+**Still blocked:** default-off PR #59 production release until trusted recoverable backup plus multi-service GitHub branch-trigger deployment review. Keep user authorization for release recorded, but no downgrade of risk gate. No production DB changes, deployment, PIN changes or Owner activation were made.
+
+---
+
 ## Production release preflight — 2026-11-10 (OWNER AUTHORIZED, HOLD pending verification)
 
 **Authorization:** User approved the **controlled production release of PR #59 only**, with the new Owner-staging endpoints **disabled** and subject to backup verification and deployment checks. This does **not** authorize a production DB migration, enabling Owner staging credentials, assigning Owner roles, enrolling factors, or deploying draft PR #60.
