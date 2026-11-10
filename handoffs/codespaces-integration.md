@@ -1,79 +1,86 @@
 # Codespaces Integration System — Current Handoff
 
 **Last verified:** 2026-11-10  
-**Status:** In Development
+**Status:** In Development / Testing (not deployed)
 
 ## Source
 
 - Repository: `Tawgod/Hobby-Corner`
-- Authoritative branch: `feature/codespaces-integration-foundation-20261110`
-- Current PR: draft PR #3 — https://github.com/Tawgod/Hobby-Corner/pull/3
-- Current commit: `2403f156110e00604a1153c3aff7418790c238bc` (documentation update; functional probe commit `621573b576e2c7f6ddaa1f066378592ecbeeb390`)
-- Superseded PRs / branches: none
+- Authoritative development branch: `feature/codespaces-integration-foundation-20261110`
+- Draft PR: [#3](https://github.com/Tawgod/Hobby-Corner/pull/3), unmerged
+- Latest documentation commit: `a8b28664453bbeca86ed689b42a81e052bba516d`
+- Test fixture: `Tawgod/Lightspeed:feature/first-owner-passkey-registration-integration-20261110`, draft PR #50
 
 ## Implemented
 
-- Audited connected GitHub capabilities: no Codespaces lifecycle, SSH, terminal or arbitrary command action is exposed.
-- Verified GitHub-supported Codespaces lifecycle APIs and GitHub CLI SSH path.
-- Selected narrow custom MCP bridge architecture rather than replacing the existing GitHub connector.
-- Added dependency-free Milestone 2 smoke probe with allowlisted repo/branch lifecycle control and a fixed non-destructive `node --version` remote test.
-- Added architecture and security documentation.
+- Audited ChatGPT GitHub connector; no Codespaces lifecycle, SSH or terminal action available.
+- Reviewed official GitHub CLI Codespaces list/create/view/SSH and Codespaces REST start capabilities.
+- Chose a narrow custom MCP bridge rather than replacing the existing GitHub connector.
+- Added `codespaces-integration/scripts/codespaces-core.mjs`: allowlisted GitHub CLI controller with list/reuse/create/start/stop/fixed Node smoke, bounded output/timeouts, no shell interpretation, operation audit trail and cleanup preserving preexisting running environments.
+- Added `codespaces-integration/scripts/mcp-stdio.mjs`: six MCP tool definitions, including explicit operation intent strings.
+- Removed superseded prototype smoke script.
+- Added PR-scoped lightweight GitHub Actions verification.
 
 ## Tested
 
-- Automated: local Node syntax validation unavailable in the assistant runtime because Node is not installed there; no GitHub Actions run was triggered for this initial probe.
-- Browser / employee acceptance: not applicable.
-- Runtime / deployment verification: **not yet tested against a real Codespace** because this ChatGPT connection cannot invoke Codespaces/SSH.
+- Local Node 22 `node --check` on controller and MCP entrypoint: PASS.
+- Local Node built-in suite: **9/9 PASS** with simulated GitHub CLI including wrong-branch denial, unsafe-name rejection, approval gate, reuse and cleanup.
+- GitHub Actions workflow [42840827060](https://github.com/Tawgod/Hobby-Corner/actions/runs/42840827060): **SUCCESS**, validating code on functional SHA `eba643b55bede8bbc0b6f88fc99b42dfef417c82`.
+- MCP SDK dependency installation/stdio handshake: **NOT VERIFIED** (npm registry unavailable from assistant runtime).
+- Real Codespaces create/start/SSH/stop: **NOT VERIFIED** (the connected ChatGPT GitHub plugin exposes no Codespaces operations).
+- No live browser, PostgreSQL or employee acceptance.
 
 ## Deployed
 
-- Environment: none
-- Service / extension version: none
-- Deployment reference: none
-- Production status: not deployed
+- Environment: none; stdio MCP adapter only, not a remote hosted connection.
+- Railway: unchanged.
+- Chrome extension: unchanged.
+- Production: unchanged.
 
 ## Shared dependencies
 
-- GitHub Codespaces
-- GitHub CLI / Codespaces SSH
-- Existing ChatGPT GitHub plugin
-- Future custom MCP plugin connection
-- Initial test fixture: `Tawgod/Lightspeed` PR #50 branch and its isolated Node 22/PostgreSQL 16 devcontainer
+- GitHub Codespaces / GitHub CLI with signed-in user authorization
+- GitHub-connected ChatGPT plugin for existing repo/PR/CI operations
+- Future reviewed authenticated remote MCP adapter or approved secure tunnel
+- Lightspeed PR #50 Node 22 / disposable Postgres 16 devcontainer
 
 ## Shared files / integration surfaces affected
 
-- New project-only `codespaces-integration/` source/documentation
-- No Chrome extension files
-- No Railway services or credentials
-- No Lightspeed production source
+- `codespaces-integration/` source/tests/docs in draft PR #3
+- `.github/workflows/codespaces-foundation.yml`
+- `CHANGELOG.md` (PR branch)
+- `handoffs/codespaces-integration.md` (project main and PR branch)
+- `HOBBY_CORNER_PROJECT.md` (project main)
+- No Chrome extension release queue change required because no extension surface touched.
 
 ## Remaining blockers
 
-- Connect a reviewed custom MCP server or Secure MCP Tunnel to ChatGPT.
-- Obtain minimum GitHub user authorization for Codespaces through supported short-lived credentials.
-- Runtime-test list/start/SSH/stop against a development Codespace.
-- Add controlled test profiles for Node, PostgreSQL and Playwright.
-- Add arbitrary command support only after approval policy and injection defenses are reviewed.
+1. Provide a trusted bridge host with Node 22 and GitHub CLI plus appropriately scoped, short-lived GitHub user authorization; do **not** paste GitHub tokens into ChatGPT.
+2. Review, implement and authorize an authenticated HTTPS remote MCP adapter (or supported secure tunnel), host-side real user approval and revocation. Current stdio source alone cannot be used by ChatGPT remotely.
+3. Validate live `gh codespace list/view` branch representation before lifecycle mutation.
+4. Perform the first approved dev Codespace smoke and retrieve output.
+5. Add fixed Node/Postgres/Playwright profiles, resource monitoring, error recovery and stop-idle policy. Keep required Actions release gates.
 
 ## Decisions needed
 
-- Choose remote HTTPS MCP deployment vs Secure MCP Tunnel for the bridge once account/workspace support is confirmed.
-- Decide whether the bridge should be hosted on an isolated Railway test service or another dedicated non-production host.
+- User authorization and approved isolated bridge hosting approach; production hosting/credentials not authorized.
+- Approval mechanism at MCP host boundary, not just model-supplied strings.
 
 ## Recommended next action
 
-- Connect the reviewed bridge in a supported ChatGPT plugin environment and run the first real Codespace smoke test.
-- Then connect the bridge in a supported ChatGPT plugin environment and run Milestone 2 against PR #50's Codespace configuration.
+- Review draft PR #3 and connect an approved remote MCP bridge with minimal GitHub Codespaces scopes.
+- Then run read-only list/view against the PR #50 environment before authorizing a start/SSH/stop test.
+- Do not merge PR #3 or deploy any service without explicit authorization.
 
 ## Restrictions / safety
 
-- No production credentials, employee/PIN/customer data, or production database access.
-- No public forwarded ports.
-- No deployment, destructive command, secret change, production operation, git push or commit without explicit authorization.
-- Reuse matching Codespaces and stop them after work.
+- No arbitrary shell or git writes; fixed `node --version` only.
+- No production API keys, employee/PIN/customer data, production DB connections, public ports, credential changes, Chrome extension package or production deployment.
+- Never interpret model-supplied approval phrases as verified human consent.
 
 ## Documentation
 
 - `codespaces-integration/README.md`
 - `codespaces-integration/ARCHITECTURE.md`
-- PR #50: `docs/FIRST_OWNER_CODESPACES_TESTING.md`
+- `codespaces-integration/tests/codespaces-core.test.mjs`
+- `Tawgod/Lightspeed` draft PR #50: `docs/FIRST_OWNER_CODESPACES_TESTING.md`
