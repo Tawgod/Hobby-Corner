@@ -24,7 +24,7 @@
 ## Tested
 
 - Automated: PR #46 reported **SUCCESS**: [Shared foundation 42741292522](https://github.com/Tawgod/Lightspeed/actions/runs/42741292522), [Scanner 42741292523](https://github.com/Tawgod/Lightspeed/actions/runs/42741292523), [Core Operations 42741292608](https://github.com/Tawgod/Lightspeed/actions/runs/42741292608).
-- Automated: PR #47 reported **SUCCESS** in Shared UI, Navigation Admin, Unified Navigation [42741297256](https://github.com/Tawgod/Lightspeed/actions/runs/42741297256), [42741297401](https://github.com/Tawgod/Lightspeed/actions/runs/42741297401), [42741297279](https://github.com/Tawgod/Lightspeed/actions/runs/42741297279). Core Operations browser [42741297313](https://github.com/Tawgod/Lightspeed/actions/runs/42741297313) still in progress at last check.
+- Automated: PR #47 reported **SUCCESS** in Shared UI, Navigation Admin, Unified Navigation [42741297256](https://github.com/Tawgod/Lightspeed/actions/runs/42741297256), [42741297401](https://github.com/Tawgod/Lightspeed/actions/runs/42741297401), [42741297279](https://github.com/Tawgod/Lightspeed/actions/runs/42741297279). Core Operations browser [42741297313](https://github.com/Tawgod/Lightspeed/actions/runs/42741297313) **SUCCESS**.
 - Automated: PR #48 reported **SUCCESS** [Employee Admin 42741302820](https://github.com/Tawgod/Lightspeed/actions/runs/42741302820) and [Shared foundation 42741302487](https://github.com/Tawgod/Lightspeed/actions/runs/42741302487).
 - Browser / employee acceptance: Core Operations browser jobs run in CI where complete; no real employee acceptance involved.
 - Runtime / deployment verification: **no deployment**, GitHub config-only.
@@ -58,7 +58,7 @@
 
 ## Recommended next action
 
-- Finish PR #47 browser job and confirm statuses. Review branch protection required check contexts with repository admin. Merge only with explicit approval. Then measure actual billed runner minutes and cache hits in GitHub billing after a comparable week.
+- All initial CI suites in the three Lightspeed draft PRs passed. Review branch protection required check contexts with repository admin. Merge only with explicit approval. Then measure actual billed runner minutes and cache hits in GitHub billing after a comparable week.
 - Savings modeling: roughly 200–400 **elapsed run-minutes per 9 days** avoided at similar high PR activity, equivalent to ~650–1,300 extrapolated elapsed run-minutes per 30 days **not a billed-minute forecast**. Expected avoided-run reduction ~15–35% on optimized branches, with workload variability.
 
 ## Restrictions / safety
