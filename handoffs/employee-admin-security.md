@@ -1,5 +1,17 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Latest development milestone — 2026-11-10: scoped Timeclock staging credential and adapter
+
+**Status:** In Development. **Implemented:** dedicated Timeclock staging credential endpoints and staged Owner app adapter. **Tested:** CI passed for both PRs. **Deployed:** none, no production migrations or credentials.
+
+- **Timeclock integration:** [draft PR #59](https://github.com/Tawgod/Lightspeed/pull/59), `feature/owner-timeclock-scoped-credential-20261110@d74513a5faf36dadb57163232f7bf7324f8e1123`, stacked directly on production-tracked integration **but unmerged**. Adds `timeclock/ownerStagingIdentity.js`, default-disabled `/api/timeclock/integrations/owner-staging/{verify-pin,authorize}`, distinct header and credential from existing Scanner, exact operator-selected active employee restriction, synthetic ID 901 denial and browser-origin denial. PIN attempts require transactional PostgreSQL account-global throttle (five attempts/15 minutes), with independent authorize scope and fail-closed failures. Unapplied `timeclock/db/hc_owner_stage_login_limits.sql`.
+- **Verification:** [CI 42882186621](https://github.com/Tawgod/Lightspeed/actions/runs/42882186621) SUCCESS: **4 tests, 4 passed, 0 failed, 0 skipped**, including real disposable PostgreSQL 16 cross-pool concurrency and route denial tests. [Scanner integration run 42882186162](https://github.com/Tawgod/Lightspeed/actions/runs/42882186162) SUCCESS. No production Timeclock endpoint/security device test.
+- **Owner app compatibility:** [draft PR #60](https://github.com/Tawgod/Lightspeed/pull/60) `feature/owner-staging-scoped-timeclock-adapter-20261110@830f56f79b97aea3fc263642cdb0478a6072c2b0`, stacked on PR #58. Existing Scanner identity adapter gains explicit `mode:'owner-staging'` for header/paths; the Owner staging bundle and private activation issuer opt in. Default Scanner mode remains unchanged. [Adapter CI 42882036649](https://github.com/Tawgod/Lightspeed/actions/runs/42882036649) SUCCESS; [Scanner regression 42882036676](https://github.com/Tawgod/Lightspeed/actions/runs/42882036676) SUCCESS.
+- **Railway:** separate project `HC Owner Security Staging` app service source is staged and pinned to PR #60 commit `830f56f79b97aea3fc263642cdb0478a6072c2b0`. Both app and Postgres remain **staged-create**, unprovisioned, no domain or deploy. Existing production Timeclock and legacy synthetic staging remain unchanged.
+- **Still blocked:** human review of #59/#60, explicit production Timeclock SQL migration and deployment authorization, dedicated protected production Timeclock staging secret + test-service secret handshake, exact private canonical employee ID confirmation, separate least-privilege Owner staging DB/operator roles and migration verification, staging secret configuration, secure HTTPS hostname/RPID, rate-limiter proxy acceptance, real passkey + TOTP recovery acceptance and separately approved production Owner commissioning. **Do not merge/deploy or create real activation from CI/chat.**
+
+---
+
 ## Railway resource preparation — 2026-11-10 (staged only, no deployment)
 
 **Status:** In Development. The owner explicitly authorized preparing/configuring isolated Railway staging resources, **not** deploying or commissioning real Owner credentials.
