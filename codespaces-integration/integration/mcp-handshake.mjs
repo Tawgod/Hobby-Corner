@@ -6,7 +6,7 @@ const client=new Client({name:'hobby-corner-ci-smoke-client',version:'0.1.0'});
 const transport=new StdioClientTransport({
  command:process.execPath,
  args:['scripts/mcp-stdio.mjs'],
- env:{...process.env,GH_TOKEN:'test-token-no-remote-usage',HC_CODESPACE_AUDIT_PATH:'/tmp/hc-codespace-ci-audit.jsonl'}
+ env:{...process.env,GH_TOKEN:'',HC_CODESPACE_AUDIT_PATH:'/tmp/hc-codespace-ci-audit.jsonl'}
 });
 try{
  await client.connect(transport);
