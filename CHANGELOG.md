@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-10 — MCP protocol handshake verified
+
+- Fixed all allowlisted development test profiles to run from the explicit `/workspaces/Lightspeed` devcontainer workspace; added a regression assertion.
+- Added an actual MCP stdio client/server handshake test using the installed SDK and a fake, unused development token. It only enumerates all seven registered tools and never invokes GitHub.
+- [GitHub Actions run 42842879645](https://github.com/Tawgod/Hobby-Corner/actions/runs/42842879645) **SUCCESS** on `c9d3f69a99ee26a9eb3bd6a83ac7fc85c7969726`, exercising 13 controller tests, dependency import and MCP tool enumeration. Authenticated remote ChatGPT MCP transport, live Codespaces lifecycle, PostgreSQL and browser tests remain unverified.
+- No Codespace, Railway service, Chrome extension, real GitHub authorization token, production credential or customer/employee data was used or changed.
+
 ## 2026-11-10 — Fixed Codespaces test profiles and SDK CI verification
 
 - Added allowlisted `owner-source` and `owner-postgres` test profiles to the draft PR #3 Codespaces controller and exposed `run_test_profile` as an MCP tool. Commands are reviewed constants, not arbitrary ChatGPT input; both operate only on running PR #50 development Codespaces.
