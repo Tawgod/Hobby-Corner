@@ -3,8 +3,8 @@ import {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import {StdioServerTransport} from '@modelcontextprotocol/sdk/server/stdio.js';
 import {z} from 'zod';
 import {makeCodespaces} from './codespaces-core.mjs';
-if(!process.env.GH_TOKEN||!process.env.HC_CODESPACE_AUDIT_PATH){
- console.error('GH_TOKEN and HC_CODESPACE_AUDIT_PATH required');process.exit(1);
+if(!process.env.HC_CODESPACE_AUDIT_PATH){
+ console.error('HC_CODESPACE_AUDIT_PATH required for private audit logging');process.exit(1);
 }
 const api=makeCodespaces();
 const server=new McpServer({name:'hobby-corner-codespaces',version:'0.1.0'});
