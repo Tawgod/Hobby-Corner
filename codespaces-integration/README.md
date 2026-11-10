@@ -54,7 +54,7 @@ npm start
 - The actual `gh` Codespaces lifecycle and SSH paths have **not** run against GitHub.
 - GitHub CLI `gitStatus.ref` representation requires a first read-only live verification before any mutation.
 - MCP SDK dependencies and stdio connection handshake remain untested here because npm registry access is unavailable in the current execution environment.
-- The original proof-of-concept `scripts/codespace-smoke.mjs` is superseded by the new controller; do not use it for authorization or production.
+- The original proof-of-concept smoke script has been removed. The policy-checked controller is the single implementation.
 - No real database or browser tests, user GitHub authorization, Codespace creation, compute usage, or production work occurred.
 
 ## Required next setup
