@@ -110,7 +110,7 @@
 
 ## Handoff snapshot — final development continuation, 2026-11-10
 
-- Draft PR [#3](https://github.com/Tawgod/Hobby-Corner/pull/3) head `b762e6c4e15367eaa9c44e2bc1156f2dd917b655`; GitHub latest PR metadata reported draft, unmerged and mergeable at final check (mergeability may change if main advances). No merge requested or performed.
-- Seven MCP tools, 13 controller tests and real stdio handshake verified in GitHub Actions. Latest confirmed successful full head before credential/tunnel documentation changes: [42843015907](https://github.com/Tawgod/Hobby-Corner/actions/runs/42843015907). Changes after that replace GH_TOKEN requirement with gh credential store and add a setup runbook; no live Github Codespaces tested.
+- Draft PR [#3](https://github.com/Tawgod/Hobby-Corner/pull/3) head `b762e6c4e15367eaa9c44e2bc1156f2dd917b655`; GitHub latest PR metadata reported draft, unmerged and currently non-mergeable against moving main (requires branch sync prior to any merge). No merge requested or performed.
+- Seven MCP tools, 13 controller tests and real stdio handshake verified in GitHub Actions. Latest current-head [GitHub Actions 42843661982](https://github.com/Tawgod/Hobby-Corner/actions/runs/42843661982) **SUCCESS**, covering token-free stdio startup, controller unit tests, SDK imports and client/server handshake. No live GitHub Codespaces tested.
 - **Next owner action:** follow `codespaces-integration/TUNNEL_SETUP.md` from draft PR #3. Create/authorize an OpenAI Secure MCP Tunnel, install/authorize ChatGPT custom plugin, and sign GitHub CLI in interactively on a trusted private host. Then ask this chat to perform the first read-only Codespaces list; do not send secrets.
 - No production deployment, Codespace creation, new public service, Chrome extension release or Lightspeed write.
