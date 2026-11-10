@@ -87,7 +87,7 @@
 
 ## Latest PR integration note — 2026-11-10
 
-- Draft PR #3 was later rechecked and reported `mergeable=true`; no merge was attempted. Diff shows only 8 expected files (controller/MCP/docs/CI/CHANGELOG). Reconcile current main into the feature branch before future merge review; no force updates or production changes.
+- Draft At latest verification PR #3 reports `mergeable=false` after main advanced with coordination updates. Reconcile branch against latest main before any merge decision; no merge was attempted. Diff shows only 8 expected files (controller/MCP/docs/CI/CHANGELOG). Reconcile current main into the feature branch before future merge review; no force updates or production changes.
 
 ## Current next execution gate — 2026-11-10
 
@@ -95,3 +95,8 @@
 - Live connection is still blocked on a reviewed, authenticated remote MCP adapter or supported tunnel, a bridge host with `gh`, and appropriately scoped user authorization. Model-supplied approval strings do not constitute trusted user consent.
 - First allowed step after setup is **read-only** `list_codespaces` / exact branch view. Require explicit human approval before any start or creation. Initial fixture remains Lightspeed draft PR #50.
 - Do not confuse this source-level integration with a deployed ChatGPT plugin.
+
+## Last verification — 2026-11-10
+
+- Draft PR #3 current head `5236529e6e47b5215e835661e4dcbc2091d2dfc2`; latest head [Actions run 42843015907](https://github.com/Tawgod/Hobby-Corner/actions/runs/42843015907) SUCCESS.
+- No live Codespaces or network-connected remote MCP operation attempted. GitHub's current mergeability flag is false; handle separately during branch sync and review.
