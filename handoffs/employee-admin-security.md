@@ -1,5 +1,23 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Production release preflight — 2026-11-10 (OWNER AUTHORIZED, HOLD pending verification)
+
+**Authorization:** User approved the **controlled production release of PR #59 only**, with the new Owner-staging endpoints **disabled** and subject to backup verification and deployment checks. This does **not** authorize a production DB migration, enabling Owner staging credentials, assigning Owner roles, enrolling factors, or deploying draft PR #60.
+
+**Live Railway evidence:**
+- `Hobby Corner / production / timeclock` service `dd3469bd-5fce-43bc-b9f9-7aa2a7806457` remains **online**; latest deployment `eaaa2b25-2ab5-4b14-b712-f7a6d89e8557`, commit `014a7a949fe570b756b48d8f59995c1b0a434859` from `integration/hobby-corner-consolidation`. 1/1 replica running, no active warnings, no recent failures. Last-hour HTTP error metrics had **zero requests** and therefore do not establish live functional acceptance.
+- PR #59 head `a595fd336c5a38dcc5ab5423a8967698777c0929` is 12 commits ahead / 0 behind the live integration branch; 7 paths changed (Timeclock adapter, 6-line additive mount, tests, unapplied SQL, workflow, docs). Still draft/unmerged; GitHub recorded no submitted reviews.
+- Final-head CI [Owner/PG16 42885171115](https://github.com/Tawgod/Lightspeed/actions/runs/42885171115) and [Scanner 42885171145](https://github.com/Tawgod/Lightspeed/actions/runs/42885171145) both **SUCCESS**.
+- Production `timeclock`, `lightspeed-api` and `special-orders-test` all track **the same `integration/hobby-corner-consolidation` branch**. A merge could trigger multiple service deploys, not only the Timeclock. Production environment has **no staged patch**.
+- The latest successful Timeclock deployment is rollback-eligible in Railway, but rollback availability is NOT a substitute for a verified, recoverable PostgreSQL backup.
+- Production PostgreSQL service is present and live. **Railway connector does not expose database backup/PITR inventory or restore verification. No recent successful backup/restore evidence was obtained.** Do not mistake source-only schema archives or the database volume for an actual data backup.
+
+**Decision / hold:** The code-only PR #59 release was **NOT merged or deployed** because the user's backup-verification condition is not met. No production database migration, secrets, environment variables, employee records, PINs, credentials, Owner roles, or browser setup were changed. Keep PR #59 draft until backup/recovery and multi-service deployment scope are documented and approved.
+
+**Next release gate:** A trusted operator checks `Hobby Corner → production → Postgres` backup/PITR status through Railway or a verified external backup process, records the latest completed backup and restore target (without supplying DB secrets/customer data), and ensures a recoverable restore procedure. Coordinate branch-triggered impact on `timeclock`, `lightspeed-api`, and `special-orders-test` or agree on a Timeclock-only isolated deployment technique with explicit release authorization. Only then release default-off PR #59; confirm deployment health and denial of Owner-specific routes. Follow-on schema migration and Owner enrollment need separate decisions.
+
+---
+
 ## Owner login staging — tested release candidate (2026-11-10)
 
 **Status: In Development.** **Implemented:** scoped Owner staging Timeclock identity integration and isolated DB privilege-group candidate. **Tested:** GitHub Actions PASS. **Deployed:** neither Timeclock integration nor staging; no real Owner login or account activation.
