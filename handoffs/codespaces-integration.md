@@ -7,8 +7,8 @@
 
 - Repository: `Tawgod/Hobby-Corner`
 - Authoritative branch: `feature/codespaces-integration-foundation-20261110`
-- Current PR: pending creation in this development pass
-- Current commit: branch created from `main`; implementation commits pending
+- Current PR: draft PR #3 — https://github.com/Tawgod/Hobby-Corner/pull/3
+- Current commit: `2403f156110e00604a1153c3aff7418790c238bc` (documentation update; functional probe commit `621573b576e2c7f6ddaa1f066378592ecbeeb390`)
 - Superseded PRs / branches: none
 
 ## Implemented
@@ -21,7 +21,7 @@
 
 ## Tested
 
-- Automated: local syntax validation planned in this pass; no GitHub Actions required for the initial probe.
+- Automated: local Node syntax validation unavailable in the assistant runtime because Node is not installed there; no GitHub Actions run was triggered for this initial probe.
 - Browser / employee acceptance: not applicable.
 - Runtime / deployment verification: **not yet tested against a real Codespace** because this ChatGPT connection cannot invoke Codespaces/SSH.
 
@@ -62,7 +62,7 @@
 
 ## Recommended next action
 
-- Finish local syntax checks and open the draft PR.
+- Connect the reviewed bridge in a supported ChatGPT plugin environment and run the first real Codespace smoke test.
 - Then connect the bridge in a supported ChatGPT plugin environment and run Milestone 2 against PR #50's Codespace configuration.
 
 ## Restrictions / safety
