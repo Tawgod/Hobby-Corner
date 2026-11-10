@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-10 — Malcor Codespaces bridge safe deployment
+
+- Verified newly created Malcor `production` environment and provisioned an isolated `codespaces-private-bridge` service from the review branch without modifying Malcor's existing bot, database, or migration services.
+- Added dedicated 256 MB audit volume, 0.5 vCPU / 0.5 GB resource cap, and disabled host activation/execution variables. Confirmed no public domain or GitHub/OpenAI credentials.
+- Scoped and reviewed Railway's source-only staged patch before applying it to Malcor production. Deployment `1e36bb7c-1712-4732-a643-bb8edaeeefad` SUCCESS; runtime log verifies private STANDBY state.
+- Kept former standalone Codespaces service intact pending explicit cleanup authorization; AI Integration Gateway remains staged/undeployed without source code, so no gateway migration performed. Live Codespaces and MCP tunnel connection await separate owner authorization.
+
 ## 2026-11-02 — WebAuthn passkey candidate, isolated testing
 
 - Added passkey backend, test-only browser page, PostgreSQL schema candidate and automated cryptographic authentication tests to the existing shared-services development branches.
