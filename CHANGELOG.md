@@ -1,5 +1,13 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-10 — Codespaces MCP controller and CI validation
+
+- Extended draft PR #3 with an MCP stdio tool server and a single policy-checked Codespaces controller: allowlisted repository/branch, explicit operation-intent parameters, safe process execution, bounded output and runtime, redacted audit events, and non-disruptive smoke cleanup.
+- Fixed unsupported CLI list JSON fields and removed the old redundant smoke script.
+- Local Node 22 syntax checks and nine isolated controller tests passed. PR-scoped workflow `Codespaces MCP foundation checks` run [42840827060](https://github.com/Tawgod/Hobby-Corner/actions/runs/42840827060) **SUCCESS** on `eba643b55bede8bbc0b6f88fc99b42dfef417c82`; subsequent docs/source deletion is not yet separately verified by CI.
+- MCP SDK dependency install and actual stdio handshake could not be tested here because npm registry access is unavailable. No live Codespace lifecycle/SSH test or remote MCP deployment has occurred.
+- GitHub authorization and ChatGPT plugin setup remain a distinct user-controlled gate; approval strings are not substitutes for host-side human approval.
+
 ## 2026-11-10 — Codespaces integration foundation
 
 - Audited the connected ChatGPT GitHub tool surface and verified it has repository/PR/Actions capabilities but no Codespaces lifecycle, SSH, terminal, or arbitrary command action.
