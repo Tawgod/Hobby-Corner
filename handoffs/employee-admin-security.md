@@ -1,5 +1,25 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Latest milestone — 2026-11-10, protected first Owner browser candidate
+
+**Status:** In Development; browser/setup route candidate implemented and source tested; **not mounted, not deployed, no live Owner**.
+
+**What changed:** [Draft Lightspeed PR #54](https://github.com/Tawgod/Lightspeed/pull/54), `feature/owner-activation-browser-20261110`, stacked on [operator activation PR #53](https://github.com/Tawgod/Lightspeed/pull/53). Added `owner-setup/index.html`, `styles.css` and `client.js` to sign in with the **existing Timeclock PIN** through the existing signed staff-session endpoint, privately enter a separate one-time activation, then register a native WebAuthn passkey. Added unmounted `routes/firstOwnerActivation.js` enforcing exact TLS origin (test-only localhost), strict same-origin fetch/Origin/JSON, secret header, bounded payloads, sanitized errors and restrictive CSP/no-store headers. `services/security/isolatedFirstOwnerSetup.js` composes the operator-first-Owner passkey candidate and route **only for isolated test environments**, with no approval-secret issuer and no server mount. Client keeps login and activation out of persistent browser storage.
+
+**Tested:** [GitHub Actions 42852751541](https://github.com/Tawgod/Lightspeed/actions/runs/42852751541) **SUCCESS — 7 passed, 0 failed, 0 skipped** on functional commit `c53e6ac846bacc6296f06474e6816cb27392a422`. The test combines protected HTTP route checks, disabled-by-default composer and prior disposable PostgreSQL Owner passkey/transaction tests. **It does not establish real-device browser WebAuthn or real Timeclock identity**, and UI has not been manually accepted.
+
+**Reused existing system:** `staff-security.html`, `staff-security-client.js`, `createPrimaryTimeclockTotpSubsystem` and the existing encrypted/approved `staffTotpPostgres` already support Google Authenticator setup, QR, six-digit confirmation and session MFA. Do not create a duplicate system. Current enrollment request flow requires a separate manager approval; reconcile initial Owner self-enrollment under a *fresh verified new Owner passkey and exact Owner grant* without PIN-only approval, then protect recovery. This is the next implementation blocker.
+
+**Dependencies:** Reconcile #54 → #53 → #50 with **multiple-Owner Admin PR #52**, which lives on a different stacked Admin branch and removes the old one-active-Owner index. Protect first-Owner exclusivity while permitting later Owner appointments. Coordinate real canonical employee mapping and live HTTPS/WebAuthn with the Timeclock security owner. No Chrome extension release was prepared.
+
+**Sources:** `Tawgod/Lightspeed:feature/owner-activation-browser-20261110/docs/FIRST_OWNER_BROWSER_ENROLLMENT.md`; `Tawgod/Lightspeed:feature/admin-multiple-owners-20261110/docs/SIMPLIFIED_OWNER_SETUP.md`.
+
+**No live change:** No production database migration, PIN/Timeclock employee change, passkey, authenticator seed, real activation token, Railway deployment or admin role assignment. The user's existing PIN is unchanged.
+
+**Next action:** Integrate fresh Owner passkey proof into the existing TOTP approval flow, accept a physical device in an authorized isolated HTTPS environment, reconcile multi-Owner schema/branches, and request explicit approval before creating the first live Owner credential.
+
+---
+
 ## Latest milestone — 2026-11-10, operator-selected first Owner activation
 
 **Status:** In Development. **Implemented:** one-time bootstrap source candidate. **Tested:** disposable PostgreSQL suite passed. **Deployed:** nothing.
