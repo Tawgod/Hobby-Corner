@@ -11,7 +11,7 @@ function fixture({branch=BRANCH,state='Shutdown',failNode=false}={}){
   if(args[0]==='codespace'&&args[1]==='stop'){state='Shutdown';return '';}
   if(args[0]==='codespace'&&args[1]==='create')return 'new-space';
   return '';
- };return {api:makeCodespaces({run,pause:async()=>{}}),calls};
+ };return {api:makeCodespaces({run,pause:async()=>{},executionEnabled:true}),calls};
 }
 test('list uses supported CLI fields',async()=>{
  const {api,calls}=fixture();assert.equal((await api.list())[0].branch,BRANCH);
@@ -74,4 +74,16 @@ test('fixed postgres profile uses only documented tests',async()=>{
  const ssh=calls.find(a=>a[1]==='ssh');
  assert.match(ssh.at(-1),/first-owner-passkey-registration-postgres\.test\.mjs/);
  assert.ok(!ssh.at(-1).includes('DATABASE_URL='));
+});
+
+test('host-side execution switch denies even valid model-supplied approvals',async()=>{
+ const calls=[];
+ const api=makeCodespaces({run:async args=>{calls.push(args);return '[]';},executionEnabled:false});
+ await assert.rejects(api.create('CREATE DEVELOPMENT CODESPACE'),/disabled by host policy/);
+ await assert.rejects(api.start('safe-dev-123','START DEVELOPMENT CODESPACE'),/disabled by host policy/);
+ await assert.rejects(api.test('safe-dev-123'),/disabled by host policy/);
+ await assert.rejects(api.runProfile('safe-dev-123','owner-source','RUN DEVELOPMENT TEST PROFILE'),/disabled by host policy/);
+ await assert.rejects(api.smoke('safe-dev-123','RUN DEVELOPMENT SMOKE TEST'),/disabled by host policy/);
+ await assert.rejects(api.stop('safe-dev-123','STOP DEVELOPMENT CODESPACE'),/disabled by host policy/);
+ assert.equal(calls.length,0);
 });
