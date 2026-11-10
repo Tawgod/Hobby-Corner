@@ -2027,3 +2027,19 @@ Development SQL `Tawgod/Lightspeed:feature/unified-hierarchical-navigation-20261
 **All five CI workflows SUCCESS** on functional SHA `87a9096990af099e085e390639cb312c250a9c5c`: Nav permission `42695421597`, hierarchical nav `42695421128`, Scanner `42695421298`, Shared UI `42695421080`, Core Ops `42695421695`. New test exercises invalid/missing secrets, active Timeclock and valid signed session, revoked grant, inactive employee and read-only DB requirements; tests use fixture credentials, not real staff.
 
 **Railway test patch `27985da3-a390-44bb-ae3f-00d08a2fa408` was STAGED but NOT DEPLOYED:** new private service `admin-nav-bridge-test` id `73937ea7-1179-4664-9ec5-324da9352564`, only new service/source/start command/healthcheck and internal DB read-only references. No Timeclock signing or production credentials staged; no public domain, Owner grant, schema write or change to existing services. Explicit deployment approval required before applying. Cross-system acceptance and real Owner commissioning remain pending. Full state: `handoffs/cross-project-integration.md`, navigation branch `docs/ADMIN_NAVIGATION_ACCESS.md`.
+
+## GitHub Codespaces AI Integration — 2026-11-10
+
+**Status: In Development; source implemented; runtime Codespace control not yet connected or tested.**
+
+- Owner chat/system: Codespaces Integration System.
+- Implementation repository/branch: `Tawgod/Hobby-Corner:feature/codespaces-integration-foundation-20261110`.
+- Draft PR: #3, **unmerged**.
+- Initial runtime test target: `Tawgod/Lightspeed:feature/first-owner-passkey-registration-integration-20261110` / Lightspeed draft PR #50, which contains the isolated Node.js 22 + PostgreSQL 16 devcontainer.
+- Verified current ChatGPT GitHub tool surface has repository/PR/Actions access but no Codespaces lifecycle, SSH, terminal or arbitrary command execution. Plugin discovery found no separate Codespaces connector.
+- Architecture decision: retain the existing GitHub plugin for source control and add only a narrow custom MCP Codespaces bridge using GitHub-supported lifecycle APIs plus GitHub CLI SSH, short-lived user authorization, repo/branch allowlists, audit logging and explicit approval gates.
+- Initial Milestone 2 probe in PR #3 can list/create/start the allowlisted development Codespace, execute only fixed `node --version`, and stop it in cleanup. No arbitrary shell is enabled.
+- **Not deployed / not runtime-tested:** no Codespace was created or started, no compute usage was incurred by this work, no MCP service was deployed, and no production credentials, employee/customer data, Railway service, Chrome extension or Lightspeed production operation changed.
+- Main handoff: `handoffs/codespaces-integration.md`.
+- Next gate: connect a reviewed remote MCP endpoint or Secure MCP Tunnel in a supported ChatGPT plugin environment, grant only required GitHub Codespaces permissions, then execute the first list/start/test/stop smoke against the PR #50 development environment.
+
