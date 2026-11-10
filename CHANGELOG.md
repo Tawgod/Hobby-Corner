@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-10 — Malcor project selected for shared AI infrastructure
+
+- Owner selected Railway **Malcor** as the long-term cross-project location for the Codespaces bridge and proposed AI Integration Gateway, specifically a `production` environment.
+- Verified Malcor currently exposes only `staging` (Postgres, Discord bot, schema migrations), so no source, database, variable or service changes were made there. The Railway connector currently has no environment-creation operation.
+- Created `codespaces-integration/MALCOR_HOSTING_PLAN.md` and `RAILWAY_CONNECTION.md` documenting production-only migration after the missing environment exists.
+- Current independent Codespaces Railway project remains safely STANDBY on successful deployment `ca79df74-631d-4f23-8829-1bf8e6ced113`. Existing `AI Integration Gateway` has two staged/undeployed Gemini service definitions, not an executable verified gateway. No staged patch was applied or deleted.
+
 ## 2026-11-10 — Private Codespaces tunnel architecture; no PAT handling
 
 - Verified OpenAI's Secure MCP Tunnel can launch an stdio MCP server directly inside an owner's private host. Selected the supported private tunnel rather than building or deploying a public HTTPS MCP server.
