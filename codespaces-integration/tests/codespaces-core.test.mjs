@@ -59,7 +59,7 @@ test('fixed source profile requires active allowed environment and explicit appr
  const result=await api.runProfile('safe-dev-123','owner-source','RUN DEVELOPMENT TEST PROFILE');
  assert.equal(result.profile,'owner-source');
  const ssh=calls.find(a=>a[1]==='ssh');
- assert.match(ssh.at(-1),/^node --check/);
+ assert.match(ssh.at(-1),/^cd \/workspaces\/Lightspeed && node --check/);
  assert.ok(!ssh.at(-1).includes('npm install'));
 });
 test('no arbitrary profile name can reach SSH',async()=>{
