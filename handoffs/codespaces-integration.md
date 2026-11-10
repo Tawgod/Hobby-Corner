@@ -125,3 +125,21 @@
 - Migration source and safety plan are written on draft PR #3: `codespaces-integration/MALCOR_HOSTING_PLAN.md`; companion `RAILWAY_CONNECTION.md`. New Malcor production must get independently scoped services and secrets without copying Malcor staging database or credentials.
 - Owner's next action: Create an environment named **production** within the existing [Malcor Railway project](https://railway.com/project/eadb4129-07e1-4599-bf89-21a6fa2583b9). Do not rename staging or change current services. After that, re-inventory and create disabled Codespaces bridge in new environment; evaluate gateway source separately.
 - No Malcor changes, existing gateway staged patch application, old service deletion, or other project's deployment were performed.
+
+## Malcor production provisioning verified — 2026-11-10
+
+**Hosting: Deployed / safe STANDBY. Integration: Testing / not connected.**
+
+- Malcor project `eadb4129-07e1-4599-bf89-21a6fa2583b9`, new environment `production` `1199147d-9746-435f-bba6-e5e622c7f11f` verified. Railway's new environment also contains copies/instances of existing Malcor Postgres, bot and schema-migration services; these were *not* changed by this chat. Their production readiness was not evaluated.
+- New service `codespaces-private-bridge` `c0f3b710-8a65-4bc4-9d81-8e7670e1b090`, scoped to Malcor production only.
+- Source `Tawgod/Hobby-Corner:feature/codespaces-integration-foundation-20261110`, root `/codespaces-integration`, Dockerfile, one replica, 0.5 vCPU / 0.5 GB limit.
+- New 256 MB private audit volume `codespaces-bridge-audit` `8b867699-f8ef-4b77-a0f5-200f35779158` mounted at `/data`.
+- Explicit service variables `HC_BRIDGE_ENABLED=false`, `HC_CODESPACE_EXECUTION_ENABLED=false`, `HC_CODESPACE_AUDIT_PATH=/data/audit/codespaces.jsonl`, and `NODE_ENV=production` were set before source deployment. Railway OAuth tool redacts values on subsequent reads; values are grounded in the successful write and runtime behavior.
+- Source-only staged diff was inspected: exactly two fields (repo and branch) of the new bridge service, no destructive changes or unrelated services. The patch was applied only to Malcor production.
+- Deployment `1e36bb7c-1712-4732-a643-bb8edaeeefad` at branch commit `81ad51f6ca8507b466b5d91df96f6b2d0ae21563`: **SUCCESS**. Runtime logs: `Codespaces bridge STANDBY: no tunnel, GitHub access or commands enabled.`
+- Domain read-back: zero public service domains and zero custom domains.
+- No GitHub user authorization, OpenAI tunnel runtime keys, Codespace starts, CLI SSH, real PostgreSQL tests, or ChatGPT custom plugin connection.
+- Existing standalone `Hobby Corner Codespaces Bridge` project remains intact (disabled/standby); do not delete without approval after verifying the replacement.
+- Existing `AI Integration Gateway` remains staged/undeployed in its separate project, with no deployable source configured. Do not migrate empty placeholder services until a working gateway implementation and data/credential contract exist.
+
+**Next gate:** Configure owner-approved GitHub Codespaces user authorization and OpenAI Secure MCP Tunnel runtime credentials through protected Railway service variables, validate a read-only MCP connection, and only then consider enabling `HC_CODESPACE_EXECUTION_ENABLED` for a one-time approved Codespace test. Model-supplied approval strings alone cannot serve as verified owner approval. No changes to Malcor's existing application/database services.
