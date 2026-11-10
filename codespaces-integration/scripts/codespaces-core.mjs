@@ -7,11 +7,11 @@ const NAME=/^[a-zA-Z0-9-]{1,100}$/;
 export const TEST_PROFILES=Object.freeze({
  'owner-source':Object.freeze({
   description:'Read-only Node.js syntax validation for first Owner security sources',
-  command:'node --check services/security/firstOwnerPasskeyRegistrationCandidate.js && node --check services/security/firstOwnerCommissioning.js && node --check services/security/firstOwnerAttestation.js'
+  command:'cd /workspaces/Lightspeed && node --check services/security/firstOwnerPasskeyRegistrationCandidate.js && node --check services/security/firstOwnerCommissioning.js && node --check services/security/firstOwnerAttestation.js'
  }),
  'owner-postgres':Object.freeze({
   description:'Disposable hc_test PostgreSQL 16 and first Owner integration tests; never a production database',
-  command:'node --test tests/first-owner-passkey-registration-postgres.test.mjs tests/first-owner-attestation.test.mjs tests/first-owner-commissioning.test.mjs tests/independent-primary-enrollment-approval.test.mjs'
+  command:'cd /workspaces/Lightspeed && node --test tests/first-owner-passkey-registration-postgres.test.mjs tests/first-owner-attestation.test.mjs tests/first-owner-commissioning.test.mjs tests/independent-primary-enrollment-approval.test.mjs'
  })
 });
 export function redact(s){return String(s).replace(/(gh[pousr]_[A-Za-z0-9_]{10,}|github_pat_[A-Za-z0-9_]{10,}|Bearer\s+\S+)/gi,'[REDACTED]');}
