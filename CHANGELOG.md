@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-10 — Fixed Codespaces test profiles and SDK CI verification
+
+- Added allowlisted `owner-source` and `owner-postgres` test profiles to the draft PR #3 Codespaces controller and exposed `run_test_profile` as an MCP tool. Commands are reviewed constants, not arbitrary ChatGPT input; both operate only on running PR #50 development Codespaces.
+- Restricted read-only Codespace listing to the exact test branch and retained independent view-based validation before privileged commands.
+- Expanded automated controller checks to 13 tests. GitHub Actions [42842580544](https://github.com/Tawgod/Hobby-Corner/actions/runs/42842580544) **SUCCESS**, including MCP SDK installation/imports. This remains a source/contract check; full stdio handshake and live Codespace/SSH still require real authorized connectivity.
+- GitHub PR #3 subsequently reported mergeable against updated `main` after the canonical handoff was retained on `main`; PR remains draft/unmerged. No Codespace, Railway deployment, production service, credentials, Chrome extension or real data changed.
+
 ## 2026-11-10 — Codespaces MCP controller and CI validation
 
 - Extended draft PR #3 with an MCP stdio tool server and a single policy-checked Codespaces controller: allowlisted repository/branch, explicit operation-intent parameters, safe process execution, bounded output and runtime, redacted audit events, and non-disruptive smoke cleanup.
