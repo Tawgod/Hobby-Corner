@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-10 — Codespaces integration foundation
+
+- Audited the connected ChatGPT GitHub tool surface and verified it has repository/PR/Actions capabilities but no Codespaces lifecycle, SSH, terminal, or arbitrary command action.
+- Selected a narrow custom MCP bridge architecture using GitHub-supported Codespaces lifecycle plus GitHub CLI SSH, while preserving the existing GitHub plugin for normal repository work.
+- Added `codespaces-integration/` on draft PR #3 with allowlisted `Tawgod/Lightspeed` / PR #50 branch control and a dependency-free Milestone 2 smoke probe that can list/create/start a development Codespace, execute only fixed `node --version`, and stop it in cleanup.
+- No Codespace was started or billed, no MCP server was deployed, and no production credentials, Railway services, Chrome extension, employee/customer data, production database, or Lightspeed operation changed. Runtime Codespace/SSH validation remains pending.
+
 ## 2026-11-02 — WebAuthn passkey candidate, isolated testing
 
 - Added passkey backend, test-only browser page, PostgreSQL schema candidate and automated cryptographic authentication tests to the existing shared-services development branches.
