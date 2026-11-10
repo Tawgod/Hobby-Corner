@@ -23,10 +23,11 @@ This reusable integration is separate from the Lightspeed Chrome extension and a
 | `node_version` | Run exactly `node --version` via Codespaces SSH |
 | `stop_codespace` | Stop only an exact allowlisted development environment |
 | `smoke_codespace` | Start existing environment, run the fixed test, stop if this operation started it |
+| `run_test_profile` | Run one of two audited fixed profiles: `owner-source` (Node syntax) or `owner-postgres` (disposable database tests) |
 
 All lifecycle operations require explicit intent text in their tool arguments. **Those strings are not cryptographic proof of user approval**; the ChatGPT host/MCP connection must independently require real user confirmation for charge-incurring or state-changing operations.
 
-The controller validates the Codespace name against a restricted character class, verifies its repository and branch using a separate view command, never invokes a shell, limits process runtime/output, and can append redacted lifecycle events to a private audit log. It does not implement arbitrary shell, git writes, credential manipulation, deployment or public port forwarding.
+The controller validates the Codespace name against a restricted character class, verifies its repository and branch using a separate view command, never invokes a shell, limits process runtime/output, and can append redacted lifecycle events to a private audit log. It does not implement arbitrary shell, git writes, credential manipulation, deployment or public port forwarding. The fixed test profiles run only in an already Available Codespace; unlike the smoke operation, they never start or stop an environment. The `owner-postgres` profile depends on PR #50's isolated `hc_test` database; it must not be used with production database credentials.
 
 ## Local checks
 
@@ -53,10 +54,16 @@ npm start
 
 - The actual `gh` Codespaces lifecycle and SSH paths have **not** run against GitHub.
 - GitHub CLI `gitStatus.ref` representation requires a first read-only live verification before any mutation.
-- MCP SDK dependencies and stdio connection handshake remain untested here because npm registry access is unavailable in the current execution environment.
+- An isolated PR CI check installs and imports the MCP SDK. A full stdio client/server handshake and authenticated ChatGPT connection are still unverified.
 - The original proof-of-concept smoke script has been removed. The policy-checked controller is the single implementation.
 - No real database or browser tests, user GitHub authorization, Codespace creation, compute usage, or production work occurred.
 
 ## Required next setup
 
 Use an authorized isolated bridge host with Node 22, GitHub CLI, and short-lived scoped GitHub user authorization. Do not paste tokens in ChatGPT. The owner must approve creating/starting a development Codespace and the future ChatGPT plugin connection. No production credentials, real staff data, or port visibility changes are permitted.
+
+## Verified CLI contract and next acceptance gate
+
+The GitHub CLI reference confirms `codespace list --json name,state,repository,gitStatus,displayName`, `codespace view --json name,repository,gitStatus,state,idleTimeoutMinutes`, `codespace create --idle-timeout 30m`, and `codespace ssh --codespace <name> <fixed-command>`. The final branch match must still be checked against the **actual returned data** from the owner's Codespaces identity.
+
+Before the first charged operation, use read-only `list_codespaces` followed by an exact `view` of the chosen Codespace. Only after confirming `Tawgod/Lightspeed`, the PR #50 development branch, and the private devcontainer should the owner explicitly approve start/create. Never transmit the `GH_TOKEN` value into ChatGPT.
