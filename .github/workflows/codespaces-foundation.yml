@@ -1,0 +1,27 @@
+name: Codespaces MCP foundation checks
+on:
+  pull_request:
+    paths:
+      - 'codespaces-integration/**'
+      - '.github/workflows/codespaces-foundation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: codespaces-foundation-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and safe-controller unit tests
+        working-directory: codespaces-integration
+        run: |
+          node --check scripts/codespaces-core.mjs
+          node --check scripts/mcp-stdio.mjs
+          node --test tests/*.test.mjs
