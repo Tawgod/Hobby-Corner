@@ -1,5 +1,48 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-10 — Malcor project selected for shared AI infrastructure
+
+- Owner selected Railway **Malcor** as the long-term cross-project location for the Codespaces bridge and proposed AI Integration Gateway, specifically a `production` environment.
+- Verified Malcor currently exposes only `staging` (Postgres, Discord bot, schema migrations), so no source, database, variable or service changes were made there. The Railway connector currently has no environment-creation operation.
+- Created `codespaces-integration/MALCOR_HOSTING_PLAN.md` and `RAILWAY_CONNECTION.md` documenting production-only migration after the missing environment exists.
+- Current independent Codespaces Railway project remains safely STANDBY on successful deployment `ca79df74-631d-4f23-8829-1bf8e6ced113`. Existing `AI Integration Gateway` has two staged/undeployed Gemini service definitions, not an executable verified gateway. No staged patch was applied or deleted.
+
+## 2026-11-10 — Private Codespaces tunnel architecture; no PAT handling
+
+- Verified OpenAI's Secure MCP Tunnel can launch an stdio MCP server directly inside an owner's private host. Selected the supported private tunnel rather than building or deploying a public HTTPS MCP server.
+- Removed the mandatory `GH_TOKEN` environment-variable gate so the bridge uses normal `gh auth login` browser authorization and the host credential store. Prefer expiring credentials if supported by the GitHub host and OAuth app.
+- Added `codespaces-integration/TUNNEL_SETUP.md` with owner-controlled Node/GitHub CLI setup, private audit path, OpenAI Platform tunnel authorization, custom ChatGPT plugin connection and read-only first test instructions.
+- Updated architecture/README to avoid implying a public MCP deployment is required. Existing source remains draft/unmerged; no Codespace, Railway, Chrome extension, production credential or real GitHub authorization was touched.
+
+## 2026-11-10 — MCP protocol handshake verified
+
+- Fixed all allowlisted development test profiles to run from the explicit `/workspaces/Lightspeed` devcontainer workspace; added a regression assertion.
+- Added an actual MCP stdio client/server handshake test using the installed SDK and a fake, unused development token. It only enumerates all seven registered tools and never invokes GitHub.
+- [GitHub Actions run 42842879645](https://github.com/Tawgod/Hobby-Corner/actions/runs/42842879645) **SUCCESS** on `c9d3f69a99ee26a9eb3bd6a83ac7fc85c7969726`, exercising 13 controller tests, dependency import and MCP tool enumeration. Authenticated remote ChatGPT MCP transport, live Codespaces lifecycle, PostgreSQL and browser tests remain unverified.
+- No Codespace, Railway service, Chrome extension, real GitHub authorization token, production credential or customer/employee data was used or changed.
+
+## 2026-11-10 — Fixed Codespaces test profiles and SDK CI verification
+
+- Added allowlisted `owner-source` and `owner-postgres` test profiles to the draft PR #3 Codespaces controller and exposed `run_test_profile` as an MCP tool. Commands are reviewed constants, not arbitrary ChatGPT input; both operate only on running PR #50 development Codespaces.
+- Restricted read-only Codespace listing to the exact test branch and retained independent view-based validation before privileged commands.
+- Expanded automated controller checks to 13 tests. GitHub Actions [42842580544](https://github.com/Tawgod/Hobby-Corner/actions/runs/42842580544) **SUCCESS**, including MCP SDK installation/imports. This remains a source/contract check; full stdio handshake and live Codespace/SSH still require real authorized connectivity.
+- GitHub PR #3 subsequently reported mergeable against updated `main` after the canonical handoff was retained on `main`; PR remains draft/unmerged. No Codespace, Railway deployment, production service, credentials, Chrome extension or real data changed.
+
+## 2026-11-10 — Codespaces MCP controller and CI validation
+
+- Extended draft PR #3 with an MCP stdio tool server and a single policy-checked Codespaces controller: allowlisted repository/branch, explicit operation-intent parameters, safe process execution, bounded output and runtime, redacted audit events, and non-disruptive smoke cleanup.
+- Fixed unsupported CLI list JSON fields and removed the old redundant smoke script.
+- Local Node 22 syntax checks and nine isolated controller tests passed. PR-scoped workflow `Codespaces MCP foundation checks` run [42840827060](https://github.com/Tawgod/Hobby-Corner/actions/runs/42840827060) **SUCCESS** on `eba643b55bede8bbc0b6f88fc99b42dfef417c82`; subsequent docs/source deletion is not yet separately verified by CI.
+- MCP SDK dependency install and actual stdio handshake could not be tested here because npm registry access is unavailable. No live Codespace lifecycle/SSH test or remote MCP deployment has occurred.
+- GitHub authorization and ChatGPT plugin setup remain a distinct user-controlled gate; approval strings are not substitutes for host-side human approval.
+
+## 2026-11-10 — Codespaces integration foundation
+
+- Audited the connected ChatGPT GitHub tool surface and verified it has repository/PR/Actions capabilities but no Codespaces lifecycle, SSH, terminal, or arbitrary command action.
+- Selected a narrow custom MCP bridge architecture using GitHub-supported Codespaces lifecycle plus GitHub CLI SSH, while preserving the existing GitHub plugin for normal repository work.
+- Added `codespaces-integration/` on draft PR #3 with allowlisted `Tawgod/Lightspeed` / PR #50 branch control and a dependency-free Milestone 2 smoke probe that can list/create/start a development Codespace, execute only fixed `node --version`, and stop it in cleanup.
+- No Codespace was started or billed, no MCP server was deployed, and no production credentials, Railway services, Chrome extension, employee/customer data, production database, or Lightspeed operation changed. Runtime Codespace/SSH validation remains pending.
+
 ## 2026-11-02 — WebAuthn passkey candidate, isolated testing
 
 - Added passkey backend, test-only browser page, PostgreSQL schema candidate and automated cryptographic authentication tests to the existing shared-services development branches.
