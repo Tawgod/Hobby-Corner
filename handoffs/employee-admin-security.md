@@ -11,6 +11,15 @@
 - Railway environment verification: both services are `staged-create`, latest deployments **null**, pending patch `45d1db2e-1f10-4b27-94e0-c0970c5d2d28` (48 staged changes). **Do not use accept-deploy** until source review, database version/role/schema/security prerequisites and separate explicit staging deploy approval.
 - Next gates: validate approved read-only Timeclock service contract and real employee mapping through an authorized backend; establish dedicated migration/runtime DB roles, backups and secret custody; configure HTTPS host and RP ID; review dependency stack PRs #56–#58; then request staging deployment and private device acceptance authorization. Keep first activation issuer operator-only and never use real PIN/token in chat.
 
+### Owner staging source wiring and release review — 2026-11-10
+
+- Attached **staged-only** GitHub source `Tawgod/Lightspeed:feature/owner-staging-real-timeclock-preflight-20261110` to the new `owner-security-staging` Railway service; staged `/health` readiness check (15 seconds), startup `node staging/owner-security-server.js`. **Not pinned** to a commit; pin/review an accepted immutable source before deploying.
+- Read source entry point, the canonical Timeclock bridge, staging config validator, DB privilege checker and operator activation issuer. Startup rejects incomplete secrets, HTTPS/RP ID, canonical employee mapping, missing schema and overprivileged runtime DB user; it never performs migrations. Operator activation is an interactive manual process with a ten-minute one-use secret, and must never run in chat/CI or captured logs.
+- Railway patch `45d1db2e-1f10-4b27-94e0-c0970c5d2d28` now contains **54 staged changes**, creating only the app, PostgreSQL template and volume. `get_staged_changes` reports non-destructive, but **app cannot start** with `HC_OWNER_STAGING_ENABLED=false` and missing credentials/database schema. Do **not** apply this patch as a ready-to-use setup.
+- Still unresolved: reviewed PostgreSQL 18 vs tested PostgreSQL 16 compatibility, separate runtime/operator database role provisioning, real Timeclock account verification, a dedicated credential to existing `timeclock` integration, protected seven staging secrets, exact TLS WebAuthn origin/RPID, approved secure activation and physical device acceptance. Production Timeclock service's `SCANNER_SERVICE_SECRET` exists as a variable name but was **not read/copied/reused**.
+- Staging project link: https://railway.com/project/2b350cde-048e-4402-bd92-4e8ba6c9f877 . No domain, deployment, account activation, migrations, credentials or live owner role change.
+
+
 ---
 
 ## Latest milestone — 2026-11-10, setup-ready staging safeguards (no deployment)
