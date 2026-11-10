@@ -1,6 +1,22 @@
 # Shared Lightspeed Services — Current Handoff
 
-**Last verified:** 2026-10-29  
+## Current milestone — 2026-11-10: Phase 1 HTTP response-size hardening
+
+**System / feature:** Shared Lightspeed transport foundation and dependencies for Phase 2 shared read services.
+
+**Status:** In Development. **Implemented:** narrowly scoped transport fix on draft [PR #51](https://github.com/Tawgod/Lightspeed/pull/51), branch `fix/shared-lightspeed-content-length-20261110`, source head `199fa0eefee5f27c844ad879ba291e035a4a299d`. **Tested:** full existing [Shared Lightspeed foundation GitHub Actions run 42843574975](https://github.com/Tawgod/Lightspeed/actions/runs/42843574975) **SUCCESS**. **Deployed:** none; no merge.
+
+**Verified issue and correction:** `services/lightspeed/client.js` used a double-escaped digit pattern when inspecting vendor `Content-Length`, preventing early rejection based on numeric declarations. The transport's existing streaming and fallback body byte limits were still active. Corrected the regex and added regressions for oversized numeric declarations (including leading zeros) that must reject before body access, and falsely small declarations that remain bounded by actual bytes. Maintained all write-denial, uncertain mutation, retry, credential isolation and safe-error behavior.
+
+**PR/branch reconciliation:** [Foundation PR #32](https://github.com/Tawgod/Lightspeed/pull/32) remains open/unmerged (base `integration/hobby-corner-consolidation`). [Read-service PR #33](https://github.com/Tawgod/Lightspeed/pull/33) and [secure-read PR #38](https://github.com/Tawgod/Lightspeed/pull/38) remain stacked open drafts; [CI optimization PR #46](https://github.com/Tawgod/Lightspeed/pull/46) is also a draft based on Phase 1. They must incorporate approved fixes with ancestry/required-check review, not assume a draft fix is deployed.
+
+**Outstanding:** Real Timeclock/strong-factor policy validation, exact read grant wiring, tenant-safe read-only Lightspeed API acceptance, client route migration, check-context review, production/database deployment approvals and coordinated Chrome release if extension changes are later required. No production Lightspeed calls, customer/employee updates, credentials, Railway deployments or extension releases in this milestone.
+
+**Recommended next action:** Review PR #51 against foundation PR #32, then reconcile the Phase 2 shared reader and secure admission branches. Use disposable Codespaces/Postgres for larger local integration acceptance after the separately owned Codespaces integration is available; keep existing required CI checks for PR readiness and production release.
+
+---
+
+**Last verified:** 2026-11-10  
 **Status:** In Development (Phase 2 read services); Phase 1 code complete/automated tests passed; neither PR deployed.
 
 ## Authoritative references
