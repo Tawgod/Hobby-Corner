@@ -1,5 +1,18 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Railway resource preparation — 2026-11-10 (staged only, no deployment)
+
+**Status:** In Development. The owner explicitly authorized preparing/configuring isolated Railway staging resources, **not** deploying or commissioning real Owner credentials.
+
+- Created separate private Railway project `HC Owner Security Staging` (`2b350cde-048e-4402-bd92-4e8ba6c9f877`), environment `test` (`db9d6e8c-bb03-441b-a154-80c11536dfbb`). This avoids the unrelated staged changes in existing `Hobby Corner Integration Test`.
+- **Staged only:** `owner-security-staging` empty service (`32566320-229d-4a09-ab3a-9e590c534334`), proposed startup `node staging/owner-security-server.js`, restart-on-failure. GitHub source is **not attached** and no domain exists.
+- **Staged only:** Railway PostgreSQL template `Postgres` (`66cbdd3f-39e3-4157-9265-1489523042f0`) with `POSTGRES_DB=hc_owner_stage_test`. Template currently targets PostgreSQL **18**; existing automated tests use PostgreSQL **16**, so review compatibility/version pin before applying the staged patch.
+- Staged non-secret flags: `NODE_ENV=test`, `HC_SECURITY_ENV=isolated-staging`, `HC_OWNER_STAGING_ENABLED=false`, `HC_STAGING_TEST_LOGIN_ENABLED=false`, `HC_STAGING_PIN_SETUP_ENABLED=false`. No credentials, employee IDs, database URLs or production secrets were staged. No schema migrations or role grants were performed.
+- Railway environment verification: both services are `staged-create`, latest deployments **null**, pending patch `45d1db2e-1f10-4b27-94e0-c0970c5d2d28` (48 staged changes). **Do not use accept-deploy** until source review, database version/role/schema/security prerequisites and separate explicit staging deploy approval.
+- Next gates: validate approved read-only Timeclock service contract and real employee mapping through an authorized backend; establish dedicated migration/runtime DB roles, backups and secret custody; configure HTTPS host and RP ID; review dependency stack PRs #56–#58; then request staging deployment and private device acceptance authorization. Keep first activation issuer operator-only and never use real PIN/token in chat.
+
+---
+
 ## Latest milestone — 2026-11-10, setup-ready staging safeguards (no deployment)
 
 **System:** Hobby Corner Owner security, existing Timeclock employee identity, passkey + Google Authenticator, multi-Owner Admin.
