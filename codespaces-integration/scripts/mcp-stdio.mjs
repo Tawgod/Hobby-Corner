@@ -25,4 +25,7 @@ register('stop_codespace','Stop a development Codespace; explicit approval requi
  {name:z.string(),approval:z.literal('STOP DEVELOPMENT CODESPACE')},a=>api.stop(a.name,a.approval));
 register('smoke_codespace','Start an existing Codespace, run node --version and stop only if tool started it',
  {name:z.string(),approval:z.literal('RUN DEVELOPMENT SMOKE TEST')},a=>api.smoke(a.name,a.approval));
+register('run_test_profile','Run one reviewed fixed Node or disposable PostgreSQL test command in the approved dev Codespace',
+ {name:z.string(),profile:z.enum(['owner-source','owner-postgres']),approval:z.literal('RUN DEVELOPMENT TEST PROFILE')},
+ a=>api.runProfile(a.name,a.profile,a.approval));
 await server.connect(new StdioServerTransport());
