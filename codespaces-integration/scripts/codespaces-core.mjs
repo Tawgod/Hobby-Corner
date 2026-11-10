@@ -27,7 +27,8 @@ export function ghRunner(args,{timeoutMs=90000,env=process.env}={}){
    if(code!==0)reject(Error(`GitHub CLI failed (${signal||code}): ${redact(err).slice(0,500)}`));else resolve(out.trim());});
  });
 }
-export function makeCodespaces({run=ghRunner,auditPath=process.env.HC_CODESPACE_AUDIT_PATH||null,now=()=>new Date().toISOString(),pause=ms=>new Promise(r=>setTimeout(r,ms))}={}){
+export function makeCodespaces({run=ghRunner,auditPath=process.env.HC_CODESPACE_AUDIT_PATH||null,now=()=>new Date().toISOString(),pause=ms=>new Promise(r=>setTimeout(r,ms)),executionEnabled=process.env.HC_CODESPACE_EXECUTION_ENABLED==='true'}={}){
+ function requireExecution(){if(!executionEnabled)throw Error('Codespaces execution disabled by host policy');}
  async function audit(event,data={}){
   if(!auditPath)return;
   await mkdir(dirname(auditPath),{recursive:true,mode:0o700});
@@ -51,6 +52,7 @@ export function makeCodespaces({run=ghRunner,auditPath=process.env.HC_CODESPACE_
   return v;
  }
  async function create(approval){
+  requireExecution();
   if(approval!=='CREATE DEVELOPMENT CODESPACE')throw Error('Explicit creation approval required');
   const existing=(await list()).find(cs=>cs.branch===BRANCH);
   if(existing)return {created:false,existing:existing.name};
@@ -58,23 +60,27 @@ export function makeCodespaces({run=ghRunner,auditPath=process.env.HC_CODESPACE_
   return {created:true,name};
  }
  async function start(name,approval){
+  requireExecution();
   if(approval!=='START DEVELOPMENT CODESPACE')throw Error('Explicit start approval required');
   const v=await checked(name);if(v.state==='Available')return {started:false,alreadyRunning:true};
   await exec(['api','--method','POST',`/user/codespaces/${name}/start`],'start',name);
   return {started:true};
  }
  async function stop(name,approval){
+  requireExecution();
   if(approval!=='STOP DEVELOPMENT CODESPACE')throw Error('Explicit stop approval required');
   const v=await checked(name);if(v.state==='Shutdown')return {stopped:false,alreadyStopped:true};
   await exec(['codespace','stop','--codespace',name],'stop',name);return {stopped:true};
  }
  async function test(name){
+  requireExecution();
   const v=await checked(name);if(v.state!=='Available')throw Error('Codespace must be Available');
   const output=await exec(['codespace','ssh','--codespace',name,'node --version'],'node-version',name);
   if(!/^v\d+\.\d+\.\d+/.test(output))throw Error('Unexpected Node version output');
   return {command:'node --version',output:output.slice(0,200)};
  }
  async function runProfile(name,profile,approval){
+  requireExecution();
   if(approval!=='RUN DEVELOPMENT TEST PROFILE')throw Error('Explicit profile approval required');
   if(!Object.hasOwn(TEST_PROFILES,profile))throw Error('Unknown test profile');
   const v=await checked(name);
@@ -85,6 +91,7 @@ export function makeCodespaces({run=ghRunner,auditPath=process.env.HC_CODESPACE_
   return {profile,description:fixed.description,output:output.slice(0,12000)};
  }
  async function smoke(name,approval){
+  requireExecution();
   if(approval!=='RUN DEVELOPMENT SMOKE TEST')throw Error('Explicit smoke approval required');
   const v=await checked(name);const alreadyRunning=v.state==='Available';let output,error,cleanupError;
   try{
