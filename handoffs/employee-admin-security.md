@@ -1,5 +1,23 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Latest milestone — 2026-11-10, Owner passkey-to-Authenticator self-enrollment
+
+**Status:** In Development. **Implemented:** reusable tested backend composition plus Owner-only browser control in the existing Employee Security Settings. **Testing:** standalone TOTP/PostgreSQL suite passed; combined latest Owner HTTP/UI suite verification in progress. **Deployed:** none.
+
+**User goal:** Attach passkey and Google Authenticator to the **existing active Timeclock employee account** without changing the four-digit PIN or using an external ownership-verification provider. Owner gets full access and can appoint additional Owners through Admin after setup.
+
+**Source:** [Lightspeed draft PR #55](https://github.com/Tawgod/Lightspeed/pull/55), branch `feature/owner-passkey-totp-enrollment-20261110`, stacked on Owner browser [#54](https://github.com/Tawgod/Lightspeed/pull/54), operator activation [#53](https://github.com/Tawgod/Lightspeed/pull/53), first-passkey [#50](https://github.com/Tawgod/Lightspeed/pull/50). Separate Admin multi-Owner [#52](https://github.com/Tawgod/Lightspeed/pull/52) must be reconciled.
+
+**What changed:** Added `services/security/ownerPasskeyTotpEnrollmentCandidate.js` to reuse the existing durable staff TOTP approval/encryption/QR workflow, while allowing an **already active Owner** to approve enrollment of their own employee-bound Authenticator only after a fresh **server-verified registered passkey/security-key**. Denies PIN-only, inactive Owner, wrong employee, stale factor or absent Owner role. Preserves separate factor-recovery controls. The existing `staff-security.html` and `staff-security-client.js` now offer **Approve my setup with passkey (Owner only)**: native browser passkey authentication through existing `staff-passkey/authentication` routes, then short-lived proof to existing `staff-security/api/enrollment-approve`. No new TOTP table, no duplicate account and no persistent storage of factor proofs in browser.
+
+**Verified evidence:** Original backend-specific run [42854055904](https://github.com/Tawgod/Lightspeed/actions/runs/42854055904) **SUCCESS** (disposable PostgreSQL first Owner TOTP enrollment). The preceding combined Owner HTTP + first-passkey suite [42854592617](https://github.com/Tawgod/Lightspeed/actions/runs/42854592617) **SUCCESS**, but its workflow omitted the newly added TOTP tests; this was found and corrected in workflow commit `41bf9b235dcf6d49a211329e96f69d26e44190b6`. Await a new combined run including `tests/owner-passkey-totp-enrollment-postgres.test.mjs`, `tests/owner-authenticator-ui-contract.test.mjs` and all existing Owner/Timeclock security tests before marking full UI acceptance as passed.
+
+**Release blockers:** None of these services is mounted on an approved real-user HTTPS Railway environment. Operator-configured exact real Timeclock employee ID and short-lived activation issuance/DB privileges, production-safe CSRF/origin, real device WebAuthn sign/verify, full factor recovery, TOTP QR/OTP acceptance, multi-Owner schema reconciliation, explicit rollout approval are still required. Existing synthetic test account 901 must never be promoted as the real Owner. No live PIN, employee, authenticator, database, deployment, or Chrome extension change occurred.
+
+**Next action:** Complete combined CI; reconcile stacked branches and Admin #52; stage an approved secure real-Timeclock browser acceptance path **without** altering production permissions, then request explicit production commissioning permission.
+
+---
+
 ## Latest milestone — 2026-11-10, protected first Owner browser candidate
 
 **Status:** In Development; browser/setup route candidate implemented and source tested; **not mounted, not deployed, no live Owner**.
