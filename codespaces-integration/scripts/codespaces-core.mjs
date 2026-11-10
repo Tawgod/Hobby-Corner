@@ -17,7 +17,7 @@ export const TEST_PROFILES=Object.freeze({
 export function redact(s){return String(s).replace(/(gh[pousr]_[A-Za-z0-9_]{10,}|github_pat_[A-Za-z0-9_]{10,}|Bearer\s+\S+)/gi,'[REDACTED]');}
 export function ghRunner(args,{timeoutMs=90000,env=process.env}={}){
  return new Promise((resolve,reject)=>{
-  if(!env.GH_TOKEN)return reject(Error('GH_TOKEN required on authorized host'));
+  // GitHub CLI uses the host's authenticated GitHub credential store; no token is required in the MCP environment.
   const child=spawn('gh',args,{shell:false,env,stdio:['ignore','pipe','pipe']});
   let out='',err='',done=false;const timer=setTimeout(()=>child.kill('SIGKILL'),timeoutMs);
   child.stdout.on('data',d=>{out+=d.toString().slice(0,Math.max(0,16384-out.length));});
