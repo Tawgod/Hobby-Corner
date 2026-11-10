@@ -1,5 +1,25 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Latest verified milestone — 2026-11-10, unified Owner security / Admin integration
+
+**Status:** In Development. **Implemented:** consolidated first Owner + passkey + same-account Authenticator + multi-Owner role delegation in one draft source branch. **Tested:** combined 27/27 automated tests and separate existing Admin integration contract passed. **Deployed:** nothing; all new Owner setup components unmounted/test-only.
+
+**Source:** `Tawgod/Lightspeed:integration/owner-security-unified-20261110`, [draft PR #56](https://github.com/Tawgod/Lightspeed/pull/56), based on first Owner/Authenticator stack #50 → #53 → #54 → #55 and carrying over multiple-Owner Admin changes from #52 (Admin #34). Functional tested commit `b5308cb89d87f986d102e41badd8b9f335ef7cfc`; subsequent docs commits on branch do not alter runtime behavior.
+
+**Resolved divergence:** Admin schema's obsolete single-active-Owner index removed while first Owner bootstrap remains one-time and blocks after any Owner principal exists; later Owners can be appointed only by existing active strongly authenticated Owner to a canonical active Timeclock employee, with no self-elevation, no last-Owner revocation, serial transactions and immutable audit. Active Owners inherit known tool grants, not an exemption from per-operation write/MFA controls. Existing Timeclock account/PIN stays intact; no external business identity verification provider in the requested UX. The old experimental independent-signature alternative is not wired into the new activation route and must not be deployed as an additional bootstrap path.
+
+**CI:** [Unified run 42857873844](https://github.com/Tawgod/Lightspeed/actions/runs/42857873844) **SUCCESS: 27 passed, 0 failed, 0 skipped**, disposable Postgres16, 12 Owner/Timeclock/Admin test files, including rollback, challenge replay, passkey-backed TOTP confirmation, active Owner role and Admin route denial. [Existing Employee Admin integration 42857873617](https://github.com/Tawgod/Lightspeed/actions/runs/42857873617) **SUCCESS**. WebAuthn device verification is mocked within integration tests; real browser/device acceptance remains unverified.
+
+**Acceptance/release blockers:** exact real canonical Timeclock employee mapping via authorized read-only backend; independently protected one-time operator-selected activation and least-privilege DB grants; secure HTTPS origin/CSRF/host review; a real passkey ceremony; TOTP QR and code verification on user's phone; key custody, factor recovery and backup; admin multiple-Owner UI finalization; reconciliation of pending draft PR ancestry and staging/production deployment reviews. New test-only factories throw in production, and no real Owner screen URL currently exists.
+
+**Documentation:** `Tawgod/Lightspeed:integration/owner-security-unified-20261110/docs/UNIFIED_OWNER_SECURITY_HANDOFF.md`. `CHANGELOG.md` updated on the integration branch.
+
+**Safety:** No Timeclock record, employee PIN, live Owner permission, passkey, Authenticator enrollment, Railway service, production migration, Chrome extension or merge was modified.
+
+**Recommended next action:** Build isolated real-browser staging assembly (signed Timeclock + approved private activation + WebAuthn + TOTP) without reusing synthetic staging Owner, then validate actual device acceptance. Request explicit authorization before any production DB migration, deployment or live employee role assignment.
+
+---
+
 ## Latest milestone — 2026-11-10, Owner passkey-to-Authenticator self-enrollment
 
 **Status:** In Development. **Implemented:** reusable tested backend composition plus Owner-only browser control in the existing Employee Security Settings. **Testing:** combined Owner HTTP/PostgreSQL/TOTP/UI suite **21 passed, 0 failed, 0 skipped** at [GitHub Actions 42855023414](https://github.com/Tawgod/Lightspeed/actions/runs/42855023414), tested commit `41bf9b235dcf6d49a211329e96f69d26e44190b6`. No real-device browser acceptance. **Deployed:** none.
