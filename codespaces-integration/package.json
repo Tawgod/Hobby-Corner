@@ -1,0 +1,8 @@
+{
+  "name": "hobby-corner-codespaces-integration",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check scripts/codespace-smoke.mjs"
+  }
+}
