@@ -143,3 +143,7 @@
 - Existing `AI Integration Gateway` remains staged/undeployed in its separate project, with no deployable source configured. Do not migrate empty placeholder services until a working gateway implementation and data/credential contract exist.
 
 **Next gate:** Configure owner-approved GitHub Codespaces user authorization and OpenAI Secure MCP Tunnel runtime credentials through protected Railway service variables, validate a read-only MCP connection, and only then consider enabling `HC_CODESPACE_EXECUTION_ENABLED` for a one-time approved Codespace test. Model-supplied approval strings alone cannot serve as verified owner approval. No changes to Malcor's existing application/database services.
+
+## Owner decision — 2026-11-10: pause OpenAI tunnel and additional API spending
+
+**Status: Paused (deployment safe STANDBY; not connected).** Owner does not want to proceed with an OpenAI Secure MCP Tunnel or additional token-based API spending at this time. Do not create the tunnel, activate `HC_BRIDGE_ENABLED`, set `HC_CODESPACE_EXECUTION_ENABLED`, configure GitHub/OpenAI credentials, or incur Codespaces compute under this workstream until owner explicitly resumes it. The already-deployed Malcor production bridge remains disabled; Railway standby resource charges may still apply and should be considered if the owner elects to stop the instance. Existing source, CI tests, PR #3 and documented bridge architecture are preserved. AI Integration Gateway migration is also on hold pending a Malcor capabilities audit to avoid duplicating functionality.
