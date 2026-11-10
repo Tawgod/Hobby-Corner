@@ -114,3 +114,14 @@
 - Seven MCP tools, 13 controller tests and real stdio handshake verified in GitHub Actions. Latest current-head [GitHub Actions 42843661982](https://github.com/Tawgod/Hobby-Corner/actions/runs/42843661982) **SUCCESS**, covering token-free stdio startup, controller unit tests, SDK imports and client/server handshake. No live GitHub Codespaces tested.
 - **Next owner action:** follow `codespaces-integration/TUNNEL_SETUP.md` from draft PR #3. Create/authorize an OpenAI Secure MCP Tunnel, install/authorize ChatGPT custom plugin, and sign GitHub CLI in interactively on a trusted private host. Then ask this chat to perform the first read-only Codespaces list; do not send secrets.
 - No production deployment, Codespace creation, new public service, Chrome extension release or Lightspeed write.
+
+## Cross-project Railway hosting decision — 2026-11-10
+
+**Status: Blocked on Malcor production environment creation.** Owner requested that Codespaces bridge and future shared AI integrations be hosted under Railway project **Malcor**, in its **production** environment.
+
+- Actual Malcor project `eadb4129-07e1-4599-bf89-21a6fa2583b9` has **only** `staging` environment `cf0cd4f3-8125-4123-b59b-d66e4d9bb677`. Existing Malcor Postgres, bot and migration services are unaffected. No new production environment could be created with available Railway connector functions.
+- Existing independent `Hobby Corner Codespaces Bridge` project `84a81c08-5090-4c3f-917c-6ea33ddc0068` retains a verified SUCCESS, disabled STANDBY deployment `ca79df74-631d-4f23-8829-1bf8e6ced113` with private audit volume, no tokens/tunnel, and zero Codespaces execution.
+- Existing `AI Integration Gateway` project `4f37a0a2-566f-441e-9322-cf2d95f89ff8` has only an uncommitted five-change patch with `gemini-gateway-test` and `gemini-postgres-test` staged creates and three redacted variable values. **Nothing is deployed**; do not claim its code/service can be transferred unchanged.
+- Migration source and safety plan are written on draft PR #3: `codespaces-integration/MALCOR_HOSTING_PLAN.md`; companion `RAILWAY_CONNECTION.md`. New Malcor production must get independently scoped services and secrets without copying Malcor staging database or credentials.
+- Owner's next action: Create an environment named **production** within the existing [Malcor Railway project](https://railway.com/project/eadb4129-07e1-4599-bf89-21a6fa2583b9). Do not rename staging or change current services. After that, re-inventory and create disabled Codespaces bridge in new environment; evaluate gateway source separately.
+- No Malcor changes, existing gateway staged patch application, old service deletion, or other project's deployment were performed.
