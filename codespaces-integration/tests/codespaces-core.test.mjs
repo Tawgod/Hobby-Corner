@@ -48,3 +48,30 @@ test('create reuses existing Codespace',async()=>{
  assert.equal(r.created,false);assert.ok(!calls.some(a=>a[1]==='create'));
 });
 test('token redaction',()=>assert.equal(redact('Bearer abc123 github_pat_abcdefghijklmnop'),'[REDACTED] [REDACTED]'));
+
+test('read-only listing excludes other development branches',async()=>{
+ const {api}=fixture({branch:'main'});
+ assert.deepEqual(await api.list(),[]);
+});
+test('fixed source profile requires active allowed environment and explicit approval',async()=>{
+ const {api,calls}=fixture({state:'Available'});
+ await assert.rejects(api.runProfile('safe-dev-123','owner-source','yes'),/approval/);
+ const result=await api.runProfile('safe-dev-123','owner-source','RUN DEVELOPMENT TEST PROFILE');
+ assert.equal(result.profile,'owner-source');
+ const ssh=calls.find(a=>a[1]==='ssh');
+ assert.match(ssh.at(-1),/^node --check/);
+ assert.ok(!ssh.at(-1).includes('npm install'));
+});
+test('no arbitrary profile name can reach SSH',async()=>{
+ const {api,calls}=fixture({state:'Available'});
+ await assert.rejects(api.runProfile('safe-dev-123',';curl evil','RUN DEVELOPMENT TEST PROFILE'),/Unknown test profile/);
+ assert.ok(!calls.some(a=>a[1]==='ssh'));
+});
+test('fixed postgres profile uses only documented tests',async()=>{
+ const {api,calls}=fixture({state:'Available'});
+ const result=await api.runProfile('safe-dev-123','owner-postgres','RUN DEVELOPMENT TEST PROFILE');
+ assert.equal(result.profile,'owner-postgres');
+ const ssh=calls.find(a=>a[1]==='ssh');
+ assert.match(ssh.at(-1),/first-owner-passkey-registration-postgres\.test\.mjs/);
+ assert.ok(!ssh.at(-1).includes('DATABASE_URL='));
+});
