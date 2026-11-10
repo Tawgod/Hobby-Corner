@@ -8,7 +8,7 @@
 - Repository: `Tawgod/Hobby-Corner`
 - Authoritative development branch: `feature/codespaces-integration-foundation-20261110`
 - Draft PR: [#3](https://github.com/Tawgod/Hobby-Corner/pull/3), unmerged
-- Latest documentation commit: `a8b28664453bbeca86ed689b42a81e052bba516d`
+- Latest implementation branch commit: `2465041c85a268a953604a1d016ac1b736543405`
 - Test fixture: `Tawgod/Lightspeed:feature/first-owner-passkey-registration-integration-20261110`, draft PR #50
 
 ## Implemented
@@ -25,7 +25,7 @@
 
 - Local Node 22 `node --check` on controller and MCP entrypoint: PASS.
 - Local Node built-in suite: **9/9 PASS** with simulated GitHub CLI including wrong-branch denial, unsafe-name rejection, approval gate, reuse and cleanup.
-- GitHub Actions workflow [42840827060](https://github.com/Tawgod/Hobby-Corner/actions/runs/42840827060): **SUCCESS**, validating code on functional SHA `eba643b55bede8bbc0b6f88fc99b42dfef417c82`.
+- GitHub Actions workflow [42841072671](https://github.com/Tawgod/Hobby-Corner/actions/runs/42841072671): **SUCCESS** on branch SHA `b7e2635280c7bfc2eae508d1b048d9819309069f`; the subsequent commit only removed a redundant handoff copy from the PR branch.
 - MCP SDK dependency installation/stdio handshake: **NOT VERIFIED** (npm registry unavailable from assistant runtime).
 - Real Codespaces create/start/SSH/stop: **NOT VERIFIED** (the connected ChatGPT GitHub plugin exposes no Codespaces operations).
 - No live browser, PostgreSQL or employee acceptance.
@@ -49,7 +49,7 @@
 - `codespaces-integration/` source/tests/docs in draft PR #3
 - `.github/workflows/codespaces-foundation.yml`
 - `CHANGELOG.md` (PR branch)
-- `handoffs/codespaces-integration.md` (project main and PR branch)
+- `handoffs/codespaces-integration.md` (canonical project main only; removed duplicate from PR branch to prevent add/add conflict)
 - `HOBBY_CORNER_PROJECT.md` (project main)
 - No Chrome extension release queue change required because no extension surface touched.
 
@@ -84,3 +84,7 @@
 - `codespaces-integration/ARCHITECTURE.md`
 - `codespaces-integration/tests/codespaces-core.test.mjs`
 - `Tawgod/Lightspeed` draft PR #50: `docs/FIRST_OWNER_CODESPACES_TESTING.md`
+
+## Latest PR integration note — 2026-11-10
+
+- Draft PR #3 is 19 commits ahead and 4 behind current main. GitHub currently reports `mergeable=false`; no merge was attempted. Diff shows only 8 expected files (controller/MCP/docs/CI/CHANGELOG). Reconcile current main into the feature branch before future merge review; no force updates or production changes.
