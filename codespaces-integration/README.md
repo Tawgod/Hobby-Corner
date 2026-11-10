@@ -1,51 +1,62 @@
 # Hobby Corner Codespaces Integration
 
-Status: **In Development / not deployed**
+**Status: In Development — not connected / not deployed.**
 
-This directory contains the first controlled integration layer for managing Hobby Corner GitHub Codespaces from an AI tool surface.
+This reusable integration is separate from the Lightspeed Chrome extension and all Railway production services.
 
-## Architecture decision
+## Source ownership
 
-The existing ChatGPT GitHub plugin remains the source-control integration. It can read/write repositories, PRs, issues, and CI, but the connected tool surface does not expose GitHub Codespaces lifecycle or terminal execution.
+- Development branch: `Tawgod/Hobby-Corner:feature/codespaces-integration-foundation-20261110`
+- Draft PR: [Hobby-Corner #3](https://github.com/Tawgod/Hobby-Corner/pull/3)
+- Test fixture: `Tawgod/Lightspeed:feature/first-owner-passkey-registration-integration-20261110` / draft PR #50
+- Installed GitHub plugin continues to handle repository, PR and Actions work. It does **not** expose Codespaces control or terminal commands.
 
-GitHub itself provides supported Codespaces REST endpoints for list/create/start/stop, while GitHub CLI provides `gh codespace ssh` for command execution. The intended final ChatGPT integration is therefore a small custom MCP server exposing only Codespaces operations, backed by GitHub-supported user authorization and short-lived credentials.
+## Current implementation
 
-Do **not** add a broad replacement GitHub API proxy.
+`scripts/codespaces-core.mjs` is a dependency-free, injection-resistant GitHub CLI controller. `scripts/mcp-stdio.mjs` exposes it as an MCP stdio server using the official JavaScript MCP SDK.
 
-## Security boundary
+| MCP tool | Behavior |
+| --- | --- |
+| `list_codespaces` | Read-only list filtered to `Tawgod/Lightspeed` |
+| `create_codespace` | Reuse the PR #50 branch environment if available; otherwise create one with 30m idle timeout |
+| `start_codespace` | Start only an exact allowlisted repository + branch environment |
+| `node_version` | Run exactly `node --version` via Codespaces SSH |
+| `stop_codespace` | Stop only an exact allowlisted development environment |
+| `smoke_codespace` | Start existing environment, run the fixed test, stop if this operation started it |
 
-Initial allowlist:
-- Repository: `Tawgod/Lightspeed`
-- Initial test branch: `feature/first-owner-passkey-registration-integration-20261110`
-- Development/test Codespaces only
-- No Railway, Lightspeed production, employee, PIN, customer, or production database credentials
-- No public forwarded ports
-- No arbitrary shell in Milestone 2
-- No deploy, secret change, destructive command, or production mutation
+All lifecycle operations require explicit intent text in their tool arguments. **Those strings are not cryptographic proof of user approval**; the ChatGPT host/MCP connection must independently require real user confirmation for charge-incurring or state-changing operations.
 
-The bridge must run with an ephemeral GitHub user token that has only the Codespaces permissions required for the operation. Never commit a token or store one in this repository.
+The controller validates the Codespace name against a restricted character class, verifies its repository and branch using a separate view command, never invokes a shell, limits process runtime/output, and can append redacted lifecycle events to a private audit log. It does not implement arbitrary shell, git writes, credential manipulation, deployment or public port forwarding.
 
-## Milestone 2 smoke probe
-
-`scripts/codespace-smoke.mjs` is a dependency-free control-plane probe intended to be run only from an authorized bridge host with GitHub CLI installed and authenticated through `GH_TOKEN`.
-
-Supported actions:
+## Local checks
 
 ```bash
-node scripts/codespace-smoke.mjs list
-node scripts/codespace-smoke.mjs create
-node scripts/codespace-smoke.mjs start <codespace-name>
-node scripts/codespace-smoke.mjs test <codespace-name>
-node scripts/codespace-smoke.mjs stop <codespace-name>
-node scripts/codespace-smoke.mjs smoke <codespace-name>
+cd codespaces-integration
+npm test
+npm run check
 ```
 
-The `test` action executes exactly `node --version` in the selected Codespace. The `smoke` action starts an existing Codespace, waits for it to become Available, runs that fixed command, and stops the Codespace in a `finally` cleanup path.
+The unit tests run on Node 22 without installing npm dependencies. The MCP entrypoint additionally needs `npm install`, a reviewed authentication source, and `gh` installed on the bridge host.
 
-Creating a Codespace uses the exact allowlisted repository and branch and requests a 30-minute idle timeout.
+## Running an MCP stdio bridge on a trusted host
 
-## Current limitation
+```bash
+npm install --ignore-scripts --no-audit --no-fund
+export HC_CODESPACE_AUDIT_PATH="/private/audit/codespaces.jsonl"
+# GH_TOKEN supplied through secure GitHub-supported authorization, not typed into a chat or checked into source.
+npm start
+```
 
-This ChatGPT conversation cannot invoke the probe because the installed GitHub connector exposes no Codespaces/SSH/terminal action. The probe is therefore **implemented but not runtime-tested against GitHub Codespaces**. Connecting it to ChatGPT requires deploying or tunneling a reviewed remote MCP server and authorizing that plugin in ChatGPT.
+**Do not use this as a public remotely accessible service.** A stdio server cannot be reached directly from ChatGPT's remote MCP plugin flow. Before live ChatGPT control, implement a reviewed authenticated remote HTTPS MCP endpoint (or supported secure tunnel) with identity binding, per-user approvals, audit/revocation and transport security. No such server is currently deployed.
 
-Do not interpret source implementation as a deployed integration.
+## Known limitations
+
+- The actual `gh` Codespaces lifecycle and SSH paths have **not** run against GitHub.
+- GitHub CLI `gitStatus.ref` representation requires a first read-only live verification before any mutation.
+- MCP SDK dependencies and stdio connection handshake remain untested here because npm registry access is unavailable in the current execution environment.
+- The original proof-of-concept `scripts/codespace-smoke.mjs` is superseded by the new controller; do not use it for authorization or production.
+- No real database or browser tests, user GitHub authorization, Codespace creation, compute usage, or production work occurred.
+
+## Required next setup
+
+Use an authorized isolated bridge host with Node 22, GitHub CLI, and short-lived scoped GitHub user authorization. Do not paste tokens in ChatGPT. The owner must approve creating/starting a development Codespace and the future ChatGPT plugin connection. No production credentials, real staff data, or port visibility changes are permitted.
