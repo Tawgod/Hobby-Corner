@@ -41,7 +41,7 @@
 
 - GitHub Codespaces / GitHub CLI with signed-in user authorization
 - GitHub-connected ChatGPT plugin for existing repo/PR/CI operations
-- Future reviewed authenticated remote MCP adapter or approved secure tunnel
+- Preferred: OpenAI Secure MCP Tunnel launching the existing private stdio MCP server directly (no public HTTP adapter)
 - Lightspeed PR #50 Node 22 / disposable Postgres 16 devcontainer
 
 ## Shared files / integration surfaces affected
@@ -55,8 +55,8 @@
 
 ## Remaining blockers
 
-1. Provide a trusted bridge host with Node 22 and GitHub CLI plus appropriately scoped, short-lived GitHub user authorization; do **not** paste GitHub tokens into ChatGPT.
-2. Review, implement and authorize an authenticated HTTPS remote MCP adapter (or supported secure tunnel), host-side real user approval and revocation. Current stdio source alone cannot be used by ChatGPT remotely.
+1. Provide a trusted bridge host with Node 22 and GitHub CLI; sign in with GitHub's browser-based `gh auth login --expiring --scopes codespace` when supported, without copying tokens into ChatGPT.
+2. Create and authorize an OpenAI Secure MCP Tunnel and ChatGPT custom plugin, both owner-controlled. The tunnel can launch the existing stdio server directly; no additional public HTTP adapter is required. Preserve host-side approval/revocation.
 3. Validate live `gh codespace list/view` branch representation before lifecycle mutation.
 4. Perform the first approved dev Codespace smoke and retrieve output.
 5. Complete live acceptance of fixed Node/PostgreSQL profiles; add Playwright/browser profiles, resource monitoring, error recovery and stop-idle policy. Keep required Actions release gates.
@@ -92,7 +92,7 @@
 ## Current next execution gate — 2026-11-10
 
 - Source checks: 13 controller tests PASS, real stdio MCP handshake PASS in CI; no live Github Codespaces commands performed.
-- Live connection is still blocked on a reviewed, authenticated remote MCP adapter or supported tunnel, a bridge host with `gh`, and appropriately scoped user authorization. Model-supplied approval strings do not constitute trusted user consent.
+- Live connection is still blocked on the user-controlled OpenAI Secure MCP Tunnel and plugin creation, a private bridge host with `gh`, and appropriately scoped interactive GitHub authorization. Source instructions: `codespaces-integration/TUNNEL_SETUP.md`. Model-supplied approval strings do not constitute trusted user consent.
 - First allowed step after setup is **read-only** `list_codespaces` / exact branch view. Require explicit human approval before any start or creation. Initial fixture remains Lightspeed draft PR #50.
 - Do not confuse this source-level integration with a deployed ChatGPT plugin.
 
@@ -100,3 +100,10 @@
 
 - Draft PR #3 current head `5236529e6e47b5215e835661e4dcbc2091d2dfc2`; latest head [Actions run 42843015907](https://github.com/Tawgod/Hobby-Corner/actions/runs/42843015907) SUCCESS.
 - No live Codespaces or network-connected remote MCP operation attempted. GitHub's current mergeability flag is false; handle separately during branch sync and review.
+
+## Security architecture simplification — 2026-11-10
+
+- Confirmed OpenAI Secure MCP Tunnel supports directly launching the reviewed `mcp-stdio.mjs` server on a private host, so public HTTPS MCP service and extra OAuth implementation are unnecessary for initial private use.
+- The controller now uses GitHub CLI's credential store rather than requiring an exported `GH_TOKEN`. Prefer browser sign-in with expiring credentials if supported; never paste a token into chat.
+- New `codespaces-integration/TUNNEL_SETUP.md` records exact owner-controlled prerequisites, OpenAI Platform tunnel authorization, private audit path and initial read-only tool check.
+- No tunnel created or connected and no real Codespace used. Owner must perform the platform/GitHub authentication steps before live validation.
