@@ -28,6 +28,14 @@
 - Outstanding gates: dedicated Timeclock credential design and authorization; isolated DB runtime/operator role provisioning and schema test; real canonical employee ID private verification; independent secrets and HTTPS domain; controlled staging deploy; private interactive Owner activation; real-device passkey + TOTP acceptance.
 
 
+### Owner login follow-through — scoped Timeclock credential plan (2026-11-10)
+
+- New separate development branch `Tawgod/Lightspeed:feature/owner-timeclock-scoped-credential-20261110` from authoritative integration; design document `docs/OWNER_STAGING_TIMECLOCK_SCOPED_CREDENTIAL.md`, commit `60464fb587c2a00aaad5c671058d32c9f8e78add`. **Documentation/design only, not implemented or deployed**. Proposed independent Owner-staging PIN/authorization endpoints must fail closed, be restricted to exact active employee, and require durable source/account rate limits and separate credential before any production Timeclock rollout. Do not reuse production `SCANNER_SERVICE_SECRET`.
+- Owner staging service source is pinned to `b17f274910145b324462edc2ec2893a99eb0ca2f`; approved public Timeclock domain was verified and staged only as `HC_OWNER_TIMECLOCK_ORIGIN`, without invoking the service. Current Owner app source still expects Scanner endpoints and would need an independently tested adapter update when a scoped endpoint is implemented.
+- Railway domain generation returned `ServiceInstance not found` because the service is only `staged-create`. No hostname was assigned. No deployment approval; cannot claim a working setup page.
+- Next owner authorization gate: production Timeclock modification/deployment for dedicated staging credential **separate from** staging resource setup authorization, plus staging schema/least privilege, credential handling, and approval to deploy isolated staging.
+
+
 ---
 
 ## Latest milestone — 2026-11-10, setup-ready staging safeguards (no deployment)
