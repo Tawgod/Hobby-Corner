@@ -27,7 +27,7 @@ This reusable integration is separate from the Lightspeed Chrome extension and a
 
 All lifecycle operations require explicit intent text in their tool arguments. **Those strings are not cryptographic proof of user approval**; the ChatGPT host/MCP connection must independently require real user confirmation for charge-incurring or state-changing operations.
 
-The controller validates the Codespace name against a restricted character class, verifies its repository and branch using a separate view command, never invokes a shell, limits process runtime/output, and can append redacted lifecycle events to a private audit log. It does not implement arbitrary shell, git writes, credential manipulation, deployment or public port forwarding. The fixed test profiles run only in an already Available Codespace; unlike the smoke operation, they never start or stop an environment. The `owner-postgres` profile depends on PR #50's isolated `hc_test` database; it must not be used with production database credentials.
+The controller validates the Codespace name against a restricted character class, verifies its repository and branch using a separate view command, never invokes a shell, limits process runtime/output, and can append redacted lifecycle events to a private audit log. It does not implement arbitrary shell, git writes, credential manipulation, deployment or public port forwarding. The fixed test profiles explicitly run from `/workspaces/Lightspeed` and operate only in an already Available Codespace; unlike the smoke operation, they never start or stop an environment. The `owner-postgres` profile depends on PR #50's isolated `hc_test` database; it must not be used with production database credentials.
 
 ## Local checks
 
@@ -37,7 +37,7 @@ npm test
 npm run check
 ```
 
-The unit tests run on Node 22 without installing npm dependencies. The MCP entrypoint additionally needs `npm install`, a reviewed authentication source, and `gh` installed on the bridge host.
+The controller unit tests run on Node 22 without installing npm dependencies. CI also installs the MCP SDK and runs an isolated real MCP stdio client/server handshake that enumerates the tool interface without making any GitHub calls. The MCP entrypoint additionally needs `npm install`, a reviewed authentication source, and `gh` installed on the bridge host.
 
 ## Running an MCP stdio bridge on a trusted host
 
@@ -54,7 +54,7 @@ npm start
 
 - The actual `gh` Codespaces lifecycle and SSH paths have **not** run against GitHub.
 - GitHub CLI `gitStatus.ref` representation requires a first read-only live verification before any mutation.
-- An isolated PR CI check installs and imports the MCP SDK. A full stdio client/server handshake and authenticated ChatGPT connection are still unverified.
+- An isolated PR CI check installs/imports the MCP SDK and exercises a client/server stdio handshake. An authenticated ChatGPT plugin connection is still unverified.
 - The original proof-of-concept smoke script has been removed. The policy-checked controller is the single implementation.
 - No real database or browser tests, user GitHub authorization, Codespace creation, compute usage, or production work occurred.
 
