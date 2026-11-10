@@ -1,7 +1,7 @@
 FROM node:22-bookworm-slim
 ARG TUNNEL_VERSION=v0.0.20
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates curl unzip gh git openssh-client tini \
+    ca-certificates curl unzip gh git openssh-client tini gosu \
  && rm -rf /var/lib/apt/lists/*
 RUN set -eu; \
     base="https://github.com/openai/tunnel-client/releases/download/${TUNNEL_VERSION}"; \
@@ -21,11 +21,11 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install --omit=dev --ignore-scripts --no-audit --no-fund
 COPY scripts/ ./scripts/
-USER node
+RUN install -m 0755 scripts/railway-bootstrap.sh /usr/local/bin/hc-railway-bootstrap
 ENV NODE_ENV=production \
     HC_BRIDGE_ENABLED=false \
     HC_CODESPACE_EXECUTION_ENABLED=false \
     HC_CODESPACE_AUDIT_PATH=/data/audit/codespaces.jsonl \
     MCP_COMMAND="node /app/scripts/mcp-stdio.mjs" \
     LOG_LEVEL=info
-ENTRYPOINT ["/usr/bin/tini","--","node","scripts/railway-entrypoint.mjs"]
+ENTRYPOINT ["/usr/bin/tini","--","/usr/local/bin/hc-railway-bootstrap"]
