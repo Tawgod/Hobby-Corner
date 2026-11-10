@@ -71,3 +71,17 @@
 
 - `Tawgod/Lightspeed:chore/actions-budget-phase1-20261109/docs/GITHUB_ACTIONS_AUDIT_20261109.md`
 - `AGENTS.md` candidates on Lightspeed and Hobby-Corner.
+
+
+## Follow-up development — 2026-11-10 (Scanner UI workflow)
+
+**Status:** In Development / static source comparison passed / runtime CI validation pending / unmerged and undeployed.
+
+- Existing optimization PRs remain open drafts: Lightspeed [#46](https://github.com/Tawgod/Lightspeed/pull/46), [#47](https://github.com/Tawgod/Lightspeed/pull/47), [#48](https://github.com/Tawgod/Lightspeed/pull/48); project policy [Hobby-Corner #2](https://github.com/Tawgod/Hobby-Corner/pull/2). No merge or production change.
+- Created [Lightspeed draft PR #49](https://github.com/Tawgod/Lightspeed/pull/49) from `integration/hobby-corner-consolidation` on branch `chore/scanner-ui-ci-dedup-20261110@01dc6a022f2536d5bec6e1a0a60cae76b9187d36`.
+- `.github/workflows/scanner-ui-check.yml` retains existing workflow/check names, job ID `ui`, feature-branch push/path triggers, test commands and permission controls. Adds branch-scoped concurrency cancellation, 20-minute timeout and safe `~/.npm` download cache keyed on `package.json`. Removes a **second redundant execution** of `tests/scannerDuplicateSafety.test.js` within the same job; the first remains and all other test families are preserved.
+- Verified with direct comparison of source and PR-head YAML text: 7/7 checks passed for same name/trigger/job ID, cache, timeout, cancellation and unique-test preservation. **No runtime CI triggered on PR #49** because the unchanged scanner-ui workflow is feature-push-only; verify on an eligible future Scanner branch event or separately approved dispatch plan before accepting. Avoid unnecessary pushes solely to generate a CI run.
+- Owner's GitHub plan upgrade was reported, not verified through account billing. Increased available minutes do not relax the project's 3-level CI/security policy or justify duplicate runs.
+- Required-check/branch-protection administration still cannot be read with current GitHub App. PR #49 and PRs #46–48 need the release coordinator's required-status and branch ancestry review before merges; no Chrome release queue or extension packaging was performed.
+
+**Recommended next action:** Reconcile CI optimization PRs #46–49 against active development branches, confirm required statuses, then review potential dependency lockfile and browser test download caching improvements. Preserve required security/Admin/Timeclock/Scanner and deployment tests.
