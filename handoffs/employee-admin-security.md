@@ -1,6 +1,26 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
-**Last verified:** 2026-11-06  
+## Latest first-Owner milestone — 2026-11-10
+
+**System / feature:** Shared staff identity, Employee Administration, first real Owner passkey commissioning, future primary PIN Authenticator enrollment.
+
+**Status:** In Development; **implemented in unmounted test-only source**, **automated tests passed**, **not deployed**, **no live Owner employee verified**.
+
+**Source:** `Tawgod/Lightspeed:feature/first-owner-passkey-registration-integration-20261110`, [draft PR #50](https://github.com/Tawgod/Lightspeed/pull/50), stacked on PRs #39–45. Functional tested commit `71e0ce2647950036bdc46cfa4d9ea16a8b0bc7cc`; latest docs/Codespaces branch commit recorded on PR.
+
+**What changed:** Fixed corrupted/unapplied `db/hc_owner_commissioning.sql`. Added `services/security/firstOwnerPasskeyRegistrationCandidate.js`, an **unmounted test-mode-only** composition of canonical signed Timeclock session, independently signed 30-minute offline approval and existing PostgreSQL passkey ceremony with atomic first Owner+passkey+append-only audit. The app cannot create its own offline approval, derive Owner from a PIN, or copy synthetic employee 901 factors. Added disposable PostgreSQL CI including forced audit-insert failure to prove the Owner, credential and approval consumption all roll back. Added optional Node22/Postgres16 test-only `.devcontainer/` and `docs/FIRST_OWNER_CODESPACES_TESTING.md`; no Codespace was started and its setup has not been manually accepted.
+
+**Testing:** [GitHub Actions 42835416894](https://github.com/Tawgod/Lightspeed/actions/runs/42835416894) **SUCCESS** (20 tests, none skipped). Following fault-injection fixture correction, [GitHub Actions 42835824260](https://github.com/Tawgod/Lightspeed/actions/runs/42835824260) **SUCCESS** (20 tests, none skipped) with real disposable PostgreSQL schema and transactional rollback. New test simulates WebAuthn registration verification; prior suites separately test cryptographic assertions. **No physical-device or real-employee acceptance**.
+
+**Deployed:** Nothing. Railway, production schema, live Timeclock PIN/employee, Owner grant, authenticator seed, Chrome extension and existing synthetic staging remain unchanged.
+
+**Remaining decisions/blockers:** A legitimate independent human Owner identity verifier and auditable offline signer/operator/key custody; production DB grants/privilege review; real read-only Timeclock identity acceptance; origin/CSRF controls and physical-device passkey/recovery tests; PR ancestry/release coordination; explicit approval for any production migration or deployment. Do not infer that passing fixture CI means a real Owner setup URL is ready.
+
+**Next recommended action:** Agree on independent Owner verification authority, then implement its independently controlled issuance/recovery and run real signed Timeclock read-only acceptance in an approved isolated environment. Codespaces can support local disposable DB/browser testing once separately launched by a user; available connectors do not currently control Codespaces.
+
+---
+
+**Last verified:** 2026-11-10  
 **Status:** In Development (read-only foundation), Testing (automated); no admin production or staging deployment
 
 ## Source
