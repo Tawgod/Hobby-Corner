@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-10 — Private Codespaces tunnel architecture; no PAT handling
+
+- Verified OpenAI's Secure MCP Tunnel can launch an stdio MCP server directly inside an owner's private host. Selected the supported private tunnel rather than building or deploying a public HTTPS MCP server.
+- Removed the mandatory `GH_TOKEN` environment-variable gate so the bridge uses normal `gh auth login` browser authorization and the host credential store. Prefer expiring credentials if supported by the GitHub host and OAuth app.
+- Added `codespaces-integration/TUNNEL_SETUP.md` with owner-controlled Node/GitHub CLI setup, private audit path, OpenAI Platform tunnel authorization, custom ChatGPT plugin connection and read-only first test instructions.
+- Updated architecture/README to avoid implying a public MCP deployment is required. Existing source remains draft/unmerged; no Codespace, Railway, Chrome extension, production credential or real GitHub authorization was touched.
+
 ## 2026-11-10 — MCP protocol handshake verified
 
 - Fixed all allowlisted development test profiles to run from the explicit `/workspaces/Lightspeed` devcontainer workspace; added a regression assertion.
