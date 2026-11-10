@@ -1,5 +1,21 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Revised Owner requirements and implementation — 2026-11-10
+
+**User decision:** The first Owner is the user's **existing real Timeclock employee identity**. Preserve the four-digit PIN and attach Google Authenticator TOTP plus a passkey to **that account**. Primary Owner has full Admin and recognized tool permissions and can appoint additional Owners or delegate granular permissions in the Admin menu. The user does **not** require third-party business-ownership verification. Keep a one-time operator-controlled initial Owner provisioning process, with a protected activation path, rather than permit self-elevation using a PIN or browser-supplied role. **This supersedes the earlier proposal to require an external business identity verifier.**
+
+**Implemented in development:** [Draft Lightspeed PR #52](https://github.com/Tawgod/Lightspeed/pull/52), `feature/admin-multiple-owners-20261110`, stacked on draft Admin PR #34. `db/hc_admin_delegations.sql` drops the restrictive one-active-Owner draft index and adds `owner_appoint` / `owner_revoke` audit events. `adminDelegationsPostgres.js` adds a strongly authenticated current Owner's appointment/revocation of another canonical active employee, serialized in PostgreSQL with no self-appointed Owner, no TOTP-only elevation, no automatic reactivation and final-Owner protection. Active Owners inherit all recognized tool grant-layer permissions **without bypassing authentication, tool write controls or audit**. `routes/employeeAdmin.js` adds an optional unmounted `POST /api/owners` endpoint with backend-only permission validation. The app has **not** set the user's real Owner role.
+
+**Tested:** Initial CI discovered a concurrent DDL collision from separately running PostgreSQL tests; test runner was corrected to `--test-concurrency=1`. Later full route / database suites [GitHub Actions 42846744282](https://github.com/Tawgod/Lightspeed/actions/runs/42846744282) **SUCCESS**, and [Admin integration 42846744279](https://github.com/Tawgod/Lightspeed/actions/runs/42846744279) **SUCCESS** on functional commit `62e1a6037343eae286b273ba5ff9e75d3beebee6`. Synthetic employee IDs in tests are fixtures, not real identity assignments.
+
+**Coordination:** [Draft Owner commissioning/passkey PR #50](https://github.com/Tawgod/Lightspeed/pull/50) has tested passkey/Postgres transaction logic but its external Ed25519 business-verifier dependency is **no longer the desired initial setup workflow**. Do not deploy PR #50 unchanged. Reconcile into a one-time deployment-operator-configured primary Timeclock ID, signed canonical session, protected temporary activation and WebAuthn enrollment transaction. Existing TOTP enrollment needs current Owner strong step-up, verified code, recovery safeguards and real-browser acceptance. Source requirements are documented at `Tawgod/Lightspeed:feature/admin-multiple-owners-20261110/docs/SIMPLIFIED_OWNER_SETUP.md`.
+
+**Status:** In Development; new multiple Owner code implemented, automated tests passed, unmounted, no migrations or role changes deployed. No Timeclock PIN, passkey, TOTP secret, credential, active employee, Railway or Chrome release modified.
+
+**Next recommended action:** Implement and test operator-configured **initial Owner** one-time activation on the user's existing Timeclock employee session, register a real passkey through an authenticated browser, then add TOTP and recovery to the same account. Coordinate PR #52 and #50 with Admin foundation #34 and request explicit approval before any real employee promotion, migration, deployment or credential setup.
+
+---
+
 ## Latest first-Owner milestone — 2026-11-10
 
 **System / feature:** Shared staff identity, Employee Administration, first real Owner passkey commissioning, future primary PIN Authenticator enrollment.
