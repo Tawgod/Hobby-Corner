@@ -1,46 +1,45 @@
-# Codespaces Integration Architecture
+# GitHub Codespaces — Architecture and Security Decision
 
-**Last verified:** 2026-11-10  
+**Verified:** 2026-11-10  
 **Status:** In Development
 
-## Verified capabilities
+## Existing capabilities
 
-### Existing ChatGPT GitHub connection
-The currently connected GitHub tool surface supports repository contents, branches, commits, PRs/issues and GitHub Actions inspection/mutations. It does **not** expose Codespaces lifecycle, SSH, terminal, or arbitrary command execution.
+- GitHub plugin: repository, branch, file, issue, PR and Actions operations; **no Codespaces lifecycle or remote terminal action**.
+- Official GitHub CLI supports Codespaces list/create/view/start/stop (start through REST) and SSH.
+- Existing Lightspeed PR #50 includes Node 22 + isolated PostgreSQL 16 devcontainer on a development branch; runtime not yet tested.
+- Custom MCP plugin is required to make the new control tools callable within ChatGPT. The current code only implements local stdio transport and has not been installed as a custom plugin.
 
-### GitHub-supported Codespaces control
-GitHub documents supported APIs for listing, creating, starting and stopping a user's Codespaces. Fine-grained/user access can be limited to Codespaces read/write and lifecycle permissions.
+## Architecture
 
-GitHub CLI supports listing, creating, stopping and SSH access to Codespaces. SSH is the supported path for running commands in a Codespace.
+```
+ChatGPT tool approval & authenticated connection
+          |
+Authenticated MCP remote adapter (NOT BUILT)
+          |
+Policy-checked Codespaces controller (IMPLEMENTED)
+          |
+GitHub CLI/API + SSH on isolated bridge host
+          |
+Only allowlisted Tawgod/Lightspeed PR #50 Codespace
+          |
+Private Node 22 / test-only PostgreSQL 16
+```
 
-### ChatGPT extension path
-ChatGPT supports custom remote MCP servers as plugins with read/write tools. That is the intended connection layer for the missing Codespaces operations.
+## Non-negotiable controls
 
-## Recommended final design
+1. Do not rely on an LLM-supplied approval phrase as user authorization; enforce user approval in the host/authenticated MCP boundary.
+2. Pin the exact repository and branch until a reviewed authorized allowlist expansion.
+3. No arbitrary shell, production API keys, customer/employee/PIN data, Railway production secrets, or public forwarded ports.
+4. The bridge host must not have unrestricted repo or infrastructure credentials.
+5. GitHub-supported short-lived authorization, connection revocation, and per-user audit events before any remote deployment.
+6. Process timeout, bounded output, secrets redaction, safe cleanup, and avoid stopping pre-existing active environments.
+7. Changes to tested development branches and production workflows remain separately approval-gated.
+8. GitHub Actions remains required for PR readiness / production release.
 
-1. Keep the existing GitHub plugin for normal Git repository/PR/Actions work.
-2. Add a narrow Codespaces MCP bridge with tools such as:
-   - `list_codespaces`
-   - `create_codespace`
-   - `start_codespace`
-   - `run_test_profile`
-   - `stop_codespace`
-   - later, reviewed `run_command`
-3. Authenticate the bridge with GitHub-supported user authorization and short-lived credentials. Do not use repository-stored PATs.
-4. Bind every Codespace operation to an explicit repository/branch allowlist.
-5. Default forwarded ports to private and do not expose a public port without explicit approval.
-6. Log AI-initiated lifecycle/command events without logging tokens, secrets, customer data, employee data or command output known to contain secrets.
-7. Require explicit approval before destructive commands, credential changes, deployments, production operations, git pushes, or commits.
-8. Stop idle Codespaces aggressively. Prefer reusing an existing matching Codespace.
+## Test plan
 
-## Milestone 2 boundary
-
-The initial implementation intentionally supports only the fixed command `node --version`. Arbitrary command execution is deferred until the MCP authorization/approval layer and command policy are reviewed.
-
-The first runtime target is PR #50's development branch, which already contains Node.js 22 plus an isolated PostgreSQL 16 devcontainer and no production credential wiring.
-
-## Required user/setup action before live use
-
-A reviewed MCP bridge must be made reachable to ChatGPT (remote HTTPS MCP endpoint or Secure MCP Tunnel where supported) and connected as a custom plugin with the minimum required permissions.
-
-This is a user/workspace authorization step. No access token should be pasted into chat or committed to Git.
+- **Local passed:** 9 Node built-in controller tests checking safe CLI args, branch scope, approval gating, reuse, cleanup, and output filtering.
+- **Next:** GitHub CI syntax/unit workflow (PR-scoped, no Codespace/production secrets).
+- **Pending runtime:** `gh` list/view with an authorized test identity; verify ref field; start an existing stopped Codespace, execute `node --version`, stop safely.
+- **Later:** dedicated Node/PG/Playwright allowlisted profiles, structured logs, quota/resource tracking, timeouts and recovery.
