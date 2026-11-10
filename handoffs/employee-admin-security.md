@@ -1,5 +1,25 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Latest milestone — 2026-11-10, operator-selected first Owner activation
+
+**Status:** In Development. **Implemented:** one-time bootstrap source candidate. **Tested:** disposable PostgreSQL suite passed. **Deployed:** nothing.
+
+**User's confirmed workflow:** Existing Timeclock account and PIN remain unchanged. Primary Owner receives full Admin and recognized tool permissions and can assign additional Owners through strongly authenticated Admin controls. Add a passkey and Google Authenticator to that same employee account. Do not require third-party business-ownership verification.
+
+**What changed:** Draft [Lightspeed PR #53](https://github.com/Tawgod/Lightspeed/pull/53), branch `feature/first-owner-operator-bootstrap-20261110`, stacked on #50, introduces a separate **operator-selected** Owner enrollment alternative. A deployment operator must confirm the exact real active Timeclock employee ID and provision a single 32-byte activation secret privately; only its SHA-256 digest enters the database. The proposed approval expires in 15 minutes. An unmounted test-only adapter requires both the signed canonical Timeclock employee session and private operator activation, then uses existing WebAuthn registration to atomically create passkey, Owner grant, consumed authorization and append-only audit. No PIN or first-visitor promotion, external ownership provider or live employee selection was introduced.
+
+**Testing:** [GitHub Actions run 42848285658](https://github.com/Tawgod/Lightspeed/actions/runs/42848285658) **SUCCESS**, 4 tests passed / 0 failed / 0 skipped. Tests include missing/wrong secret, wrong employee, first Owner passkey, forced audit-write rollback and challenge replay denial; successful WebAuthn verification uses a fixture, not a physical authenticator. Proposed activation SQL was executed only in disposable `hc_test` PostgreSQL.
+
+**Cross-branch dependencies:** [PR #52](https://github.com/Tawgod/Lightspeed/pull/52) provides tested multi-Owner Admin appointment/revocation and Owner tool permissions, but is stacked on Admin #34 rather than PR #50/#53. Reconcile the old single-Owner index with PR #52 before any actual migration. Retain prior signed-attestation PR #45/#50 as unmounted development alternatives; don't deploy them unchanged or require third-party identity proof. Add the enrollment UI, CSRF and log protections, exactly scoped DB grants, real Timeclock mapping, device WebAuthn, Google Authenticator TOTP/recovery, and approved deployment.
+
+**Source / documentation:** `Tawgod/Lightspeed:feature/first-owner-operator-bootstrap-20261110/docs/FIRST_OWNER_OPERATOR_SETUP.md`; `db/hc_first_owner_operator_activation.sql`; `services/security/operatorFirstOwnerPasskeyCandidate.js`; `tests/operator-first-owner-postgres.test.mjs`; PR head documented via GitHub PR #53.
+
+**Safety:** No activation tokens or actual Timeclock ID generated, exposed or requested in chat. No real PIN, Owner grant, TOTP factor, passkey, production database, Railway service, extension or deployed service changed. Initial Owner enrollment is NOT available for use yet.
+
+**Next:** Reconcile #53 with #52; create protected first Owner passkey enrollment screen in isolated development; verify real HTTPS browser/WebAuthn and TOTP enrollment with a non-production identity; review exact Timeclock employee selection and approval ceremony, then request explicit authorization for a production role assignment.
+
+---
+
 ## Revised Owner requirements and implementation — 2026-11-10
 
 **User decision:** The first Owner is the user's **existing real Timeclock employee identity**. Preserve the four-digit PIN and attach Google Authenticator TOTP plus a passkey to **that account**. Primary Owner has full Admin and recognized tool permissions and can appoint additional Owners or delegate granular permissions in the Admin menu. The user does **not** require third-party business-ownership verification. Keep a one-time operator-controlled initial Owner provisioning process, with a protected activation path, rather than permit self-elevation using a PIN or browser-supplied role. **This supersedes the earlier proposal to require an external business identity verifier.**
