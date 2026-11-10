@@ -1,5 +1,27 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Latest milestone — 2026-11-10, isolated Owner security staging composition
+
+**System / feature:** Existing Timeclock Owner activation, passkey verification, same-account Google Authenticator and multi-Owner Admin.
+
+**Status:** In Development; **implemented** as unmounted opt-in test-only assembly, **tested** via 29 full combined automated tests, **not deployed** and **not live**.
+
+**Source:** `Tawgod/Lightspeed:feature/owner-staging-wiring-20261110`, [draft PR #57](https://github.com/Tawgod/Lightspeed/pull/57) based on unified Owner [PR #56](https://github.com/Tawgod/Lightspeed/pull/56), which reconciles original Owner stack #50/#53/#54/#55 with multi-Owner Admin #52.
+
+**What changed:** Modified `operatorFirstOwnerPasskeyCandidate.js` and `isolatedFirstOwnerSetup.js` to expose WebAuthn authentication/verification using the **same** credential store, signed session and signing key after first Owner registration. Added `ownerSecurityStagingMount.js` to compose the existing verified Timeclock login adapter, protected one-time owner setup screen, persistent passkey verification and **existing** encrypted staff Google Authenticator settings on one exact HTTPS origin and matching RP ID. Fails closed on missing trusted adapters, production environment, synthetic test employee 901, or unsafe origin. Mutating endpoints check exact Origin and same-origin fetch metadata. Existing security settings UI gets a **memory-only** `HCStaffAuth` bridge instead of inheriting the general shared-ui sessionStorage and legacy API-key handling; other tools' auth client is unchanged. No operator approval issuance or Owner role auto-elevation API added.
+
+**Testing:** [GitHub Actions 42860683805](https://github.com/Tawgod/Lightspeed/actions/runs/42860683805) **SUCCESS — 29 tests passed, 0 failed, 0 skipped**, encompassing prior Owner, Admin, Timeclock, disposable PostgreSQL 16, TOTP and browser HTTP contracts plus new staging mount, synthetic-account denial, shared auth client and registered WebAuthn verification endpoint. Latest functional test commit `e641c7979c298fd029e757955266a711e28de79b`. Browser WebAuthn is **mocked** in integration tests, so no real hardware/mobile passkey acceptance established.
+
+**Verified Railway context:** Existing project `Hobby Corner Integration Test`, environment `test`, service `staff-security-staging` still reports an older success deployment from `feature/employee-admin-security-foundation-20261106` at `21a44f4f06ebaacec3d005344faa89f8907feb46`, not PR #57. Its legacy PIN environment is synthetic-only; never treat it as the actual user's signed Timeclock employee session or promote staging employee 901.
+
+**Documentation:** `docs/OWNER_SECURITY_STAGING_WIRING.md` and `CHANGELOG.md` updated on #57.
+
+**Remaining blockers:** Authorized read-only actual Timeclock employee mapping/session adapter, isolated HTTPS staging origin and WebAuthn RP ID, separate activation token issuer/private delivery and DB privileges, real physical authenticator/passkey testing, employee factor recovery, logging/CSRF/proxy acceptance, staging deployment approval, review of all stacked PRs/branch protection and separately approved live Owner role migration/grant.
+
+**Recommended next:** Validate a real signed Timeclock session through a reviewed read-only backend in a **new isolated** HTTPS staging environment, then perform actual device WebAuthn and Google Authenticator enrollment tests with explicit authorization. Do not reuse or modify the synthetic existing staging account for real employee credentials. No production migrations, deployment, Owner grants, PIN changes, Railway changes or extension releases were made.
+
+---
+
 ## Latest verified milestone — 2026-11-10, unified Owner security / Admin integration
 
 **Status:** In Development. **Implemented:** consolidated first Owner + passkey + same-account Authenticator + multi-Owner role delegation in one draft source branch. **Tested:** combined 27/27 automated tests and separate existing Admin integration contract passed. **Deployed:** nothing; all new Owner setup components unmounted/test-only.
