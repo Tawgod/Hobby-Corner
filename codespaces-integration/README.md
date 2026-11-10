@@ -37,18 +37,24 @@ npm test
 npm run check
 ```
 
-The controller unit tests run on Node 22 without installing npm dependencies. CI also installs the MCP SDK and runs an isolated real MCP stdio client/server handshake that enumerates the tool interface without making any GitHub calls. The MCP entrypoint additionally needs `npm install`, a reviewed authentication source, and `gh` installed on the bridge host.
+The controller unit tests run on Node 22 without installing npm dependencies. CI also installs the MCP SDK and runs an isolated real MCP stdio client/server handshake that enumerates the tool interface without making any GitHub calls. The MCP entrypoint additionally needs `npm install` and an authorized `gh` login stored on the trusted bridge host.
 
-## Running an MCP stdio bridge on a trusted host
+## Connect through private Secure MCP Tunnel
+
+The current preferred path is a **private OpenAI Secure MCP Tunnel**, which can launch this stdio server directly. No public HTTP MCP adapter or public Railway service is required for private use.
+
+Read [TUNNEL_SETUP.md](TUNNEL_SETUP.md) for the owner-controlled environment, GitHub CLI browser authentication, tunnel setup, ChatGPT plugin authorization, and first read-only inventory test. The server uses the host's secure `gh auth` credentials, not a manually exported GitHub token.
 
 ```bash
 npm install --ignore-scripts --no-audit --no-fund
-export HC_CODESPACE_AUDIT_PATH="/private/audit/codespaces.jsonl"
-# GH_TOKEN supplied through secure GitHub-supported authorization, not typed into a chat or checked into source.
+npm test
+npm run check
+# On the isolated private host after GitHub browser authentication:
+export HC_CODESPACE_AUDIT_PATH="$HOME/.local/state/hobby-corner/codespaces-audit.jsonl"
 npm start
 ```
 
-**Do not use this as a public remotely accessible service.** A stdio server cannot be reached directly from ChatGPT's remote MCP plugin flow. Before live ChatGPT control, implement a reviewed authenticated remote HTTPS MCP endpoint (or supported secure tunnel) with identity binding, per-user approvals, audit/revocation and transport security. No such server is currently deployed.
+The `npm start` command runs a stdio MCP server on a trusted host; it does not independently publish or connect a ChatGPT plugin. The authorized tunnel client will launch it after the owner configures the tunnel. Production Railway secrets and real employee/customer data remain inaccessible.
 
 ## Known limitations
 
@@ -60,7 +66,7 @@ npm start
 
 ## Required next setup
 
-Use an authorized isolated bridge host with Node 22, GitHub CLI, and short-lived scoped GitHub user authorization. Do not paste tokens in ChatGPT. The owner must approve creating/starting a development Codespace and the future ChatGPT plugin connection. No production credentials, real staff data, or port visibility changes are permitted.
+Use an authorized isolated bridge host with Node 22, GitHub CLI, and GitHub-supported interactive sign-in (prefer expiring credentials when supported). Do not paste tokens in ChatGPT. The owner must approve creating/starting a development Codespace and the future ChatGPT plugin connection. No production credentials, real staff data, or port visibility changes are permitted.
 
 ## Verified CLI contract and next acceptance gate
 
