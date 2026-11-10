@@ -1,5 +1,27 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Latest milestone — 2026-11-10, setup-ready staging safeguards (no deployment)
+
+**System:** Hobby Corner Owner security, existing Timeclock employee identity, passkey + Google Authenticator, multi-Owner Admin.
+
+**Status:** In Development; **implemented:** canonical Timeclock staging composition, dedicated staging launcher and operator-only one-use activation issuer. **Automated tests:** passed. **Deployed:** none; no live Owner setup URL.
+
+**Source:** `Tawgod/Lightspeed:feature/owner-staging-real-timeclock-preflight-20261110`, [draft PR #58](https://github.com/Tawgod/Lightspeed/pull/58), stacked on staging route [PR #57](https://github.com/Tawgod/Lightspeed/pull/57), consolidated Owner [PR #56](https://github.com/Tawgod/Lightspeed/pull/56).
+
+**What changed:** Reused the existing `createTimeclockScannerIdentity` and signed `createStaffAuthGateway`, limiting PIN login and all session reauthorizations to one operator-selected **real active canonical Timeclock ID** (explicitly denying synthetic ID 901 and any other employee). Added strict `validateOwnerTimeclockStagingConfig`, separate staging database name `hc_owner_stage_test`, a fail-closed standalone server that **never auto-migrates**, and `verifyOwnerStagingDatabasePrivileges` that forbids runtime insertion/rewriting of first-Owner approval facts. Added an **interactive, non-CI** activation issuer: canonical Timeclock lookup, exact employee confirmation, random 32-byte secret, SHA-256 digest-only storage, ten-minute expiry, one-use global bootstrap, no public issuance API. Issuer and staging launcher were not run against actual systems.
+
+**Verification:** [GitHub Actions 42863206298](https://github.com/Tawgod/Lightspeed/actions/runs/42863206298) **SUCCESS: 36/36 tests passed; 0 failed, 0 skipped**, including previous Owner/Admin/Timeclock/passkey/TOTP disposable PostgreSQL tests, staged HTTPS/origin and new mock Timeclock, DB privilege, server/issuer safety tests. Tested functional commit `c92e8d38475047c8ba7a0efa31a7e2a546707fea`; docs-only edits followed. **No genuine device/WebAuthn or live Timeclock acceptance.**
+
+**Railway validation:** Existing `Hobby Corner Integration Test` `staff-security-staging` still runs older synthetic staging and was not changed. Attempt to inspect main `Hobby Corner` Railway project service metadata was denied for lack of viewer permission; real Timeclock service endpoint and authorized secret remain unverified. **Do not guess hostnames, connect to a synthetic account, request real PIN/OTP/activation tokens in chat, or use production secrets.**
+
+**Release blockers:** Verified actual canonical Owner Timeclock ID, approved Timeclock service origin/server-side credential, isolated HTTPS staging domain, dedicated app/operator database roles and reviewed migrations/backups, separate stored secrets, true phone/security-key WebAuthn acceptance and Google Authenticator QR confirmation, secure recovery, browser reverse-proxy acceptance, PR stack integration/branch checks, explicit staging deployment and later production authorization.
+
+**Docs:** `Tawgod/Lightspeed:feature/owner-staging-real-timeclock-preflight-20261110/docs/OWNER_STAGING_SETUP_READINESS.md`, updated `CHANGELOG.md`. No Chrome extension release involved.
+
+**Recommended next action:** Arrange authorized read-only Timeclock service metadata/identity mapping and dedicated isolated staging DB/HTTPS secrets. After separate staging deployment approval, physically test the actual user's existing Timeclock session, passkey and Google Authenticator under an approved non-production policy. Request further explicit approval for real Owner role assignment and production migration. No changes to live employee account, PIN, passkey, TOTP secret, role, Railway service, or production data.
+
+---
+
 ## Latest milestone — 2026-11-10, isolated Owner security staging composition
 
 **System / feature:** Existing Timeclock Owner activation, passkey verification, same-account Google Authenticator and multi-Owner Admin.
