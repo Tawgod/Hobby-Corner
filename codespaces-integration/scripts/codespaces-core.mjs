@@ -4,6 +4,16 @@ import {dirname} from 'node:path';
 export const REPO='Tawgod/Lightspeed';
 export const BRANCH='feature/first-owner-passkey-registration-integration-20261110';
 const NAME=/^[a-zA-Z0-9-]{1,100}$/;
+export const TEST_PROFILES=Object.freeze({
+ 'owner-source':Object.freeze({
+  description:'Read-only Node.js syntax validation for first Owner security sources',
+  command:'node --check services/security/firstOwnerPasskeyRegistrationCandidate.js && node --check services/security/firstOwnerCommissioning.js && node --check services/security/firstOwnerAttestation.js'
+ }),
+ 'owner-postgres':Object.freeze({
+  description:'Disposable hc_test PostgreSQL 16 and first Owner integration tests; never a production database',
+  command:'node --test tests/first-owner-passkey-registration-postgres.test.mjs tests/first-owner-attestation.test.mjs tests/first-owner-commissioning.test.mjs tests/independent-primary-enrollment-approval.test.mjs'
+ })
+});
 export function redact(s){return String(s).replace(/(gh[pousr]_[A-Za-z0-9_]{10,}|github_pat_[A-Za-z0-9_]{10,}|Bearer\s+\S+)/gi,'[REDACTED]');}
 export function ghRunner(args,{timeoutMs=90000,env=process.env}={}){
  return new Promise((resolve,reject)=>{
@@ -31,7 +41,7 @@ export function makeCodespaces({run=ghRunner,auditPath=process.env.HC_CODESPACE_
  async function list(){
   const rows=JSON.parse(await exec(['codespace','list','--repo',REPO,'--limit','100','--json','name,state,repository,gitStatus,displayName'],'list'));
   if(!Array.isArray(rows))throw Error('Unexpected Codespaces list');
-  return rows.filter(row=>row.repository===REPO).map(row=>({name:row.name,state:row.state,repository:row.repository,branch:row.gitStatus?.ref??null,displayName:row.displayName??null}));
+  return rows.filter(row=>row.repository===REPO && row.gitStatus?.ref===BRANCH).map(row=>({name:row.name,state:row.state,repository:row.repository,branch:row.gitStatus.ref,displayName:row.displayName??null}));
  }
  async function checked(name){
   if(!NAME.test(name||''))throw Error('Invalid Codespace name');
@@ -64,6 +74,16 @@ export function makeCodespaces({run=ghRunner,auditPath=process.env.HC_CODESPACE_
   if(!/^v\d+\.\d+\.\d+/.test(output))throw Error('Unexpected Node version output');
   return {command:'node --version',output:output.slice(0,200)};
  }
+ async function runProfile(name,profile,approval){
+  if(approval!=='RUN DEVELOPMENT TEST PROFILE')throw Error('Explicit profile approval required');
+  if(!Object.hasOwn(TEST_PROFILES,profile))throw Error('Unknown test profile');
+  const v=await checked(name);
+  if(v.state!=='Available')throw Error('Codespace must be Available');
+  // No model-provided shell fragments: command comes only from reviewed fixed profiles.
+  const fixed=TEST_PROFILES[profile];
+  const output=await exec(['codespace','ssh','--codespace',name,fixed.command],`profile-${profile}`,name);
+  return {profile,description:fixed.description,output:output.slice(0,12000)};
+ }
  async function smoke(name,approval){
   if(approval!=='RUN DEVELOPMENT SMOKE TEST')throw Error('Explicit smoke approval required');
   const v=await checked(name);const alreadyRunning=v.state==='Available';let output,error,cleanupError;
@@ -82,5 +102,5 @@ export function makeCodespaces({run=ghRunner,auditPath=process.env.HC_CODESPACE_
   if(error||cleanupError)return {ok:false,error:error??null,cleanupError:cleanupError??null};
   return {ok:true,stoppedAfterTest:!alreadyRunning,...output};
  }
- return {list,checked,create,start,stop,test,smoke};
+ return {list,checked,create,start,stop,test,smoke,runProfile};
 }
