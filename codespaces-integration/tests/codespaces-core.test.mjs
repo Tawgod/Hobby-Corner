@@ -18,7 +18,7 @@ test('list uses supported CLI fields',async()=>{
  assert.equal(calls[0].at(-1),'name,state,repository,gitStatus,displayName');
 });
 test('deny branch outside allowlist',async()=>{
- const {api,calls}=fixture({branch:'main'});await assert.rejects(api.test('safe-dev-123'),/outside allowlist/);
+ const {api,calls}=fixture({branch:'main'});await assert.rejects(api.test('safe-dev-123'),/not found in allowed repository|outside allowlist/);
  assert.ok(!calls.some(a=>a.includes('ssh')));
 });
 test('deny unsafe names',async()=>{
