@@ -20,6 +20,14 @@
 - Staging project link: https://railway.com/project/2b350cde-048e-4402-bd92-4e8ba6c9f877 . No domain, deployment, account activation, migrations, credentials or live owner role change.
 
 
+### Additional preflight: Timeclock credential boundary and immutable staging source — 2026-11-10
+
+- Pinned staged Owner application source to verified `Tawgod/Lightspeed:feature/owner-staging-real-timeclock-preflight-20261110@b17f274910145b324462edc2ec2893a99eb0ca2f`. Git branch pushes will not silently change staged source. Staged verified non-secret `HC_OWNER_TIMECLOCK_ORIGIN=https://timeclock-production-2bfa.up.railway.app`; **no authentication request was made**.
+- Audited actual production `timeclock/server.js`: Scanner integration `verify-pin` and `authorize` require the **single** `SCANNER_SERVICE_SECRET` header. The current deployed contract **does not support a separately scoped Owner staging credential**. A dedicated credential requires coordinated Timeclock code/deployment change and explicit production approval, or an approved controlled alternative; do NOT copy the production scanner secret into staging without its own separate decision. Existing admin permission endpoint is not a substitute for owner identity proof.
+- Database creation/role migration remains blocked until a reviewed operator-only execution path is available; Railway connector exposes template staging but no remote SQL query/run-command tool. The staged PostgreSQL template's default app credentials are privileged and **must not** be used as Owner runtime account. No safe real login link exists yet.
+- Outstanding gates: dedicated Timeclock credential design and authorization; isolated DB runtime/operator role provisioning and schema test; real canonical employee ID private verification; independent secrets and HTTPS domain; controlled staging deploy; private interactive Owner activation; real-device passkey + TOTP acceptance.
+
+
 ---
 
 ## Latest milestone — 2026-11-10, setup-ready staging safeguards (no deployment)
