@@ -2044,3 +2044,6 @@ Development SQL `Tawgod/Lightspeed:feature/unified-hierarchical-navigation-20261
 - Main handoff: `handoffs/codespaces-integration.md`.
 - Next gate: connect a reviewed remote MCP endpoint or Secure MCP Tunnel in a supported ChatGPT plugin environment, grant only required GitHub Codespaces permissions, then execute the first list/start/test/stop smoke against the PR #50 development environment.
 
+### Codespaces controller testing update — 2026-11-10
+
+**Status: In Development / Testing; not deployed.** Draft [Hobby-Corner PR #3](https://github.com/Tawgod/Hobby-Corner/pull/3) now contains seven MCP stdio tool definitions, fixed Node syntax and disposable PostgreSQL test profiles for Lightspeed PR #50, branch/repo restrictions, operation audit, command timeouts, and cleanup safeguards. Fixed test commands enter `/workspaces/Lightspeed`. PR-scoped [CI 42842879645](https://github.com/Tawgod/Hobby-Corner/actions/runs/42842879645) **SUCCESS** with 13 controller tests plus an actual SDK client/server stdio handshake enumerating all seven tools. No real Codespace, remote authenticated MCP ChatGPT plugin, GitHub token access, browser/DB test in Codespaces, production deployment, Railway, Chrome extension or Lightspeed change. Next: owner-authorized isolated bridge connection and read-only Codespaces inventory, then explicitly approved live smoke.
