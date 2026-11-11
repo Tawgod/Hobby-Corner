@@ -1,5 +1,11 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-11 — Production Discord and Rewards machine-identity review (read only)
+
+- Verified Railway production bot deploy `3a8e9375-aad7-4c47-9721-66790febaeae` uses `Tawgod/Hobby-Corner-Discord-Bot@7c3af0e` `main.py`; Rewards deploy `07c0c365-a8d4-4a2e-a120-2034db91fc` uses `@ce54862` `rewards_service.py`. Exact deployed source blobs matched checked main branch.
+- Discord bot has Timeclock admin-secret service calls and hourly customer-sync admin-key call; Rewards uses a separate admin-key API, scheduled processing and direct Lightspeed token. New security rollout must preserve these with reviewed scoped service identities and per-action audit, not require employee passkey challenges for unattended work. Actual callers of 14 Special Orders service-candidate endpoints remain unverified.
+- [Cross-tool CI 43050974812](https://github.com/Tawgod/Lightspeed/actions/runs/43050974812) SUCCESS for web source references, 87-route inventory, staff security, secure Lightspeed reads and existing Special Orders compatibility. No deployed Railway, DB, secret, Owner, customer or Chrome writes.
+
 ## 2026-11-11 — Four Core Operations browser caller source audit
 
 - User confirmed Codespace `integration/security-all-tools-20261111` sync to `2fb6529` and 5/5 source-route inventory tests PASS; GitHub CI [43049915660](https://github.com/Tawgod/Lightspeed/actions/runs/43049915660) SUCCESS. Cumulative isolated operator test reports: 36 passed across 3 runs.
