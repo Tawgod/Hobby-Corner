@@ -1,5 +1,9 @@
 # Hobby Corner Project Registry
 
+## Development security checkpoint — verified audit actors (2026-11-11)
+
+**Testing / not deployed:** user showed **11/11 displayed** granular staff/service route test passes after Codespace sync `2db2ede`; GitHub workflow 43105622486 SUCCESS. Draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) subsequently adds guarded server-derived audit actors for Special Orders/Ordering/Preorders and tests; current `server.js` remains default-off, and latest actor tests await verification. No user roles, service credentials, databases, production routes or Chrome assets were changed. See `SECURITY_COORDINATED_ROLLOUT.md` and `handoffs/employee-admin-security.md`.
+
 ## Staff/Owner security — exact grants milestone (2026-11-11)
 
 **In Development / Testing; NOT deployed:** owner confirmed **10/10** Core Operations admission and real-router tests PASS at `Tawgod/Lightspeed:integration/security-all-tools-20261111@dd92530` (50 isolated tests across five manual runs total). Draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) subsequently corrected optional machine-service ingress under the new backend-only guard while retaining current default behavior, and added 12 proposed exact staff operation names and 14 review-pending route scope proposals. None is an employee grant or approved live allowlist. Strong MFA needed for high-impact candidate writes; routine notes/routing/unsent drafts still need independent staff grants. Latest CI and owner policy review outstanding. See `SECURITY_COORDINATED_ROLLOUT.md` and `handoffs/employee-admin-security.md`.
