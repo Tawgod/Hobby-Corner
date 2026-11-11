@@ -1,5 +1,9 @@
 # Hobby Corner Project Registry
 
+## Current priority — coordinated shared staff / Owner security release (2026-11-11)
+
+**Status: In Development / Blocked (not deployed).** Owner requested consistent new security for all Hobby Corner tools, not only a standalone Timeclock Owner patch. Source/runtime inventory, tool-by-tool security contract, release sequence and blockers are in [SECURITY_COORDINATED_ROLLOUT.md](SECURITY_COORDINATED_ROLLOUT.md). The development PR chain (#32/#33/#34/#35/#38/#59/#60) is not a single deployable product: #33 is currently non-mergeable due to branch divergence, #60 is 585 ahead/3 behind live consolidated, and new strong-factor/Admin routes are not mounted in the existing Core Ops service. Keep staged Timeclock-only production patch uncommitted pending scope reconciliation. Encrypted PG18 backup restore to 54 isolated tables and checksum-matched external USB archive are operator-confirmed; Google Drive copy visibility is user-confirmed only. No production change or Owner activation occurred in this phase.
+
 Last verified: 2026-11-09
 
 This repository is the project-wide management index for Hobby Corner systems. Runtime code remains in the owning repositories. Statuses are: Planned, In Development, Testing, Deployed, Blocked, Maintenance.
