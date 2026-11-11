@@ -1223,3 +1223,13 @@ No Lightspeed product records were created or updated in this test. The existing
 - Lightpeed Phase 1 source commit `356a24e47f3b84b7e6ef3168fdc97b405ac3345a` CI: foundation `42074813439`, Scanner `42074813474`, Core Operations `42074813415` **SUCCESS**. Mirrored changed source, HTML and tests into stacked draft Phase 2 PR #33; its own CI remains unverified.
 - Prepared `docs/STAFF_OWNER_PASSKEY_PILOT_RUNBOOK.md`: authorized inert code deploy, independent protected signing/bootstrap key provisioning and real passkey device test, subsequent key retirement, rollback and recovery gate.
 - Railway test-only staged patch `43c28c64-63db-436e-b5ce-909f97949a4d` now pins the tested implementation with **all four flags off** (passkey/bootstrap/approval/enrollment). **No deployment**, no new secrets or factor enrollment. Owner's already-live synthetic PIN login and existing Consignment service preserved.
+
+
+## 2026-11-11 — Timcorp shared web foundation preparation
+- Reviewed live Hobby Corner Railway web services and current GitHub routing. Existing Railway domains remain independently active.
+- Prepared `Tawgod/Lightspeed:feature/timcorp-base-path-hobby-corner-20261111` with validated configurable public base path, optional prefixed landing, base-aware Core Operations/Avery navigation/assets/API/staff-auth and Order Split browser paths, while preserving root URLs.
+- Prepared `feature/timcorp-base-path-store-map-20261111` from the actual Store Map production branch with equivalent prefix/root compatibility.
+- Added focused dependency-free branch tests/workflows; no PR opened yet to avoid triggering unrelated expensive PR workflows before central path confirmation.
+- Documented proposed longest-prefix `/hobby-corner`, `/hobby-corner/labels`, and `/hobby-corner/store-map` gateway contract in `TIMCORP_WEB_FOUNDATION_INTEGRATION.md` and `handoffs/timcorp-web-foundation.md`.
+- Preserved unrelated staged Timeclock Railway source patch; no Railway/DNS/gateway/config/deploy/database/credential/Chrome production change.
+- Registered future **Back-in-Stock Notifications** for in-store and online customers: canonical product/variant waitlist, consent-aware notifications and verified inventory availability; no implicit inventory reservation.
