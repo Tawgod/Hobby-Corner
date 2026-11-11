@@ -4,7 +4,7 @@
 **Last verified:** 2026-11-11  
 **Status:** In Development / Testing — code prepared; gateway staging verification blocked on central path/config access.  
 **Implemented:** Yes, on non-production branches.  
-**Tested:** Focused helper/local and source-readback checks complete; exact branch CI pending/being observed.  
+**Tested:** Yes — focused local/source checks plus exact-branch GitHub runs `43087301610` and `43087317304` **SUCCESS**.  
 **Deployed:** No.
 
 ## Repository / branches
@@ -40,7 +40,7 @@ Longest-prefix routing required.
 - Local Node helper tests: PASS.
 - Store Map helper tests: PASS.
 - GitHub source read-back/static URL scan: PASS for converted current entry files.
-- Focused branch-only workflows added with no dependency installation or browser/database suite.
+- Focused exact-branch GitHub runs: main web/API `43087301610` **SUCCESS**; Store Map `43087317304` **SUCCESS**. No dependency installation or browser/database suite.
 - No real Timcorp gateway/browser acceptance yet.
 
 ## Actual deployment state
