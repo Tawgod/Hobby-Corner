@@ -8,6 +8,8 @@
 
 **Script maintenance:** corrected `scripts/backup-production-postgres-codespaces.sh` on `Tawgod/Hobby-Corner:main` (commit `3697d9b62816a9e88dfb9059f3f98e591b5c1f08`) to check full encrypted-file decryption and then archive-list format independently; revised `docs/POSTGRES_BACKUP_WITHOUT_RAILWAY_TIER.md` (commit `07e9889136d2c8e82e3fc8f8fef798db7acffe72`). Existing successful recovery copy does not need re-export solely due to original list-check failure.
 
+**Checksum checkpoint (operator-reported 2026-11-11):** encrypted archive size `1.4M` (as reported by `ls -lh`), mode `0600`, SHA-256 `55a0b85cea20ebc0fc42e97aecd20d3ebb8368f0752d0e0d2158294592314b81`. Off-Codespace transfer, Windows-side checksum match, and second secure copy are **not yet confirmed**.
+
 **Remaining backup gate:** Verify byte size and SHA-256 checksum, securely copy encrypted `.age` archive **outside Codespaces and GitHub**, confirm the separate encryption passphrase is retained in a password manager, and verify externally stored file checksum matches. Codespaces storage is not durable offsite backup. Only then treat independent recoverability as established; this remains a logical dump, not PITR. Do not expose database credentials, decrypted data or backup passphrase in chat.
 
 **Still blocked:** Owner authorization for *default-disabled PR #59 code-only release* remains noted, but **do not merge/deploy yet**. Review and constrain the multi-service branch-trigger blast radius across production Timeclock, lightspeed-api and special-orders-test; coordinate release and obtain any further approval needed. No authority to apply production Timeclock throttle SQL, Owner roles, secrets, staged Owner activation, or draft PR #60 staging deployment.
