@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-11 — Special Orders authentication metadata hardening (development only)
+
+- Operator reran shared Lightspeed read/policy tests in Codespaces after installing missing dependencies: **12 passed / 0 failed**, for **31 total isolated security tests** across two runs. npm displayed Multer 1.x and other deprecated-library warnings; dependency upgrade review remains separate from the coordinated security cutover.
+- Inspected existing `Tawgod/Lightspeed` Special Orders router and found admin-key length metadata in its health response/startup or denied-auth logs. On draft PR #61's development branch only, removed these length disclosures without changing legacy-key or signed Timeclock session behavior, and added HTTP regression coverage.
+- [GitHub CI 43047954793](https://github.com/Tawgod/Lightspeed/actions/runs/43047954793) **SUCCESS**, including new Special Orders compatibility test and existing shared staff + secured Lightspeed read checks. No production deployment, migration, role grant, credential, Lightspeed record or Chrome package changed.
+- Existing Special Orders endpoints are still not protected by new workstation/MFA and exact-action gates; route-by-route migration and real device acceptance remain required.
+
 ## 2026-11-11 — Safe selective integration of secured shared Lightspeed reads
 
 - On draft PR #61 only, ported unchanged Phase 2 #33 `services/lightspeed/permissions.js` and `routes/sharedLightspeedRead.js`, plus #38 `secureReadPolicy.js` and original tests into the Owner-based integration branch. Verified direct dependency module Git blobs match in both branches, avoiding unsafe merge of diverged #33.
