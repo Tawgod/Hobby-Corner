@@ -1,5 +1,17 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Service-identity and browser caller verification — 2026-11-11
+
+**Status: In Development / Testing, NOT deployed.** On `Tawgod/Lightspeed:integration/security-all-tools-20261111` draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61), added source-driven browser caller inventory, regressions and CI triggers for four current web clients. Their per-client unique `api +` URL fragments are 37 Special Orders, 6 Preorders, 6 GW Preorders and 10 Ordering (59 references, not independent routes). All web clients share `HCStaffAuth` and are **not** using the new server security gate. GitHub [CI 43050974812](https://github.com/Tawgod/Lightspeed/actions/runs/43050974812) **SUCCESS**, including 87-server-route inventory, four-browser-caller drift suite, staff and secured-read tests, and Special Orders compatibility test. GitHub source documentation at [CORE_OPERATIONS_SECURITY_ROUTE_MAPPING.md](https://github.com/Tawgod/Lightspeed/blob/integration/security-all-tools-20261111/docs/CORE_OPERATIONS_SECURITY_ROUTE_MAPPING.md).
+
+**Production worker/service audit:** Railway project `Hobby Corner` `production` `Hobby-Corner-Discord-Bot` deployed `Tawgod/Hobby-Corner-Discord-Bot:main@7c3af0eee516e52f3e767dbbbb7c03dd3a64d4f9` (deployment `3a8e9375-aad7-4c47-9721-66790febaeae`, SUCCESS). Verified that `main.py` at this exact deployed commit is blob-identical to current main. It uses server-side `TIMECLOCK_ADMIN_SECRET` via `x-timeclock-admin-secret` for Timeclock employee/PIN/shift/PTO admin APIs, plus separate `CUSTOMER_SYNC_ADMIN_KEY` for an hourly customer sync. This is distinct from a browser employee session and must be migrated to narrowly scoped/audited service authorization; verified Discord role alone must not grant Owner passkey privileges.
+
+Railway `Hobby-Corner-Rewards` production deployment `07c0c365-a8d4-4a2e-a120-2034db91fc` SUCCESS at `Tawgod/Hobby-Corner-Discord-Bot:main@ce54862f67d678f8a1cb77302e520c59fb0c7118`. `rewards_service.py` blob matched current main; it runs its own schedule, uses direct Lightspeed API token and `REWARDS_ADMIN_KEY` for admin routes. Neither service should be forced through interactive employee passkey/TOTP to complete unattended work. This source audit does **not** prove those bots call the 14 review-pending Special Orders routes; keep exact caller identity unverified there. No repo source, Railway service, credentials or customer records in those service repositories was changed.
+
+**Next:** map full HTTP method/path and exact employee/worker capabilities against 87 main/nested Special Orders routes; approved split of ordinary staff stage/edit vs high-impact ordering/credit/vendor writes, then default-disabled backend gate with isolated service identity tests. No production deployment, Owner activation or DB changes.
+
+---
+
 ## Browser caller source inventory (Codespaces sync + CI) — 2026-11-11
 
 **Status:** In Development/Testing; NOT deployed. Owner's Codespace fast-forwarded cleanly to `Tawgod/Lightspeed:integration/security-all-tools-20261111@2fb6529`, and operator reported **5 route inventory tests PASS, 0 FAIL**. This adds to prior local 19 shared security + 12 Lightspeed policy/read tests, for **36 tests across three runs**. GitHub full security workflow [43049915660](https://github.com/Tawgod/Lightspeed/actions/runs/43049915660) returned SUCCESS at the same 2fb6529 commit (including the corrected 87-route inventory regression). No live auth change was performed.
