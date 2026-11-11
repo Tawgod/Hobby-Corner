@@ -1,5 +1,9 @@
 # Hobby Corner Project Registry
 
+## Staff/Owner security — exact grants milestone (2026-11-11)
+
+**In Development / Testing; NOT deployed:** owner confirmed **10/10** Core Operations admission and real-router tests PASS at `Tawgod/Lightspeed:integration/security-all-tools-20261111@dd92530` (50 isolated tests across five manual runs total). Draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) subsequently corrected optional machine-service ingress under the new backend-only guard while retaining current default behavior, and added 12 proposed exact staff operation names and 14 review-pending route scope proposals. None is an employee grant or approved live allowlist. Strong MFA needed for high-impact candidate writes; routine notes/routing/unsent drafts still need independent staff grants. Latest CI and owner policy review outstanding. See `SECURITY_COORDINATED_ROLLOUT.md` and `handoffs/employee-admin-security.md`.
+
 ## Default-deny Core Operations security bridge — 2026-11-11
 
 **In Development / Testing, NOT deployed:** owner verified browser caller suite **4/4 PASS** at `integration/security-all-tools-20261111@00ffac2` (40 isolated user-run tests across four sessions). Draft [Tawgod/Lightspeed PR #61](https://github.com/Tawgod/Lightspeed/pull/61) now includes a reusable **zero-approved-routes** staff/service authorization bridge and optional backend-only `special-orders.js` middleware parameter; existing `server.js` does NOT provide this parameter. Separate signed employee + station/MFA + exact grant or dedicated service credential + exact service grant required when intentionally enabled. Code and new tests committed; final CI + full tool/device acceptance pending. No production or personnel changes. See `SECURITY_COORDINATED_ROLLOUT.md`.
