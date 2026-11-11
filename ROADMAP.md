@@ -156,6 +156,17 @@ Status: Maintenance
 - Prefer direct Lightspeed integrations for new functionality.
 - Remove the legacy credential path when remaining dependencies are retired.
 
+## 5A. Shared web foundation migration
+
+### Timcorp Productions shared web foundation
+Status: In Development / Testing
+- Prepare Hobby Corner for `https://timcorp-productions.com` while keeping existing Railway URLs independently usable.
+- Proposed route contract: `/hobby-corner` employee operations, `/hobby-corner/labels` label service and `/hobby-corner/store-map` Store Map; confirm with the central gateway owner before configuration.
+- Base-path code is prepared on dedicated non-production branches; no DNS/gateway/Railway production change yet.
+- Reconcile PR #35 navigation and PR #61 security before merge.
+- Perform staging-only gateway/browser acceptance before production approval.
+- Source: `TIMCORP_WEB_FOUNDATION_INTEGRATION.md`.
+
 ## 6. Planned store-operations workstreams
 
 ### Invoice Reconciliation — planned shared Product Manager / Scanner / Special Orders feature
@@ -167,6 +178,13 @@ Status: Maintenance
 - After all lines are reviewed and the invoice approved, **create an OPEN supplier PO or update the selected existing PO** through the shared audited/idempotent backend; **never receive stock or modify inventory**. Add supplier shipping-sender aliases, match shipping/tracking to the correct supplier/invoice/PO, and show informational **On the way** in Special Orders.
 - Prioritize supplier sender/alias and email/PDF format validation, staging and tracking review before PO writer implementation. X-Series supplier consignment create/update must be explicitly OPEN/status-safe and avoid receive/dispatch side effects.
 - No mailbox, PO, employee, production or Chrome changes authorized by this planning item.
+
+### Back-in-Stock Notifications
+- Shared waitlist/notification capability for in-store and online customers.
+- Use canonical product/variant identity and shared Lightspeed Inventory reads before notifying.
+- Deduplicate requests and respect customer consent/contact preferences.
+- Reuse shared customer/notification infrastructure and Product Scanner identity.
+- Notification does not reserve inventory unless a separate reservation policy is explicitly approved.
 
 ### Back Room Inventory
 - Track back-room quantity and floor capacity by product.
