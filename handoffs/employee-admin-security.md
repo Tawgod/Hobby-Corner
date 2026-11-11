@@ -1,5 +1,13 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Codespaces secure Lightspeed gateway tests — 2026-11-11
+
+**Status: Testing, not deployed.** Owner ran `node --test --test-concurrency=1 tests/shared-lightspeed-permissions.test.mjs tests/shared-lightspeed-secure-read.test.mjs` in `/workspaces/Lightspeed-security`, branch `integration/security-all-tools-20261111`. First run: **6 PASS, 1 test file failed to load** because `express` package was missing from that checkout; this was a dependency setup problem, not a failed assertion. The owner then executed `npm install --ignore-scripts --no-audit --no-fund --no-save --package-lock=false` (197 packages installed, with deprecation warnings for Multer 1.x, crypto-js, jpeg-exif), and reran both test files: **12 tests, 12 PASS, 0 FAIL, 0 SKIP**. Combined with earlier 19 pass: **31 contract tests passed in two independent runs**. These are mock HTTP and policy tests, not real Lightspeed tenant/production/Chrome acceptance. No Railway change, production data write, or migration.
+
+**Source review for next milestone:** actual `server.js` mounts Core Operations `/api/special-orders` through `special-orders.js`; the existing router accepts legacy admin key or signed Timeclock bearer, not the new shared workstation/MFA/operation policy. `shared-ui/staff-auth.js` retains legacy-key fallback. Review also noted that the `special-orders.js` health response currently exposes **key length metadata** and startup/auth-denial diagnostics log **key lengths**. Recommend a narrowly scoped metadata/log hardening patch in development (avoid changing authentication behavior before coordinated cutover), plus explicit authenticated route mapping and regression tests. Do not enable strict security across production routes until trusted proof and permission adapters, data readers and actual store browser workflows are accepted.
+
+---
+
 ## Codespaces shared-security regression milestone — 2026-11-11
 
 **Status: Testing; not deployed.** The owner ran the exact command below in the existing clean `/workspaces/Lightspeed-security` checkout on `integration/security-all-tools-20261111@747e7d6`:
