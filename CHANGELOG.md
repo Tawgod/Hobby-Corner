@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-11 — Staff/service guard correction and provisional granular exact permissions
+
+- Operator ran 10/10 successful Core Operations admission/real-router HTTP tests in Codespaces at `Tawgod/Lightspeed@dd92530`, bringing local isolated verification total to 50 passed in five distinct runs.
+- In draft PR #61 development source, corrected explicit opt-in auth composition so independently verified machine callers reach the new exact grant gate without also needing old legacy admin key; current `server.js` does not opt in. Preserved legacy `/auth-check` and default existing business auth when no new gate is passed.
+- Added 12 provisional, exact tool operation labels and 14 source-specific route review records to separate routine notes/routing/draft actions from sensitive receiving, status cancellation, allocation, customer/vendor writes and outbound notices. No automatic staff grants or active route approvals.
+- Hardened approval validation: ordinary store routes cannot accept an Admin-only permission even when known to the central Admin catalog. Added privilege-scope, machine caller and real-router tests; latest CI still being verified. No production change.
+
 ## 2026-11-11 — Default-off Core Operations security admission integration (development only)
 
 - Owner confirmed 4 browser caller source tests PASS; 40 individual user-run isolated tests passed across four security checkpoints.
