@@ -1,5 +1,9 @@
 # Hobby Corner Project Registry
 
+## Default-deny Core Operations security bridge — 2026-11-11
+
+**In Development / Testing, NOT deployed:** owner verified browser caller suite **4/4 PASS** at `integration/security-all-tools-20261111@00ffac2` (40 isolated user-run tests across four sessions). Draft [Tawgod/Lightspeed PR #61](https://github.com/Tawgod/Lightspeed/pull/61) now includes a reusable **zero-approved-routes** staff/service authorization bridge and optional backend-only `special-orders.js` middleware parameter; existing `server.js` does NOT provide this parameter. Separate signed employee + station/MFA + exact grant or dedicated service credential + exact service grant required when intentionally enabled. Code and new tests committed; final CI + full tool/device acceptance pending. No production or personnel changes. See `SECURITY_COORDINATED_ROLLOUT.md`.
+
 ## Deployed bot service security dependency — 2026-11-11
 
 **Maintenance / integration pending:** production Discord Bot at `Tawgod/Hobby-Corner-Discord-Bot@7c3af0e` and Rewards at `@ce54862` have independently verified deployed source and separate admin/service credentials. Discord calls Timeclock employee/PIN/shifts/entry/PTO and hourly customer sync; Rewards has scheduled direct Lightspeed API processing and admin overrides. For coordinated Owner/staff rollout, preserve background jobs and introduce only scoped/revocable service identities with exact authorizations. No actual service permissions changed. See `SECURITY_COORDINATED_ROLLOUT.md` and `handoffs/employee-admin-security.md`.
