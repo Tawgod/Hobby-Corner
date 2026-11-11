@@ -1,5 +1,19 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Special Orders auth metadata hardening — 2026-11-11
+
+**System:** Core Operations / Special Orders backend, shared security rollout. **Status: In Development; test workflow pending; not deployed.**
+
+The owner-reported Codespaces run after nonproduction dependency installation completed **12/12 PASS, 0 failures**, comprising the existing secure Lightspeed read and permission suites. Together with the prior separate 19/19 staff policy tests, 31 test assertions have passed across two local runs. The initial `express` dependency load error was resolved by installing 197 project dependencies; only deprecation warnings surfaced. No production server/database affected.
+
+**Current backend source inspection:** `Tawgod/Lightspeed:integration/security-all-tools-20261111` `server.js` mounts `/api/special-orders` using `createSpecialOrdersRouter`. Existing `special-orders.js` auth accepts a legacy static `x-hobby-corner-key` or signed Timeclock bearer; it is **not yet wired to the new independent device/MFA+exact-operation gate**. `/health` also returned legacy admin-key length metadata and startup/denial logs printed key lengths. This was not previously addressed by the 31 policy/read tests.
+
+**Development changes (no live authentication behavior change):** PR [#61](https://github.com/Tawgod/Lightspeed/pull/61) `integration/security-all-tools-20261111` now removes key length disclosures from `special-orders.js`, adds `tests/special-orders-auth-metadata.test.mjs` for HTTP health/denied/authenticated compatibility, and extends `.github/workflows/security-all-tools-policy.yml` to run the test. [Docs on source branch](https://github.com/Tawgod/Lightspeed/blob/integration/security-all-tools-20261111/docs/SECURITY_ALL_TOOLS_POLICY.md). **Latest CI is pending**; no release claim until verified success. Legacy key accepted for compatibility and strict access gates remain unmounted. Do not interpret this as global security completed.
+
+**Next:** verify CI, request Codespaces `git pull --ff-only` then local regression; map sensitive Special Orders operations and worker/service callers to trusted exact grants before mounting the new security policy. No production migrations, Owner activation, Chrome extension package or Railway deploy.
+
+---
+
 ## Codespaces secure Lightspeed gateway tests — 2026-11-11
 
 **Status: Testing, not deployed.** Owner ran `node --test --test-concurrency=1 tests/shared-lightspeed-permissions.test.mjs tests/shared-lightspeed-secure-read.test.mjs` in `/workspaces/Lightspeed-security`, branch `integration/security-all-tools-20261111`. First run: **6 PASS, 1 test file failed to load** because `express` package was missing from that checkout; this was a dependency setup problem, not a failed assertion. The owner then executed `npm install --ignore-scripts --no-audit --no-fund --no-save --package-lock=false` (197 packages installed, with deprecation warnings for Multer 1.x, crypto-js, jpeg-exif), and reran both test files: **12 tests, 12 PASS, 0 FAIL, 0 SKIP**. Combined with earlier 19 pass: **31 contract tests passed in two independent runs**. These are mock HTTP and policy tests, not real Lightspeed tenant/production/Chrome acceptance. No Railway change, production data write, or migration.
