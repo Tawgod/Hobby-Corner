@@ -1,5 +1,11 @@
 # Hobby Corner — Coordinated Security Integration and Rollout
 
+## Browser caller audit milestone — 2026-11-11
+
+**In Development / Testing, no deployment.** The owner verified Codespace pull to `integration/security-all-tools-20261111@2fb6529`, with **5 of 5** 87-route inventory tests passing. Across earlier separate Codespace runs, **36 local tests** passed without failed assertions (19 shared staff policy, 12 secure Lightspeed HTTP/read permission, 5 route inventory). GitHub [43049915660](https://github.com/Tawgod/Lightspeed/actions/runs/43049915660) SUCCESS on 2fb6529.
+
+Development branch [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) now has a **source-only review inventory for four web clients**: `special-orders-client.js` (37 unique URL fragments), `preorders-client.js` (6), `gw-preorders-client.js` (6), and `ordering-client.js` (10), for 59 per-client literal URL references. All clients use `HCStaffAuth` and existing `/api/special-orders`; none has been converted to the new security gate. Added `services/security/coreOperationsBrowserCallerInventory.js`, source-drift tests, and client-file CI triggers. The inventory does **not** prove full runtime routes/methods or service worker callers; no entry implies an automatic grant. Actual Discord/scheduled worker authentication needs separate audit before enforcement.
+
 ## Core Operations security mapping (2026-11-11)
 
 **In Development; route inventory created, no production enforcement.** On [draft PR #61](https://github.com/Tawgod/Lightspeed/pull/61), audited 75 `special-orders.js` and 12 nested `routes/specialOrderProducts.js` endpoints (87 total). Added exact method/path/source classification and source-drift tests in `services/security/coreOperationsRouteInventory.js` and `tests/core-operations-route-inventory.test.mjs`, with [review notes](https://github.com/Tawgod/Lightspeed/blob/integration/security-all-tools-20261111/docs/CORE_OPERATIONS_SECURITY_ROUTE_MAPPING.md).
