@@ -2079,3 +2079,15 @@ Development SQL `Tawgod/Lightspeed:feature/unified-hierarchical-navigation-20261
 ### Malcor production Codespaces bridge — verified 2026-11-10
 
 **Codespaces host deployed; execution disabled.** The new Malcor `production` environment `1199147d-9746-435f-bba6-e5e622c7f11f` now contains independent service `codespaces-private-bridge` `c0f3b710-8a65-4bc4-9d81-8e7670e1b090`, source `Tawgod/Hobby-Corner:feature/codespaces-integration-foundation-20261110`. Railway deployment `1e36bb7c-1712-4732-a643-bb8edaeeefad` **SUCCESS**, runtime confirmed STANDBY. Service has dedicated 256 MB audit volume, 0.5 vCPU / 0.5 GB limits, no public domain and no GitHub/OpenAI credentials. Both activation and execution flags remain disabled. No live Codespaces tests have run. Malcor production environment also contains its existing Malcor application/database resources inherited from the environment creation, which this workstream did not alter. Separate AI Integration Gateway remains undeployed/staged with no source, so migration remains Blocked rather than falsely claimed ready. Manager handoff: `handoffs/codespaces-integration.md`. Next: owner-approved secure GitHub and OpenAI tunnel authorization, read-only connection test, then separately approved execution.
+
+
+## Timcorp Productions shared web foundation — 2026-11-11
+
+**Status: In Development / Testing; not deployed.** Hobby Corner base-path support is prepared on `Tawgod/Lightspeed:feature/timcorp-base-path-hobby-corner-20261111` from consolidated `014a7a949fe570b756b48d8f59995c1b0a434859`, plus Store Map branch `feature/timcorp-base-path-store-map-20261111` from `store-map-production@c7e76b8cad6f6c740d5bc3d9c3c96a7f36ae0475`. Proposed public route is `/hobby-corner`, with longest-prefix `/hobby-corner/labels` and `/hobby-corner/store-map`; central gateway assignment remains to be confirmed. Existing Railway root URLs remain supported. No DNS, gateway, Railway variable, deployment, credential, database or Chrome release change occurred. Source: `TIMCORP_WEB_FOUNDATION_INTEGRATION.md`; handoff: `handoffs/timcorp-web-foundation.md`.
+
+Timeclock remains internal for the first gateway phase. Its unrelated staged Railway source change must not be overwritten. Reconcile Timcorp code with active PR #35 navigation and PR #61 security before merge.
+
+
+## Back-in-Stock Notifications — planned
+
+**Status: Planned.** Future shared customer notification capability for both in-store and online customers. Track a deduplicated product/variant waitlist using canonical Lightspeed product identity; verify actual availability through the shared Inventory service before notification; respect customer contact consent/preferences and approved notification channels; preserve audit/history. A notification request does **not** reserve inventory unless a separate reservation policy is explicitly designed and approved. Reuse shared customer synchronization, Product Scanner identity and notification infrastructure rather than creating a competing product/customer matching system.
