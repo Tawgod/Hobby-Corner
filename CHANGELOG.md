@@ -1,5 +1,10 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-11 — Safe selective integration of secured shared Lightspeed reads
+
+- On draft PR #61 only, ported unchanged Phase 2 #33 `services/lightspeed/permissions.js` and `routes/sharedLightspeedRead.js`, plus #38 `secureReadPolicy.js` and original tests into the Owner-based integration branch. Verified direct dependency module Git blobs match in both branches, avoiding unsafe merge of diverged #33.
+- [GitHub Actions 43041661174](https://github.com/Tawgod/Lightspeed/actions/runs/43041661174) **SUCCESS** for cross-tool operation matrix and secure read/HTTP authorization suite. These modules are deliberately unmounted; existing store routes, database and production deployments unchanged.
+
 ## 2026-11-11 — Shared cross-tool authorization policy candidate
 
 - Started `Tawgod/Lightspeed:integration/security-all-tools-20261111` from existing Owner staging PR #60 and opened stacked [draft PR #61](https://github.com/Tawgod/Lightspeed/pull/61).
