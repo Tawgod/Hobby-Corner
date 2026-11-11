@@ -1,5 +1,13 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Shared read enforcement candidate added — 2026-11-11
+
+**Source:** draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61), `integration/security-all-tools-20261111` based on #60. Selectively ported reviewed PR #33 exact Lightspeed permission registry, PR #33 unmounted shared read router, and PR #38 unmounted secure read policy alongside original tests; dependency module blobs matched the Owner branch. The policy requires *both* separately verified Timeclock-session workstation/MFA assurance and per-operation read permission before invoking service data adapters. Existing `server.js` remains unchanged; no actual business tool endpoint switched.
+
+**Tests:** [CI 43041661174](https://github.com/Tawgod/Lightspeed/actions/runs/43041661174) SUCCESS at code head `39ae126e91554bc051b079fc7b2f90d93e4007fc`, including HTTP read-denial test. **Deployed:** NO, no migration/employee/admin/Owner privileges modified. Next: integrate real feature routes and clients, reconcile remaining Phase 2 readers and navigation; then full-stack browser/staging tests.
+
+---
+
 ## All-tools security policy candidate — 2026-11-11
 
 **Implemented:** separate `Tawgod/Lightspeed:integration/security-all-tools-20261111`, stacked draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) on top of PR #60 (not the deployed integration branch). Expanded existing `staffAccessBaseline` to cover **all 25 `TOOL_OPERATIONS`** from `adminPermissionCatalog`, retaining deny-by-default on unsupported actions, real Timeclock signed-session verification, independent device/strong-factor assurance and exact backend permission checks. Added a targeted Node-only test suite and CI workflow. **Test result:** [GitHub Actions run 43040636548](https://github.com/Tawgod/Lightspeed/actions/runs/43040636548) SUCCESS; source syntax and 3 policy/bridge suites completed successfully, but no full-stack integration, actual employee or physical-device test. **Deployed:** no; `server.js` not wired; no permission settings changed, no production SQL or Owner activation. Store-owner acceptance of high-impact `special-orders.manage`/`ordering.manage` classification needed before enabling.
