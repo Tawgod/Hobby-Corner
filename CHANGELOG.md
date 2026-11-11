@@ -1,5 +1,11 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-11 — Trusted Core Operations actor attribution candidate
+
+- Owner Codespace fast-forwarded cleanly to `2db2ede`; terminal showed **11 pass / no failures** for proposed exact route permissions and real Special Orders router service compatibility. One additional test file named in the command produced no visible result, so local passing assertions are not extrapolated. GitHub [43105622486](https://github.com/Tawgod/Lightspeed/actions/runs/43105622486) completed SUCCESS for the combined preceding revision.
+- Draft PR #61 now includes `coreOperationsAuditActor.js`: when an independently verified route admission is explicitly enabled, audit actor fields come from server-verified `employee:<id>` or `service:<id>`, not request-body name/role claims. Existing legacy mode and production behavior unchanged.
+- Updated audit sinks for Special Orders, preorders, supplier purchasing/receiving, GW product review and notification review. Added source/HTTP regression tests, CI path watches and development docs. New test results pending at this note. No production changes.
+
 ## 2026-11-11 — Staff/service guard correction and provisional granular exact permissions
 
 - Operator ran 10/10 successful Core Operations admission/real-router HTTP tests in Codespaces at `Tawgod/Lightspeed@dd92530`, bringing local isolated verification total to 50 passed in five distinct runs.
