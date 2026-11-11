@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-11 — Verified Core Operations server-derived audit identities
+
+- Owner's Codespace fast-forwarded cleanly to `Tawgod/Lightspeed:integration/security-all-tools-20261111@5a641a6` and displayed **11 PASS / 0 FAIL** for the trusted actor attribution (6 cases) and real Special Orders routing (5 cases) suites. The owner pasted the identical output twice, so it is **one run**, not two; across the recorded development checkpoints there are 72 individually displayed passes from seven distinct local test runs.
+- Verified [GitHub Actions workflow 43107480216](https://github.com/Tawgod/Lightspeed/actions/runs/43107480216) completed **SUCCESS** at the same commit, including the previously added security, granular policy, route drift and compatibility regressions.
+- The default-disabled `coreOperationsAuditActor.js` captures the signed employee/service identity assigned by trusted route admission when the new guard is deliberately mounted, rather than accepting spoofable browser audit actor strings. Existing `server.js` omits the guard; no production code/authorization behavior, Railway deployment, employee permissions, data or Chrome extension package changed.
+- Next safety audit: classify nuanced status transitions and high-impact order/customer/vendor changes, resolve remaining hardcoded/system and browser audit labels, verify actual service callers and real database/physical-factor acceptance before opt-in staging.
+
 ## 2026-11-11 — Trusted Core Operations actor attribution candidate
 
 - Owner Codespace fast-forwarded cleanly to `2db2ede`; terminal showed **11 pass / no failures** for proposed exact route permissions and real Special Orders router service compatibility. One additional test file named in the command produced no visible result, so local passing assertions are not extrapolated. GitHub [43105622486](https://github.com/Tawgod/Lightspeed/actions/runs/43105622486) completed SUCCESS for the combined preceding revision.
