@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-11 — Coordinated all-tools staff/Owner security rollout intake
+
+- Owner broadened deployment intent from scoped, disabled Timeclock Owner code to consistent employee/Owner security for all applicable store tools. Audited current deployed `server.js` and `shared-ui/staff-auth.js` against Owner candidate: new Admin/shared strong-factor routes remain unmounted, and legacy auth fallback persists.
+- Verified open GitHub PRs #32/#33/#34/#35/#38/#51/#59/#60 and significant source divergence (#33 non-mergeable; Owner candidate #60 585 ahead/3 behind deployed branch). Existing code tests pass in isolation, but not an end-to-end cross-tool security rollout.
+- Created `SECURITY_COORDINATED_ROLLOUT.md` mapping backend, Timeclock, Core Ops, Admin, browser tools, Scanner extension, special integrations and release gates. Updated Employee Security, Deployment Coordination and Chrome queue handoffs without adding a duplicate extension entry.
+- The previously staged Timeclock-only Railway source patch is **uncommitted** and is not the full-tool rollout. No production deployment, migration, credentials, account/role privileges, Lightspeed write or Chrome extension release performed.
+
 ## 2026-11-10 — Malcor Codespaces bridge safe deployment
 
 - Verified newly created Malcor `production` environment and provisioned an isolated `codespaces-private-bridge` service from the review branch without modifying Malcor's existing bot, database, or migration services.
