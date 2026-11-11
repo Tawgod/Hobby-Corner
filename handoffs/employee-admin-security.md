@@ -1,5 +1,20 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Codespaces shared-security regression milestone — 2026-11-11
+
+**Status: Testing; not deployed.** The owner ran the exact command below in the existing clean `/workspaces/Lightspeed-security` checkout on `integration/security-all-tools-20261111@747e7d6`:
+```bash
+node --test --test-concurrency=1 \
+  tests/shared-staff-security.test.mjs \
+  tests/shared-staff-bridge.test.mjs \
+  tests/security-all-tools-operations.test.mjs
+```
+**Operator-reported result:** 19 tests, **19 PASS, 0 FAIL, 0 SKIP**, ~306 ms. Tests cover all declared tool operations, signed active employee session and off-clock access, station vs TOTP vs passkey protection, exact backend grants, spoofing denial, inactive employee, and failed backend behavior. This verifies local isolated policy tests (GitHub CI also previously PASS at latest branch head), **not actual existing route integration, device/browser acceptance or production safety**.
+
+**Next local verification:** run `tests/shared-lightspeed-permissions.test.mjs` and `tests/shared-lightspeed-secure-read.test.mjs` in same Codespace; install dependencies only if missing. Then integrate real consumer routes and owners' tool UI contracts on a development branch. Production Timeclock-only source patch remains staged but unapplied; no DB migration or Owner activation authorization.
+
+---
+
 ## Shared read enforcement candidate added — 2026-11-11
 
 **Source:** draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61), `integration/security-all-tools-20261111` based on #60. Selectively ported reviewed PR #33 exact Lightspeed permission registry, PR #33 unmounted shared read router, and PR #38 unmounted secure read policy alongside original tests; dependency module blobs matched the Owner branch. The policy requires *both* separately verified Timeclock-session workstation/MFA assurance and per-operation read permission before invoking service data adapters. Existing `server.js` remains unchanged; no actual business tool endpoint switched.
