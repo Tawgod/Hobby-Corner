@@ -1,5 +1,17 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Browser caller source inventory (Codespaces sync + CI) — 2026-11-11
+
+**Status:** In Development/Testing; NOT deployed. Owner's Codespace fast-forwarded cleanly to `Tawgod/Lightspeed:integration/security-all-tools-20261111@2fb6529`, and operator reported **5 route inventory tests PASS, 0 FAIL**. This adds to prior local 19 shared security + 12 Lightspeed policy/read tests, for **36 tests across three runs**. GitHub full security workflow [43049915660](https://github.com/Tawgod/Lightspeed/actions/runs/43049915660) returned SUCCESS at the same 2fb6529 commit (including the corrected 87-route inventory regression). No live auth change was performed.
+
+**Verified code mapping:** `special-orders-client.js`, `preorders-client.js`, `gw-preorders-client.js`, and `ordering-client.js` all call `window.HCStaffAuth` and `/api/special-orders`. Source contains 37/6/6/10 unique `api + '...'` URL literal fragments respectively (**59 per-client source references**, not 59 distinct complete routes or verified runtime invocations). Four web consumers still share legacy-key fallback through `shared-ui/staff-auth.js` and server middleware, so do not remove it in isolation.
+
+**Implemented on draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61):** `services/security/coreOperationsBrowserCallerInventory.js`, `tests/core-operations-browser-callers.test.mjs`, expanded CI triggers for all four client files, and a new section in `docs/CORE_OPERATIONS_SECURITY_ROUTE_MAPPING.md`. This is a **review-only static caller matrix**, with every entry pending; no trusted service identity or employee grant is inferred from URL fragments. GitHub CI on newest browser inventory code was running at checkpoint; verify before labeling tested.
+
+**Next:** reconcile actual full URL/method callsites to the 87 routes and audited service/Discord workers, then build exact permissions with backend verified station/TOTP/passkey and service tokens; staging tests before any production/Owner activation. Timeclock-only Railway patch remains staged, not deployed.
+
+---
+
 ## Core Operations route security inventory — 2026-11-11
 
 **Status: In Development / Testing; NOT deployed or mounted.** The user successfully fast-forwarded their clean `/workspaces/Lightspeed-security` Codespace checkout from `747e7d6` to `7f9dae2` via `git pull --ff-only`, confirming synchrony with previously tested PR #61 metadata hardening.
