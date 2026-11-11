@@ -73,6 +73,12 @@
 
 Added `tests/security-all-tools-operations.test.mjs` and bounded no-dependency `.github/workflows/security-all-tools-policy.yml`, and `docs/SECURITY_ALL_TOOLS_POLICY.md`. They assert exact policy coverage, worker/passkey/TOTP/registered-station separation, denied spoofing/unknown action/disabled staff, and per-operation backend grant checks. **Verified CI:** [Cross-tool policy run 43040636548](https://github.com/Tawgod/Lightspeed/actions/runs/43040636548) completed SUCCESS, with syntax check and new cross-tool policy + existing staff security/bridge test step SUCCESS. This is limited policy/regression CI, not a multi-service or real-device acceptance test. PR #61 remains draft; no rollout/feature mount performed. Next run these tests in the user's Codespace, then reconcile the shared-service #33 branch and wire actual tool routes.
 
+## Additional security integration milestone — 2026-11-11
+
+**Implemented on development branch [draft PR #61](https://github.com/Tawgod/Lightspeed/pull/61), not deployed:** selectively ported `services/lightspeed/permissions.js`, `routes/sharedLightspeedRead.js` and `services/lightspeed/secureReadPolicy.js` plus their original test suites from PRs #33 and #38. Their existing upstream `staffAdapter.js` and `policy.js` dependencies were verified **byte-identical** in the new Owner-based branch, avoiding a wholesale merge of #33's diverged history. The shared read router remains **unmounted** and individual vendor readers/feature routes have NOT been migrated; this is not a production security cutover.
+
+**CI verified:** [GitHub Actions 43041661174](https://github.com/Tawgod/Lightspeed/actions/runs/43041661174) SUCCESS at code commit `39ae126e91554bc051b079fc7b2f90d93e4007fc`: syntax, 25-operation workstation/TOTP/passkey permission policy tests and original secured Lightspeed permission + denied HTTP read-admission tests all passed. No database migration, feature-route integration, real mobile/Chrome session or Lightspeed tenant call was tested. PR remains draft and source integration must continue.
+
 ## Next actionable milestone
 
 **Integrate and test the shared staff access middleware against the actual Core Operations and Scanner backend, then connect Admin/Owner staging on top of a reconciled candidate.** The user has approved pursuing a unified rollout across tools, but no all-tools production deploy is known safe today. Keep previously staged Timeclock-only patch uncommitted while the full-tool release is reconciled.
