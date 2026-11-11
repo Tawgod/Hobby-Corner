@@ -475,3 +475,11 @@ The release queue remains authoritative for extension shipping state; the handof
 - **Dependencies:** durable independently approved registration/revocation, server staff auth integration, audit, managed distribution host/signature/version and current release queue reconciliation.
 - **Testing:** Existing backend workstation proof/PG/HTTP regression tests only. No real store Chrome installation/approval/revocation/download validation completed.
 - **Release target:** Unassigned; **BLOCKED from shipping** pending reviewed implementation, authoritative extension source reconciliation, real Chrome employee acceptance and explicit release authorization. Released version/commit/date: none.
+
+
+### Timcorp gateway URL migration — QUEUED / BLOCKED
+- Hobby Corner web base-path support is being prepared outside the extension on `feature/timcorp-base-path-hobby-corner-20261111`.
+- **Do not change extension backend/public URLs yet.** Existing Railway URLs remain authoritative during migration.
+- After the Timcorp gateway path is confirmed and employee/browser acceptance passes, reconcile any extension URL change with the current consolidated extension source, every active extension PR and this release queue.
+- Proposed employee web route is `https://timcorp-productions.com/hobby-corner/special-orders`, but central path/gateway assignment is not independently verified yet.
+- No version bump, package, publication or production gateway change occurred.
