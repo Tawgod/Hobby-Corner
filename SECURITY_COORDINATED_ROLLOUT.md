@@ -1,5 +1,11 @@
 # Hobby Corner — Coordinated Security Integration and Rollout
 
+## Guarded audit attribution milestone — 2026-11-11
+
+**Testing, not deployed:** Owner's Codespace successfully fast-forwarded to `Tawgod/Lightspeed:integration/security-all-tools-20261111@2db2ede`. Supplied output confirms 11 passing assertions in the provisional scope + real router suite (no failures shown); an additional named staff-policy test file had no visible results in that terminal extract, so its local status is not inferred. GitHub [Actions 43105622486](https://github.com/Tawgod/Lightspeed/actions/runs/43105622486) SUCCESS at the same code head. 61 local assertions displayed as passing across earlier runs combined with latest.
+
+**New development-only audit change:** Added `services/security/coreOperationsAuditActor.js` and converted existing browser actor input fields in `special-orders.js` to rely on the **verified employee or machine admission** when the new `coreOperationsAdmission` is explicitly mounted; in normal/default routing, original legacy attribution is preserved. Covers staff notes, status/routing, order creation, supplier drafts/receiving, preorder pickup, GW product review and notification review. Test suite includes forged actor denial, actual loopback HTTP guard attribution and fail-closed invalid admission; latest CI result not yet verified. Static/system attribution and DB-backed acceptance remain to be audited. New route guard is still not injected by `server.js`. No production deployment, credentials, DB changes, Owner grants or Chrome extension changes.
+
 ## Exact employee and machine permissions milestone — 2026-11-11
 
 **In Development / Testing; not deployed.** Operator confirmed Codespace `@dd92530` real-router and staff/service authorization tests **10/10 PASS**; cumulative **50 isolated tests across five operator runs**, zero failures. GitHub [43103441358](https://github.com/Tawgod/Lightspeed/actions/runs/43103441358) SUCCESS on the preceding checkpoint. Current [draft PR #61](https://github.com/Tawgod/Lightspeed/pull/61) has newer changes under test, NOT yet considered production-ready.
