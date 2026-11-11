@@ -102,7 +102,7 @@ No Timcorp work changed Railway configuration, variables, domains, databases, cr
 - Base-path normalization/middleware helper tests passed locally.
 - Store Map base-path helper test passed locally.
 - GitHub read-back static scan found no remaining root-absolute internal `href/src` values in the five current web entry pages and no root-absolute `/api/` browser fetches in the converted Core Operations clients/staff-auth/Order Split harness.
-- Two minimal branch-only GitHub workflows were added for exact-source syntax + focused tests, with no dependency install/browser/database/full-suite work. Record their final run IDs/status in the handoff when available.
+- Exact-source focused GitHub checks passed: main web/API run `43087301610` **SUCCESS** and Store Map run `43087317304` **SUCCESS**. Both used only checkout, Node 22, syntax checks and focused tests—no dependency install, browser, database or unrelated suite.
 
 ## Remaining staging acceptance
 
