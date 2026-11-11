@@ -67,6 +67,12 @@
 - Owner confirmed same encrypted file visible in private Drive Railway folder; connector search did **not** return file metadata or verify cloud checksum. This is a remaining independent verification caveat, not reason to re-export.
 - Do not treat Codespaces backup as durable, implement production SQL migration, merge development stacks, grant Owner privileges, change secret values or publish Chrome until their own release reviews and authorizations.
 
+## Cross-tool policy implementation started — 2026-11-11
+
+**Implemented in development, not deployed:** Created `Tawgod/Lightspeed:integration/security-all-tools-20261111` from draft Owner PR #60 head and opened stacked [draft PR #61](https://github.com/Tawgod/Lightspeed/pull/61). This makes `services/security/staffAccessBaseline.js` consume the existing `adminPermissionCatalog.js` `TOOL_OPERATIONS` directly, supplying a frozen exact assurance policy for all 25 cataloged tool actions. Routine reads, drafts, Scanner staging/review and Timeclock self clocking require registered-station or validated routine MFA plus exact backend grants. High-impact operations require a fresh passkey/security key/approved IdP MFA plus exact backend grant. Client role/extension headers never count as proof. Previous generic actions remain available only within the same guarded contract. `special-orders.manage` / `ordering.manage` default to strong proof *in this unmounted candidate*; the store owner must accept or refine those actions before enforcement.
+
+Added `tests/security-all-tools-operations.test.mjs` and bounded no-dependency `.github/workflows/security-all-tools-policy.yml`, and `docs/SECURITY_ALL_TOOLS_POLICY.md`. They assert exact policy coverage, worker/passkey/TOTP/registered-station separation, denied spoofing/unknown action/disabled staff, and per-operation backend grant checks. **CI/combined execution result not yet confirmed**; PR #61 is draft, no rollout/feature mount performed. Next run these tests in the user's Codespace, then reconcile the shared-service #33 branch and wire actual tool routes.
+
 ## Next actionable milestone
 
 **Integrate and test the shared staff access middleware against the actual Core Operations and Scanner backend, then connect Admin/Owner staging on top of a reconciled candidate.** The user has approved pursuing a unified rollout across tools, but no all-tools production deploy is known safe today. Keep previously staged Timeclock-only patch uncommitted while the full-tool release is reconciled.
