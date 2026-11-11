@@ -1,5 +1,11 @@
 # Hobby Corner — Coordinated Security Integration and Rollout
 
+## Core Operations security mapping (2026-11-11)
+
+**In Development; route inventory created, no production enforcement.** On [draft PR #61](https://github.com/Tawgod/Lightspeed/pull/61), audited 75 `special-orders.js` and 12 nested `routes/specialOrderProducts.js` endpoints (87 total). Added exact method/path/source classification and source-drift tests in `services/security/coreOperationsRouteInventory.js` and `tests/core-operations-route-inventory.test.mjs`, with [review notes](https://github.com/Tawgod/Lightspeed/blob/integration/security-all-tools-20261111/docs/CORE_OPERATIONS_SECURITY_ROUTE_MAPPING.md).
+
+The 87 endpoint candidates include 14 service/batch/hybrid caller endpoints (not safe to replace with interactive passkey prompts), 3 live Lightspeed-write routes, 4 read-via-POST routes and 2 outbound notification/publish effects. All 87 records remain `review:'pending'`; **no middleware, user permissions or service credentials switched**. Future work: inventory 24 direct `server.js` routes, verify actual client and Discord/scheduled callers, split broad staff `special-orders.manage`/`ordering.manage` into owner-approved exact operations, and test phased default-disabled route guards in staging.
+
 ## Latest implementation checkpoint — 2026-11-11
 
 **Testing, not deployed:** Codespace operator confirmed 19/19 shared policy tests and 12/12 secured Lightspeed gateway tests passed (31 total). After a missing `express` package on the first gateway attempt, installing project dependencies resolved the failure. The underlying live Special Orders route still accepts a legacy admin key or Timeclock bearer, not the proposed independently verified workstation/MFA+operation grant.
