@@ -1,5 +1,13 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## All-tools security policy candidate — 2026-11-11
+
+**Implemented:** separate `Tawgod/Lightspeed:integration/security-all-tools-20261111`, stacked draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) on top of PR #60 (not the deployed integration branch). Expanded existing `staffAccessBaseline` to cover **all 25 `TOOL_OPERATIONS`** from `adminPermissionCatalog`, retaining deny-by-default on unsupported actions, real Timeclock signed-session verification, independent device/strong-factor assurance and exact backend permission checks. Added a targeted Node-only test suite and CI workflow. **Test result:** code and tests committed; CI execution not confirmed, no real employee/device test. **Deployed:** no; `server.js` not wired; no permission settings changed, no production SQL or Owner activation. Store-owner acceptance of high-impact `special-orders.manage`/`ordering.manage` classification needed before enabling.
+
+**Next:** execute Node tests in private Codespace or CI, reconcile #33/#38/#35/#51/#59, wire backend tool routes and shared browser clients, test Admin/Owner in isolated staging, coordinate Chrome queue. See [SECURITY_COORDINATED_ROLLOUT.md](../SECURITY_COORDINATED_ROLLOUT.md).
+
+---
+
 ## Coordinated all-tools security request — 2026-11-11
 
 **Status: In Development / Blocked for deploy.** The owner broadened scope from Timeclock-only default-disabled code to a coordinated security update for all tools, while reporting that staff are not currently using the tools. This does **not** prove that Railway/Discord/background tasks are inactive. See authoritative cross-tool release matrix and gates: [SECURITY_COORDINATED_ROLLOUT.md](../SECURITY_COORDINATED_ROLLOUT.md).
