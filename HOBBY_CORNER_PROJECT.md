@@ -1,5 +1,9 @@
 # Hobby Corner Project Registry
 
+## Deployed bot service security dependency — 2026-11-11
+
+**Maintenance / integration pending:** production Discord Bot at `Tawgod/Hobby-Corner-Discord-Bot@7c3af0e` and Rewards at `@ce54862` have independently verified deployed source and separate admin/service credentials. Discord calls Timeclock employee/PIN/shifts/entry/PTO and hourly customer sync; Rewards has scheduled direct Lightspeed API processing and admin overrides. For coordinated Owner/staff rollout, preserve background jobs and introduce only scoped/revocable service identities with exact authorizations. No actual service permissions changed. See `SECURITY_COORDINATED_ROLLOUT.md` and `handoffs/employee-admin-security.md`.
+
 ## Shared security caller-audit checkpoint — 2026-11-11
 
 **In Development / Testing, NOT deployed.** Employee Security draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) has all 87 Special Orders/product API routes inventoried and now maps **59 per-client literal URL references across four web pages** (Special Orders 37, Preorders 6, GW Preorders 6, Ordering 10) to pending review. No permissions were activated. Latest Codespace verification 5/5 route coverage tests PASS; 36 isolated tests across staff, gateway and inventory suites reported PASS. All four web clients still depend on `HCStaffAuth` with legacy compatibility; automated service identities and full method/route reconciliation are next. See `SECURITY_COORDINATED_ROLLOUT.md` and `handoffs/employee-admin-security.md`.
