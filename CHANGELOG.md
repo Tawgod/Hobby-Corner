@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-11 — Complete Core Operations route inventory for coordinated security
+
+- Confirmed owner's Codespace `git pull --ff-only` fast-forwarded to `7f9dae2` without conflicts.
+- Audited literal registered HTTP endpoints in `special-orders.js` (75) and `routes/specialOrderProducts.js` (12), identifying staff reads/edits, service and scheduled callbacks, read-via-POST, three direct live Lightspeed-write routes, and external notifications. Documented 87 review-only entries, with all current candidate permissions **pending** and no new auth decisions enforced.
+- Added source-drift regression tests and CI triggers for both routers on draft `Tawgod/Lightspeed` PR #61; separately documented route migration/caller review at `docs/CORE_OPERATIONS_SECURITY_ROUTE_MAPPING.md`. Corrected a test-only nested-router reference after first CI found the mistake.
+- Existing production auth, Railway services, database, scheduled workers and Chrome extension unchanged.
+
 ## 2026-11-11 — Special Orders authentication metadata hardening (development only)
 
 - Operator reran shared Lightspeed read/policy tests in Codespaces after installing missing dependencies: **12 passed / 0 failed**, for **31 total isolated security tests** across two runs. npm displayed Multer 1.x and other deprecated-library warnings; dependency upgrade review remains separate from the coordinated security cutover.
