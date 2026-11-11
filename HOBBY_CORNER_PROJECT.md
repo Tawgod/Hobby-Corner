@@ -1,5 +1,9 @@
 # Hobby Corner Project Registry
 
+## Core Operations API security inventory — 2026-11-11
+
+**In Development / Testing; NOT deployed.** Draft [Tawgod/Lightspeed PR #61](https://github.com/Tawgod/Lightspeed/pull/61) now inventories 87 exact `/api/special-orders` registered endpoints across its main and product sub-routers, with pending staff/service, read/write/vendor/notification classification and a source-drift regression check. Four existing frontends still use `HCStaffAuth` with legacy-key fallback. 14 API endpoints need separate service/automation identity review before a strong MFA cutover. See `SECURITY_COORDINATED_ROLLOUT.md` and `handoffs/employee-admin-security.md`; this is NOT production security enforcement.
+
 ## Development milestone — all-tool security policy candidate (2026-11-11)
 
 **In Development / not tested end to end / not deployed:** stacked draft [Tawgod/Lightspeed PR #61](https://github.com/Tawgod/Lightspeed/pull/61), branch `integration/security-all-tools-20261111`, now maps all 25 existing Admin `TOOL_OPERATIONS` into the shared staff security assurance contract. Includes source-level test suite and lightweight CI; [run 43040636548](https://github.com/Tawgod/Lightspeed/actions/runs/43040636548) SUCCESS for code syntax, cross-tool policy and staff-bridge tests (not full-stack live acceptance). Legacy service routes and UI are not wired to this guard; no prod enforcement/permissions changed. See `SECURITY_COORDINATED_ROLLOUT.md` and `handoffs/employee-admin-security.md` for blockers and next test steps.
