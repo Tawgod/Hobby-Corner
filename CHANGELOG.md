@@ -1,5 +1,11 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-11 — Four Core Operations browser caller source audit
+
+- User confirmed Codespace `integration/security-all-tools-20261111` sync to `2fb6529` and 5/5 source-route inventory tests PASS; GitHub CI [43049915660](https://github.com/Tawgod/Lightspeed/actions/runs/43049915660) SUCCESS. Cumulative isolated operator test reports: 36 passed across 3 runs.
+- Reviewed all four existing Core Operations browser clients and observed 37 Special Orders, 6 Preorders, 6 GW Preorders, and 10 Ordering unique literal API reference fragments (59 per-client entries). Confirmed common `window.HCStaffAuth` staff session helper and legacy compatibility.
+- Committed review-only browser caller inventory, drift regression tests and expanded CI triggers to draft `Tawgod/Lightspeed` PR #61; documented source limits and outstanding Discord/automation caller mapping. No authorization routes, employee roles, Railway deployments or browser extension packages changed.
+
 ## 2026-11-11 — Complete Core Operations route inventory for coordinated security
 
 - Confirmed owner's Codespace `git pull --ff-only` fast-forwarded to `7f9dae2` without conflicts.
