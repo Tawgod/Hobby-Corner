@@ -1,5 +1,13 @@
 # Deployment and Release Coordination — Current Handoff
 
+## Nonproduction shared-security policy + Lightspeed read gate candidate — 2026-11-11
+
+**Implemented on draft PR #61 only:** complete 25-operation shared staff assurance classification; selectively imported existing phase-2 Lightspeed permission + secure-read policies and unmounted HTTP router. [Actions 43041661174](https://github.com/Tawgod/Lightspeed/actions/runs/43041661174) SUCCESS at its tested code commit. The production `server.js` is unchanged; no target has switched to the new guard. **Railway production staged Timeclock-only patch is still not deployed**; leave untouched until coordinated release reconciliation. No service deploy, DB migration, credential, employee role, vendor write or extension package.
+
+**Gate to release:** reconcile extensive PR ancestry and UI/Chrome/backend adapters; verify both user-facing routes and scheduled/Discord workers; only then propose a versioned multi-service rollout, avoiding simultaneous unreviewed source switches.
+
+---
+
 ## Unified security rollout coordination — 2026-11-11
 
 **Status: In Development / rollout blocked.** Owner requested that all applicable Hobby Corner tools adopt shared employee/Owner security together rather than deploy only Timeclock PR #59. The coordinated scope, source inventory, safe integration order, and release gates are recorded in [SECURITY_COORDINATED_ROLLOUT.md](../SECURITY_COORDINATED_ROLLOUT.md).
