@@ -1,6 +1,8 @@
 # Hobby Corner — production PostgreSQL backup without Railway volume backups
 
-**Status (2026-11-10): prepared procedure, NOT executed or verified against production.**
+**Status (2026-11-11): one operator-reported production export and isolated restore drill PASSED; external custody still pending.** The operator reported the encrypted archive `hc-production-20261110T213753Z.dump.age`, full decryption exit 0, `pg_restore --list` exit 0, and `Restore drill PASS: 54 public tables in disposable PostgreSQL 18.` The backup remains **Codespaces-only until an external encrypted copy and independently stored passphrase are confirmed**. This evidence is from the operator's terminal output, not independently inspected Railway database rows. No production release/migration is authorized by this result.
+
+**Verification-script correction (2026-11-11):** The initial archive-list check reported FAILED even though a separate full decrypt and `pg_restore --list` succeeded. A `pg_restore --list` stream can close its input early and trigger SIGPIPE in `age` under `pipefail`. The export helper now separately checks complete decryption to `/dev/null` and archive format status without misclassifying this normal upstream SIGPIPE. No need to recreate the existing successfully restored archive on account of the old check.
 
 This is a controlled alternative to Railway's plan-gated volume backup feature. It uses PostgreSQL's read-only logical export through Railway CLI's SSH tunnel, encrypts the stream in a **private GitHub Codespace**, and restores the archive into a disposable, network-isolated PostgreSQL 18 container for a recovery drill.
 
@@ -60,7 +62,7 @@ bash scripts/backup-production-postgres-codespaces.sh
 
 The helper asks for the *local tunnel* port/user/database and hides the database password while you type. `pg_dump` performs a read-only full logical export, streaming the compressed custom archive directly through `age` encryption. The encrypted result goes to `$HOME/hc-private-db-backups/`; no plaintext database dump is written to disk.
 
-Enter or generate a strong `age` passphrase interactively, record it in your private password manager, and enter it again to verify decryption/archive structure. A format check alone does **not** prove full restore recovery.
+Enter or generate a strong `age` passphrase interactively and store it privately. The updated script prompts again to verify **full decryption** without writing plaintext, then again to check PostgreSQL archive structure. An archive-format check alone does **not** prove full restore recovery.
 
 ## Step 4 — restore drill without touching production
 
