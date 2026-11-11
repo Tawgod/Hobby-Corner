@@ -1,5 +1,9 @@
 # Hobby Corner Project Registry
 
+## Development milestone — all-tool security policy candidate (2026-11-11)
+
+**In Development / not tested end to end / not deployed:** stacked draft [Tawgod/Lightspeed PR #61](https://github.com/Tawgod/Lightspeed/pull/61), branch `integration/security-all-tools-20261111`, now maps all 25 existing Admin `TOOL_OPERATIONS` into the shared staff security assurance contract. Includes source-level test suite and lightweight CI workflow, not yet confirmed executed. Legacy service routes and UI are not wired to this guard; no prod enforcement/permissions changed. See `SECURITY_COORDINATED_ROLLOUT.md` and `handoffs/employee-admin-security.md` for blockers and next test steps.
+
 ## Current priority — coordinated shared staff / Owner security release (2026-11-11)
 
 **Status: In Development / Blocked (not deployed).** Owner requested consistent new security for all Hobby Corner tools, not only a standalone Timeclock Owner patch. Source/runtime inventory, tool-by-tool security contract, release sequence and blockers are in [SECURITY_COORDINATED_ROLLOUT.md](SECURITY_COORDINATED_ROLLOUT.md). The development PR chain (#32/#33/#34/#35/#38/#59/#60) is not a single deployable product: #33 is currently non-mergeable due to branch divergence, #60 is 585 ahead/3 behind live consolidated, and new strong-factor/Admin routes are not mounted in the existing Core Ops service. Keep staged Timeclock-only production patch uncommitted pending scope reconciliation. Encrypted PG18 backup restore to 54 isolated tables and checksum-matched external USB archive are operator-confirmed; Google Drive copy visibility is user-confirmed only. No production change or Owner activation occurred in this phase.
