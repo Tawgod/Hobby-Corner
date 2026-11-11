@@ -1,5 +1,17 @@
 # Deployment and Release Coordination — Current Handoff
 
+## Unified security rollout coordination — 2026-11-11
+
+**Status: In Development / rollout blocked.** Owner requested that all applicable Hobby Corner tools adopt shared employee/Owner security together rather than deploy only Timeclock PR #59. The coordinated scope, source inventory, safe integration order, and release gates are recorded in [SECURITY_COORDINATED_ROLLOUT.md](../SECURITY_COORDINATED_ROLLOUT.md).
+
+**Verified live topology:** Railway `Hobby Corner/production` `timeclock`, `lightspeed-api`, and `special-orders-test` all remain SUCCESS at integration commit `014a7a949fe570b756b48d8f59995c1b0a434859`, with shared Git branch. This makes any uncontrolled merge a possible 3-service auto-deployment. An operator-reported encrypted PG18 backup successfully restored 54 tables in isolated Docker; Windows external USB hash verified; passphrase safely stored; owner confirms Google Drive copy is visible (cloud checksum not connector-verified).
+
+**Not executed:** Railway production staged patch `20177311-bc46-41cb-b9c6-05b6760a9a6f` still holds Timeclock-only source pin; do not apply it as a substitute for cross-tool rollout. Owner staging patch `45d1db2e-1f10-4b27-94e0-c0970c5d2d28` remains uncommitted. No service source, variable, database or employee role was changed by this coordination step.
+
+**Critical source gates:** #33 diverged from #32 and is non-mergeable; #60 is 585 commits ahead/3 behind production across 237 files. Production and #60 `server.js` are identical and no general staff security subsystem or Admin routes are mounted. Bring shared gateway, Admin, Owner, Core UI/navigation and Chrome Timeclock consumers into a coherent, tested candidate **before** deploying; preserve background workers. Existing extension release queue must be reconciled separately.
+
+---
+
 **Last verified:** 2026-10-29  
 **Status:** Maintenance / Testing — production baseline healthy; pending feature releases gated.
 
