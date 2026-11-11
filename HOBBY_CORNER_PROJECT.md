@@ -1,5 +1,9 @@
 # Hobby Corner Project Registry
 
+## Verified Core Operations audit-identity tests — 2026-11-11
+
+**Testing; no production deployment.** Owner verified 11/11 actor-attribution/actual router tests on `Tawgod/Lightspeed:integration/security-all-tools-20261111@5a641a6`; [CI 43107480216](https://github.com/Tawgod/Lightspeed/actions/runs/43107480216) SUCCESS. The owner supplied duplicate terminal output but tests are counted once. Cumulative 72 individually displayed passes across seven separate local runs. The shared security guard is still not mounted by `server.js`; role/grant policy remains pending, and real Lightspeed/DB/device/browser staging acceptance is not complete. See `SECURITY_COORDINATED_ROLLOUT.md`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) and `handoffs/employee-admin-security.md`.
+
 ## Development security checkpoint — verified audit actors (2026-11-11)
 
 **Testing / not deployed:** user showed **11/11 displayed** granular staff/service route test passes after Codespace sync `2db2ede`; GitHub workflow 43105622486 SUCCESS. Draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) subsequently adds guarded server-derived audit actors for Special Orders/Ordering/Preorders and tests; current `server.js` remains default-off, and latest actor tests await verification. No user roles, service credentials, databases, production routes or Chrome assets were changed. See `SECURITY_COORDINATED_ROLLOUT.md` and `handoffs/employee-admin-security.md`.
