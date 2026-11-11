@@ -1,5 +1,19 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Core Operations route security inventory — 2026-11-11
+
+**Status: In Development / Testing; NOT deployed or mounted.** The user successfully fast-forwarded their clean `/workspaces/Lightspeed-security` Codespace checkout from `747e7d6` to `7f9dae2` via `git pull --ff-only`, confirming synchrony with previously tested PR #61 metadata hardening.
+
+**Source audit:** On `Tawgod/Lightspeed:integration/security-all-tools-20261111` (draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61)), reviewed the actual existing Special Orders router and nested Product routes. **75 + 12 = 87** literal registered API endpoints: 32 ordinary GET reads, 30 local mutations, 14 service/batch or hybrid caller candidates, 4 read-via-POST actions, 3 Lightspeed vendor writes, 2 external notification/publish actions, one public health endpoint and one session-check endpoint. Source examples: `POST /supplier-orders/:id/push-lightspeed`, `POST /customers/create-lightspeed` and `POST /products/create-lightspeed` are three high-impact vendor-write entry points; Discord reaction and notification worker/callback routes require independently authorized **service** identities. Existing router's GW notification interval remains active if initialized; no employee activity does NOT prove worker inactivity.
+
+**Implemented for review ONLY:** `services/security/coreOperationsRouteInventory.js` freezes all 87 exact method/path/source entries with proposed operation/caller and `review:'pending'`. No inventory entry is a grant or mounted middleware. `tests/core-operations-route-inventory.test.mjs` compares all registered routes against source to fail on drift, requires cataloged candidate operations, and checks health, vendor writes, read-via-POST, service callers, and no automatic permission. `docs/CORE_OPERATIONS_SECURITY_ROUTE_MAPPING.md` documents scope, blockers, human/worker split and acceptance plan. CI workflow triggers on changes to both source routers and inventory. Initial test exposed a **test-only source path mistake** for nested reconcile routes; corrected, no source login flow changed. Current workflow on latest head `2fb652940df48bdfb4790e242e32034ad4643bf5` must be checked for final result; at checkpoint CI is queued/pending.
+
+**Not yet implemented:** Actual backend authorization gates for any of 87 endpoints; exact service credentials, strong device/MFA assurance, granular normal vs sensitive staff permissions, same-site mobile/Chrome browser integration, Owner activation, and production deployment. Do not auto-enable broad `ordering.manage` or `special-orders.manage` strong-passkey classification without store policy approval. Also audit 24 separate direct `server.js` routes and other service routers in subsequent work.
+
+**Next action:** Verify latest CI for route inventory, then Codespaces `git pull --ff-only` to the current tested head and run targeted route inventory test. Continue mapping real browser/Discord callers before implementing default-disabled guard.
+
+---
+
 ## Special Orders auth metadata hardening — 2026-11-11
 
 **System:** Core Operations / Special Orders backend, shared security rollout. **Status: In Development; test workflow pending; not deployed.**
