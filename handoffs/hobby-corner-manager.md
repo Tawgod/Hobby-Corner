@@ -344,3 +344,18 @@ The manager chat coordinates these records; it does not own feature-private sour
 - Remaining blocker for deployment: **real registered store-device or passkey/IdP manager authentication**, secure manager administration UI, Timeclock/Chrome legacy endpoint remediation, and real staff/mobile acceptance. PIN-only login remains insufficient.
 - Separate decisions required on approval authority, passkey provider/enrollment, lost-phone recovery and production rollout; **no merge or deployment authorized or performed**.
 
+
+
+## Timcorp Productions web foundation — 2026-11-11
+
+- Non-production base-path integration prepared for Hobby Corner at proposed `/hobby-corner`, with label and Store Map longest-prefix routes. Central gateway path still requires confirmation.
+- Main source branch: `Tawgod/Lightspeed:feature/timcorp-base-path-hobby-corner-20261111`; Store Map branch: `feature/timcorp-base-path-store-map-20261111`.
+- Existing Railway URLs/root routes remain supported; no production deploy/config/DNS/gateway change.
+- Timeclock stays internal in first phase; unrelated staged Timeclock Railway patch must remain untouched.
+- Reconcile PR #35 navigation and PR #61 security before merge. Chrome extension URL migration is deferred to coordinated release after gateway verification.
+- Durable handoff: `handoffs/timcorp-web-foundation.md`; design/status: `TIMCORP_WEB_FOUNDATION_INTEGRATION.md`.
+
+### Planned Back-in-Stock Notifications
+- Future in-store + online customer product/variant waitlist and notification flow.
+- Reuse shared Product Identity, Inventory, customer sync and notification services; deduplicate and honor contact consent/preferences.
+- Availability notification is informational and does not reserve inventory unless separately approved.
