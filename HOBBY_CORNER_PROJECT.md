@@ -2,7 +2,7 @@
 
 ## Development milestone — all-tool security policy candidate (2026-11-11)
 
-**In Development / not tested end to end / not deployed:** stacked draft [Tawgod/Lightspeed PR #61](https://github.com/Tawgod/Lightspeed/pull/61), branch `integration/security-all-tools-20261111`, now maps all 25 existing Admin `TOOL_OPERATIONS` into the shared staff security assurance contract. Includes source-level test suite and lightweight CI workflow, not yet confirmed executed. Legacy service routes and UI are not wired to this guard; no prod enforcement/permissions changed. See `SECURITY_COORDINATED_ROLLOUT.md` and `handoffs/employee-admin-security.md` for blockers and next test steps.
+**In Development / not tested end to end / not deployed:** stacked draft [Tawgod/Lightspeed PR #61](https://github.com/Tawgod/Lightspeed/pull/61), branch `integration/security-all-tools-20261111`, now maps all 25 existing Admin `TOOL_OPERATIONS` into the shared staff security assurance contract. Includes source-level test suite and lightweight CI; [run 43040636548](https://github.com/Tawgod/Lightspeed/actions/runs/43040636548) SUCCESS for code syntax, cross-tool policy and staff-bridge tests (not full-stack live acceptance). Legacy service routes and UI are not wired to this guard; no prod enforcement/permissions changed. See `SECURITY_COORDINATED_ROLLOUT.md` and `handoffs/employee-admin-security.md` for blockers and next test steps.
 
 ## Current priority — coordinated shared staff / Owner security release (2026-11-11)
 
