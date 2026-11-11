@@ -1,5 +1,11 @@
 # Hobby Corner — Coordinated Security Integration and Rollout
 
+## Production service identity evidence — 2026-11-11
+
+**Verified, no production change:** Read Railway `Hobby Corner/production` bot deployments and their exact GitHub blob refs. `Hobby-Corner-Discord-Bot` SUCCESS at `Tawgod/Hobby-Corner-Discord-Bot@7c3af0e`, `main.py`, and `Hobby-Corner-Rewards` SUCCESS at `@ce54862`, `rewards_service.py`; both deployed entrypoint blobs are identical to inspected main source. Discord bot uses `TIMECLOCK_ADMIN_SECRET` to call Timeclock admin employee/PIN/shift/entry/PTO endpoints and separately uses `CUSTOMER_SYNC_ADMIN_KEY` for an hourly master-customer-sync service call. Rewards has its own `REWARDS_ADMIN_KEY`, direct Lightspeed API token and scheduled sync. They need explicit scoped machine identities and separate audit, not human PIN/passkey authorization for each unattended call. Source does not yet establish which service, if any, calls the 14 Special Orders service/hybrid route candidates. Record pending caller investigation; preserve working jobs.
+
+**Browser call test:** [Tawgod/Lightspeed CI 43050974812](https://github.com/Tawgod/Lightspeed/actions/runs/43050974812) SUCCESS, including four-client callsite drift test, API 87-route drift suite, staff and Lightspeed policy and Special Orders compatibility. Draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) retains these as code-review-only inventories, not mounted authentication guards.
+
 ## Browser caller audit milestone — 2026-11-11
 
 **In Development / Testing, no deployment.** The owner verified Codespace pull to `integration/security-all-tools-20261111@2fb6529`, with **5 of 5** 87-route inventory tests passing. Across earlier separate Codespace runs, **36 local tests** passed without failed assertions (19 shared staff policy, 12 secure Lightspeed HTTP/read permission, 5 route inventory). GitHub [43049915660](https://github.com/Tawgod/Lightspeed/actions/runs/43049915660) SUCCESS on 2fb6529.
