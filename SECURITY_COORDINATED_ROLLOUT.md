@@ -1,5 +1,11 @@
 # Hobby Corner — Coordinated Security Integration and Rollout
 
+## Verified guarded audit attribution tests — 2026-11-11
+
+**Testing; not deployed.** Owner's clean Codespace fast-forwarded to `integration/security-all-tools-20261111@5a641a6`; the user supplied 11 successful actor/real-router test assertions (6 actor, 5 seam), no failures. The same output was repeated and is counted **once**; prior local checkpoint total now stands at 72 individually visible passes across seven separate commands. [GitHub Actions run 43107480216](https://github.com/Tawgod/Lightspeed/actions/runs/43107480216) **SUCCESS** on that exact code head.
+
+**Decision gates:** tests prove simulated admission-derived `employee:<id>` / `service:<id>` audit actors and default-off legacy compatibility; they do **not** establish physical passkey/device, database audit rows or whole-system integration. Current server composition does not enable the new gate, no exact staff/service operations were granted, and 14 granular permission examples remain proposals. Before staging, review body-sensitive Special Order status changes (complete/cancel suppress notifications), customer PII creation, receiving/allocations, vendor writes, and downstream automated Discord callers. No production deployment, DB migration, Owner first activation, permission changes or Chrome extension release.
+
 ## Guarded audit attribution milestone — 2026-11-11
 
 **Testing, not deployed:** Owner's Codespace successfully fast-forwarded to `Tawgod/Lightspeed:integration/security-all-tools-20261111@2db2ede`. Supplied output confirms 11 passing assertions in the provisional scope + real router suite (no failures shown); an additional named staff-policy test file had no visible results in that terminal extract, so its local status is not inferred. GitHub [Actions 43105622486](https://github.com/Tawgod/Lightspeed/actions/runs/43105622486) SUCCESS at the same code head. 61 local assertions displayed as passing across earlier runs combined with latest.
