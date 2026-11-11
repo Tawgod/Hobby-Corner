@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-11 — Default-off Core Operations security admission integration (development only)
+
+- Owner confirmed 4 browser caller source tests PASS; 40 individual user-run isolated tests passed across four security checkpoints.
+- On `Tawgod/Lightspeed` draft PR #61, added `coreOperationsRouteAdmission.js`: zero approved business routes by default, exact source/method/path and audience match, signed active employee session + independent workstation/factor + exact backend grant, or separately verified scoped service credential + exact service grant. Malformed, unknown, spoofed or ambiguous requests deny.
+- Added optional backend-only `coreOperationsAdmission` middleware seam after Special Orders login/session check, before all business and nested product routes. Existing `server.js` does not supply it, so no live auth, workers or UI workflow changes.
+- Added isolated staff/service policy, HTTP pre-handler denial, real-router compatibility and no-DB tests, CI integration and documentation; latest test conclusion pending at update. No production, migration, credential, role, owner, vendor or Chrome extension release.
+
 ## 2026-11-11 — Production Discord and Rewards machine-identity review (read only)
 
 - Verified Railway production bot deploy `3a8e9375-aad7-4c47-9721-66790febaeae` uses `Tawgod/Hobby-Corner-Discord-Bot@7c3af0e` `main.py`; Rewards deploy `07c0c365-a8d4-4a2e-a120-2034db91fc` uses `@ce54862` `rewards_service.py`. Exact deployed source blobs matched checked main branch.
