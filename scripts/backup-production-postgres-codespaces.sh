@@ -48,12 +48,22 @@ fi
 mv -- "$partial" "$archive"
 unset PGPASSWORD
 printf 'Encrypted archive: %s\n' "$archive"
-echo 'Verify decryption/archive format by entering your private passphrase again.'
-if age --decrypt "$archive" | pg_restore --list >/dev/null; then
-  echo 'Archive format and decryption PASS (full restore not yet verified).'
+echo 'Verify FULL decryption. Enter your private encryption passphrase.'
+if ! age --decrypt --output /dev/null "$archive"; then
+  echo 'Full decryption FAILED: do not trust this backup.' >&2
+  exit 1
+fi
+echo 'Full decryption PASS.'
+echo 'Verify PostgreSQL archive format. Enter the same passphrase once more.'
+# pg_restore --list reads only the archive directory, then closes stdin.
+# age may consequently get SIGPIPE (exit 141). Its full decryption was
+# checked above, so here only pg_restore's status determines format validity.
+if (set +o pipefail; age --decrypt "$archive" | pg_restore --list >/dev/null); then
+  echo 'Archive format PASS (full restore not yet verified).'
   sha256sum -- "$archive"
   echo 'Next: run scripts/verify-production-postgres-backup-codespaces.sh with the file path above.'
   echo 'Download/store encrypted archive OUTSIDE Codespaces and GitHub.'
 else
-  echo 'Archive verification FAILED: do not trust this backup.' >&2; exit 1
+  echo 'Archive format verification FAILED: do not trust this backup.' >&2
+  exit 1
 fi
