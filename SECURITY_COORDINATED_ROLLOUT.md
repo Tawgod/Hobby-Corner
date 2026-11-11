@@ -1,5 +1,13 @@
 # Hobby Corner — Coordinated Security Integration and Rollout
 
+## Latest implementation checkpoint — 2026-11-11
+
+**Testing, not deployed:** Codespace operator confirmed 19/19 shared policy tests and 12/12 secured Lightspeed gateway tests passed (31 total). After a missing `express` package on the first gateway attempt, installing project dependencies resolved the failure. The underlying live Special Orders route still accepts a legacy admin key or Timeclock bearer, not the proposed independently verified workstation/MFA+operation grant.
+
+**Targeted defense-in-depth patch:** draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) removed key-length disclosures from `special-orders.js` health JSON and logs, retaining existing auth behavior. Added `tests/special-orders-auth-metadata.test.mjs`. [CI 43047954793](https://github.com/Tawgod/Lightspeed/actions/runs/43047954793) SUCCESS for cross-tool, secure-read and new Special Orders compatibility regressions. Only development source changed; no production merge, deployed service or database change.
+
+**Next milestone:** route-by-route classification of Special Orders / Ordering / Preorders operations and service workers; inject actual trusted staff device/MFA and server-side exact grant adapters before mounting the shared gate. Maintain the legacy route during parallel development; never enable strict gating until employee login and background jobs pass acceptance.
+
 **Prepared/verified:** 2026-11-11. **Coordinator:** Employee/Admin Security with Shared Lightspeed Services, Shared UI/Navigation, Timeclock, Deployment Coordination, and Chrome release coordination.  
 **Overall status: In Development / Blocked for a single coordinated production release.**  
 **Owner direction (2026-11-11):** Update *all applicable Hobby Corner tools* to the shared employee/Owner security model rather than shipping only the new Owner-staging Timeclock code. Owner reports no staff currently using the tools. **Railway services remain online; background jobs and external integrations may still operate.** This direction authorizes investigation and coordinated integration work, not blind database migrations, account privilege grants or unreviewed multi-service deployment.
