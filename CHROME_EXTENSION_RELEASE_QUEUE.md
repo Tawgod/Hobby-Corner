@@ -1,5 +1,15 @@
 # Hobby Corner Chrome Extension Release Queue
 
+## Coordinated all-tools staff security update — 2026-11-11
+
+**Status: BLOCKED / In Development; no extension version prepared or released.** Owner requested a common security release for all applicable Hobby Corner tools instead of Timeclock-only rollout. The existing **Staff Timeclock authentication migration** queue entry below remains the authoritative extension item (do **not** create a parallel duplicate). See [SECURITY_COORDINATED_ROLLOUT.md](SECURITY_COORDINATED_ROLLOUT.md).
+
+**Backend blocker:** Shared staff authentication, station challenge/response, trusted mobile passkeys/TOTP, Admin permissions and legacy Timeclock/extension callers are not yet integrated; `shared-ui/staff-auth.js` retains a PIN-session and legacy-key fallback. PR #22 owns `extension/content.js`, PR #26 owns Scanner/Toolkit navigation and PR #31 owns PO Companion candidate; these must be reconciled against `integration/hobby-corner-consolidation` and the queue before any extension build, version, install package, or production serving change. New station-proof security cannot be enabled without equivalent tested employee flows, including clocking and Split/Recall.
+
+**Testing:** Existing isolated policy and UI PR CI was observed, but no combined loaded-Chrome employee workstation acceptance, complete source reconciliation, or cross-tool production security deployment. **No extension branch, package, version, deployment or publication changed in this checkpoint.**
+
+---
+
 **Purpose:** This file is the shared cross-chat release queue for the Hobby Corner Toolkit Chrome extension.
 
 Any development conversation that changes or plans to change the Chrome extension must use this file so extension work from one chat is not accidentally omitted when another chat prepares the next release. It must also read `CHROME_EXTENSION_INTEGRATION.md`, which defines the shared extension architecture, navigation, UI, permissions, ownership, messaging, and cross-feature integration rules.
