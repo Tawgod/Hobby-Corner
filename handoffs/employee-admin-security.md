@@ -1,5 +1,17 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Coordinated all-tools security request — 2026-11-11
+
+**Status: In Development / Blocked for deploy.** The owner broadened scope from Timeclock-only default-disabled code to a coordinated security update for all tools, while reporting that staff are not currently using the tools. This does **not** prove that Railway/Discord/background tasks are inactive. See authoritative cross-tool release matrix and gates: [SECURITY_COORDINATED_ROLLOUT.md](../SECURITY_COORDINATED_ROLLOUT.md).
+
+**Read-only GitHub verification:** `Tawgod/Lightspeed` PRs #32 (foundation), #33 (shared reads/permissions), #34 (Admin), #35 (unified navigation), #38 (secure-read), #51 (transport fix), #59 (Timeclock scoped Owner), and #60 (Owner staging adapter) remain open. #33 is currently non-mergeable and has diverged 258 ahead/272 behind its #32 base; latest Owner candidate #60 is 585 ahead/3 behind consolidated production and affects 237 files. Although Owner/Scanner tests for PRs #59/#60 and Admin/nav/foundation tests passed individually, **no combined all-tools build or real employee acceptance exists**. `server.js` is unchanged between production and #60; new security/Owner/Admin modules are not mounted on live core routes, and `shared-ui/staff-auth.js` retains its legacy-key fallback. Do not misrepresent staged code as deployed access enforcement.
+
+**Railway:** Production Timeclock-only patch `20177311-bc46-41cb-b9c6-05b6760a9a6f` remains STAGED, **not applied**. It is not the requested full-tool rollout and must be reconciled before any production commit. The dedicated Owner staging app + PG18 patch remains uncommitted. No production data, secrets, role or deployment changed during this broader audit.
+
+**Next actions:** In Codespaces, reconcile the substantial source divergence into one candidate with targeted tests; wire authenticated backend policy and client consumers; verify Admin/Owner in isolated staging; complete Chrome extension queue coordination and mobile/store-device acceptance; then present a scoped multi-service release with migration/activation steps separately approved. The backup's PG18 54-table restore and USB checksum remain verified; cloud copy visibility was confirmed by the owner, not by connector hash.
+
+---
+
 ## Owner Timeclock targeted production release staged — 2026-11-11
 
 **Status: Testing / awaiting deployment approval. Implemented in draft PR #59; tests passed; NOT deployed.** The owner requested to proceed toward Owner login deployment after confirming their encrypted archive is present in the private Google Drive Railway folder. The owner previously authorized only the **default-disabled, code-only PR #59 Timeclock production release** conditional on recoverable backup and blast-radius checks. No authorization extends to live Owner identity enablement, DB schema migrations, secret provisioning, Owner permissions or draft PR #60.
