@@ -1,5 +1,16 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Combined web/security foundation integration tested, not deployed
+
+- Completed review-only caller classification of all 14 Special Orders service-or-employee endpoints on `Tawgod/Lightspeed:integration/security-all-tools-20261111`; 7 exact service proposals + 7 remaining caller reviews, no grants. Discovered that `GET /preorders/products/:id/allocation-suggestions?refresh_lightspeed=1` writes local cached metrics; added exact strong `special-orders.purchase-metrics.refresh` policy and deny-by-default query guard. Security automated runs `43249927145` and `43250204341` SUCCESS.
+- Composed existing Timcorp prefix helper with already-developed unified Store Operations UI in [draft PR #62](https://github.com/Tawgod/Lightspeed/pull/62). Six HTML pages, four clients, Timeclock login, Admin read check, dashboard/priority review, and Order Split gained prefix-aware URL handling without changing old Railway root URLs. All six PR #62 workflows SUCCESS on `de61f882` (including synthetic Chromium keyboard, login, layout, sign-out and failure handling).
+- Created the **combined** security + shared web [draft PR #63](https://github.com/Tawgod/Lightspeed/pull/63), `feature/shared-foundation-security-web-20261112@63f13787`, layered on security PR #61. Ported shared UI/Admin read-only helper and added Priority Review read route without replacing guarded status, Discord claim lease, GW reaction, mark-submitted SQL atomicity or audit actor; route inventory now 88 exact routes with new route pending and no automatic grants.
+- Corrected one missing read-only Admin SQL review fixture from the nav branch; all five combined-head GitHub workflows SUCCESS: security `43256005235`, combined integration `43256005415`, Core Operations Chromium UI `43256005508`, shared UI `43256005397`, scanner `43256005287`. Previously real disposable PG status test **13/13 PASS** on underlying security branch; combined branch real PG rerun not yet performed.
+- Inspected the central Git-backed Railway gateway. Current central `timcorp-projects-foundation` source documents `timcorp-projects.com/HobbyCorner/` (planned, HTTP 503), in conflict with the prior requested `timcorp-productions.com/hobby-corner`. Documented that hostname/path decision explicitly; no DNS, gateway or domain change.
+- Created/reconciled `handoffs/shared-web-foundation.md`, updated `handoffs/employee-admin-security.md` and `HOBBY_CORNER_PROJECT.md`. **No PR merge, production deploy, Railway config, secret, employee/service authorization, real Discord action, Lightspeed mutation, database migration, or Chrome extension packaging/release.**
+
+---
+
 ## 2026-11-12 — Repair injected rollback test SQL fixture
 
 - Codespaces operator ran the expanded disposable PostgreSQL 18 status suite: **six nested database checks passed, injected rollback check failed, parent suite failed**. No Node final summary/cleanup confirmation in pasted excerpt.
