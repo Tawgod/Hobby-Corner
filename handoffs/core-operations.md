@@ -1,14 +1,21 @@
 # Core Operations / Special Orders / Ordering / Preorders / GW — Current Handoff
 
-**Last verified:** 2026-10-29  
-**Status:** Testing — consolidated source and Railway are current; several employee/browser and Discord acceptance gates remain
+**Last verified:** 2026-11-12  
+**Status:** Testing — exact employee authorization review and combined PR #63 source reconciliation pass; production remains unchanged
+
+## 2026-11-12 security / shared-foundation reconciliation
+
+Core Operations employee mutation review now has **38 exact, review-pending route proposals** and no proposal grants legacy `special-orders.manage` or `ordering.manage`. Hidden supplier-cache GET writes, body-sensitive customer Lightspeed sync, locked-vs-unlocked supplier-order edits, notification staging vs delivery, and GW form redirect validation were separated and tested. The GW form fetch now revalidates every redirect hop and byte-limits response streaming.
+
+The reviewed security parent was merged into PR #63's development branch only. Fresh checks on `50fda74b` all passed, including real-browser read-only staging smoke. The staging guard still has zero approved business routes. No production/vendor/business-record change was made.
 
 ## Source
 
 - Repository: `Tawgod/Lightspeed`
-- Authoritative branch: `integration/hobby-corner-consolidation@f50c3309824986633c3ba37a95e6eb43aae15a3c`
-- Current PR: no open Core Operations PR for the post-merge work; PR #24 is **MERGED** and PR #27 shared UI is **MERGED**
-- Current commit: `f50c3309824986633c3ba37a95e6eb43aae15a3c` — `Make GW re-sync duplicate-safe by SKU and external entry`
+- Production/consolidated baseline remains `integration/hobby-corner-consolidation@f50c3309824986633c3ba37a95e6eb43aae15a3c`; no production deployment changed in this review.
+- Active security parent: `integration/security-all-tools-20261111@b77d7fcabc8876f84fc96c324e68fc4a4a03a479`, draft PR #61.
+- Active combined shared-foundation staging candidate: `feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1`, draft PR #63; development sync PR #69 merged the reviewed security parent into this branch.
+- PR #63 is verified **13 commits ahead / 0 behind** its security base; all six fresh combined workflows passed. The isolated Railway staging runtime remains pinned to its earlier approved build and was not redeployed to `50fda74b`.
 - Merged Core Ops PR: #24 `feature/core-ops-ui-consistency-nav-20261028@69cc608e1bb89f5eb8715cf1b45d9faa5de1d2d7`
 - Merged shared UI PR: #27
 - Superseded Core Ops predecessors: PR #21 and PR #23; do not merge them independently

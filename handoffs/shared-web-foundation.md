@@ -2,6 +2,15 @@
 
 **Last verified:** 2026-11-12  
 **Status:** Testing — isolated staging security guard deployed, HTTPS/Chromium and forged-identity denials accepted; NOT production-deployed
+
+## PR #63 source refreshed to current reviewed security parent — 2026-11-12
+
+**Source:** `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1`, draft PR #63, now **13 ahead / 0 behind** `integration/security-all-tools-20261111@b77d7fcabc8876f84fc96c324e68fc4a4a03a479`. Sync PR #69 merged cleanly after its combined smoke and security checks passed.
+
+**Combined verification:** all six workflows on `50fda74b` **SUCCESS**: UI navigation 43313012820, security 43313012744, combined foundation 43313012669, scanner 43313012651, shared UI 43313012620, isolated Railway HTTPS/browser read-only smoke 43313012592. The source-level staging guard still has `approvedRoutes:[]`; reviewed employee scopes are not activated by the merge.
+
+**Runtime distinction:** the isolated Railway service is still pinned to the previously approved deployed source noted below. No deployment of `50fda74b`, central gateway/DNS activation, real employee/Owner grant, production database connection or vendor credential/action occurred. The next deployment/test step remains a separate staging decision.
+
 ## Active staging zero-grant security gate and Owner sign-in dependency — 2026-11-12
 
 **Implemented/deployed in isolated staging:** Existing PR #63 development channel deployed the approved staging-only default-deny `createIsolatedStagingCoreAdmission` from `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@34d92a04f0905f60f5b71552862cdd404cab34bd` (not the obsolete duplicate PR #64). Railway `hc-foundation-pr63` deployment `4cae33bf-1569-4b2d-90a0-2aee9e5de55e` **SUCCESS**, same isolated project/environment/database; both services online with zero warnings/pending patch. `HC_CORE_SECURITY_STAGING_ENABLED` exists on this staging app. Runtime now has zero approved employee/service routes; unauthenticated business API and forged Owner/service credentials fail HTTP **403**, while health/pages remain reachable. Vendor/Scanner/Admin controls remain off. No production Timeclock, employee, Owner, Lightspeed, Discord, gateway/DNS or Chrome release changes.

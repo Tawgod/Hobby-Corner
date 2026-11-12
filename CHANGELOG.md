@@ -1,5 +1,14 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — PR #63 synchronized to reviewed security base
+
+- Created development-only sync PR #69 from `integration/security-all-tools-20261111@b77d7fca` into `feature/shared-foundation-security-web-20261112`; GitHub reported it cleanly mergeable. Combined smoke 43312873217 and security 43312873155 passed before merge.
+- Merged PR #69 into the PR #63 feature branch as `50fda74b`. PR #63 is now 13 commits ahead and 0 behind the reviewed security base.
+- Fresh PR #63 checks all passed on the merged head: Core Operations UI 43313012820, security 43313012744, combined foundation 43313012669, scanner 43313012651, shared UI 43313012620, isolated Railway HTTPS/browser smoke 43313012592.
+- Readback confirms the staging guard still uses `approvedRoutes:[]`; none of the 38 review-pending employee scopes became active. Existing Railway staging was not redeployed, and production/gateway/business credentials/data were untouched.
+
+---
+
 ## 2026-11-12 — Core Operations exact employee scopes and GW redirect hardening
 
 - Completed the development-only employee-write classification pass on `Tawgod/Lightspeed:integration/security-all-tools-20261111`. All legacy `special-orders.manage` / `ordering.manage` employee-write inventory routes now have non-broad exact, review-pending proposals; the proposal set totals 38 routes and contains no broad manage permission.

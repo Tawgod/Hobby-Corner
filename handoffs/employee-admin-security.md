@@ -1,5 +1,17 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## PR #63 reconciled to reviewed security base — 2026-11-12
+
+**Status:** Combined source **Testing PASS**; draft / NOT production deployed. Security parent `integration/security-all-tools-20261111@b77d7fcabc8876f84fc96c324e68fc4a4a03a479`; combined staging candidate `feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1`, draft PR #63. Development sync PR #69 merged only the reviewed security base into the PR #63 feature branch.
+
+**Graph verification:** PR #63 is now **13 commits ahead, 0 behind** its security base; merge-base is exactly `b77d7fca`. The merged branch still creates the staging Core Operations admission with `approvedRoutes:[]` and requires isolated staging/kill-switch configuration while prohibiting business and Owner credentials. The 38 exact review-pending proposals were **not** activated or granted.
+
+**Fresh combined checks on `50fda74b`:** Core Operations UI navigation 43313012820 **SUCCESS**; cross-tool security 43313012744 **SUCCESS**; combined shared-foundation integration 43313012669 **SUCCESS**; scanner regression 43313012651 **SUCCESS**; shared UI reconciliation 43313012620 **SUCCESS**; isolated Railway HTTPS/read-only browser smoke 43313012592 **SUCCESS**.
+
+**Deployment boundary:** Existing isolated Railway staging remains on its previously approved pinned build; `50fda74b` was **not redeployed**. No production Railway, database, staff/Owner identity, route grant, Lightspeed/Discord action, gateway/DNS or Chrome extension change.
+
+---
+
 ## Core Operations employee-write scope review closed; GW redirect fetch hardened — 2026-11-12
 
 **Status:** Security policy **In Development**; focused CI **PASS**; NOT deployed. **Source:** `Tawgod/Lightspeed:integration/security-all-tools-20261111@b77d7fcabc8876f84fc96c324e68fc4a4a03a479`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61).

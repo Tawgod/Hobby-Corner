@@ -1,5 +1,15 @@
 # Hobby Corner Project Registry
 
+## Shared foundation + Core Operations security source synchronized — 2026-11-12
+
+**Status:** Testing PASS at source; NOT redeployed / NOT production. Draft PR #63 head is `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1`, now **13 ahead / 0 behind** reviewed security parent `integration/security-all-tools-20261111@b77d7fcabc8876f84fc96c324e68fc4a4a03a479`. Sync PR #69 is merged.
+
+**Verification:** all six fresh combined workflows on `50fda74b` succeeded (43313012820, 43313012744, 43313012669, 43313012651, 43313012620, 43313012592). Source readback confirms isolated staging admission still has `approvedRoutes:[]` and requires staging-only kill switches/no business credentials. Reviewed Core Operations candidate scopes remain unactivated.
+
+**Runtime:** current isolated Railway staging remains on its prior approved pinned source. No `50fda74b` deployment, production Railway/database change, Timcorp gateway/DNS cutover, employee/Owner grant, Lightspeed/Discord operation, or Chrome release occurred.
+
+---
+
 ## Core Operations exact employee authorization coverage — verified 2026-11-12
 
 **Status:** In Development / focused Testing PASS / NOT deployed. Security review branch `Tawgod/Lightspeed:integration/security-all-tools-20261111@b77d7fcabc8876f84fc96c324e68fc4a4a03a479` now has exact review-pending authorization proposals for every employee-write route that originally carried broad `special-orders.manage` or `ordering.manage`. There are 38 exact candidate routes and no broad manage operation in the candidate proposal list. Newly closed routes remain strong step-up by default; only explicitly audited routine operations are workstation candidates.
