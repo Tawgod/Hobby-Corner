@@ -1,5 +1,12 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Owner staging locked web preview and database credentials verified — 2026-11-12
+
+**Status:** Owner stage database + runtime/operator separate SCRAM logins **Deployed/Testing PASS**; Owner HTTPS staging preview **Deployed/Testing PASS, login locked**; real Owner **not commissioned**. PRs #66 and #67 created distinct password-locked then Railway-generated/password-verified restricted runtime/operator DB roles. The web app never carries operator/root DB credentials. PR #68 Owner preview `https://hc-owner-staging-staging.up.railway.app/owner-setup/`, deployment `c97a3939` on code `60cefaf7`, passes live privilege preflight, but sign-in/PIN/passkey endpoints intentionally return 423 and health reports `ready:false`. Actual HTTPS checks [43307211049](https://github.com/Tawgod/Lightspeed/actions/runs/43307211049) passed. Original separate Owner staging 55-change patch not applied; no secrets logged and temporary privileged runners deleted. Production Timeclock Owner verification remains default-disabled; production throttle SQL/Owner employee binding and actual passkey/TOTP are outstanding. See `handoffs/owner-login.md` for precise deployment, commits and remaining approval boundaries. **No real Owner grant or production/gateway change.**
+
+---
+
+
 ## First Owner isolated database access boundary provisioned — 2026-11-12
 
 **Status:** Owner staging PostgreSQL deployed and schema/NOLOGIN privilege checks **PASS**, real Owner identity and LOGIN roles **not commissioned**. A fresh separate Railway Postgres 18 service `Postgres-x8Ui` in `HC PR63 Isolated Staging/staging` now hosts empty `hc_owner_stage_test`, 9 Owner/security tables and two restrictive NOLOGIN groups. A one-off migration tool at [PR #65](https://github.com/Tawgod/Lightspeed/pull/65) commit `81d2386` reported successful grant checks and zero activations, then its service/root DB reference was removed. Store Operations staging app remained unchanged; production Timeclock verifier is installed but default-disabled.
