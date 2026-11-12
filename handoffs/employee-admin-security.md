@@ -1,5 +1,21 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Discord delivery lease disposable PostgreSQL acceptance PASS — 2026-11-12
+
+**System:** Shared Staff Security / notification delivery worker reliability. **Status: Testing PASS for disposable PostgreSQL acceptance; NOT deployed.** Owner synced `Tawgod/Lightspeed:integration/security-all-tools-20261111` to `a7560a0a3a70d9683b9a3b95314dbb9a8b09dfc0` and ran the localhost-only PostgreSQL 18 harness.
+
+**Observed result:** Node reported **13 tests, 13 pass, 0 fail**, followed by `Disposable database verification completed. Temporary container will be removed.` and `Verified disposable PostgreSQL container removal.`
+
+**Verified lease behavior:** A QUEUED Discord notification is visible and claimable; the first claim moves it to SENDING with a five-minute lease; an immediate second claim returns 409 and fresh SENDING work is hidden; after the fixture expires the lease, the item becomes visible/reclaimable; successful completion records SENT and clears `not_before`. Previously verified guarded status, Discord completion atomicity, GW Discord reaction atomicity and GW mark-submitted rollback/retry/idempotency cases remained green.
+
+**Related automated verification:** GitHub Actions [43245589553](https://github.com/Tawgod/Lightspeed/actions/runs/43245589553) **SUCCESS** on current head before the manual database acceptance.
+
+**Production boundary:** No Railway deployment, schema migration, real Discord message, service credential, employee grant, route approval, Lightspeed mutation or Chrome extension change occurred.
+
+**Next:** Continue remaining cross-system worker review, prioritizing GW auto-submit failure alert delivery semantics and any stale/duplicate handling that spans PostgreSQL and Discord. Keep review-pending service scopes default-deny until caller ownership and staging credentials are explicitly commissioned.
+
+---
+
 ## Reclaimable Discord delivery lease prepared — 2026-11-12
 
 **System:** Shared Staff Security / notification delivery worker reliability. **Status: In Development / automated CI PASS; disposable PostgreSQL acceptance pending; NOT deployed.** Development branch `Tawgod/Lightspeed:integration/security-all-tools-20261111`, latest head `a7560a0a3a70d9683b9a3b95314dbb9a8b09dfc0`.
