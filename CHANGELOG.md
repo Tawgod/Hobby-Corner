@@ -3,7 +3,7 @@
 ## 2026-11-12 — Disposable PostgreSQL integration test for guarded status routes
 
 - Added **manual-only** `scripts/run-isolated-security-status-postgres.sh` on draft `Tawgod/Lightspeed` PR #61. It creates a local-only disposable PostgreSQL 18 container in remote Codespaces, confirms loopback port, scrubs inherited DB/vendor secrets, runs fixture-only tests and removes its own container.
-- Added `tests/core-operations-status-postgres-isolated.test.mjs` with strict localhost/fixture-DB preflight and actual Special Orders SQL + Express tests for routine state changes, blocked reopen, passkey-protected cancellation, notification suppression, server-derived audit history, and concurrent DB-lock downgrade denial. This **has not been run or validated against PostgreSQL yet**; previously passing code-only CI remains [43226273528](https://github.com/Tawgod/Lightspeed/actions/runs/43226273528).
+- Added `tests/core-operations-status-postgres-isolated.test.mjs` with strict localhost/fixture-DB preflight and actual Special Orders SQL + Express tests for routine state changes, blocked reopen, passkey-protected cancellation, notification suppression, server-derived audit history, and concurrent DB-lock downgrade denial. Owner ran it in Codespaces at `f1c8fbb`, with five passing PostgreSQL nested cases and a passing parent test; Node final summary and disposable container removal were not shown, so they remain unconfirmed. Previously passing code-only CI remains [43226273528](https://github.com/Tawgod/Lightspeed/actions/runs/43226273528).
 - No production deployment, migration, customer/inventory/vendor data write, credential change, or Chrome extension work.
 
 ## 2026-11-12 — Staged permission split for Special Orders status transitions
