@@ -1,5 +1,27 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Exact service proposals + GW Discord reaction transaction hardening — 2026-11-12
+
+**System:** Shared Staff Security / Core Operations service-worker authorization and integrity. **Status: In Development / automated tests PASS; manual PostgreSQL acceptance pending; NOT deployed.** Development branch `Tawgod/Lightspeed:integration/security-all-tools-20261111`, draft PR #61, latest head `56fac07ff13ab7103ab2e3a3a31b516d52f61ea6`.
+
+**Service-scope review:** Added `services/security/coreOperationsServiceProposals.js` with seven **review-pending, non-authorizing** exact machine-route proposals: Discord preorder-watch capture, GW Discord reaction callback, GW auto-submit failure callback, GW mark-submitted callback, Discord delivery read, Discord delivery claim, and Discord delivery complete. Mixed employee/browser routes are intentionally excluded, including GET preorder-watch review, GET notification delivery queue, and manual POST product reconciliation. Proposals are not imported by `server.js` or route admission and create no credential/grant.
+
+**Tests:** `tests/core-operations-service-proposals.test.mjs` verifies each proposal maps to an existing inventory route, remains pending, uses exact `service.*` scope, authorizes nothing unless explicitly injected into the backend gate, and keeps claim/complete/read grants isolated. GitHub Actions [43242961218](https://github.com/Tawgod/Lightspeed/actions/runs/43242961218) **SUCCESS**.
+
+**Integrity finding/fix:** Source review found `POST /preorders/gw/discord-reaction` wrote reaction history, preorder request changes and confirmation/update notifications as separate autocommit statements. A later failure could leave Discord reaction history persisted while the preorder request/notification state was missing or stale. Commit `d1beb9341ac9b79d45fa82a2c8f52aaa75ccacf2` now runs the callback as one PostgreSQL transaction, including the unmatched-customer event path, with rollback on failure. Security workflow [43243080651](https://github.com/Tawgod/Lightspeed/actions/runs/43243080651) **SUCCESS** for the production-code change.
+
+**Manual acceptance added:** Latest head `56fac07f...` extends the loopback-only disposable PostgreSQL test with an injected confirmation-notification failure. It must prove that a failed GW ADD reaction leaves **zero reaction rows, zero preorder request rows and zero confirmation notifications**, then a clean retry creates exactly one reaction, a REQUESTED preorder request and a PENDING confirmation. This test uses fixture service `gw-discord-events`; no real Discord, customer, Railway or Lightspeed data is touched. The manual test file intentionally does not trigger GitHub Actions.
+
+**Next operator command:**
+
+```bash
+cd /workspaces/Lightspeed-security && git pull --ff-only && bash scripts/run-isolated-security-status-postgres.sh
+```
+
+Expected: all prior status/Discord-completion cases remain green, one new GW Discord reaction rollback case passes, parent passes, Node reports zero failures, and disposable container removal is verified. No production route/grant/deployment change.
+
+---
+
 ## Discord delivery disposable PostgreSQL acceptance PASS — 2026-11-12
 
 **System:** Shared Staff Security / Core Operations service-worker integrity. **Status: Testing PASS for disposable PostgreSQL acceptance; NOT deployed.** Owner fast-forwarded `Tawgod/Lightspeed:integration/security-all-tools-20261111` from `98a9165` to `47a6045e375cd7609073caecf6198938c4a66883` and ran `bash scripts/run-isolated-security-status-postgres.sh` in Codespaces.
