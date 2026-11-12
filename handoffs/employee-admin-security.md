@@ -1,5 +1,19 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Corrected disposable PostgreSQL status acceptance — 2026-11-12
+
+**System:** Shared Staff Security / Special Orders guarded status SQL acceptance. **Status: Testing PASS for corrected disposable PostgreSQL transaction suite; NOT deployed.** Owner fast-forwarded `Tawgod/Lightspeed:integration/security-all-tools-20261111` from `e704b58` to `98a9165eb37a28ec8341185bde5459c4789a2818` and ran `bash scripts/run-isolated-security-status-postgres.sh` in Codespaces. The PostgreSQL 18 schema initialized successfully and **all seven nested integration checks passed, with the parent test passing**.
+
+**Verified cases:** routine progress writes one trusted employee history row without notification side effects; routine downgrade from a received item is blocked; completion/cancellation require strong verified proof and suppress pending notification work; completion suppresses PENDING/QUEUED while preserving SENT notices; the corrected forced-notification-failure fixture proves atomic rollback of status/history/timestamps; row locking prevents a stale routine authorization from reopening an item concurrently; and unrecognized targets/static legacy key cannot mutate a row.
+
+**Correction closed:** The prior six-of-seven failure was caused by malformed PL/pgSQL quoting in the injected-failure **test fixture**, not by demonstrated production transaction non-atomicity. The corrected fixture now passes at branch head `98a9165`. This establishes the intended transaction behavior against a disposable real PostgreSQL 18 instance for this isolated test path. The pasted terminal output still ends immediately after the passing parent test, so the launcher’s final explicit container-removal line and shell exit status were not independently observed in chat; do not claim those two details unless separately shown.
+
+**Production boundary:** `server.js` still does not mount the proposed Core Operations admission guard; no production employee grants, Railway database/schema, Lightspeed records, Chrome extension, credentials or deployment changed. Draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) remains the development integration branch.
+
+**Next:** Continue safe development by reviewing remaining Special Orders status policy edges and the unreviewed Core Operations endpoint/service scope inventory. Physical passkey/Authenticator, staffed browser acceptance, real grant storage/credential provisioning, production deployment, schema migration and permission activation still require separate approval/participation.
+
+---
+
 ## Failed rollback fixture and correction — 2026-11-12
 
 **System:** Shared Staff Security / Special Orders guarded status SQL acceptance. **Status: Testing, BLOCKED on corrected manual retest; NOT deployed.** Owner ran `cd /workspaces/Lightspeed-security && git pull --ff-only && bash scripts/run-isolated-security-status-postgres.sh` after syncing `Tawgod/Lightspeed:integration/security-all-tools-20261111@e704b58`. **Six of seven nested PostgreSQL 18 tests passed**, while `forced notification failure rolls back status, history and timestamps atomically` failed and parent test failed. The output did not include a failure stack, final Node summary or verified temporary container cleanup. Do **not** count seven cases as passed.
