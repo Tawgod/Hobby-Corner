@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Timcorp host confirmed; fixed Codespaces combined-test checkout command
+
+- Owner confirmed **`timcorp-projects.com`** as the shared web hostname, superseding the previous `timcorp-productions.com` candidate. Central `/HobbyCorner/` is the documented *planned* route and remains HTTP 503/not connected. Updated PR #63 integration documents and central shared-web handoff/index with proposed `HC_PUBLIC_BASE_PATH=/HobbyCorner`, pending approval and testing; no domain, gateway, Railway, or production application settings changed.
+- The owner's attempt to run disposable PostgreSQL on combined branch fetched successfully but failed at `git switch --detach origin/feature/shared-foundation-security-web-20261112` because the Codespace fetched into `FETCH_HEAD` without creating that tracking ref. **No PostgreSQL tests ran.** Issued corrected command using `git switch --detach FETCH_HEAD`, a clean-tree guard, and restoration of the prior branch. Await 13-case real-DB results and verified Docker removal before marking combined integration accepted.
+
+---
+
 ## 2026-11-12 — Combined web/security foundation integration tested, not deployed
 
 - Completed review-only caller classification of all 14 Special Orders service-or-employee endpoints on `Tawgod/Lightspeed:integration/security-all-tools-20261111`; 7 exact service proposals + 7 remaining caller reviews, no grants. Discovered that `GET /preorders/products/:id/allocation-suggestions?refresh_lightspeed=1` writes local cached metrics; added exact strong `special-orders.purchase-metrics.refresh` policy and deny-by-default query guard. Security automated runs `43249927145` and `43250204341` SUCCESS.
