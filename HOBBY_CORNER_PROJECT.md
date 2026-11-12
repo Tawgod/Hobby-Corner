@@ -1,5 +1,15 @@
 # Hobby Corner Project Registry
 
+## Core Operations exact employee authorization coverage — verified 2026-11-12
+
+**Status:** In Development / focused Testing PASS / NOT deployed. Security review branch `Tawgod/Lightspeed:integration/security-all-tools-20261111@b77d7fcabc8876f84fc96c324e68fc4a4a03a479` now has exact review-pending authorization proposals for every employee-write route that originally carried broad `special-orders.manage` or `ordering.manage`. There are 38 exact candidate routes and no broad manage operation in the candidate proposal list. Newly closed routes remain strong step-up by default; only explicitly audited routine operations are workstation candidates.
+
+**Security finding closed:** GW form fetching no longer trusts automatic redirects after validating only the first URL. The branch now revalidates every redirect against exact HTTPS Games Workshop/Google Forms hosts, rejects credentials/non-default ports, limits redirect depth, and enforces a streaming response byte cap. Exact-scope CI `ab843217` workflows 43312242246 / 43312251778 SUCCESS; GW hardening `b77d7fca` workflows 43312605395 / 43312617031 SUCCESS.
+
+**Integration state:** draft PR #61 remains the security review parent and is not a deployment target. Draft PR #63 (`feature/shared-foundation-security-web-20261112`) is the combined staging candidate based on this security branch; its feature head was previously based at `9ee0e4c` and must be refreshed/tested against the new reviewed security base before another staged activation. No production or real business data changes were made.
+
+---
+
 ## Core Operations route authorization review — hidden side effects isolated (2026-11-12)
 
 **Status:** In Development / targeted Testing PASS / NOT deployed. Draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) security branch is now `5726a19cdcb75db18b583382d2aac893cd128777`. Three GET routes that silently refresh the local Lightspeed supplier cache are no longer modeled as generic reads: `ordering.suppliers.sync` and `ordering.context.refresh` are exact review-pending routine operations. Separately, customer profile PATCH now has a body-sensitive candidate policy: local-only edits require `customers.profile.write`; strict `sync_lightspeed:true` upgrades to strong `customers.lightspeed.update`, with ambiguous values denied.

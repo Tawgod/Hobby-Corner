@@ -1,5 +1,19 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Core Operations employee-write scope review closed; GW redirect fetch hardened — 2026-11-12
+
+**Status:** Security policy **In Development**; focused CI **PASS**; NOT deployed. **Source:** `Tawgod/Lightspeed:integration/security-all-tools-20261111@b77d7fcabc8876f84fc96c324e68fc4a4a03a479`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61).
+
+**Employee route classification:** The original Core Operations inventory still preserves legacy `special-orders.manage` / `ordering.manage` labels as audit history, but all such employee-write routes now have separate exact, review-pending proposals. `CORE_OPERATIONS_PROVISIONAL_SCOPES` has **38 exact routes** and contains **zero broad manage grants**. The final 18 unresolved writes were conservatively assigned strong step-up operations (`special-orders.import`, `special-orders.items.write`, `special-orders.product-link.write`, `special-orders.source-link.write`, `preorders.watch.write`, `preorders.gw.write`, `preorders.allocation.status`, `ordering.catalog.write`, `ordering.source-link.write`, `ordering.draft.edit`). Existing routine candidates remain narrow and exact. Supplier-order add-items is routine only because its handler locks the DRAFT parent row; unlocked edit/delete routes remain strong.
+
+**Additional hardening:** The GW form scraper previously allowlisted only the initial host and then used automatic redirect following. `services/gwFormFetchPolicy.js` now follows redirects manually, revalidates every hop against exact HTTPS `info.games-workshop.com` / `docs.google.com` hosts, rejects credentials/non-default ports, caps redirects, and byte-limits the response stream. Malicious redirects are rejected before the next network request.
+
+**Verification:** exact-scope closure corrected head `ab843217`: push [43312242246](https://github.com/Tawgod/Lightspeed/actions/runs/43312242246) and PR [43312251778](https://github.com/Tawgod/Lightspeed/actions/runs/43312251778) **SUCCESS**. GW redirect hardening `b77d7fca`: push [43312605395](https://github.com/Tawgod/Lightspeed/actions/runs/43312605395) and PR [43312617031](https://github.com/Tawgod/Lightspeed/actions/runs/43312617031) **SUCCESS**. Earlier supplier locked-draft and notification stage/send splits also passed their paired workflows.
+
+**Boundary / next:** No Core Operations guard was enabled on PR #61, no staff/service grant was issued, no customer/vendor/notification business action was performed, and no Railway/production/gateway/Chrome change occurred. PR #63 remains the combined staging candidate and must be refreshed from this reviewed base before its next combined test/deploy cycle; do not deploy PR #61 directly.
+
+---
+
 ## Customer profile local/vendor authorization split — 2026-11-12
 
 **System and feature:** Core Operations employee-route authorization review. **Status:** In Development; targeted automated **Testing PASS**; NOT deployed. **Source:** `Tawgod/Lightspeed:integration/security-all-tools-20261111@5726a19cdcb75db18b583382d2aac893cd128777`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61).

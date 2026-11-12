@@ -1,5 +1,15 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Core Operations exact employee scopes and GW redirect hardening
+
+- Completed the development-only employee-write classification pass on `Tawgod/Lightspeed:integration/security-all-tools-20261111`. All legacy `special-orders.manage` / `ordering.manage` employee-write inventory routes now have non-broad exact, review-pending proposals; the proposal set totals 38 routes and contains no broad manage permission.
+- Kept newly classified remaining writes conservative at strong step-up. Only separately audited routine workflows stay workstation-eligible. In particular, row-locked DRAFT supplier-order add-items can use `ordering.draft.write`; unlocked draft edit/delete routes use strong `ordering.draft.edit`. Notification staging now uses routine `special-orders.notifications.stage`, while the separate review/queue action remains strong `special-orders.notifications.send`.
+- Corrected regression expectations after the exact-scope expansion; head `ab843217` passed workflows 43312242246 and 43312251778.
+- Hardened GW server-side form fetching in `b77d7fca`: manual redirect handling with per-hop exact HTTPS host validation, URL credential/default-port checks, redirect cap and streaming 8 MiB response limit. Focused redirect/size tests plus the full security workflow passed 43312605395 and 43312617031.
+- These changes are on the unmounted PR #61 review branch only. No production deployment, route activation, permission grant, customer/vendor write, gateway/DNS or Chrome release occurred.
+
+---
+
 ## 2026-11-12 — Core Operations hidden-write and customer vendor-sync authorization review
 
 - Continued development-only review on `Tawgod/Lightspeed:integration/security-all-tools-20261111` / draft PR #61. Found that three GET routes (`/suppliers`, `/products/:id/recommended-suppliers`, `/ordering/lightspeed-context`) refresh the local supplier cache while reading Lightspeed. Split them from generic read scopes into exact review-pending `ordering.suppliers.sync` / `ordering.context.refresh` operations; corrected head `f8995600` passed security workflows 43310573618 and 43310580871.
