@@ -1,5 +1,17 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Failed rollback fixture and correction — 2026-11-12
+
+**System:** Shared Staff Security / Special Orders guarded status SQL acceptance. **Status: Testing, BLOCKED on corrected manual retest; NOT deployed.** Owner ran `cd /workspaces/Lightspeed-security && git pull --ff-only && bash scripts/run-isolated-security-status-postgres.sh` after syncing `Tawgod/Lightspeed:integration/security-all-tools-20261111@e704b58`. **Six of seven nested PostgreSQL 18 tests passed**, while `forced notification failure rolls back status, history and timestamps atomically` failed and parent test failed. The output did not include a failure stack, final Node summary or verified temporary container cleanup. Do **not** count seven cases as passed.
+
+**Cause found in source:** The simulated SQL trigger used malformed function body quoting `AS $ ... ; PostgreSQL requires valid quoted/dollar-quoted function body. This is a **test fixture defect**, not proof that the live status transaction is non-atomic. The specific test was fixed to a properly escaped single-quoted PL/pgSQL body and now asserts the expected injected database error message before checking rollback, to prevent unrelated 400 responses falsely passing.
+
+**Implementation:** `Tawgod/Lightspeed:integration/security-all-tools-20261111`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61), latest documentation head `98a9165eb37a28ec8341185bde5459c4789a2818`; corrected test commit `b3c01630bd3b7a8627558f579bd0fd90648a107a`. Only manual test and development doc updated. No branch merge, production auth, staff grants, SQL transaction logic, real database, Chrome extension or Railway change.
+
+**Next:** Automatically continue development after the owner reruns `cd /workspaces/Lightspeed-security && git pull --ff-only && bash scripts/run-isolated-security-status-postgres.sh` and reports complete output. Require all **seven nested checks PASS**, parent PASS, Node no-failure summary, plus `Verified disposable PostgreSQL container removal.` Then proceed to review status policy/permission edge cases and real device acceptance preparation. If still failing, inspect error stack and fix without touching production. Original previously verified [unit/HTTP CI 43226273528](https://github.com/Tawgod/Lightspeed/actions/runs/43226273528) SUCCESS remains valid for its own commit, not proof of the corrected manual test.
+
+---
+
 ## Disposable PostgreSQL rollback and cleanup hardening — 2026-11-12
 
 **System/feature:** Staff Security → Special Orders status-transaction integrity. **Status:** In Development / Testing, **not deployed**. **Repo:** `Tawgod/Lightspeed`, branch `integration/security-all-tools-20261111`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61), head `e704b58767b60074c24774d58328e58d388ef9f3`.
