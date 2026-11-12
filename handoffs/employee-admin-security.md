@@ -1,5 +1,21 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Discord delivery disposable PostgreSQL acceptance PASS — 2026-11-12
+
+**System:** Shared Staff Security / Core Operations service-worker integrity. **Status: Testing PASS for disposable PostgreSQL acceptance; NOT deployed.** Owner fast-forwarded `Tawgod/Lightspeed:integration/security-all-tools-20261111` from `98a9165` to `47a6045e375cd7609073caecf6198938c4a66883` and ran `bash scripts/run-isolated-security-status-postgres.sh` in Codespaces.
+
+**Observed result:** Node reported **10 tests, 10 pass, 0 fail**, followed by `Disposable database verification completed. Temporary container will be removed.` and `Verified disposable PostgreSQL container removal.` Runtime dropped to about 11 seconds, confirming the reconciliation startup timer no longer holds the process open for the prior ~120-second tail.
+
+**Verified database behavior:** All previously accepted guarded status cases remained green. The new scoped Discord service test proved that a verified `service:discord-delivery` completion atomically marks the notification `SENT`, moves the Special Order item to `CUSTOMER_NOTIFIED`, and writes server-derived service audit history. The injected `hc_fixture_reject_discord_history` failure intentionally raised `P0001`; the test then verified the notification remained `SENDING`, item retained its prior status, no history row committed, and a later retry succeeded. This confirms the new transaction rollback behavior against disposable PostgreSQL 18.
+
+**Automated source/HTTP verification:** Security workflow [43242023049](https://github.com/Tawgod/Lightspeed/actions/runs/43242023049) **SUCCESS** at transactional source commit `56ae8857810346d513ec8c97e404b364139fe936`. Latest head `47a6045e...` only added the manual PostgreSQL tests and did not require another GitHub Actions run.
+
+**Production boundary:** No `server.js` guard mount, employee permission, service credential, Railway deployment, schema migration, real customer/order/Lightspeed mutation, or Chrome extension change occurred. Draft PR #61 remains development-only.
+
+**Next:** Continue exact service/automation route classification and service-operation proposals from verified source behavior. Do not treat route inventory/proposals as authorization. Keep actual machine credentials, grants, worker cutover and production deployment behind separate acceptance/approval.
+
+---
+
 ## Discord delivery atomicity hardening ready for disposable PostgreSQL acceptance — 2026-11-12
 
 **System:** Shared Staff Security / Core Operations service-worker integrity. **Status: In Development / Testing; NOT deployed.** Development branch `Tawgod/Lightspeed:integration/security-all-tools-20261111`, draft PR #61, latest head `47a6045e375cd7609073caecf6198938c4a66883`.
