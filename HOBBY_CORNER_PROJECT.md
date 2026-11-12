@@ -1,5 +1,16 @@
 # Hobby Corner Project Registry
 
+## Timeclock Owner login prerequisite — code-only release successful (2026-11-12)
+
+**Status:** Timeclock Owner-verification *code* **Deployed**; Owner login itself **In Development / Not Commissioned**. The owner authorized default-disabled, code-only production Timeclock release of draft PR #59. Railway production patch `20177311` comprised **only** the source branch and SHA pin for Timeclock `dd3469bd`; the committed deployment `5c08d15e-7341-43d9-83bb-a1d495df9e16` **SUCCESS** on `Tawgod/Lightspeed:feature/owner-timeclock-scoped-credential-20261110@a595fd336c5a38dcc5ab5423a8967698777c0929`. Railway Timeclock online with no warnings/criticals and startup listening on 8080. Previous Timeclock deployment `eaaa2b25` remains rollback-eligible. Existing Special Orders `201d651f` and Labels/Toolkit API `288d5089` still SUCCESS on old consolidated `014a7a9`. Staged production patch cleared; no migration or new Owner settings applied.
+
+The code's Owner-specific routes are **disabled** because all `OWNER_STAGING_*` settings remain absent; scoped verifier does not grant an Owner role or accept PIN alone. **No SQL, Timeclock PIN change, employee record/ID selection, secrets, Owner staging deployment, passkey/TOTP enrollment or production permissions occurred.** Two preexisting CI runs for deployed code passed (Owner `42885171115`, Scanner `42885171145`); live authenticated Scanner/timeclock regression remains unverified from a user session.
+
+**Next dependency:** separately approve isolated Owner staging PostgreSQL/database privilege migration and app preparation, and plan distinct additive production Timeclock rate-limit SQL and dedicated credential activation. Then select the exact real active Timeclock ID privately, issue one-use operator activation in a private terminal and enroll a physical passkey and Authenticator on the approved staging HTTPS hostname. WebAuthn re-enrollment for `timcorp-projects.com` remains necessary later. Current detailed handoff: `handoffs/owner-login.md`.
+
+---
+
+
 ## First Owner login — latest readiness checkpoint, 2026-11-12
 
 **Status:** In Development / Testing; no real Owner commissioned, no Owner authentication service deployed. Scoped Timeclock candidate [draft PR #59](https://github.com/Tawgod/Lightspeed/pull/59) at `a595fd3` and private Owner staging candidate [draft PR #60](https://github.com/Tawgod/Lightspeed/pull/60) at functional commit `6b6498a` both have successful Owner/Scanner CI; new Owner setup execution checklist was added to PR #60, commit `64abf05`. Verified production Timeclock still running consolidated `014a7a9` on deployment `eaaa2b25` (rollback eligible), while its exact **two-field code-only** PR #59 source-pin patch `20177311` remains staged/unapplied. No new production Owner variables or schema. Existing `HC Owner Security Staging/test` has 55 staged changes (Owner app, PG18 and volume), zero deployments; do not apply the whole patch without separate DB privileges, secrets and exact HTTPS domain. Previous encrypted production backup passed owner-run 54-table PG18 restore and matching USB checksum; Google Drive copy only user-confirmed, not independently hash-verified.
