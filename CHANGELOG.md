@@ -1,5 +1,15 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Isolated Owner PostgreSQL and NOLOGIN access groups provisioned
+
+- User approved Owner staging database/least-privilege preparation. Preserved the original isolated Owner project's 55-change unconfigured Owner app/Postgres Railway patch **uncommitted**. Instead provisioned a **second, separate PostgreSQL 18 service** `Postgres-x8Ui` and its own volume in the already-isolated `HC PR63 Isolated Staging/staging` project; DB deployment `51d04bf4-0f3e-4716-ba17-8e756a1bc1be` SUCCESS, no public TCP or domain. Store Operations staging Postgres and live foundation app stayed untouched.
+- Created [draft PR #65](https://github.com/Tawgod/Lightspeed/pull/65) with hard environment-scoped private Owner DB migration script/test/docs. Safety CI `43297855881` SUCCESS. Temporary single-purpose Railway provisioner at source `81d2386` applied the seven reviewed SQL scripts in `hc_owner_stage_test`; log `HC_OWNER_DB_BOOTSTRAP_OK tables=9 nonlogin_groups=2 owner_activations=0` verified nine tables and two role groups with **NOLOGIN/no elevated rights**, runtime unable to issue/alter activation, operator unable to read Authenticator data. Migration deployment `bf0cde18-9384-4d20-8ffe-577dcdea4bb2` SUCCESS.
+- Deleted the temporary migration service and its privileged URL reference after readback. Owner DB+volume remain online; original 55-change Owner patch remains untouched. **No runtime/operator LOGIN passwords, real Owner ID, Owner app deployment, activation, passkey/Authenticator, production Timeclock throttle migration/credentials, gateway/DNS, Chrome release or business write.**
+- Updated `handoffs/owner-login.md`, master project index, source docs and manager handoff to direct subsequent Owner app deployment to the existing staging project/private Owner DB, not the obsolete 55-change patch.
+
+---
+
+
 ## 2026-11-12 — Approved default-disabled Timeclock Owner verifier deployed to production
 
 - Owner approved **only** PR #59 code-only Timeclock update. Revalidated production patch `20177311`: exactly two non-destructive changes, both pointing only the Timeclock service at `feature/owner-timeclock-scoped-credential-20261110@a595fd336c5a38dcc5ab5423a8967698777c0929`. Existing Owner Timeclock and Scanner GitHub CI were SUCCESS.
