@@ -1,5 +1,25 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## GW mark-submitted disposable PostgreSQL acceptance prepared — 2026-11-12
+
+**System:** Shared Staff Security / GW preorder submission worker integrity. **Status: In Development / manual PostgreSQL acceptance pending; NOT deployed.** Development branch `Tawgod/Lightspeed:integration/security-all-tools-20261111`, draft PR #61, latest head `abcb6a80dca556d492eab1afa4f3d3c5039845c5`.
+
+**Source review:** `POST /preorders/gw/campaigns/:id/mark-submitted` already uses one database transaction and row-locks the campaign. It updates per-product submitted/ordered quantities, campaign submission state, staff notification and customer summary notifications together. Duplicate submissions are rejected after the locked campaign is already `SUBMITTED`. No production source change was needed at this checkpoint.
+
+**New disposable PostgreSQL acceptance case:** The manual loopback-only PostgreSQL 18 harness now admits fixture service `gw-submit-worker` only for exact operation `service.preorders.gw.mark-submitted`. The test creates a disposable GW campaign/product/customer request, injects a trigger failure when the staff-submitted notification is inserted, and requires the failed request to leave campaign status `OPEN`, external submission `NOT_SUBMITTED`, no `submitted_at`, product ordered quantity unchanged at zero, submitted quantity/value null and zero campaign notifications. After removing the injected failure, a retry must submit exactly two units, set campaign `ORDERED/SUBMITTED`, set submitted product quantity/value, create exactly the expected staff/customer PENDING notifications, and a third duplicate call must return 409 without adding notifications.
+
+**Why manual:** This test exercises real SQL transaction rollback and remains intentionally excluded from routine GitHub Actions. The prior production-code/service-scope workflows remain green; this commit only extends the isolated acceptance harness.
+
+**Next operator command:**
+
+```bash
+cd /workspaces/Lightspeed-security && git pull --ff-only && bash scripts/run-isolated-security-status-postgres.sh
+```
+
+Expected: all prior 11 cases remain green plus the new GW mark-submitted rollback/retry/idempotency case, parent PASS, zero failures and explicit disposable-container removal. No Railway, real GW form submission, Discord message, employee/service credential, Lightspeed mutation or production route grant is involved.
+
+---
+
 ## GW Discord reaction disposable PostgreSQL acceptance PASS — 2026-11-12
 
 **System:** Shared Staff Security / Core Operations Discord-GW worker integrity. **Status: Testing PASS for disposable PostgreSQL acceptance; NOT deployed.** Owner fast-forwarded `Tawgod/Lightspeed:integration/security-all-tools-20261111` from `47a6045` to `56fac07ff13ab7103ab2e3a3a31b516d52f61ea6` and ran `bash scripts/run-isolated-security-status-postgres.sh` in Codespaces.
