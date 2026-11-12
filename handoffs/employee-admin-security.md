@@ -1,5 +1,25 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Service caller ownership review — Railway + GitHub evidence — 2026-11-12
+
+**System:** Shared Staff Security / Core Operations machine-route ownership. **Status: In Development / caller classification improved; NOT deployed.** Current Lightspeed branch head `1c0e59848da4a343e214c865c9bd8c9b5cfabda6`.
+
+**Railway read-only audit:** Production project `Hobby Corner` contains live services `special-orders-test` and `Hobby-Corner-Discord-Bot`. `special-orders-test` is sourced from `Tawgod/Lightspeed:integration/hobby-corner-consolidation` and owns GW auto-submit alert configuration variable names. `Hobby-Corner-Discord-Bot` is sourced from `Tawgod/Hobby-Corner-Discord-Bot:main`, has no public domain, and still carries legacy Special Orders API/admin-key variable names. No Railway configuration was changed.
+
+**Current vs historical Discord-bot caller evidence:** Current deployed bot commit is Railway deployment `3a8e9375-aad7-4c47-9721-66790febaeae`, source commit `7c3af0eee516e52f3e767dbbbb7c03dd3a64d4f9` on `main`. Current `main.py` does not contain the Special Orders worker endpoint strings or `SPECIAL_ORDERS_API_URL`. The historical branch `gw-preorder-test-publisher`, however, contains exact calls for preorder-watch capture, GW Discord reaction capture, Discord delivery read, claim and complete. This means the Railway Special Orders variables on the currently deployed bot are stale/legacy evidence, not proof of an active caller.
+
+**GW submit callback ownership:** Source review found no internal `special-orders.js` caller for `POST /preorders/gw/campaigns/:id/auto-submit-failure` or `POST /preorders/gw/campaigns/:id/mark-submitted`, and current deployed Discord-bot main does not call them. Their actual executor is therefore **not currently observed** in verified GitHub/Railway sources. Do not commission service credentials or grants for these routes until the executor is identified or implemented.
+
+**Code metadata:** `services/security/coreOperationsServiceProposals.js` now records caller evidence per proposal. Preorder-watch capture, GW reaction, Discord delivery read/claim/complete are marked `historical-discord-bot-branch-only`; GW auto-submit-failure and mark-submitted are marked `no-current-caller-observed`. These remain `review:'pending'`, are not imported by `server.js`, and authorize nothing. Tests enforce the distinction.
+
+**Automated verification:** GitHub Actions [43246296449](https://github.com/Tawgod/Lightspeed/actions/runs/43246296449) completed **SUCCESS** on `1c0e5984...`.
+
+**Remaining service/automation-review routes:** Browser evidence already identifies GET preorder-watch review and GET notification delivery queue as employee reads, and POST reconcile/products as an employee-triggered action that also has an internal schedule. Still-unverified caller ownership remains for customer purchase-metrics refresh/import, product registry-upsert and per-SKU reconciliation. Those should be traced before any service-only classification.
+
+**Production boundary:** No Railway mutation, deployment, variable change, service credential, route grant, database migration, Lightspeed mutation or Chrome extension change occurred.
+
+---
+
 ## Discord delivery lease disposable PostgreSQL acceptance PASS — 2026-11-12
 
 **System:** Shared Staff Security / notification delivery worker reliability. **Status: Testing PASS for disposable PostgreSQL acceptance; NOT deployed.** Owner synced `Tawgod/Lightspeed:integration/security-all-tools-20261111` to `a7560a0a3a70d9683b9a3b95314dbb9a8b09dfc0` and ran the localhost-only PostgreSQL 18 harness.
