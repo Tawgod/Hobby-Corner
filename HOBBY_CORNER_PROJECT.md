@@ -1,5 +1,11 @@
 # Hobby Corner Project Registry
 
+## PR #70 draft manifest audit joins employee positive-auth testing — 2026-11-12
+
+**Testing PASS / not deployed.** The source-only PR #70 now includes an immutable **candidate-only** audit of the 38 review-pending employee Core Operations route/operation mappings, with mandatory dynamic body/status policy markers and downgrade/duplicate/unknown-path rejection. Even a consistent proposal has `eligibleForActivation:false`; actual staff grants and the runtime admission gate remain unchanged. Tested source/workflow `673229a9` in [CI 43319291360](https://github.com/Tawgod/Lightspeed/actions/runs/43319291360): **66 passed, 0 failed**. Latest PR head `11941dd3` adds only docs. Next prerequisite is security-owner reviewed **enforced** manifest + real test-only identity adapters; no staging authorization/deployment or production cutover approved.
+
+---
+
 ## Core Operations employee authorization — synthetic positive-access milestone — 2026-11-12
 
 **Status: Testing; source implemented/tested but NOT deployed or commissioned.** Draft `Tawgod/Lightspeed` [PR #70](https://github.com/Tawgod/Lightspeed/pull/70), `test/core-ops-employee-auth-acceptance-20261112`, stacked on PR #63, now tests 38 exact review-pending employee operations with signed disposable test sessions, TOTP tickets, station/strong factors, grant revocation and cross-employee replay. [Bounded combined workflow 43318226550](https://github.com/Tawgod/Lightspeed/actions/runs/43318226550) **SUCCESS** at tested code commit `fa1cfeb`; latest `8f002b9` only updates documentation. Review `docs/CORE_OPERATIONS_EMPLOYEE_ACCEPTANCE.md` for adapter inventory and blockers.

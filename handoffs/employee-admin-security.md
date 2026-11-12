@@ -1,5 +1,15 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Supplemental exact route-manifest draft audit — 2026-11-12
+
+**Status: Testing PASS; review-only code, NOT mounted.** Draft [Lightspeed PR #70](https://github.com/Tawgod/Lightspeed/pull/70) now includes `services/security/coreOperationsEmployeeDraftAudit.js` and `tests/core-operations-employee-draft-audit.test.mjs`. The helper checks an explicitly supplied proposed employee route plan against the 38 existing review-pending method/path/operation candidates, including required body/status policy annotations, duplicate entries and unknown/service routes. An intentionally mislabeled `POST /orders` using `special-orders.read` or legacy broad manage fails the draft audit. The helper never returns `approvedRoutes` or a live grant; `eligibleForActivation:false` is unconditional, including for fully consistent plans.
+
+**Combined CI [43319291360](https://github.com/Tawgod/Lightspeed/actions/runs/43319291360) SUCCESS: 66 passed, 0 failed** at tested code/workflow `673229a95debe319ea57c872df5ad672f1450591`. Latest PR head `11941dd37d4818a54b3d853ddf97d74d2f2a01eb` updates only the acceptance document. Runtime gate itself still trusts explicitly supplied route-operation mapping; this **audit is not enforcement**. An owner-reviewed manifest validation and approved staff permissions remain required before nonzero admission is considered.
+
+**No staging redeploy or grants:** `hc-foundation-pr63` remains `50fda74b`, `approvedRoutes:[]`; PR #70 draft/unmerged. No real Timeclock employee/Owner identities, credentials, gateway, production or Chrome changes.
+
+---
+
 ## Isolated positive employee authorization acceptance — 2026-11-12
 
 **Status:** **Testing / development-only**. New draft [Lightspeed PR #70](https://github.com/Tawgod/Lightspeed/pull/70), branch `test/core-ops-employee-auth-acceptance-20261112`, stacked on the deployed **PR #63** development branch at `50fda74b`. Source head after documentation-only update: `8f002b92f7432ecf1064e5bc9a675f21114c48c9`; last verified code/workflow commit `fa1cfeb95391d05c1b69c9e44b2c55da3b4eb42d`.

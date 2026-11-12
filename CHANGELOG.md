@@ -1,5 +1,13 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — PR #70 adds review-only route-grant draft consistency audit
+
+- Added `services/security/coreOperationsEmployeeDraftAudit.js` and `tests/core-operations-employee-draft-audit.test.mjs` to draft [Lightspeed PR #70](https://github.com/Tawgod/Lightspeed/pull/70). Rejects weak-read/broad-manage mislabel on a protected write route, absent dynamic security policy annotation, duplicate routes, unknown routes and service audience in an employee draft; never emits grants and always reports `eligibleForActivation:false`.
+- Reused existing bounded combined CI; [run 43319291360](https://github.com/Tawgod/Lightspeed/actions/runs/43319291360) **SUCCESS, 66 pass / 0 fail** at code/workflow SHA `673229a95debe319ea57c872df5ad672f1450591`. Later PR `11941dd3` docs-only update does not change tested code.
+- Not an enforcement change. Full owner-reviewed mapping, real staff identity/strong factor and separately approved staged rollout still needed; isolated PR #63 Railway app stays source-pinned at `50fda74b`, zero grant; no production, gateway, Owner, vendor or Chrome changes.
+
+---
+
 ## 2026-11-12 — PR #70 synthetic signed-staff/exact-grant acceptance tests
 
 - Created draft [`Tawgod/Lightspeed#70`](https://github.com/Tawgod/Lightspeed/pull/70) on `test/core-ops-employee-auth-acceptance-20261112`, stacked on the verified PR #63 application source. New `tests/core-operations-employee-acceptance.test.mjs` verifies in-process signed employee session -> MFA/registered-station simulation -> exact route-operation permission for all 38 review-pending employee candidates, including identity/factor/grant revocation and body/query/status promotion boundaries.

@@ -1,5 +1,11 @@
 # Core Operations / Special Orders / Ordering / Preorders / GW — Current Handoff
 
+## Configuration-downgrade prevention for future employee grant drafts — 2026-11-12
+
+Draft [PR #70](https://github.com/Tawgod/Lightspeed/pull/70) adds **review-only** route-operation manifest audit and tests: exact match of 38 proposed routes, required `locked-transition-v1` and `customer-profile-sync-v1` markers, unknown routes, duplicates and wrong employee/service audience. The audit detects accidental `POST /orders` authorization under weaker `special-orders.read` or broad `special-orders.manage`. **It does not grant or enforce anything**; always says `eligibleForActivation:false`. Combined CI [43319291360](https://github.com/Tawgod/Lightspeed/actions/runs/43319291360) **66/66 passed** at code commit `673229a9` (latest `11941dd3` is documentation-only). Security review must still require validated backend route-operation mapping before installing any nonzero route manifest. PR #63 isolated Railway remains pinned to `50fda74b`, zero-grant, unchanged.
+
+---
+
 ## All 38 candidate Core Operations employee scopes: synthetic positive-access CI PASS — 2026-11-12
 
 **Status:** **Testing (development-only; no live grants)**. Draft [Lightspeed PR #70](https://github.com/Tawgod/Lightspeed/pull/70), branch `test/core-ops-employee-auth-acceptance-20261112` stacked on PR #63, code/workflow verification at `fa1cfeb95391d05c1b69c9e44b2c55da3b4eb42d` via [GitHub run 43318226550](https://github.com/Tawgod/Lightspeed/actions/runs/43318226550) **SUCCESS**. Latest doc-only source head `8f002b92f7432ecf1064e5bc9a675f21114c48c9`.
