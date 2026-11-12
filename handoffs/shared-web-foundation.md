@@ -1,7 +1,22 @@
 # Shared Web Foundation — Current Handoff
 
 **Last verified:** 2026-11-12  
-**Status:** Testing — isolated Railway staging deployed and HTTPS/Chromium accepted; NOT production-deployed
+**Status:** Testing — isolated staging security guard deployed, HTTPS/Chromium and forged-identity denials accepted; NOT production-deployed
+## Active staging zero-grant security gate and Owner sign-in dependency — 2026-11-12
+
+**Implemented/deployed in isolated staging:** Existing PR #63 development channel deployed the approved staging-only default-deny `createIsolatedStagingCoreAdmission` from `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@34d92a04f0905f60f5b71552862cdd404cab34bd` (not the obsolete duplicate PR #64). Railway `hc-foundation-pr63` deployment `4cae33bf-1569-4b2d-90a0-2aee9e5de55e` **SUCCESS**, same isolated project/environment/database; both services online with zero warnings/pending patch. `HC_CORE_SECURITY_STAGING_ENABLED` exists on this staging app. Runtime now has zero approved employee/service routes; unauthenticated business API and forged Owner/service credentials fail HTTP **403**, while health/pages remain reachable. Vendor/Scanner/Admin controls remain off. No production Timeclock, employee, Owner, Lightspeed, Discord, gateway/DNS or Chrome release changes.
+
+**Verified tests:** New `services/security/coreOperationsStagingActivation.js` and `tests/core-operations-staging-activation.test.mjs` include in-process synthetic HMAC employee, station, fresh strong factor and scoped service identity positive/negative admission, separate from public runtime (which accepts none). CI at source `34d92a0`: six successful workflows `43287205785` (shared UI), `43287205814` (combined synthetic policy), `43287205854` (policy), `43287205779` (scanner), `43287205841` (staging read-only), `43287205852` (Chromium). Updated live HTTPS smoke `tests/staging-pr63-http-smoke.test.mjs` to expect **403** and test forged role/static key/service headers. All six CI runs at test-only follow-up `64ba8333427f3eaea687c756d07fd8848d02b68c` **SUCCESS**, including [staging HTTPS/Chromium run 43290750422](https://github.com/Tawgod/Lightspeed/actions/runs/43290750422). Current Railway running source remains pinned to the tested guard `34d92a0`, not later test-only head.
+
+**Duplicate coordination:** PR [#64](https://github.com/Tawgod/Lightspeed/pull/64) was a concurrent overlapping guard implementation; closed **without merge** once PR #63's existing tested implementation was discovered. Do not merge or deploy PR #64. The combined source / staging service has one authoritative guard.
+
+**Owner login (distinct):** Real first Owner enrollment still **not provisioned**. Verified draft [PR #59](https://github.com/Tawgod/Lightspeed/pull/59) for a dedicated default-off scoped Timeclock identity endpoint and draft [PR #60](https://github.com/Tawgod/Lightspeed/pull/60) for Owner staging app/session/passkey/TOTP integration. The `HC Owner Security Staging` Railway project (`2b350cde-048e-4402-bd92-4e8ba6c9f877`), environment `test` (`db9d6e8c-bb03-441b-a154-80c11536dfbb`), still holds 55 **STAGED**, non-destructive changes (Owner app, separate PostgreSQL and volume), not deployed; no activation key, actual account, factor or grant. Its current reviewed plan is `Tawgod/Lightspeed:feature/owner-staging-scoped-timeclock-adapter-20261110/docs/OWNER_LOGIN_STAGING_RELEASE_PLAN.md`. First Owner must bind to the operator's exact existing active Timeclock employee account, not synthetic 901, with independent protected service credentials, least-privilege DB roles, 10-minute single-use private activation, real WebAuthn passkey and enrolled TOTP/Authenticator. Gate A would require separate production Timeclock code/schema approval and Gate B separate Owner staging provisioning/secret/identity approval; current guard authorization does **not** authorize them.
+
+**Next:** Keep default-deny staging guard while planning Owner login review and integration. No central Timcorp gateway activation until signed real employee/Owner access, service credentials, and isolated proxy are accepted.
+
+---
+
+
 ## Dedicated Railway staging: deployed and read-only acceptance PASS — 2026-11-12
 
 **System and feature:** Hobby Corner shared security/web foundation PR #63 — staging-only deployment and nonproduction HTTP/browser smoke. **Status:** **Testing**, app and fresh DB deployed **only in isolated staging**; five-group HTTPS and real Chromium browser tests passed; NOT production deployed.
