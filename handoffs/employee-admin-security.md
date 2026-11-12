@@ -1,5 +1,27 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Reclaimable Discord delivery lease prepared — 2026-11-12
+
+**System:** Shared Staff Security / notification delivery worker reliability. **Status: In Development / automated CI PASS; disposable PostgreSQL acceptance pending; NOT deployed.** Development branch `Tawgod/Lightspeed:integration/security-all-tools-20261111`, latest head `a7560a0a3a70d9683b9a3b95314dbb9a8b09dfc0`.
+
+**Reliability finding:** `POST /notifications/:id/claim-discord` previously moved a notification from `QUEUED` to `SENDING` with no lease expiry. A worker crash after claim could therefore strand that notification indefinitely. The existing `notifications.not_before` column is now reused compatibly as a five-minute delivery lease while status is `SENDING`; no schema migration is required.
+
+**Implementation:** Commit `2563fb720d421d947452c77a27278293eb43a581` makes the Discord delivery read endpoint return ready QUEUED work plus expired SENDING work, makes claim set `not_before=now()+interval '5 minutes'`, permits reclaim only after that lease expires, and clears `not_before` when completion records SENT or ERROR. Fresh SENDING work cannot be stolen. No route grant/credential/mount change was made.
+
+**Acceptance test:** Commit `a7560a0a3a70d9683b9a3b95314dbb9a8b09dfc0` extends the disposable PostgreSQL 18 harness with exact fixture service grants for delivery-read/claim/complete. The new case requires: initial QUEUED work is visible; first claim succeeds; immediate second claim returns 409; fresh SENDING work is hidden; advancing the lease into the past makes it visible; reclaim succeeds; completion records SENT and clears the lease.
+
+**Automated verification:** GitHub Actions [43245589553](https://github.com/Tawgod/Lightspeed/actions/runs/43245589553) completed **SUCCESS** on the current head. The superseded source-only run was cancelled by workflow concurrency after all substantive policy steps had already completed successfully.
+
+**Next operator command:**
+
+```bash
+cd /workspaces/Lightspeed-security && git pull --ff-only && bash scripts/run-isolated-security-status-postgres.sh
+```
+
+Expected: all prior 12 cases remain green plus the new Discord delivery lease/reclaim case, parent PASS, zero failures, and verified disposable-container removal. No real Discord message, Railway deployment, employee/service credential, Lightspeed mutation, schema migration or production authorization is involved.
+
+---
+
 ## GW mark-submitted corrected PostgreSQL acceptance PASS — 2026-11-12
 
 **System:** Shared Staff Security / GW preorder submission worker integrity. **Status: Testing PASS for corrected disposable PostgreSQL acceptance; NOT deployed.** Owner synced `Tawgod/Lightspeed:integration/security-all-tools-20261111` to `8550d22cd2280baada3e07696c37793045764817` and ran the localhost-only PostgreSQL 18 harness twice.
