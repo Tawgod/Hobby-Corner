@@ -1,5 +1,17 @@
 # Shared Web Foundation — Current Handoff
 
+## PR #63 isolated foundation staging redeploy and acceptance PASS — 2026-11-12
+
+**Status:** **Testing — deployed to isolated staging, post-deploy HTTP and real Chromium acceptance PASS; NOT production.** Approved scope was only `hc-foundation-pr63` in `HC PR63 Isolated Staging/staging` (project `5b46096d-3178-47ec-ba88-d5037696346a`, environment `46b93c76-3085-4e76-a37d-90dfdd250dd2`, service `10540df5-8fab-497b-bd2c-80d4f7f0c702`). Railway source pin moved **only** from `34d92a04f0905f60f5b71552862cdd404cab34bd` to fully tested `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1`. One non-destructive staged change (source commit SHA only; patch `1042ee79-728a-47fb-801a-94111640c18a`) was read back before application. New deployment `427f570b-f36d-4040-bf91-e83a0a331721` reached **SUCCESS**; runtime logs show Special Orders DB initialized true and server listening on 8080. No schema migration or variable change.
+
+**Live post-deploy acceptance:** Re-ran the existing targeted GitHub Actions staging smoke [43313012592](https://github.com/Tawgod/Lightspeed/actions/runs/43313012592) (attempt 2) on the new Railway deployment. Both the five-group read-only HTTPS smoke and the real Chromium prefixed-UI signed-out check **SUCCESS**. Railway HTTP logs on the new deployment corroborate root/prefixed health 200, employee pages/assets 200, prefixed root redirect 302, business stats/priority-review 403 including forged Owner/service headers, and Admin/staff-auth/unknown routes 404. Source staging guard remains `approvedRoutes:[]`; none of 38 review-pending scopes was granted or activated.
+
+**Final Railway readback:** The foundation app, locked Owner preview, and both independent PostgreSQL services are online with no warnings/criticals, no staged changes or pending work. The separate Owner locked preview and database were NOT redeployed. Production Railway, real Timeclock/Owner staff credentials, Lightspeed/Discord, central Timcorp gateway/DNS, and Chrome extension remain unchanged.
+
+**Next gate:** Positive employee/Owner identity and exact-grant staging acceptance and isolated gateway/reverse-proxy tests require separate review and authorization. Do not enable production, gateway, staff/Owner enrollment or vendor integrations based on these signed-out default-deny tests.
+
+---
+
 ## Isolated staging redeploy delta reviewed — approval boundary (2026-11-12)
 
 **Running foundation app:** Railway `HC PR63 Isolated Staging/staging` service `hc-foundation-pr63` remains healthy and pinned to `34d92a04f0905f60f5b71552862cdd404cab34bd`, deployment `4cae33bf-1569-4b2d-90a0-2aee9e5de55e` **SUCCESS**. No staged changes or pending work; environment readback shows all four isolated services online, zero warnings/criticals and zero recent failures.

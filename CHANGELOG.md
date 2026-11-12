@@ -1,5 +1,14 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — PR #63 isolated foundation staging redeployed and verified
+
+- With explicit staging-only approval, Railway `HC PR63 Isolated Staging/staging` service `hc-foundation-pr63` source pin changed from `34d92a0` to verified `50fda74b`, via reviewed one-change non-destructive patch `1042ee79`; new deployment `427f570b-f36d-4040-bf91-e83a0a331721` **SUCCESS**.
+- Special Orders database startup succeeded; no SQL schema migration, secret, variable, extra service or production configuration change.
+- Re-ran existing read-only HTTPS and real Chromium GitHub smoke [43313012592](https://github.com/Tawgod/Lightspeed/actions/runs/43313012592), attempt 2: **SUCCESS**. Prefixed routes/assets/health pass and anonymous/spoofed Owner/service business access remains HTTP 403. Zero-route approval guard preserved.
+- Railway verified four isolated services online with zero warnings/critical alerts, and no pending patch; separate locked Owner preview/database untouched. Production, central Timcorp gateway/DNS, real employee grants, Lightspeed/Discord and Chrome extension unchanged.
+
+---
+
 ## 2026-11-12 — PR #63 synchronized to reviewed security base
 
 - Created development-only sync PR #69 from `integration/security-all-tools-20261111@b77d7fca` into `feature/shared-foundation-security-web-20261112`; GitHub reported it cleanly mergeable. Combined smoke 43312873217 and security 43312873155 passed before merge.

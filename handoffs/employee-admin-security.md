@@ -1,5 +1,15 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## PR #63 isolated staging deployment of reviewed security source — 2026-11-12
+
+**Status:** **Testing / staging deployment SUCCESS / production NOT deployed.** Reviewed combined `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1` is now running only on isolated Railway `hc-foundation-pr63` deployment `427f570b-f36d-4040-bf91-e83a0a331721`. Staged patch `1042ee79-728a-47fb-801a-94111640c18a` changed only that service's GitHub commit pin. Existing isolated Owner preview/database were left intact.
+
+**Verification:** GitHub read-only staging HTTPS + real Chromium rerun [43313012592](https://github.com/Tawgod/Lightspeed/actions/runs/43313012592), attempt 2, **SUCCESS**. HTTP 403 denial for anonymous and spoofed Owner/service requests, 200 for prefixed pages/assets/health, and 404 for disabled Admin/staff-auth verified. Zero-grant staging admission still passes `approvedRoutes:[]`. Neither the 38 exact review-pending route proposals nor any employee/service authorization was activated. No business/customer/vendor action, production release, gateway or Chrome change.
+
+**Next:** Keep default-deny in staging. Positive employee identity, scoped grants and strong-factor staging scenarios remain uncommissioned and require separate review; follow `handoffs/owner-login.md` for Owner setup.
+
+---
+
 ## PR #63 reconciled to reviewed security base — 2026-11-12
 
 **Status:** Combined source **Testing PASS**; draft / NOT production deployed. Security parent `integration/security-all-tools-20261111@b77d7fcabc8876f84fc96c324e68fc4a4a03a479`; combined staging candidate `feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1`, draft PR #63. Development sync PR #69 merged only the reviewed security base into the PR #63 feature branch.

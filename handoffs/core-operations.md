@@ -1,5 +1,15 @@
 # Core Operations / Special Orders / Ordering / Preorders / GW — Current Handoff
 
+## Reviewed Core Operations policy deployed to isolated staging, still zero-grant — 2026-11-12
+
+**Status:** **Testing**; combined branch `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1` is deployed **only** to `hc-foundation-pr63` isolated Railway staging, deployment `427f570b-f36d-4040-bf91-e83a0a331721` **SUCCESS**. Scope: source pin change only; no Core Operations production change, database migration or route/employee grant.
+
+**Verified:** Existing staging read-only HTTP and real Chromium browser smoke [43313012592](https://github.com/Tawgod/Lightspeed/actions/runs/43313012592) attempt 2 **SUCCESS**. Prefixed Store Operations, Special Orders, Preorders, GW and Ordering pages/assets and signed-out behavior pass. Protected business endpoints reject anonymous and forged identity with 403. Staging guard still uses `approvedRoutes:[]`, so 38 exact policy candidates are **not live permissions**. GW redirect hardening source is deployed but has not been exercised against real external GW/Google flows in this acceptance.
+
+**Remaining:** Positive employee sign-in/grant and business-route acceptance in isolated staging; separate Owner identity work and future isolated reverse-proxy/gateway verification. No production deploy or Timcorp route activation approved.
+
+---
+
 **Last verified:** 2026-11-12  
 **Status:** Testing — exact employee authorization review and combined PR #63 source reconciliation pass; production remains unchanged
 

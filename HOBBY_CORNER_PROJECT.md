@@ -1,5 +1,15 @@
 # Hobby Corner Project Registry
 
+## PR #63 approved isolated staging source update accepted — 2026-11-12
+
+**Status:** **Testing — isolated staging Deployed and post-deploy tests PASS; production NOT deployed.** `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1` now runs on Railway `HC PR63 Isolated Staging/staging/hc-foundation-pr63`, deployment `427f570b-f36d-4040-bf91-e83a0a331721` **SUCCESS**. Exactly one staged non-destructive source pin update was committed; previous live source was `34d92a0`. No environment variables, databases or other service sources were changed.
+
+**Acceptance:** Live read-only HTTP and real Chromium staging tests [43313012592](https://github.com/Tawgod/Lightspeed/actions/runs/43313012592), attempt 2, **SUCCESS**. Source admission remains zero-grant; 38 candidate operations not activated. Four staging services online, no alerts or pending work.
+
+**Next approval boundary:** Separate positive staff/Owner identity and exact-grant test design, then isolated gateway reverse-proxy acceptance. No production, Timcorp DNS/gateway, Lightspeed/Discord data, Owner enrollment or Chrome release change occurred.
+
+---
+
 ## PR #63 isolated staging redeploy candidate prepared — 2026-11-12
 
 **Planned / approval required:** Current isolated Store Operations staging runtime is `hc-foundation-pr63@34d92a0` / deployment `4cae33bf`; tested combined source is `50fda74b`. Delta review: 10 commits, 15 changed paths, no DB schema migration and no new Railway configuration dependency. Runtime deltas are exact Core Operations authorization modeling/admission hardening and GW form redirect/response boundary hardening. Zero-route staging admission remains `approvedRoutes:[]`.
