@@ -1,5 +1,15 @@
 # Hobby Corner Project Registry
 
+## PR #63 isolated staging redeploy candidate prepared — 2026-11-12
+
+**Planned / approval required:** Current isolated Store Operations staging runtime is `hc-foundation-pr63@34d92a0` / deployment `4cae33bf`; tested combined source is `50fda74b`. Delta review: 10 commits, 15 changed paths, no DB schema migration and no new Railway configuration dependency. Runtime deltas are exact Core Operations authorization modeling/admission hardening and GW form redirect/response boundary hardening. Zero-route staging admission remains `approvedRoutes:[]`.
+
+**Verified environment:** `HC PR63 Isolated Staging/staging` has no staged patch/pending work and all four isolated services are online without warnings/criticals. Owner locked preview + its separate private database intentionally share this isolated project and are outside the Store Operations redeploy scope.
+
+**Next action requiring approval:** pin and deploy only `hc-foundation-pr63` to tested `50fda74b`, then repeat the existing read-only HTTPS/browser and zero-grant denial acceptance. Do not include production, Timcorp gateway/DNS, real employee/Owner identity, route grants or vendor credentials/actions.
+
+---
+
 ## Shared foundation + Core Operations security source synchronized — 2026-11-12
 
 **Status:** Testing PASS at source; NOT redeployed / NOT production. Draft PR #63 head is `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1`, now **13 ahead / 0 behind** reviewed security parent `integration/security-all-tools-20261111@b77d7fcabc8876f84fc96c324e68fc4a4a03a479`. Sync PR #69 is merged.

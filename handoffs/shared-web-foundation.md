@@ -1,5 +1,15 @@
 # Shared Web Foundation — Current Handoff
 
+## Isolated staging redeploy delta reviewed — approval boundary (2026-11-12)
+
+**Running foundation app:** Railway `HC PR63 Isolated Staging/staging` service `hc-foundation-pr63` remains healthy and pinned to `34d92a04f0905f60f5b71552862cdd404cab34bd`, deployment `4cae33bf-1569-4b2d-90a0-2aee9e5de55e` **SUCCESS**. No staged changes or pending work; environment readback shows all four isolated services online, zero warnings/criticals and zero recent failures.
+
+**Tested source candidate:** PR #63 code-tested head `50fda74b19a3701d60e992db4850668d6c85b3f1`. The running-to-candidate delta is **10 commits ahead / 0 behind** and touches 15 paths. It contains no database-schema migration file and adds no new Railway environment-variable requirement. Runtime-impacting changes are the reviewed Core Operations exact authorization policy/admission logic plus `services/gwFormFetchPolicy.js` / the corresponding `special-orders.js` integration; remaining changes are tests, workflow coverage and authorization documentation. The source-level staging guard still initializes with `approvedRoutes:[]`, so these 38 review-pending route proposals are not activated by a redeploy.
+
+**Approval gate:** A redeploy of `hc-foundation-pr63` from `34d92a0` to `50fda74b` would be an **isolated staging-only source update**, not a production/gateway/identity/grant change. It has **not** been staged or deployed in this review. Do not alter the separate locked Owner preview/database, production Railway, Timcorp gateway/DNS, staff/Owner credentials or any vendor integration as part of that redeploy.
+
+---
+
 **Last verified:** 2026-11-12  
 **Status:** Testing — isolated staging security guard deployed, HTTPS/Chromium and forged-identity denials accepted; NOT production-deployed
 
