@@ -1,7 +1,23 @@
 # Shared Web Foundation — Current Handoff
 
 **Last verified:** 2026-11-12  
-**Status:** Testing (automated); not deployed
+**Status:** Testing — isolated Railway staging deployed and HTTPS/Chromium accepted; NOT production-deployed
+## Dedicated Railway staging: deployed and read-only acceptance PASS — 2026-11-12
+
+**System and feature:** Hobby Corner shared security/web foundation PR #63 — staging-only deployment and nonproduction HTTP/browser smoke. **Status:** **Testing**, app and fresh DB deployed **only in isolated staging**; five-group HTTPS and real Chromium browser tests passed; NOT production deployed.
+
+- **Railway project/env:** New `HC PR63 Isolated Staging` `5b46096d-3178-47ec-ba88-d5037696346a`, environment `staging` `46b93c76-3085-4e76-a37d-90dfdd250dd2`. This project was created to avoid the **15 unrelated staged changes** already present in existing `Hobby Corner Integration Test/test`.
+- **Database:** New Railway PostgreSQL 18 service `Postgres` `257803e5-7352-4113-a4be-f4f6edaddd22` and private 5GB volume, deployed SUCCESS; clean independent schema with no real customer/supplier data. App-only `DATABASE_URL` is a reference to **that project's** Postgres service.
+- **Application:** `hc-foundation-pr63` `10540df5-8fab-497b-bd2c-80d4f7f0c702`, source `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112` **pinned** to the code verified in disposable PostgreSQL, `90e91c9b4d6cd07df1dff3de79100073bb819a72`. Deployment `dcb96ace-fbeb-4eb0-928d-253659b16c64` **SUCCESS**. Startup logs confirmed `database schema ready`, database initialization `true`, port 8080. Railway reports both database/app online, zero alerts and no pending changes.
+- **Preview URL:** `https://hc-foundation-pr63-staging.up.railway.app/HobbyCorner/store-operations` (Railway staging only). The **public Timcorp Projects /HobbyCorner route remains unconnected** and unchanged.
+- **Safe configuration:** `HC_PUBLIC_BASE_PATH=/HobbyCorner`, `HC_PUBLIC_LANDING_PATH=/store-operations`, `NODE_ENV=staging`; live vendor mode, migration, product writes, Scanner, Admin-nav, scanner test creation all explicitly `false`. **No real Lightspeed, Discord, Timeclock or employee/Owner credentials/grants were supplied.**
+- **HTTPS and browser verification:** [GitHub Actions run 43280979877](https://github.com/Tawgod/Lightspeed/actions/runs/43280979877) **SUCCESS**: five HTTP test groups passed including both root/prefix health routes, 302 internal root redirect, five web pages, same-origin CSS/modules, 401 anonymous business reads, 404 disabled Admin/staff-auth and unknown paths. Live Chromium PASS on deployed dashboard and Special Orders with correct grouped links, signed-out state, missing-asset detection and no script errors. No PIN/vendor writes sent. All five other PR CI workflows passed on test-script head `8e3a6c3`.
+- **Production read-back:** `special-orders-test` still deployed at `014a7a9...` from `integration/hobby-corner-consolidation`, gateway remained on `Tawgod/timcorp-projects-foundation:main`; no production deploy, DNS, gateway route, staff identity, Chrome extension or vendor mutation. The PR stays **draft**. New source commits are docs/test-only; Railway remains pinned to `90e91c9`.
+- **Remaining gate:** Do **not** interpret synthetic/browser signed-out checks as positive employee authentication. The next separate approval is staging-only trusted test Timeclock/station identities, exact operation grant/strong step-up and guarded-route mount; then an isolated reverse-proxy test of `/HobbyCorner/` before any Timcorp gateway activation. Any production rollout requires new explicit authorization. See `docs/SHARED_FOUNDATION_STAGING_CANDIDATE.md` in PR #63.
+
+---
+
+
 
 ## Combined foundation: real PostgreSQL acceptance PASS — 2026-11-12
 
