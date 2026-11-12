@@ -1,5 +1,16 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Owner stage DB credentials and locked web preview deployed
+
+- Generated separate stable 48-character Railway secrets without revealing values; transient secret-function probe validated same fingerprint across two deployments and was deleted. Generated independent runtime-only DB password/signing/session/MFA values on Owner web staging service and separate operator-only password on Owner Postgres; no secrets in GitHub/chat/logs.
+- [Draft PR #66](https://github.com/Tawgod/Lightspeed/pull/66) prepared isolated PG18 LOGIN roles with `PASSWORD NULL` and no Owner activations; one-time runner `dd1982ec` SUCCESS, then deleted.
+- [Draft PR #67](https://github.com/Tawgod/Lightspeed/pull/67) installed independent SCRAM DB passwords; one-time runner `d6893a1f` SUCCESS, verified real private runtime/operator logins, wrong-password refusal, read-only runtime privilege preflight, and 0 activations. Removed temporary root-credential runner; stage app has no operator/root DB secret.
+- [Draft PR #68](https://github.com/Tawgod/Lightspeed/pull/68) deployed **locked** Owner staging preview `hc-owner-staging` from `60cefaf7`: Railway deployment `c97a3939` SUCCESS, preview `https://hc-owner-staging-staging.up.railway.app/owner-setup/`, restricted DB preflight healthy but `ready:false`; no actual Owner login, PIN or passkey operation enabled. CI [43306590232](https://github.com/Tawgod/Lightspeed/actions/runs/43306590232) and public HTTPS 423-denial smoke [43307211049](https://github.com/Tawgod/Lightspeed/actions/runs/43307211049) both SUCCESS. The old 55-change Owner project patch is untouched.
+- Production Timeclock verifier remains installed **disabled**, no production SQL, credentials, employee ID, role or gateway change. Owner account activation and physical passkey/Authenticator are pending separately authorized Timeclock throttle/secret and owner-present private identity ceremony. Updated `handoffs/owner-login.md` and project index.
+
+---
+
+
 ## 2026-11-12 — Isolated Owner PostgreSQL and NOLOGIN access groups provisioned
 
 - User approved Owner staging database/least-privilege preparation. Preserved the original isolated Owner project's 55-change unconfigured Owner app/Postgres Railway patch **uncommitted**. Instead provisioned a **second, separate PostgreSQL 18 service** `Postgres-x8Ui` and its own volume in the already-isolated `HC PR63 Isolated Staging/staging` project; DB deployment `51d04bf4-0f3e-4716-ba17-8e756a1bc1be` SUCCESS, no public TCP or domain. Store Operations staging Postgres and live foundation app stayed untouched.
