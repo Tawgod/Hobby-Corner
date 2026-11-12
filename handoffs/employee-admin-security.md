@@ -1,5 +1,18 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Combined branch SQL acceptance completed — 2026-11-12
+
+**Status:** Testing (real disposable PostgreSQL PASS), **not deployed**. The integrated web + security candidate is [draft PR #63](https://github.com/Tawgod/Lightspeed/pull/63), `feature/shared-foundation-security-web-20261112`; tested source SHA `90e91c9b4d6cd07df1dff3de79100073bb819a72`.
+
+The operator ran `scripts/run-isolated-security-status-postgres.sh` on this **combined** candidate in Codespaces using a local disposable PostgreSQL 18 container. **13 tests, 13 pass, 0 fail, 0 cancelled, 0 skipped**, followed by **`Verified disposable PostgreSQL container removal.`** This covers status locking, audit/notifications and atomic rollback, Discord claim/reclaim/complete rollback, GW reaction rollback, GW mark-submitted rollback and unauthorized key denial. Intentionally injected fixture database errors appear in output and their assertions passed. A detached-HEAD Git warning did not lose commits; original security branch restored, combined code remains on the remote feature branch.
+
+The same tested commit's GitHub Actions checks: scanner `43275029874`, combined `43275029848`, UI `43275029856`, policy `43275029878`, Chromium `43275029869` — all **SUCCESS**. Current combined branch has an additional documentation-only acceptance runbook commit `2d418058...`.
+
+**Still not verified:** real employee/Timeclock sign-in and authorization with actual staged principal grants, staged Core Operations guard mount, live machine worker identities, non-production gateway/proxy session checks. The guard is intentionally unmounted; no employee/service operation was granted. Follow the isolated staging runbook in `docs/SHARED_FOUNDATION_STAGING_CANDIDATE.md` and the central `handoffs/shared-web-foundation.md`. No production/Railway/Chrome/DNS changes.
+
+---
+
+
 ## Combined web/security candidate cross-check — 2026-11-12
 
 **Status:** Testing (combined source/CI PASS), not staged/deployed. The shared-security source remains `Tawgod/Lightspeed:integration/security-all-tools-20261111@9ee0e4cfc03852e0986a1e38a82bb7973f95f5d6`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61). Its **combined**, independent review candidate is `feature/shared-foundation-security-web-20261112@63f13787ed4451b20bddd304f595d2af6fdaff56`, draft [PR #63](https://github.com/Tawgod/Lightspeed/pull/63) layered onto PR #61.
