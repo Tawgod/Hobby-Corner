@@ -1,5 +1,21 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## GW mark-submitted corrected PostgreSQL acceptance PASS — 2026-11-12
+
+**System:** Shared Staff Security / GW preorder submission worker integrity. **Status: Testing PASS for corrected disposable PostgreSQL acceptance; NOT deployed.** Owner synced `Tawgod/Lightspeed:integration/security-all-tools-20261111` to `8550d22cd2280baada3e07696c37793045764817` and ran the localhost-only PostgreSQL 18 harness twice.
+
+**Observed result:** Both runs reported **12 tests, 12 pass, 0 fail**, and both ended with `Verified disposable PostgreSQL container removal.` The previously failing GW `mark-submitted` case now passes its injected rollback, clean retry and duplicate-submission protection path on real PostgreSQL.
+
+**Verified behavior:** The injected staff-notification failure rolls campaign/product/notification state back. After removing the trigger, retry commits the GW campaign as ORDERED/SUBMITTED, writes the expected submitted product quantity/value and queues the expected staff/customer notifications. A third duplicate submission is rejected with 409 without adding duplicate notifications. This also verifies the SQL typing fix for `$1::integer` against PostgreSQL 18.
+
+**Related automated verification:** GitHub Actions [43243952519](https://github.com/Tawgod/Lightspeed/actions/runs/43243952519) **SUCCESS** on corrected head, including the regression guard preventing the ambiguous `$1*msrp` form from returning.
+
+**Production boundary:** No Railway deployment, real GW submission, machine credential, employee grant, route approval, database migration, Lightspeed mutation or Chrome extension change occurred.
+
+**Next:** Continue remaining service-worker review: cross-system retry/idempotency around GW auto-submit failure alerts and Discord delivery claim/complete behavior, then reduce the unresolved route list before any staging mount or real service credential commissioning.
+
+---
+
 ## GW mark-submitted SQL fix automated verification PASS — 2026-11-12
 
 **Status:** In Development / automated verification PASS; corrected disposable PostgreSQL retest still required; NOT deployed. The corrected branch head is `Tawgod/Lightspeed:integration/security-all-tools-20261111@8550d22cd2280baada3e07696c37793045764817`.
