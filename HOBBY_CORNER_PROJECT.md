@@ -1,5 +1,13 @@
 # Hobby Corner Project Registry
 
+## Timcorp shared hostname decision / failed FETCH_HEAD Codespaces command — 2026-11-12
+
+**Confirmed decision:** The Hobby Corner shared destination host is `https://timcorp-projects.com` (owner-confirmed). The earlier `timcorp-productions.com` target is superseded. The central `Tawgod/timcorp-projects-foundation` gateway reserves `/HobbyCorner/`, but this route remains **planned/not connected (HTTP 503)**. The provisional employee landing is `https://timcorp-projects.com/HobbyCorner/store-operations` **only after approved route activation**, using staging-only `HC_PUBLIC_BASE_PATH=/HobbyCorner`. Existing Railway links are preserved, and neither DNS nor gateway config was touched. Treat prior hostname/path comparisons below as historical, not current ambiguity.
+
+**Testing:** Owner ran Git fetch against `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112`, then attempted `git switch --detach origin/feature/shared-foundation-security-web-20261112` in Codespaces; fetch placed commit in `FETCH_HEAD` without a remote-tracking ref, so switch failed `fatal: invalid reference`. **No combined PostgreSQL test ran on this attempt.** Corrected instruction uses `git switch --detach FETCH_HEAD`, runs `scripts/run-isolated-security-status-postgres.sh` and restores the original branch. Wait for nested PostgreSQL results and verified container removal before promoting the combined test status. Existing combined CI pass remains unchanged.
+
+---
+
 ## Shared foundation integration status — 2026-11-12 (latest verified)
 
 **System:** Hobby Corner shared security, Timcorp public routes and unified Store Operations UI. **Status:** Testing (source/CI); not deployed. **Repository:** `Tawgod/Lightspeed`. **Combined candidate:** [draft PR #63](https://github.com/Tawgod/Lightspeed/pull/63), `feature/shared-foundation-security-web-20261112@63f13787ed4451b20bddd304f595d2af6fdaff56`, based on shared-security [draft PR #61](https://github.com/Tawgod/Lightspeed/pull/61). It composes the independently developed navigation [PR #35](https://github.com/Tawgod/Lightspeed/pull/35) and Timcorp web [draft PR #62](https://github.com/Tawgod/Lightspeed/pull/62) without replacing their parents.
