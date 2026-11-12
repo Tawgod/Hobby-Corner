@@ -3,15 +3,25 @@
 **Last verified:** 2026-11-12  
 **Status:** Testing (automated); not deployed
 
+## Confirmed Timcorp destination — owner decision, 2026-11-12
+
+**Hostname confirmed:** `https://timcorp-projects.com`. This supersedes the previously requested `timcorp-productions.com`; do not treat that other domain as an alias. The connected central gateway's established Hobby Corner reservation is `/HobbyCorner/` (currently HTTP 503/not connected), so the **working** proposed employee path is `https://timcorp-projects.com/HobbyCorner/store-operations`. The owner confirmed the hostname, not a production route activation. Route casing and the gateway upstream mapping must still be accepted through the central integration review.
+
+**Proposed staging-only variables after explicit authorization:** `HC_PUBLIC_BASE_PATH=/HobbyCorner` and `HC_PUBLIC_LANDING_PATH=/store-operations`. Subroutes for Store Map and Labels would need longest-prefix routing under `/HobbyCorner/` and their own service tests. Current direct Railway URLs remain unchanged. **No DNS, Railway configuration, public gateway route, or production deployment was changed.**
+
+**Codespaces test instruction correction:** The remote `git fetch origin feature/shared-foundation-security-web-20261112` succeeds but this particular Codespace does not create `origin/feature/shared-foundation-security-web-20261112` (only `FETCH_HEAD`). The owner's test stopped at `git switch --detach origin/...` with `fatal: invalid reference`. No combined-branch PostgreSQL test ran on that attempt. Use `git switch --detach FETCH_HEAD` after fetch, run the disposable DB launcher, and return to the original branch via an EXIT trap. Combined real-DB acceptance and container cleanup still pending until output is supplied.
+
+---
+
 ## Verified cross-tool Railway deployment inventory — 2026-11-12 (read-only)
 
 These are actual **deployed** versions, not latest branch heads; all inspected services were left untouched.
 
 | Tool/service | Railway project/env | Running deployment source | Proposed foundation route | Readiness |
 | --- | --- | --- | --- | --- |
-| Store Operations/Special Orders/Ordering/Preorders/GW | `Hobby Corner/production`, `special-orders-test` | `Tawgod/Lightspeed:integration/hobby-corner-consolidation@014a7a9`, deployed Nov 4 | Configurable parent `/hobby-corner/*` (or gateway-approved variant) | Combined PR #63 **CI PASS**, not deployed |
-| Labels/Toolkit API | `Hobby Corner/production`, `lightspeed-api` | Same `integration/hobby-corner-consolidation@014a7a9`, deployed Nov 4 | Proposed `/hobby-corner/labels/*` (or gateway-approved variant) | Existing Timcorp basepath branch prepared, real deployment/proxy acceptance pending |
-| Store Map | `Hobby Corner/production`, `store-map` | `store-map-production@c7e76b8`, deployed Nov 4 | Proposed `/hobby-corner/store-map/*` (or gateway-approved variant) | Separate `feature/timcorp-base-path-store-map-20261111` branch prepared; not deployed |
+| Store Operations/Special Orders/Ordering/Preorders/GW | `Hobby Corner/production`, `special-orders-test` | `Tawgod/Lightspeed:integration/hobby-corner-consolidation@014a7a9`, deployed Nov 4 | Working reserved path `/HobbyCorner/*` (inactive) | Combined PR #63 **CI PASS**, not deployed |
+| Labels/Toolkit API | `Hobby Corner/production`, `lightspeed-api` | Same `integration/hobby-corner-consolidation@014a7a9`, deployed Nov 4 | Proposed `/HobbyCorner/labels/*` (inactive) | Existing Timcorp basepath branch prepared, real deployment/proxy acceptance pending |
+| Store Map | `Hobby Corner/production`, `store-map` | `store-map-production@c7e76b8`, deployed Nov 4 | Proposed `/HobbyCorner/store-map/*` (inactive) | Separate `feature/timcorp-base-path-store-map-20261111` branch prepared; not deployed |
 | Timeclock | `Hobby Corner/production`, `timeclock` | Last **actual deployment** `integration/hobby-corner-consolidation@014a7a9` on Nov 4; Railway service source setting has a newer `feature/owner-timeclock-scoped-credential-20261110` pin | No public Timeclock gateway route in phase 1; backend-to-backend continues | **Source setting differs from deployed commit**; do not assume new scoped credential code is live |
 | Discord bot | `Hobby Corner/production`, `Hobby-Corner-Discord-Bot` | `Tawgod/Hobby-Corner-Discord-Bot:main@7c3af0e`, deployed Oct 27 | Not a public web route | Current bot lacks historical Special Orders delivery/GW endpoints; no machine grant based on legacy variables |
 | Consignment beta | `Hobby Corner Integration Test/test`, `consignment-beta` | `feature/consignment-layout-foundation`, deployed Oct 27 | Remains external Store Tools link | Separate service, not verified for Timcorp prefix; do not silently route |
