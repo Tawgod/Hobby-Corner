@@ -3,6 +3,26 @@
 **Last verified:** 2026-11-12  
 **Status:** Testing (automated); not deployed
 
+## Verified cross-tool Railway deployment inventory — 2026-11-12 (read-only)
+
+These are actual **deployed** versions, not latest branch heads; all inspected services were left untouched.
+
+| Tool/service | Railway project/env | Running deployment source | Proposed foundation route | Readiness |
+| --- | --- | --- | --- | --- |
+| Store Operations/Special Orders/Ordering/Preorders/GW | `Hobby Corner/production`, `special-orders-test` | `Tawgod/Lightspeed:integration/hobby-corner-consolidation@014a7a9`, deployed Nov 4 | Configurable parent `/hobby-corner/*` (or gateway-approved variant) | Combined PR #63 **CI PASS**, not deployed |
+| Labels/Toolkit API | `Hobby Corner/production`, `lightspeed-api` | Same `integration/hobby-corner-consolidation@014a7a9`, deployed Nov 4 | Proposed `/hobby-corner/labels/*` (or gateway-approved variant) | Existing Timcorp basepath branch prepared, real deployment/proxy acceptance pending |
+| Store Map | `Hobby Corner/production`, `store-map` | `store-map-production@c7e76b8`, deployed Nov 4 | Proposed `/hobby-corner/store-map/*` (or gateway-approved variant) | Separate `feature/timcorp-base-path-store-map-20261111` branch prepared; not deployed |
+| Timeclock | `Hobby Corner/production`, `timeclock` | Last **actual deployment** `integration/hobby-corner-consolidation@014a7a9` on Nov 4; Railway service source setting has a newer `feature/owner-timeclock-scoped-credential-20261110` pin | No public Timeclock gateway route in phase 1; backend-to-backend continues | **Source setting differs from deployed commit**; do not assume new scoped credential code is live |
+| Discord bot | `Hobby Corner/production`, `Hobby-Corner-Discord-Bot` | `Tawgod/Hobby-Corner-Discord-Bot:main@7c3af0e`, deployed Oct 27 | Not a public web route | Current bot lacks historical Special Orders delivery/GW endpoints; no machine grant based on legacy variables |
+| Consignment beta | `Hobby Corner Integration Test/test`, `consignment-beta` | `feature/consignment-layout-foundation`, deployed Oct 27 | Remains external Store Tools link | Separate service, not verified for Timcorp prefix; do not silently route |
+| Admin navigation bridge | `Hobby Corner Integration Test/test`, `admin-nav-bridge-test` | `staged-create`, **no deployment** | Not a standalone public gateway destination | Stage-only patch awaiting approval, synthetic read-only grant not equivalent to live Owner |
+
+**Staging caution:** The Railway Hobby Corner production environment also has a staged patch; a staged configuration does not establish deployment. Do not accept/apply staged changes wholesale because they may belong to other development channels. Chrome Toolkit/Scanner source requires release-queue coordination before any version/package/distribution changes.
+
+**Route precedence proposal:** The two separately hosted longest prefixes (Store Map, Labels) must win before the Store Operations catch-all. The current central gateway `/HobbyCorner/` fallback is planned/503; neither these routes nor the requested `/hobby-corner/` aliases are live integrations. No new central routing was configured.
+
+---
+
 ## Latest combined foundation milestone — 2026-11-12
 
 **System / feature:** Shared Store Operations web foundation + default-deny employee/service security. **Status:** Testing (automated CI PASS); not staged, not deployed, not released.
