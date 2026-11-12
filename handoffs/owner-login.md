@@ -1,5 +1,23 @@
 # First Owner Login — Current Handoff
 
+## Dedicated Owner database / privilege bootstrap complete — 2026-11-12
+
+**Owner-approved scope:** Isolated Owner database provisioning and restrictive access groups, without deploying Owner web login or touching production.
+
+**Status:** Database **Deployed**, initial schema & NOLOGIN privilege groups **Testing PASS**; real Owner login **In Development / not deployed**.
+
+- **Database:** New independent Railway PostgreSQL 18 `Postgres-x8Ui` service `5c4498e4-cffb-4224-916a-af57391d1cd9`, deployment `51d04bf4-0f3e-4716-ba17-8e756a1bc1be` **SUCCESS**, isolated `HC PR63 Isolated Staging/staging` project `5b46096d-3178-47ec-ba88-d5037696346a`, environment `46b93c76-3085-4e76-a37d-90dfdd250dd2`, separate durable volume `04530c8a-cf70-4857-9f9b-0828b47bc54c`, **no public domain/TCP proxy**, no production data. Separate from the existing Store Operations staging database.
+- **One-shot migration:** [draft PR #65](https://github.com/Tawgod/Lightspeed/pull/65), source `feature/owner-db-isolated-bootstrap-20261112@81d23862428ceb3e35dafa32f575e7ab9135e2b5`. Its safety CI [43297855881](https://github.com/Tawgod/Lightspeed/actions/runs/43297855881) SUCCESS. A disposable private-network Railway runner pinned to exact source/environment applied six reviewed Owner schema files + `db/hc_owner_staging_privilege_groups.sql` under `hc_owner_stage_test`, verified **9 required tables, 2 NOLOGIN privilege groups, 0 activations**. Exact read-back success log `HC_OWNER_DB_BOOTSTRAP_OK tables=9 nonlogin_groups=2 owner_activations=0`, deployment `bf0cde18-9384-4d20-8ffe-577dcdea4bb2` SUCCESS.
+- **Privilege separation:** The runtime group cannot create/delete an activation, alter employee/digest/expiry, or read operator secret; it can read/consume approved activation columns. The operator group can issue a first activation but cannot read TOTP or consume it. Both groups have NOLOGIN, no SUPERUSER, no CREATEROLE, no CREATEDB. PUBLIC DB CONNECT and schema CREATE revoked; no real employee account data, PIN, passkey or seed in DB. No LOGIN role or reusable password created yet.
+- **Cleanup:** The temporary DB provisioner `hc-owner-db-bootstrap` service `6d29f944-e322-44c6-ac72-74904b3153cc` was deleted after confirming success, removing its temporary root database URL reference. The database and volume remain SUCCESS; existing Store Operations staging deployment `4cae33bf-1569-4b2d-90a0-2aee9e5de55e` unchanged and healthy. No staged patch remains in the active foundation staging project.
+- **Old Owner staging patch:** The separate original `HC Owner Security Staging/test` project still has the **55-change STAGED patch `45d1db2e-1f10-4b27-94e0-c0970c5d2d28`**, containing a not-configured app and another proposed Postgres. Not committed. **Do not apply or duplicate it**; future Owner app can join the now-ready staging project and access the new Owner DB over private networking, after resolving protected runtime/operator credentials.
+- **Remaining:** Separate private LOGIN roles/password custody, exact canonical real Timeclock employee ID, independently protected integration credentials, production Timeclock **additive throttle SQL** (still unapplied), staging app HTTPS/RP ID and data-role preflight, operator-only 10-minute activation, real device passkey and Authenticator. The production Timeclock Owner-verifier code remains deployed **disabled** as previously authorized. No production DB migration, live Owner permission or Timcorp gateway changes.
+
+**Manager next:** Prepare private LOGIN role/secret handoff and run read-only runtime/issuer permission tests using those logins. Request approval for the distinct production Timeclock rate-limit SQL only when staging ID/secret path is ready. Owner activation must be performed interactively by the owner on their own device and verified employee account. Details: [PR #65](https://github.com/Tawgod/Lightspeed/pull/65) `docs/OWNER_STAGING_DB_ISOLATED_BOOTSTRAP.md`.
+
+---
+
+
 ## Timeclock code-only release completed — 2026-11-12
 
 **Verified:** **Deployed (production Timeclock code only)**; Owner endpoint intentionally **Disabled**; Owner staging application and real Owner account **Not Deployed / Not Commissioned**.
