@@ -1,5 +1,18 @@
 # Hobby Corner Project Registry
 
+## Owner isolated DB readiness reached — 2026-11-12
+
+**System:** First Owner login / least-privileged stage data store. **Implementation:** Existing Owner web/login [PR #60](https://github.com/Tawgod/Lightspeed/pull/60) still in development; fresh staging Owner DB & 9 reviewed tables + **two NOLOGIN groups** prepared via [draft PR #65](https://github.com/Tawgod/Lightspeed/pull/65). **Testing:** One-shot live isolated SQL migration and privileged-boundary verification **PASS**; synthetic CI `43297855881` SUCCESS. **Deployed:** Owner **database only**, real Owner web app and credentials **not deployed**. Production Timeclock code-only default-off PR #59 remains successful/unchanged.
+
+New separate PostgreSQL 18 `Postgres-x8Ui` `5c4498e4-cffb-4224-916a-af57391d1cd9` (deployment `51d04bf4-0f3e-4716-ba17-8e756a1bc1be`) and dedicated volume in **existing** `HC PR63 Isolated Staging/staging`. Applied exactly seven reviewed SQL files to `hc_owner_stage_test`. Private one-use migration service `hc-owner-db-bootstrap` at `Tawgod/Lightspeed:feature/owner-db-isolated-bootstrap-20261112@81d23862428ceb3e35dafa32f575e7ab9135e2b5` reported `HC_OWNER_DB_BOOTSTRAP_OK tables=9 nonlogin_groups=2 owner_activations=0` on deployment `bf0cde18-9384-4d20-8ffe-577dcdea4bb2` and was then **deleted**, removing its privileged root DB URL; no public Owner DB endpoint or real account data. Existing Store Operations staging app and DB unchanged.
+
+The **old** independent `HC Owner Security Staging/test` project patch `45d1db2e` still has 55 staged changes, uncommitted. Do NOT apply: it would create a redundant Postgres and unconfigured Owner app. Implement the actual Owner app in the now-existing isolated project after separate verified runtime/operator LOGIN credentials. User/private operator must handle real Timeclock employee confirmation, protected secrets and physical passkey/TOTP enrollment; no Owner role, production migration, vendor writes, DNS/gateway or Chrome release done.
+
+**Next decision/input:** Private credentials/least-privilege LOGIN commissioning and separate app preparation; enabling production Timeclock's dedicated Owner endpoint requires independently approved `timeclock/db/hc_owner_stage_login_limits.sql` migration + protected server-to-server secret. See `handoffs/owner-login.md` and PR #65 documentation.
+
+---
+
+
 ## Timeclock Owner login prerequisite — code-only release successful (2026-11-12)
 
 **Status:** Timeclock Owner-verification *code* **Deployed**; Owner login itself **In Development / Not Commissioned**. The owner authorized default-disabled, code-only production Timeclock release of draft PR #59. Railway production patch `20177311` comprised **only** the source branch and SHA pin for Timeclock `dd3469bd`; the committed deployment `5c08d15e-7341-43d9-83bb-a1d495df9e16` **SUCCESS** on `Tawgod/Lightspeed:feature/owner-timeclock-scoped-credential-20261110@a595fd336c5a38dcc5ab5423a8967698777c0929`. Railway Timeclock online with no warnings/criticals and startup listening on 8080. Previous Timeclock deployment `eaaa2b25` remains rollback-eligible. Existing Special Orders `201d651f` and Labels/Toolkit API `288d5089` still SUCCESS on old consolidated `014a7a9`. Staged production patch cleared; no migration or new Owner settings applied.
