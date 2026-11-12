@@ -1,5 +1,23 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Disposable PostgreSQL status security acceptance — 2026-11-12
+
+**System/feature:** Shared staff security → Special Orders guarded status transitions, isolated SQL acceptance. **Status:** In Development / Testing; **not deployed; new integration test NOT RUN yet**.
+
+**Repo/branch:** `Tawgod/Lightspeed:integration/security-all-tools-20261111`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61), latest commit `503e4ec7de0370bf34e72f58002647077bc66fe2`. Existing status-route logic remains default-off in `server.js`, with previously verified source/HTTP/unit CI [43226273528](https://github.com/Tawgod/Lightspeed/actions/runs/43226273528) **SUCCESS**. User asked that once a step passes, development continue automatically to the next safe step or next concrete command, without needing a separate "continue" message.
+
+**Implemented (manual test harness only):** New `scripts/run-isolated-security-status-postgres.sh` starts a **new disposable PostgreSQL 18 Docker container** on a dynamic **127.0.0.1-only** port in the remote Codespace, verifies readiness, strips inherited Railway/DB/other service credential variables, runs `tests/core-operations-status-postgres-isolated.test.mjs`, and removes only its own container on exit/failure. The Node test refuses non-loopback or non-fixture database credentials; it applies the actual `db/special_orders_schema.sql` and supplier seeds only in that fresh database. It verifies real SQL status/history/notifications after routine progression, protected cancellation and blocked reopening, plus a concurrent row lock scenario. Signed-employee/workstation/passkey identities are **fixtures**, not real employee authentication. No external vendor APIs, Railway databases, production staff/customer records or Chrome packages are accessed.
+
+**Testing results:** Source/test harness committed but **untested by Codespaces**. It is deliberately excluded from automatic GitHub Actions to avoid unnecessary workflows/database containers. Need owner to run:
+
+```bash
+cd /workspaces/Lightspeed-security && git pull --ff-only && bash scripts/run-isolated-security-status-postgres.sh
+```
+
+**Remaining blockers:** Need output of disposable integration test; fix any discovered schema/transaction/runtime issues; review real employee/Owner role choices and service credentials; verify browser/Chrome flow, physical authenticators, staged Postgres regression and rollback before any production activation. No deployment, DB migration, live permissions or service credentials modified by this work.
+
+---
+
 ## Source-and-target-aware Special Orders status transition security — 2026-11-12
 
 **System/feature:** Shared staff security → Core Operations Special Orders `PATCH /items/:id/status`. **Status:** In Development / Testing; **NOT deployed, NOT mounted, permissions NOT granted**. Development repository `Tawgod/Lightspeed`, branch `integration/security-all-tools-20261111`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61), code/documentation head `09c561fb663d8ca883b778167344d19928d9198e`.
