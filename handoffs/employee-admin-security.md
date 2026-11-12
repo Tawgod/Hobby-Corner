@@ -1,5 +1,16 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Verified isolated foundation staging — 2026-11-12
+
+**Status:** Testing: PR #63 combined policy/web source verified by disposable PG (13/13), isolated Railway app+new Postgres deployed SUCCESS and nonproduction HTTP/Chromium smoke PASS; **security admission still unmounted, no real grants**. App deployment `dcb96ace-fbeb-4eb0-928d-253659b16c64` pinned to `90e91c9...` in dedicated `HC PR63 Isolated Staging` project, not existing environments. Preview: `https://hc-foundation-pr63-staging.up.railway.app/HobbyCorner/store-operations`.
+
+**Exact acceptance:** run [43280979877](https://github.com/Tawgod/Lightspeed/actions/runs/43280979877) passed five read-only HTTPS test groups and live Chromium on the deployed app. Anonymous `/api/special-orders/stats` and `/priority-review` are 401; Admin/staff-auth endpoints intentionally unmounted/404; JS assets and nested links work, test database health true, live vendor flags false. No test staff PIN, Owner/manager delegation, machine service credential, passkey, TOTP, or source-mutating request ran. The combined candidate still carries default-deny exact guard proposal but it was **not mounted**, so this is not acceptance of live authorization.
+
+**Next:** request separate authorization for test-only identity and staging guard activation; verify active session, signed-in read, revoked employee, strong step-up and exact service identity with fake worker. No production Railway, central Timcorp gateway, DB customer data, Discord/Lightspeed or extension change. Full details `handoffs/shared-web-foundation.md`.
+
+---
+
+
 ## Combined branch SQL acceptance completed — 2026-11-12
 
 **Status:** Testing (real disposable PostgreSQL PASS), **not deployed**. The integrated web + security candidate is [draft PR #63](https://github.com/Tawgod/Lightspeed/pull/63), `feature/shared-foundation-security-web-20261112`; tested source SHA `90e91c9b4d6cd07df1dff3de79100073bb819a72`.
