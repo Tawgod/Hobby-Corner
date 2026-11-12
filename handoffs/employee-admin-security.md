@@ -1,5 +1,16 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Timeclock Owner-verification code deployed, Owner account still uncommissioned — 2026-11-12
+
+**Implementation:** Default-disabled scoped Owner Timeclock verification from [PR #59](https://github.com/Tawgod/Lightspeed/pull/59) at `a595fd336c5a38dcc5ab5423a8967698777c0929` is now **Deployed** to production Timeclock only, as explicitly approved. New Railway deployment `5c08d15e-7341-43d9-83bb-a1d495df9e16` SUCCESS; service online/healthy with 0 alerts. Exactly two previously staged source fields were applied; no other production service or env variable, DB schema, permission or real Owner record changed. The old Timeclock deployment `eaaa2b25` is rollback-eligible; existing Special Orders and API deployments unchanged.
+
+**Authorization boundary:** Dedicated `OWNER_STAGING_IDENTITY_ENABLED`, `OWNER_STAGING_SERVICE_SECRET`, `OWNER_STAGING_THROTTLE_SECRET`, and `OWNER_STAGING_EMPLOYEE_ID` are **unset**, so installed Owner routes deny requests and are not usable for actual login. No production throttle SQL ran; that table is an outstanding separate approval gate. Owner staging [PR #60](https://github.com/Tawgod/Lightspeed/pull/60) remains undeployed; 55 staged app/PG18 changes must be reconciled and separate operator/runtime roles issued before acceptance. No real employee account linked or passkey/TOTP factor enrolled. Automated Timeclock Owner and Scanner CI passed, but no live authorized employee user-flow was exercised.
+
+**Next:** Isolated Owner staging DB/bootstrap preparation, separate approval for production additive throttle migration and dedicated credential activation, private canonical active Timeclock employee verification, one-use operator activation, and physical device setup. See `handoffs/owner-login.md` and `docs/OWNER_LOGIN_STAGING_RELEASE_PLAN.md`. No Timcorp gateway/Chrome/business data update.
+
+---
+
+
 ## Real Owner login kickoff — 2026-11-12
 
 **Status:** PRs #59/#60 source/testing green; actual first Owner staging/production enrollment still **not deployed/commissioned**. Verified code-only Timeclock production staged patch `20177311` contains just two source fields pinning PR #59 `a595fd3`, but deployed Timeclock remains `014a7a9` and there are no Owner-specific credential flags in the Timeclock environment. Current Timeclock rollback deployment `eaaa2b25` is eligible. Separate Owner staging project has 55 unapplied app/PG18/volume changes and lacks isolated DB roles/migrations, independent secrets and real employee ID. Applying all 55 changes would start an unconfigured app and fail closed.
