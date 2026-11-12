@@ -1,5 +1,19 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## GW mark-submitted PostgreSQL type-inference defect found and fixed — 2026-11-12
+
+**System:** Shared Staff Security / GW preorder submission worker integrity. **Status: In Development / fix committed; corrected manual PostgreSQL retest pending; NOT deployed.** Owner ran the disposable PostgreSQL 18 harness after syncing to `Tawgod/Lightspeed:integration/security-all-tools-20261111@abcb6a8`. The prior 10 nested cases remained green, but the new GW mark-submitted case failed on the clean-retry path. Node reported **12 tests, 10 pass, 2 fail** (the nested case plus parent), with verified disposable-container removal.
+
+**Root cause:** This was a real existing production-source SQL defect, not a malformed test fixture. The mark-submitted product update reused PostgreSQL parameter `$1` both for INTEGER columns (`submitted_quantity`, `ordered_quantity`) and inside multiplication with NUMERIC `msrp`. PostgreSQL rejected the prepared statement with `inconsistent types deduced for parameter $1`. The injected-failure rollback portion had already behaved correctly; the clean retry exposed the typing bug before submission could commit.
+
+**Fix:** Commit `40849c3ba8d42ce640e349ccce783efb4d1bf532` changes the statement to explicitly use `$1::integer` for both quantity columns and `$1::integer*msrp` for the NUMERIC submitted value. This preserves intended quantity/value semantics while making parameter typing unambiguous. Commit `8550d22cd2280baada3e07696c37793045764817` adds a source regression assertion in `tests/core-operations-service-proposals.test.mjs` so ambiguous `$1*msrp` cannot silently return.
+
+**Current verification:** GitHub Actions run for the source fix commit is in progress at this checkpoint. Do not claim corrected-head CI or manual acceptance until observed. The disposable PostgreSQL test must be rerun after syncing to `8550d22c...`; expected behavior is that the injected staff-notification failure rolls back campaign/product/notification changes, the retry succeeds with two submitted units and expected notifications, and a third duplicate submission returns 409 without duplicates.
+
+**Production boundary:** No Railway deployment, real GW submission, employee/service credential, route approval, database migration, Lightspeed mutation or Chrome extension change occurred. The bug was found entirely in isolated development/fixture execution.
+
+---
+
 ## GW mark-submitted disposable PostgreSQL acceptance prepared — 2026-11-12
 
 **System:** Shared Staff Security / GW preorder submission worker integrity. **Status: In Development / manual PostgreSQL acceptance pending; NOT deployed.** Development branch `Tawgod/Lightspeed:integration/security-all-tools-20261111`, draft PR #61, latest head `abcb6a80dca556d492eab1afa4f3d3c5039845c5`.
