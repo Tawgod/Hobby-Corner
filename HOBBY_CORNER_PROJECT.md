@@ -1,5 +1,19 @@
 # Hobby Corner Project Registry
 
+## Foundation staging running — 2026-11-12 (latest verified)
+
+**System:** Hobby Corner shared web foundation, security reviews, Timcorp path compatibility. **Implementation:** candidate source [draft PR #63](https://github.com/Tawgod/Lightspeed/pull/63) contains combined navigation, security transaction protections and pending exact-route admission. **Testing:** source five-workflow CI + disposable PostgreSQL **13/13 PASS**; now dedicated Railway staging deploy and remote HTTPS/Chromium **PASS**. **Deployed:** staging only; **production unchanged**.
+
+- Railway new isolated `HC PR63 Isolated Staging` project `5b46096d-3178-47ec-ba88-d5037696346a`, environment `staging` `46b93c76-3085-4e76-a37d-90dfdd250dd2`; fresh independent Postgres 18 `257803e5-7352-4113-a4be-f4f6edaddd22` with separate volume.
+- New app `hc-foundation-pr63` `10540df5-8fab-497b-bd2c-80d4f7f0c702`, deployment `dcb96ace-fbeb-4eb0-928d-253659b16c64` **SUCCESS**, pinned `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@90e91c9`. Railway reports both app and database online, schema initialized, no pending environment changes.
+- Employee preview: `https://hc-foundation-pr63-staging.up.railway.app/HobbyCorner/store-operations`, **not the live Timcorp gateway**. `HC_PUBLIC_BASE_PATH=/HobbyCorner`, `HC_PUBLIC_LANDING_PATH=/store-operations`. Live Lightspeed, Discord, scanner, Admin-nav, migrations and product writes are absent/disabled, no real staff identities or credentials used.
+- [Run 43280979877](https://github.com/Tawgod/Lightspeed/actions/runs/43280979877) **SUCCESS**: five groups of actual HTTPS GETs across 200/302 legacy+prefixed routes, 401 anonymous business API denial, 404 disabled Admin/staff-auth; real remote Chromium dashboard/navigation and Special Orders PASS, missing resource and JS error checks PASS. Existing CI suites also green.
+- Source/route authentication remains **unmounted** for the new Core Operations gate. Stage-only positive Timeclock/strong-factor/Owner/Admin/worker identity tests and an isolated reverse proxy remain next **approval gates**. Store Map, Labels and Consignment must still be staged independently and their longest-prefix routes tested. Existing production Special Orders deployment remained `014a7a9`; central `timcorp-projects.com/HobbyCorner/` route still inactive. No production deployment, gateway or DNS change, live business write or extension release.
+- Manager handoff: `handoffs/shared-web-foundation.md`; security details: `handoffs/employee-admin-security.md`; staging runbook: `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112/docs/SHARED_FOUNDATION_STAGING_CANDIDATE.md`.
+
+---
+
+
 ## Shared foundation acceptance gate passed — 2026-11-12
 
 **Status:** **Testing PASS** for combined source CI and disposable PostgreSQL; **Blocked** only for non-production staging authorization/proxy and real identity acceptance; **NOT Deployed**.
