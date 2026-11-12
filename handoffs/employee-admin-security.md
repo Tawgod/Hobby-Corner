@@ -1,5 +1,14 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## First Owner isolated database access boundary provisioned — 2026-11-12
+
+**Status:** Owner staging PostgreSQL deployed and schema/NOLOGIN privilege checks **PASS**, real Owner identity and LOGIN roles **not commissioned**. A fresh separate Railway Postgres 18 service `Postgres-x8Ui` in `HC PR63 Isolated Staging/staging` now hosts empty `hc_owner_stage_test`, 9 Owner/security tables and two restrictive NOLOGIN groups. A one-off migration tool at [PR #65](https://github.com/Tawgod/Lightspeed/pull/65) commit `81d2386` reported successful grant checks and zero activations, then its service/root DB reference was removed. Store Operations staging app remained unchanged; production Timeclock verifier is installed but default-disabled.
+
+The original `HC Owner Security Staging/test` project patch contains 55 staged changes including redundant app+Postgres and is still unapplied; do **not** deploy it blindly. Future Owner web app should reuse existing isolated project/private Owner DB with separate runtime/operator LOGIN secrets and a reviewed HTTPS origin/WebAuthn RP ID. Do not grant Owner permissions or run activation from chat/CI. No real employee PIN/passkey/TOTP, Timeclock dedicated service credential, production throttle SQL or public gateway change. Full state `handoffs/owner-login.md`.
+
+---
+
+
 ## Timeclock Owner-verification code deployed, Owner account still uncommissioned — 2026-11-12
 
 **Implementation:** Default-disabled scoped Owner Timeclock verification from [PR #59](https://github.com/Tawgod/Lightspeed/pull/59) at `a595fd336c5a38dcc5ab5423a8967698777c0929` is now **Deployed** to production Timeclock only, as explicitly approved. New Railway deployment `5c08d15e-7341-43d9-83bb-a1d495df9e16` SUCCESS; service online/healthy with 0 alerts. Exactly two previously staged source fields were applied; no other production service or env variable, DB schema, permission or real Owner record changed. The old Timeclock deployment `eaaa2b25` is rollback-eligible; existing Special Orders and API deployments unchanged.
