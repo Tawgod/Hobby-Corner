@@ -1,5 +1,17 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Corrected PostgreSQL acceptance fully closed + Discord service audit hardening — 2026-11-12
+
+**Status:** Testing / In Development; **NOT deployed**. Owner supplied the complete Codespaces output for `Tawgod/Lightspeed:integration/security-all-tools-20261111@98a9165`: Node reported **8 tests, 8 pass, 0 fail**, followed by `Disposable database verification completed. Temporary container will be removed.` and `Verified disposable PostgreSQL container removal.` The corrected seven nested guarded-status cases plus parent suite therefore have a verified zero-failure exit path and verified disposal of the temporary PostgreSQL 18 container. The earlier rollback-fixture blocker is closed.
+
+**Next source hardening:** Review of the remaining Core Operations service/automation routes found that Discord delivery completion still inserted literal `discord-bot` into `order_status_history.changed_by`. On draft PR #61 branch `integration/security-all-tools-20261111`, commits `a8f09ff4a382b830159dfceffd91ca1a76a06d6d` and `ecc14a51cbcc17c7466f04e4922ae69e6566a506` changed that guarded sink to `auditActor(req,'discord-bot')` and added a regression source assertion. **Legacy mode remains exactly `discord-bot`; guarded mode records the independently admitted `service:<id>` principal.** No service route was approved or mounted.
+
+**Route review findings:** 36 of the 87 inventoried Core Operations routes are straightforward authenticated read/read-via-POST candidates already mapped to existing `special-orders.read` (17), `ordering.read` (9), or `products.read` (10) operations. They are still not a production allowlist. The remaining 49 non-public routes contain 30 local writes, 14 service/automation candidates, 2 external-side-effect routes and 3 direct vendor writes. Source review confirms the service bucket is not harmless read traffic: Discord reaction capture creates/cancels preorder requests and notifications; Discord claim/complete mutates notification state and completion may set Special Order status to `CUSTOMER_NOTIFIED`; product reconciliation and registry endpoints mutate local product state; purchase-metric refresh/import mutates local customer metrics; GW auto-submit-failure can emit an external alert. These require exact scoped service identities/operations or separately approved employee actions rather than generic read permission.
+
+**Testing note:** The new Discord audit change has source regression coverage committed, but do not claim current-head CI success until a workflow result is observed. Production `server.js` still does not mount the guard; no employee grants, machine credentials, Railway configuration, DB migration, Lightspeed record, Chrome extension or production deployment changed.
+
+---
+
 ## Corrected disposable PostgreSQL status acceptance — 2026-11-12
 
 **System:** Shared Staff Security / Special Orders guarded status SQL acceptance. **Status: Testing PASS for corrected disposable PostgreSQL transaction suite; NOT deployed.** Owner fast-forwarded `Tawgod/Lightspeed:integration/security-all-tools-20261111` from `e704b58` to `98a9165eb37a28ec8341185bde5459c4789a2818` and ran `bash scripts/run-isolated-security-status-postgres.sh` in Codespaces. The PostgreSQL 18 schema initialized successfully and **all seven nested integration checks passed, with the parent test passing**.
