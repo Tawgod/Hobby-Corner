@@ -1,5 +1,15 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Dedicated Railway staging deployed and live read-only browser acceptance passed
+
+- With owner approval, created new separate Railway project `HC PR63 Isolated Staging` (`5b46096d-3178-47ec-ba88-d5037696346a`), `staging` environment, fresh Postgres 18 service+volume and app `hc-foundation-pr63`. This avoids existing integration-test Railway patch with 15 unrelated staged changes.
+- Pinned application to the combined PR #63 code that passed manual SQL, `90e91c9`. Deployment `dcb96ace-fbeb-4eb0-928d-253659b16c64` **SUCCESS**; logs confirm database schema ready and listening. Backend live-mode, migration, product writes, Scanner, Admin navigation and scanner test creation false; no Lightspeed, Discord, Timeclock integration credentials or real grants copied.
+- Created isolated Railway-only preview `https://hc-foundation-pr63-staging.up.railway.app/HobbyCorner/store-operations`; **no Timcorp public gateway change**. Tested actual HTTPS with GitHub Actions [43280979877](https://github.com/Tawgod/Lightspeed/actions/runs/43280979877): **5/5 HTTP test groups PASS**, including prefix+root routes, health, 302 redirect, CSS/JS, 401 anonymous business denial and 404 Admin/auth unavailability. Real remote Chromium signed-out dashboard/grouped navigation/static asset and Special Orders smoke **PASS**; no console errors/missing assets.
+- Verified Railway both services online with no pending changes. Production Special Orders still running consolidated commit `014a7a9`; Timcorp gateway unchanged. Staging does not yet have real employee sign-in, strong MFA, approved service identities, Core Operations gate mount or proxy-backed same-origin login. These require separate stage-only authorization/acceptance. **No production deployment, customer-data migration, real Discord/Lightspeed action, extension release, DNS or central gateway configuration change.**
+
+---
+
+
 ## 2026-11-12 — Combined foundation disposable PostgreSQL verification accepted
 
 - Owner checked out `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@90e91c9` in detached HEAD via `FETCH_HEAD` inside remote Codespaces, ran `bash scripts/run-isolated-security-status-postgres.sh`, and restored the original `integration/security-all-tools-20261111` branch.
