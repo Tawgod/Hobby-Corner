@@ -3,6 +3,20 @@
 **Last verified:** 2026-11-12  
 **Status:** Testing (automated); not deployed
 
+## Combined foundation: real PostgreSQL acceptance PASS — 2026-11-12
+
+**Current status:** **Testing — automated and disposable PostgreSQL PASS; staging not activated; NOT deployed.** This supersedes the earlier failed detached-Git-fetch attempt still retained below for history.
+
+- **Source:** `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112`, draft [PR #63](https://github.com/Tawgod/Lightspeed/pull/63). The exact tested code was **`90e91c9b4d6cd07df1dff3de79100073bb819a72`**. Later `2d418058...` is documentation-only (acceptance runbook).
+- **Owner-executed command:** clean-tree preflight, `git fetch origin feature/shared-foundation-security-web-20261112`, `git switch --detach FETCH_HEAD`, `bash scripts/run-isolated-security-status-postgres.sh`, and EXIT trap returning to `integration/security-all-tools-20261111` in `/workspaces/Lightspeed-security`.
+- **Real disposable PostgreSQL 18:** **13 tests / 13 passed / 0 failed / 0 cancelled / 0 skipped**. Test script explicitly printed **`Verified disposable PostgreSQL container removal.`** The PostgreSQL fixture injected intentional Discord history and GW confirmation exceptions; both corresponding rollback assertions passed.
+- **Verified 2026-11-12 GitHub CI on tested commit:** all **five SUCCESS**, scanner `43275029874`, combined source `43275029848`, shared UI `43275029856`, security policy `43275029878`, Core Operations Chromium UI `43275029869`.
+- **Git warning:** the detached checkout warned that eleven commits were not connected to local branches on returning to the original branch; they are still preserved on GitHub's feature branch. No local branch work was lost or production source switched.
+- **Remaining gate:** Existing project/test Railway environments contain unrelated staged changes; do not blindly apply them. Need an explicitly approved *isolated* nonproduction service/config, independent fixture database and test identities, a safe staging proxy, positive/negative staff sessions, denial/step-up/worker checks, and eventual public gateway approval. Exact rollout checklist is in `docs/SHARED_FOUNDATION_STAGING_CANDIDATE.md` on PR #63. **Core Operations security guard remains unmounted and default-deny.**
+- **Decision:** Owner previously confirmed hostname `timcorp-projects.com`. Proposed central path `/HobbyCorner/` is still not connected. Direct Railway URLs stay active. **No merge, staging/production deployment, gateway/DNS/variable change, service credentials, real vendor operations, or Chrome release performed.**
+
+---
+
 ## Confirmed Timcorp destination — owner decision, 2026-11-12
 
 **Hostname confirmed:** `https://timcorp-projects.com`. This supersedes the previously requested `timcorp-productions.com`; do not treat that other domain as an alias. The connected central gateway's established Hobby Corner reservation is `/HobbyCorner/` (currently HTTP 503/not connected), so the **working** proposed employee path is `https://timcorp-projects.com/HobbyCorner/store-operations`. The owner confirmed the hostname, not a production route activation. Route casing and the gateway upstream mapping must still be accepted through the central integration review.
