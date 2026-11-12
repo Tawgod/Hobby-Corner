@@ -1,5 +1,15 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Real Owner login kickoff — 2026-11-12
+
+**Status:** PRs #59/#60 source/testing green; actual first Owner staging/production enrollment still **not deployed/commissioned**. Verified code-only Timeclock production staged patch `20177311` contains just two source fields pinning PR #59 `a595fd3`, but deployed Timeclock remains `014a7a9` and there are no Owner-specific credential flags in the Timeclock environment. Current Timeclock rollback deployment `eaaa2b25` is eligible. Separate Owner staging project has 55 unapplied app/PG18/volume changes and lacks isolated DB roles/migrations, independent secrets and real employee ID. Applying all 55 changes would start an unconfigured app and fail closed.
+
+**Preparation completed:** [PR #60](https://github.com/Tawgod/Lightspeed/pull/60) now carries `docs/OWNER_SETUP_EXECUTION_CHECKLIST_20261112.md`, a source/deployment-backed release guide. Central `handoffs/owner-login.md` is the current authoritative owner setup handoff. The owner must privately confirm their existing active Timeclock employee identity and enroll passkey+Authenticator; never paste PIN, activation code, secret or backup passphrase here. No owner/staff role or production access was granted during this preflight.
+
+**Next:** Specific controlled approval to apply **only** the default-off Timeclock source-pin patch (no SQL or enabling), followed by independent Owner staged DB/service and private device gates. WebAuthn relying-party IDs are origin-bound; a passkey registered for a staging Railway hostname will not transfer to `timcorp-projects.com` without re-enrollment. This handoff supersedes historic claims that real Owner activation is available.
+
+---
+
 ## Staging guard is mounted; Owner login remains separate — 2026-11-12
 
 **Status:** **Deployed (isolated staging only) / Testing PASS** for Core Operations zero-grant admission; actual Owner login **Planned/In Development, not deployed**. This supersedes the older "guard unmounted" snapshot below (kept for historical traceability).
