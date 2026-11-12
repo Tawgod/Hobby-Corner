@@ -1,5 +1,12 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Strengthen disposable status transaction regression and cleanup
+
+- Operator reported PostgreSQL 18 in remote Codespaces initialized successfully and five nested SQL status security tests plus parent test passed at `Tawgod/Lightspeed@f1c8fbb`. Final process-exit and cleanup confirmation not present in pasted output.
+- On draft PR #61 added two more disposable DB cases: `COMPLETED` only suppresses unsent PENDING/QUEUED notifications, never already SENT, and deliberate database trigger failure proves entire status/history/notification transaction rollback with successful retry.
+- Updated the manual-only disposable Docker launcher to check and report its own container removal rather than silently masking Docker cleanup failures. Seven nested SQL cases defined; newest two remain untested until next operator Codespaces run.
+- No live credentials, production database changes, Railway deployment, code merge, staff permissions or Chrome extension release.
+
 ## 2026-11-12 — Disposable PostgreSQL integration test for guarded status routes
 
 - Added **manual-only** `scripts/run-isolated-security-status-postgres.sh` on draft `Tawgod/Lightspeed` PR #61. It creates a local-only disposable PostgreSQL 18 container in remote Codespaces, confirms loopback port, scrubs inherited DB/vendor secrets, runs fixture-only tests and removes its own container.
