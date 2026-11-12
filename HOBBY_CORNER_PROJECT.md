@@ -1,5 +1,18 @@
 # Hobby Corner Project Registry
 
+## Latest foundation security / Owner login status — 2026-11-12
+
+**System:** Shared Core Operations policy and first Owner identity. **Staging-only guard status: Deployed/Testing PASS. Owner login: In Development; not deployed/commissioned.**
+
+The combined source `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@34d92a04f0905f60f5b71552862cdd404cab34bd`, draft PR #63, now mounts its existing staging-only zero-route guard in the previously isolated Railway `HC PR63 Isolated Staging` environment; latest `hc-foundation-pr63` deployment `4cae33bf-1569-4b2d-90a0-2aee9e5de55e` **SUCCESS**. Both app and Postgres remain online. No employee/worker grants: protected business requests 403, public pages and health work. Dedicated synthetic HMAC staff/station/step-up/service tests passed in CI; live [run 43290750422](https://github.com/Tawgod/Lightspeed/actions/runs/43290750422) passed all HTTPS groups and Chromium plus forged Owner/service header rejection; five sibling workflows **SUCCESS** at test-only `64ba8333`. Public runtime does **not** mint or accept synthetic test credentials.
+
+The overlapping draft [PR #64](https://github.com/Tawgod/Lightspeed/pull/64) was closed unmerged; PR #63 remains the source of truth. No production, gateway/DNS, customer data or Chrome extension changed.
+
+**Owner login status:** Draft [PR #59](https://github.com/Tawgod/Lightspeed/pull/59) dedicated default-off Timeclock Owner verifier and [PR #60](https://github.com/Tawgod/Lightspeed/pull/60) private Owner staging app/passkey/TOTP commissioning are separate. The existing `HC Owner Security Staging/test` Railway project holds **55 staged changes** (Owner app, PG18, volume) and **no deployment**. First Owner has not been linked to a verified real Timeclock employee, activated or enrolled. Before login is possible: separately approve reviewed production Timeclock code/additive SQL with backup/rollback (Gate A), least-privilege isolated Owner app/DB/secrets (Gate B), then owner-present ten-minute single-use issuance, passkey and Google Authenticator verification (Gate C). See `handoffs/shared-web-foundation.md` and `docs/OWNER_LOGIN_STAGING_RELEASE_PLAN.md` in the PR #60 branch.
+
+---
+
+
 ## Foundation staging running — 2026-11-12 (latest verified)
 
 **System:** Hobby Corner shared web foundation, security reviews, Timcorp path compatibility. **Implementation:** candidate source [draft PR #63](https://github.com/Tawgod/Lightspeed/pull/63) contains combined navigation, security transaction protections and pending exact-route admission. **Testing:** source five-workflow CI + disposable PostgreSQL **13/13 PASS**; now dedicated Railway staging deploy and remote HTTPS/Chromium **PASS**. **Deployed:** staging only; **production unchanged**.
