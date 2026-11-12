@@ -1,5 +1,21 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Shared-security caller closure and allocation refresh gate — 2026-11-12
+
+**System and feature:** Core Operations caller classification and query-sensitive staff authorization. **Status:** In Development; targeted automated Testing PASS; staging activation not performed; NOT deployed. **Source:** `Tawgod/Lightspeed:integration/security-all-tools-20261111`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61), head `9ee0e4cfc03852e0986a1e38a82bb7973f95f5d6`.
+
+**What changed:** `services/security/coreOperationsRemainingCallerReview.js` records the seven remaining service-or-automation-review routes, alongside the seven existing exact service proposals. Together all **14/14** are reviewed without duplicates, missing entries or implicit approval. The remaining seven are customer purchase-metrics read-through refresh/upsert, employee browser preorder-watch read, employee browser delivery-queue read, product registry-upsert, employee-triggered plus internally scheduled reconciliation, and per-SKU reconciliation. Unknown HTTP callers stay `pending`; no service credentials/grants are fabricated.
+
+**Important security finding:** `GET /preorders/products/:id/allocation-suggestions` can invoke up to 40 independent Lightspeed/customer metrics refreshes when `refresh_lightspeed=1`, upserting purchase metrics. Treating it as an unconditional read grant would incorrectly permit mutation. The candidate Core Operations admission now requires trusted `queryPolicy:'allocation-refresh-v1'` on that exact staff GET. Ordinary read needs `special-orders.read`; refresh needs independently granted `special-orders.purchase-metrics.refresh` and fresh strong step-up. Client role flags, station-only/TOTP, absent grant and ambiguous query values fail closed. The guard remains deliberately unmounted in `server.js`.
+
+**Testing:** CI [43249927145](https://github.com/Tawgod/Lightspeed/actions/runs/43249927145) SUCCESS on 14-route exhaustive review and CI [43250204341](https://github.com/Tawgod/Lightspeed/actions/runs/43250204341) SUCCESS on query-sensitive gate/tests. Previous disposable PostgreSQL 18 acceptance **13/13 PASS** covers guarded statuses, Discord lease, GW reaction, GW mark-submitted and rollback; no new real-DB acceptance was necessary for the isolated policy change. **Implemented:** candidate source/test code. **Tested:** unit/policy checks. **Deployed:** no.
+
+**Dependencies/blockers:** Real employee session/station/passkey and exact backend grants are not connected to this Core Operations router. Historical Discord-bot worker calls are not deployed on the current bot main. GW external submit executor not observed. Staging route policy, service identities and actual browser work still require review; navigation PR #35 and Timcorp composition PR #62 are separate from this security branch.
+
+**Recommended next:** Preserve staging default-deny, review which employee scopes can be activated and re-verify caller identity before a staging-only mount; test real employee and machine authorization in an isolated environment. No production deployment, route-grant activation, Chrome extension release, DB migration, Lightspeed write or Railway configuration change was made.
+
+---
+
 ## Service caller ownership review — Railway + GitHub evidence — 2026-11-12
 
 **System:** Shared Staff Security / Core Operations machine-route ownership. **Status: In Development / caller classification improved; NOT deployed.** Current Lightspeed branch head `1c0e59848da4a343e214c865c9bd8c9b5cfabda6`.
