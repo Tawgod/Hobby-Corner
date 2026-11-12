@@ -1,7 +1,21 @@
 # First Owner Login — Current Handoff
 
+## Timeclock code-only release completed — 2026-11-12
+
+**Verified:** **Deployed (production Timeclock code only)**; Owner endpoint intentionally **Disabled**; Owner staging application and real Owner account **Not Deployed / Not Commissioned**.
+
+- **Approval and exact scope:** Owner explicitly approved default-disabled Timeclock PR #59 code-only production release. Railway `Hobby Corner / production` staged patch `20177311-bc46-41cb-b9c6-05b6760a9a6f` was rechecked before commit: exactly **two** changes, both on Timeclock `dd3469bd-5fce-43bc-b9f9-7aa2a7806457` source, branch to `feature/owner-timeclock-scoped-credential-20261110` and pinned SHA `a595fd336c5a38dcc5ab5423a8967698777c0929`. No destructive patch, no other resources.
+- **Action performed:** Railway `accept_deploy` committed that patch. **New production Timeclock deployment `5c08d15e-7341-43d9-83bb-a1d495df9e16` SUCCESS**, exact git SHA `a595fd336c5a38dcc5ab5423a8967698777c0929`; runtime log reports `Timeclock listening on port 8080`. Railway health overview Timeclock **online**, 0 warnings and 0 critical alerts. Deployment rollback currently available.
+- **Unchanged production:** `special-orders-test` deployment `201d651f-62b6-43c5-aba3-59fd97f6fe09` and `lightspeed-api` deployment `288d5089-62d4-4f22-9c7f-8fdd26d8574d` remain SUCCESS on consolidated git `014a7a949fe570b756b48d8f59995c1b0a434859`. Production patch is now **null/empty**, no pending work. Previous Timeclock commit `014a7a9` is available as rollback deployment `eaaa2b25-2ab5-4b14-b712-f7a6d89e8557` (now REMOVED, `canRollback=true`).
+- **Deliberately not activated:** All `OWNER_STAGING_*` environment variable names remain **absent** on Timeclock; `OWNER_STAGING_IDENTITY_ENABLED` is not `true`. New routes are installed in code but return 403 for missing config even before DB. No `hc_owner_stage_login_limits` SQL was applied, no credentials or real employee ID were set, no Owner role/passkey/Authenticator was enrolled. Existing Scanner/PIN endpoints and credentials unchanged.
+- **Automated tests:** GitHub [Owner Timeclock 42885171115](https://github.com/Tawgod/Lightspeed/actions/runs/42885171115) and [Scanner regression 42885171145](https://github.com/Tawgod/Lightspeed/actions/runs/42885171145) SUCCESS on the deployed exact commit. Railway health/readiness PASS. No authenticated live Scanner or Timeclock employee integration test was performed after deployment, and that is a separate verification boundary.
+- **Pending next gate:** Owner staging database/schema and dedicated least-privilege runtime/operator PostgreSQL credentials + HTTPS origin and own security secrets; later **separately authorized** additive production throttle schema migration and default-off dedicated Timeclock credentials/employee binding; final private first Owner one-use passkey and Authenticator enrollment. Review existing 55 staged changes on `HC Owner Security Staging / test` before any commit. No production Owner access or Timcorp gateway change.
+
+---
+
+
 **Last verified:** 2026-11-12  
-**Status:** In Development / Testing — code verified, actual Owner not commissioned
+**Status:** Timeclock code Deployed; Owner login In Development / Testing — real account not commissioned
 
 ## Source
 - **Repository:** `Tawgod/Lightspeed`.
