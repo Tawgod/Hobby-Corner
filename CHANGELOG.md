@@ -1,5 +1,15 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Combined foundation disposable PostgreSQL verification accepted
+
+- Owner checked out `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@90e91c9` in detached HEAD via `FETCH_HEAD` inside remote Codespaces, ran `bash scripts/run-isolated-security-status-postgres.sh`, and restored the original `integration/security-all-tools-20261111` branch.
+- Disposable PostgreSQL 18 **13/13 PASS, 0 failures, 0 skipped/cancelled**, with explicit confirmation of temporary Docker container removal. Deliberately induced Discord/GW SQL exceptions were successful rollback tests, not live failures. Git warned of unreferenced *local* detached commits; the remote feature branch retains them.
+- All five GitHub Actions checks on this tested combined commit were **SUCCESS**: scanner `43275029874`, combined `43275029848`, shared UI `43275029856`, security `43275029878`, Chromium `43275029869`.
+- Updated combined PR #63 staging runbook, shared-web and security handoffs, and project registry. Central shared hostname `timcorp-projects.com` confirmed; proposed `/HobbyCorner/` route remains inactive/503. The candidate is now source-and-real-SQL-tested but has **not** been deployed or activated with real sessions/service identities. No database/vendor changes, employee grants, Railway configuration, DNS/gateway changes or Chrome extension release.
+
+---
+
+
 ## 2026-11-12 — Timcorp host confirmed; fixed Codespaces combined-test checkout command
 
 - Owner confirmed **`timcorp-projects.com`** as the shared web hostname, superseding the previous `timcorp-productions.com` candidate. Central `/HobbyCorner/` is the documented *planned* route and remains HTTP 503/not connected. Updated PR #63 integration documents and central shared-web handoff/index with proposed `HC_PUBLIC_BASE_PATH=/HobbyCorner`, pending approval and testing; no domain, gateway, Railway, or production application settings changed.
