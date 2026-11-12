@@ -1,5 +1,14 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Owner login setup preflight and runbook, no production changes
+
+- Rechecked tested source and deployed status of Owner Timeclock PR #59 and Owner app PR #60. The existing production Timeclock deployment is still `eaaa2b25` at consolidated `014a7a9`, rollback eligible; a reviewed two-source-field PR #59 pin `20177311` remains **staged/unapplied**. No Owner staging flags, secrets, login schema or real employee selection have been applied.
+- Rechecked separate `HC Owner Security Staging/test`: 55 staged, non-destructive app/PG18/volume changes, no deployed resources. App requires private `hc_owner_stage_test`, separate operator/runtime DB credentials, exact staging HTTPS hostname and verified real Timeclock identity, and will intentionally not boot without them. Retained staged patch untouched.
+- Verified prior Timeclock Owner CI `42885171115` + Scanner `42885171145`, and Owner app CI `42885210169` + Scanner `42885210127` are successful. Created `Tawgod/Lightspeed:feature/owner-staging-scoped-timeclock-adapter-20261110/docs/OWNER_SETUP_EXECUTION_CHECKLIST_20261112.md` and central `handoffs/owner-login.md` documenting controlled first-Owner identity, production-code-only, SQL, isolated DB/HTTPS, secure one-time activation and physical passkey/TOTP gates.
+- Owner enrollment has **not begun**: no real PIN was received, no activation issued, no hardware passkey registered, no role granted. No production deployment, schema/migration, credentials, gateway/DNS, Chrome extension or business data changes.
+
+---
+
 ## 2026-11-12 — Isolated zero-grant security guard activated; Owner login prerequisites audited
 
 - Another coordinated development branch completed the approved staged `createIsolatedStagingCoreAdmission` in PR #63, and the isolated Railway app was redeployed from exact code `34d92a0` as deployment `4cae33bf-1569-4b2d-90a0-2aee9e5de55e` **SUCCESS**. The app continues to use only its own PG18, with live vendors, Scanner, Admin and write flags disabled. All protected business endpoints are **default 403** and no live identity/grant is present. Health/pages are available.
