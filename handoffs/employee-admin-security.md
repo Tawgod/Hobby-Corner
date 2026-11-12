@@ -1,5 +1,17 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## GW mark-submitted SQL fix automated verification PASS — 2026-11-12
+
+**Status:** In Development / automated verification PASS; corrected disposable PostgreSQL retest still required; NOT deployed. The corrected branch head is `Tawgod/Lightspeed:integration/security-all-tools-20261111@8550d22cd2280baada3e07696c37793045764817`.
+
+GitHub Actions [43243952519](https://github.com/Tawgod/Lightspeed/actions/runs/43243952519) completed **SUCCESS**, including the exact-service proposal tests and the new regression check requiring explicit INTEGER typing in the GW mark-submitted product update and forbidding the prior ambiguous `$1*msrp` expression. The superseded intermediate source-fix run was cancelled by the newer head as expected.
+
+**Remaining verification:** Rerun the existing localhost-only disposable PostgreSQL 18 harness. The prior manual failure at `abcb6a8` is expected to be resolved only if the clean retry now reaches 200, campaign/product quantities commit correctly, expected notifications are created, duplicate submission remains 409, parent suite reports zero failures, and temporary container removal is verified.
+
+**No production change:** No deployment, real database, GW form submission, service credential, staff grant, Lightspeed data, Railway environment or Chrome extension was touched.
+
+---
+
 ## GW mark-submitted PostgreSQL type-inference defect found and fixed — 2026-11-12
 
 **System:** Shared Staff Security / GW preorder submission worker integrity. **Status: In Development / fix committed; corrected manual PostgreSQL retest pending; NOT deployed.** Owner ran the disposable PostgreSQL 18 harness after syncing to `Tawgod/Lightspeed:integration/security-all-tools-20261111@abcb6a8`. The prior 10 nested cases remained green, but the new GW mark-submitted case failed on the clean-retry path. Node reported **12 tests, 10 pass, 2 fail** (the nested case plus parent), with verified disposable-container removal.
