@@ -1,5 +1,21 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## GW Discord reaction disposable PostgreSQL acceptance PASS — 2026-11-12
+
+**System:** Shared Staff Security / Core Operations Discord-GW worker integrity. **Status: Testing PASS for disposable PostgreSQL acceptance; NOT deployed.** Owner fast-forwarded `Tawgod/Lightspeed:integration/security-all-tools-20261111` from `47a6045` to `56fac07ff13ab7103ab2e3a3a31b516d52f61ea6` and ran `bash scripts/run-isolated-security-status-postgres.sh` in Codespaces.
+
+**Observed result:** Node reported **11 tests, 11 pass, 0 fail**, followed by `Disposable database verification completed. Temporary container will be removed.` and `Verified disposable PostgreSQL container removal.` Runtime remained about 11 seconds.
+
+**Verified rollback behavior:** The intentionally injected `hc_fixture_reject_gw_confirmation` trigger raised `P0001` during GW Discord ADD processing. The passing test verified that the callback transaction left **zero reaction rows, zero preorder request rows and zero confirmation notification rows** after the failure, then a clean retry created one reaction event, a REQUESTED preorder request and a PENDING confirmation. This confirms the new reaction/request/notification transaction boundary against disposable PostgreSQL 18. Previously verified guarded status and Discord-delivery atomicity cases remained green.
+
+**Related automated verification:** Exact service proposal/security tests [43242961218](https://github.com/Tawgod/Lightspeed/actions/runs/43242961218) **SUCCESS**; transactional GW reaction production-code workflow [43243080651](https://github.com/Tawgod/Lightspeed/actions/runs/43243080651) **SUCCESS**. Latest manual-test head does not add production behavior beyond that source change.
+
+**Production boundary:** No machine credential, employee grant, route approval, `server.js` mount, Railway deployment, schema migration, real Discord/customer/Lightspeed mutation, or Chrome extension change occurred.
+
+**Next:** Continue source review of remaining service/automation callbacks for transactional consistency, idempotency, caller identity and exact scope. Keep all service proposals review-pending and default-deny until real caller ownership/credentials and staging acceptance are separately approved.
+
+---
+
 ## Exact service proposals + GW Discord reaction transaction hardening — 2026-11-12
 
 **System:** Shared Staff Security / Core Operations service-worker authorization and integrity. **Status: In Development / automated tests PASS; manual PostgreSQL acceptance pending; NOT deployed.** Development branch `Tawgod/Lightspeed:integration/security-all-tools-20261111`, draft PR #61, latest head `56fac07ff13ab7103ab2e3a3a31b516d52f61ea6`.
