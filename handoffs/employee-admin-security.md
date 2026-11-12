@@ -1,5 +1,17 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Combined web/security candidate cross-check — 2026-11-12
+
+**Status:** Testing (combined source/CI PASS), not staged/deployed. The shared-security source remains `Tawgod/Lightspeed:integration/security-all-tools-20261111@9ee0e4cfc03852e0986a1e38a82bb7973f95f5d6`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61). Its **combined**, independent review candidate is `feature/shared-foundation-security-web-20261112@63f13787ed4451b20bddd304f595d2af6fdaff56`, draft [PR #63](https://github.com/Tawgod/Lightspeed/pull/63) layered onto PR #61.
+
+**Integrated:** Existing tested Store Operations/Timcorp UI, optional prefix middleware, shared signed staff login, read-only Admin navigation checks and Priority Review count endpoint were ported without replacing security database transaction safeguards. Newly mounted `GET /priority-review` is added as an explicitly pending `special-orders.read` route in the **88-route review-only inventory**; browser source drift updated. The Core Operations gate is still unmounted with no approved employee/service grants. The user may develop against the candidate after isolated acceptance, but it is not production-ready.
+
+**Verified:** Combined candidate CI SUCCESS: policy [43256005235](https://github.com/Tawgod/Lightspeed/actions/runs/43256005235), integration [43256005415](https://github.com/Tawgod/Lightspeed/actions/runs/43256005415), Core Operations Chromium [43256005508](https://github.com/Tawgod/Lightspeed/actions/runs/43256005508), Shared UI [43256005397](https://github.com/Tawgod/Lightspeed/actions/runs/43256005397), Scanner [43256005287](https://github.com/Tawgod/Lightspeed/actions/runs/43256005287). Previous manual PG **13/13 PASS** on security parent; a combined-branch disposable PG rerun and real staging identities/session/permission verification are outstanding.
+
+**Blockers:** User requested `timcorp-productions.com/hobby-corner`; central gateway registry currently proposes `timcorp-projects.com/HobbyCorner` with Hobby Corner not connected. App supports either configured prefix; final gateway domain/path must be confirmed. See `handoffs/shared-web-foundation.md` for full cross-project staging handoff. No production deployment, Railway permission/config change, service credential, database migration, Lightspeed change or Chrome extension release.
+
+---
+
 ## Shared-security caller closure and allocation refresh gate — 2026-11-12
 
 **System and feature:** Core Operations caller classification and query-sensitive staff authorization. **Status:** In Development; targeted automated Testing PASS; staging activation not performed; NOT deployed. **Source:** `Tawgod/Lightspeed:integration/security-all-tools-20261111`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61), head `9ee0e4cfc03852e0986a1e38a82bb7973f95f5d6`.
