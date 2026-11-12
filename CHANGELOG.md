@@ -4,7 +4,7 @@
 
 - Added `coreOperationsStatusTransitions.js`: owner-review-pending split between low-impact local `OOS`, `READY_TO_ORDER`, `BACKORDERED` progression and high-impact `PREORDER`, `ORDERED`, `RECEIVED`, `HELD`, `CUSTOMER_NOTIFIED`, `COMPLETED`, `CANCELLED` status changes.
 - Added `special-orders.status.progress` to candidate exact staff tool operations; requires independent routine device/MFA proof, explicit backend grant, explicit opt-in `locked-transition-v1` route declaration, verified body status, and *database-locked prior state*. A benign target cannot downgrade completed/received/cancelled records. All sensitive statuses use stronger proof and a distinct exact grant.
-- Updated `special-orders.js` guarded-only transaction check, admission middleware, source proposals, doc and 10 focused tests; extended existing security CI. No route permissions approved, worker or browser changed, production Railways/DB/credentials or extension released. [Test run 43226273528](https://github.com/Tawgod/Lightspeed/actions/runs/43226273528) pending at update.
+- Updated `special-orders.js` guarded-only transaction check, admission middleware, source proposals, doc and 10 focused tests; extended existing security CI. No route permissions approved, worker or browser changed, production Railways/DB/credentials or extension released. [Test run 43226273528](https://github.com/Tawgod/Lightspeed/actions/runs/43226273528) **SUCCESS**, including 10 new status-classification/locked-origin/HTTP cases and previous compatibility checks.
 
 ## 2026-11-11 — Verified Core Operations server-derived audit identities
 
