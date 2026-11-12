@@ -1,5 +1,20 @@
 # Hobby Corner Project Registry
 
+## Shared foundation acceptance gate passed — 2026-11-12
+
+**Status:** **Testing PASS** for combined source CI and disposable PostgreSQL; **Blocked** only for non-production staging authorization/proxy and real identity acceptance; **NOT Deployed**.
+
+**Verified source:** `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@90e91c9b4d6cd07df1dff3de79100073bb819a72`, [draft PR #63](https://github.com/Tawgod/Lightspeed/pull/63), with documentation-only acceptance runbook update `2d418058...`. The owner ran Codespaces disposable PostgreSQL 18 against this combined revision: **13 tests, 13 passed, 0 failed, 0 skipped**, and the launcher confirmed the temporary container was removed. Deliberate SQL exception logs were fixture rollback tests and passed. The Codespace switched back to its original security branch. This supersedes earlier “test not run yet” entries below, retained for history.
+
+**CI:** Scanner `43275029874`, Combined shared foundation `43275029848`, Shared UI `43275029856`, Security policy `43275029878`, Chromium Core Operations `43275029869` — all five GitHub workflows **SUCCESS** on tested commit. Shared navigation, Timcorp prefix, Priority Review, existing security transaction and pending review grant code now coexist in the combined candidate. The Core Operations security gate remains unmounted and uncommissioned.
+
+**Next:** Use existing staging planning documents to prepare an **isolated** non-production environment with separate database/test Timeclock identities and dedicated service/proxy; never blindly apply unrelated staged Railway changes. Verify `/HobbyCorner/` prefix routing, real login and denial/revocation, exact step-up, no unverified workers, and legacy URLs. Owner confirmed **`timcorp-projects.com`** as the host, but the `/HobbyCorner/` central gateway route is **not live**, and approval is still required for any deployment or DNS/gateway route activation. See `handoffs/shared-web-foundation.md`, `handoffs/employee-admin-security.md` and candidate `docs/SHARED_FOUNDATION_STAGING_CANDIDATE.md`.
+
+**Production boundary:** no merges, deployed code, Railway changes, real machine/staff grants, DB migration, Lightspeed/Discord effects or Chrome extension release.
+
+---
+
+
 ## Timcorp shared hostname decision / failed FETCH_HEAD Codespaces command — 2026-11-12
 
 **Confirmed decision:** The Hobby Corner shared destination host is `https://timcorp-projects.com` (owner-confirmed). The earlier `timcorp-productions.com` target is superseded. The central `Tawgod/timcorp-projects-foundation` gateway reserves `/HobbyCorner/`, but this route remains **planned/not connected (HTTP 503)**. The provisional employee landing is `https://timcorp-projects.com/HobbyCorner/store-operations` **only after approved route activation**, using staging-only `HC_PUBLIC_BASE_PATH=/HobbyCorner`. Existing Railway links are preserved, and neither DNS nor gateway config was touched. Treat prior hostname/path comparisons below as historical, not current ambiguity.
