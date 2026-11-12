@@ -1,5 +1,17 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Staging guard is mounted; Owner login remains separate — 2026-11-12
+
+**Status:** **Deployed (isolated staging only) / Testing PASS** for Core Operations zero-grant admission; actual Owner login **Planned/In Development, not deployed**. This supersedes the older "guard unmounted" snapshot below (kept for historical traceability).
+
+- **Source and deployment:** `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@34d92a04f0905f60f5b71552862cdd404cab34bd` (draft PR #63), Railway `HC PR63 Isolated Staging/staging` app deployment `4cae33bf-1569-4b2d-90a0-2aee9e5de55e` **SUCCESS**. Active `HC_CORE_SECURITY_STAGING_ENABLED` source check enforces staging-only environment, private isolated DB, explicit disabled vendor writes/Scanner/Admin flags and no real credentials. Approved route list is empty; business endpoints 403, public health/pages still available. `HC_STAGING_CORE_GUARD_ENABLED` in closed duplicate PR #64 is **not** the authoritative flag.
+- **Tests:** Existing in-process HMAC synthetic employee+station+passkey+service fixtures prove expected exact-grant positive/negative boundaries, but are never accepted as real public staging credentials. All six source workflows green at `34d92a0`; updated live anonymous and spoofed-header HTTPS/Chromium smoke run [43290750422](https://github.com/Tawgod/Lightspeed/actions/runs/43290750422) and five sibling workflows **SUCCESS** at test-only `64ba8333`. Railway source remains guard pin `34d92a0`. No real session/grant, passkey or worker credential was provisioned.
+- **Owner dependency:** First Owner login must use verified canonical Timeclock employee ID and existing PIN, private activation and physical WebAuthn passkey + Authenticator enrollment. Draft PRs #59 (dedicated, default-off Timeclock identity) and #60 (Owner staging app), plus operator-activation runbook, are separate from PR #63 and do not yet have live Owner credentials. Dedicated `HC Owner Security Staging/test` project has 55 staged changes, no deployed app/DB. No production Timeclock source/schema or Owner account changed.
+- **Coordination:** Duplicate draft PR #64 **closed unmerged** in favor of PR #63, avoiding two divergent guards. Real employee/Owner and manager permissions are **not** commissioned. Next use `handoffs/shared-web-foundation.md` and Owner login release plan; require separate approval for the production Timeclock precondition, staging Owner DB and secure private account/factor ceremony. No central DNS/gateway or production deploy.
+
+---
+
+
 ## Verified isolated foundation staging — 2026-11-12
 
 **Status:** Testing: PR #63 combined policy/web source verified by disposable PG (13/13), isolated Railway app+new Postgres deployed SUCCESS and nonproduction HTTP/Chromium smoke PASS; **security admission still unmounted, no real grants**. App deployment `dcb96ace-fbeb-4eb0-928d-253659b16c64` pinned to `90e91c9...` in dedicated `HC PR63 Isolated Staging` project, not existing environments. Preview: `https://hc-foundation-pr63-staging.up.railway.app/HobbyCorner/store-operations`.
