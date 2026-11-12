@@ -1,5 +1,16 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Isolated zero-grant security guard activated; Owner login prerequisites audited
+
+- Another coordinated development branch completed the approved staged `createIsolatedStagingCoreAdmission` in PR #63, and the isolated Railway app was redeployed from exact code `34d92a0` as deployment `4cae33bf-1569-4b2d-90a0-2aee9e5de55e` **SUCCESS**. The app continues to use only its own PG18, with live vendors, Scanner, Admin and write flags disabled. All protected business endpoints are **default 403** and no live identity/grant is present. Health/pages are available.
+- CI tests cryptographically signed **in-process only** fake employees, stations, strong proof and service workers, not remotely mintable credentials. All six PR #63 workflows passed at guard source head; updated live read-only HTTPS testing on `64ba8333`, including spoofed Owner/employee/static key/service headers, [run 43290750422](https://github.com/Tawgod/Lightspeed/actions/runs/43290750422) SUCCESS alongside five other checks.
+- Identified duplicate staging guard draft PR #64 and **closed it without merge**; PR #63 remains authoritative.
+- Reviewed the existing separate Owner staging release plan in PRs #59/#60 and Railway `HC Owner Security Staging/test`: 55 staged app/PG18 changes, **nothing deployed**, no canonical real employee Owner binding, one-time activation or physical passkey/TOTP enrollment. Current staging-guard approval does not authorize production Timeclock changes or Owner commissioning. Those remain independent signed-off gates.
+- No production Railways, central Timcorp route, DNS, customer/employee data, real Discord/Lightspeed, Chrome extension or production Owner permissions modified.
+
+---
+
+
 ## 2026-11-12 — Dedicated Railway staging deployed and live read-only browser acceptance passed
 
 - With owner approval, created new separate Railway project `HC PR63 Isolated Staging` (`5b46096d-3178-47ec-ba88-d5037696346a`), `staging` environment, fresh Postgres 18 service+volume and app `hc-foundation-pr63`. This avoids existing integration-test Railway patch with 15 unrelated staged changes.
