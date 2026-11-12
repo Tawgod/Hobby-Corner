@@ -3,12 +3,27 @@
 **Last verified:** 2026-11-12  
 **Status:** Testing (automated); not deployed
 
+## Latest combined foundation milestone — 2026-11-12
+
+**System / feature:** Shared Store Operations web foundation + default-deny employee/service security. **Status:** Testing (automated CI PASS); not staged, not deployed, not released.
+
+- **Authoritative combined review candidate:** `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112`, [draft PR #63](https://github.com/Tawgod/Lightspeed/pull/63) against `integration/security-all-tools-20261111` (security draft PR #61). Tested head `63f13787ed4451b20bddd304f595d2af6fdaff56`.
+- **Source components preserved:** nav/Timcorp [draft PR #62](https://github.com/Tawgod/Lightspeed/pull/62) (based on navigation PR #35) and security PR #61. No parent source branch was overwritten or merged.
+- **Implementation:** Ported shared UI/dashboard, six prefixed HTML routes, API/Timeclock/permission-aware navigation, Order Split, Admin read-only helper and tests onto the security source without replacing guarded Special Orders status, verified audit actor, Discord delivery lease, GW reaction or GW submission SQL atomicity. Added the count-only `GET /priority-review` to actual Special Orders router, registered it as **pending** `special-orders.read` in the now 88-entry route inventory and tracked the new browser call. Security middleware remains **unmounted**, employee/machine grants unchanged.
+- **Automated CI PASS on latest combined head:** [security policy 43256005235](https://github.com/Tawgod/Lightspeed/actions/runs/43256005235), [combined source contract 43256005415](https://github.com/Tawgod/Lightspeed/actions/runs/43256005415), [Core Operations Chromium/browser 43256005508](https://github.com/Tawgod/Lightspeed/actions/runs/43256005508), [Shared UI reconciliation 43256005397](https://github.com/Tawgod/Lightspeed/actions/runs/43256005397), [Scanner regression 43256005287](https://github.com/Tawgod/Lightspeed/actions/runs/43256005287). One initial test-only omission (the Admin navigation read-only SQL review file) was corrected by `63f13787...`; all five runs on corrected head **SUCCESS**.
+- **Prior real PostgreSQL acceptance:** 13/13 passing on security branch for guarded statuses, notification atomicity/lease and GW operations. The combined branch has not been rerun against disposable PostgreSQL; source test green does not substitute for that acceptance.
+- **Central route discrepancy:** requested `timcorp-productions.com/hobby-corner` vs current central `Tawgod/timcorp-projects-foundation` documented `timcorp-projects.com/HobbyCorner` (gateway currently 503 for Hobby Corner). Base-path code supports both variants, but real route/domain needs user/gateway-owner reconciliation. No DNS, gateway, environment variables or domain attachment was changed by this work.
+- **Next:** One disposable Codespaces PostgreSQL regression run on combined branch, non-production prefixed HTTP/Playwright + employee denial/permission acceptance, exact staging authorization and service caller commissioning. No production deploy or Chrome release until explicit approval.
+
+---
+
+
 ## Source
 
 - Repository: `Tawgod/Lightspeed`
-- Authoritative composition branch: `feature/timcorp-unified-nav-integration-20261112`
-- Current draft PR: [#62](https://github.com/Tawgod/Lightspeed/pull/62), stacked against `feature/unified-hierarchical-navigation-20261109` (PR #35).
-- Current tested commit: `de61f882ca8591253dc37dfa3c92c032b4bd372b`
+- Authoritative web-only composition branch: `feature/timcorp-unified-nav-integration-20261112` (superseded as staging integration by combined PR #63)
+- Web-only draft PR: [#62](https://github.com/Tawgod/Lightspeed/pull/62), stacked against `feature/unified-hierarchical-navigation-20261109` (PR #35).
+- Web-only tested commit: `de61f882ca8591253dc37dfa3c92c032b4bd372b`; combined candidate is described above
 - Other coordinated branches: `feature/timcorp-base-path-hobby-corner-20261111` (existing base-path source), `feature/timcorp-base-path-store-map-20261111`, `integration/security-all-tools-20261111` (draft PR #61), `feature/unified-hierarchical-navigation-20261109` (PR #35).
 - No merge or production deployment.
 
