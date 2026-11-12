@@ -1,5 +1,27 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Discord delivery atomicity hardening ready for disposable PostgreSQL acceptance — 2026-11-12
+
+**System:** Shared Staff Security / Core Operations service-worker integrity. **Status: In Development / Testing; NOT deployed.** Development branch `Tawgod/Lightspeed:integration/security-all-tools-20261111`, draft PR #61, latest head `47a6045e375cd7609073caecf6198938c4a66883`.
+
+**Implemented:** Guarded Discord delivery completion no longer records a generic literal actor; guarded mode resolves the independently admitted service principal through `auditActor(req,'discord-bot')`, while legacy/unmounted mode retains `discord-bot`. The `POST /notifications/:id/complete-discord` handler now performs notification completion, row-locked Special Order status update to `CUSTOMER_NOTIFIED`, and status-history insertion inside one PostgreSQL transaction. A failure rolls the whole unit back. No route grant or service credential was enabled.
+
+**Process/test cleanup:** The one-shot product reconciliation startup timer is now explicitly `unref()`ed, matching the recurring timer. This explains the owner's prior ~130-second Node runtime despite sub-second DB assertions: the 120-second startup timer kept the test process alive. The change does not stop reconciliation while the application server is actually running; it only stops the timer from being the sole reason a process/test cannot exit.
+
+**Automated verification:** GitHub Actions security workflow [43242023049](https://github.com/Tawgod/Lightspeed/actions/runs/43242023049) **SUCCESS** at transactional source commit `56ae8857810346d513ec8c97e404b364139fe936`. Earlier intermediate runs were cancelled by newer commits. Latest head `47a6045e...` adds only manual PostgreSQL acceptance coverage and intentionally does not trigger Actions.
+
+**New manual PostgreSQL coverage awaiting owner run:** Existing disposable test now adds two service-worker cases in addition to the already verified status suite: (1) a scoped `service:discord-delivery` completion must atomically mark the notification `SENT`, move the item to `CUSTOMER_NOTIFIED`, and write server-derived service audit history; (2) an injected history-write trigger failure must return failure while leaving the notification `SENDING`, item in its original status and no history row, then a clean retry must succeed. Test remains loopback-only disposable PostgreSQL 18 and uses fixture service identity only.
+
+**Next operator command:**
+
+```bash
+cd /workspaces/Lightspeed-security && git pull --ff-only && bash scripts/run-isolated-security-status-postgres.sh
+```
+
+Expected: prior seven nested status checks still pass, the two new Discord completion checks pass, parent test passes, Node zero failures, and explicit disposable-container removal is printed. No production DB, Railway service, Lightspeed record, real employee/service credential or Chrome extension is touched.
+
+---
+
 ## Corrected PostgreSQL acceptance fully closed + Discord service audit hardening — 2026-11-12
 
 **Status:** Testing / In Development; **NOT deployed**. Owner supplied the complete Codespaces output for `Tawgod/Lightspeed:integration/security-all-tools-20261111@98a9165`: Node reported **8 tests, 8 pass, 0 fail**, followed by `Disposable database verification completed. Temporary container will be removed.` and `Verified disposable PostgreSQL container removal.` The corrected seven nested guarded-status cases plus parent suite therefore have a verified zero-failure exit path and verified disposal of the temporary PostgreSQL 18 container. The earlier rollback-fixture blocker is closed.
