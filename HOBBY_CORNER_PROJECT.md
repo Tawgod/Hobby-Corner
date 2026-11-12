@@ -1,5 +1,15 @@
 # Hobby Corner Project Registry
 
+## Core Operations route authorization review — hidden side effects isolated (2026-11-12)
+
+**Status:** In Development / targeted Testing PASS / NOT deployed. Draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) security branch is now `5726a19cdcb75db18b583382d2aac893cd128777`. Three GET routes that silently refresh the local Lightspeed supplier cache are no longer modeled as generic reads: `ordering.suppliers.sync` and `ordering.context.refresh` are exact review-pending routine operations. Separately, customer profile PATCH now has a body-sensitive candidate policy: local-only edits require `customers.profile.write`; strict `sync_lightspeed:true` upgrades to strong `customers.lightspeed.update`, with ambiguous values denied.
+
+**Verification:** supplier-sync corrected head `f8995600` workflows 43310573618 / 43310580871 SUCCESS; customer-profile head `5726a19c` workflows 43311050311 / 43311056930 SUCCESS. Core Operations security guard remains unmounted in the PR #61 parent branch, and these catalog/proposal names grant nothing by themselves. No production or real business data changes.
+
+**Next:** Finish exact classification of remaining employee routes still represented by broad `special-orders.manage` / `ordering.manage`, then carry reviewed policy forward into combined PR #63 staging candidate before any real route allowlist or staff permission activation.
+
+---
+
 ## Owner authentication staging milestone — verified, 2026-11-12
 
 **Status categories:** First Owner sign-in **In Development**, but isolated Owner Postgres/runtime creds and locked Owner HTTPS preview **Deployed + Testing PASS**; **real Owner not commissioned**. New stable foundation staging: `HC PR63 Isolated Staging/staging`. The Owner Postgres 18 `Postgres-x8Ui` has nine tables, two NOLOGIN privilege groups and separate runtime/operator LOGIN principals. Runtime and operator secrets generated and retained by Railway (verified stable across two deployments); operator password only on database service, not on web app. [PR #66](https://github.com/Tawgod/Lightspeed/pull/66) initialized two password-locked roles `87d180e` (SQL `dd1982ec` SUCCESS). [PR #67](https://github.com/Tawgod/Lightspeed/pull/67) installed distinct SCRAM passwords `c66876d` (SQL `d6893a1f` SUCCESS), verified real private login, runtime read-only privilege preflight, operator/runtime separation and incorrect password denial; deleted privileged runner. No Owner activation has been issued.

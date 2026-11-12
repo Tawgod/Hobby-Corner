@@ -1,5 +1,17 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Customer profile local/vendor authorization split — 2026-11-12
+
+**System and feature:** Core Operations employee-route authorization review. **Status:** In Development; targeted automated **Testing PASS**; NOT deployed. **Source:** `Tawgod/Lightspeed:integration/security-all-tools-20261111@5726a19cdcb75db18b583382d2aac893cd128777`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61).
+
+**Finding and change:** `PATCH /customers/:lightspeedId/profile` is body-sensitive: ordinary edits persist only the local customer profile, while strict boolean `sync_lightspeed: true` performs a live Lightspeed customer `PUT` before local persistence. The unmounted admission candidate now requires `bodyPolicy:'customer-profile-sync-v1'` on this exact route. Local edits use exact routine `customers.profile.write`; live sync dynamically upgrades to independent strong `customers.lightspeed.update`. String/number/array/object representations of `sync_lightspeed` fail closed, and a static approval without the body policy is rejected.
+
+**Verification:** Cross-tool security push [43311050311](https://github.com/Tawgod/Lightspeed/actions/runs/43311050311) and PR [43311056930](https://github.com/Tawgod/Lightspeed/actions/runs/43311056930) both **SUCCESS**. Tests verify station access for local-only edits, denial of live sync with station or TOTP, passkey + exact live-update grant for vendor sync, local-only grant isolation, ambiguous-body denial, and source drift for the conditional Lightspeed `PUT`.
+
+**Boundary / next:** No customer or Lightspeed record changed; no Core Operations guard mount, employee grant, Railway deployment, production database change, gateway/DNS or Chrome release. Continue splitting the remaining broad `special-orders.manage` / `ordering.manage` employee routes before any staging allowlist is approved, then reconcile reviewed policy into combined PR #63.
+
+---
+
 ## Hidden supplier-cache GET writes split from generic read scopes — 2026-11-12
 
 **System and feature:** Core Operations employee-route authorization review. **Status:** In Development; targeted automated **Testing PASS**; NOT deployed. **Source:** `Tawgod/Lightspeed:integration/security-all-tools-20261111@f8995600c07c185061dc06432739f44a1c416ca6`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61).

@@ -1,5 +1,13 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Core Operations hidden-write and customer vendor-sync authorization review
+
+- Continued development-only review on `Tawgod/Lightspeed:integration/security-all-tools-20261111` / draft PR #61. Found that three GET routes (`/suppliers`, `/products/:id/recommended-suppliers`, `/ordering/lightspeed-context`) refresh the local supplier cache while reading Lightspeed. Split them from generic read scopes into exact review-pending `ordering.suppliers.sync` / `ordering.context.refresh` operations; corrected head `f8995600` passed security workflows 43310573618 and 43310580871.
+- Found `PATCH /customers/:lightspeedId/profile` can optionally perform a live Lightspeed customer `PUT` when `sync_lightspeed: true`. Commit `5726a19c` adds exact local `customers.profile.write` plus body-sensitive upgrade to strong `customers.lightspeed.update`; ambiguous body values fail closed. Security workflows 43311050311 and 43311056930 both SUCCESS.
+- These are unmounted candidate-policy/test/doc changes only. No employee/service grant, production route behavior, Railway deployment, database/customer mutation, gateway/DNS or Chrome release changed. Remaining broad employee route scopes continue under review before staging allowlist approval.
+
+---
+
 ## 2026-11-12 — Owner stage DB credentials and locked web preview deployed
 
 - Generated separate stable 48-character Railway secrets without revealing values; transient secret-function probe validated same fingerprint across two deployments and was deleted. Generated independent runtime-only DB password/signing/session/MFA values on Owner web staging service and separate operator-only password on Owner Postgres; no secrets in GitHub/chat/logs.
