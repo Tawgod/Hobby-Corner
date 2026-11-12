@@ -1,5 +1,9 @@
 # Hobby Corner Project Registry
 
+## Special Orders rollback SQL fixture status — 2026-11-12
+
+**Testing / awaiting retest, NOT deployed.** User's disposable Codespaces PostgreSQL run on `Tawgod/Lightspeed:integration/security-all-tools-20261111@e704b58`: six nested SQL integration tests PASS, injected rollback fixture FAIL, parent FAIL. Source inspection found malformed test trigger function SQL quoting, now corrected on [draft PR #61](https://github.com/Tawgod/Lightspeed/pull/61); a specific injected-exception assertion was added. This does not establish production transaction failure or resolution until manual rerun passes. Next owner task: `bash scripts/run-isolated-security-status-postgres.sh` after `git pull --ff-only` in Codespaces and verify cleanup. No production code, DB, permissions, Railway or Chrome release changes. See `handoffs/employee-admin-security.md`.
+
 ## Isolated status SQL integrity acceptance checkpoint — 2026-11-12
 
 **In Development / Testing, NOT deployed:** owner ran a disposable PostgreSQL 18 Codespaces test and showed five passing nested real-DB status cases plus parent PASS at `Tawgod/Lightspeed@f1c8fbb`. Final test exit/container cleanup was not shown. Draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) subsequently added two new manual-only integration cases for `COMPLETED` pending/queued vs SENT notification handling and fully atomic rollback on injected database failure; launcher now verifies Docker cleanup. New cases await Codespaces verification. No runtime grant, production environment, employee-role, schema migration, or Chrome extension changes. See `handoffs/employee-admin-security.md` and `SECURITY_COORDINATED_ROLLOUT.md`.
