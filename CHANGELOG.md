@@ -1,5 +1,15 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Approved default-disabled Timeclock Owner verifier deployed to production
+
+- Owner approved **only** PR #59 code-only Timeclock update. Revalidated production patch `20177311`: exactly two non-destructive changes, both pointing only the Timeclock service at `feature/owner-timeclock-scoped-credential-20261110@a595fd336c5a38dcc5ab5423a8967698777c0929`. Existing Owner Timeclock and Scanner GitHub CI were SUCCESS.
+- Committed the exact patch through Railway. **Timeclock production deployment `5c08d15e-7341-43d9-83bb-a1d495df9e16` SUCCESS**, runtime listening on port 8080 and Railway service online with no current alerts. Previous Timeclock `eaaa2b25` rollback eligible. Staged production patch now empty; `special-orders-test` and `lightspeed-api` continued on existing successful deployments.
+- All `OWNER_STAGING_*` variable names remained unset. **Owner verifier is installed but disabled;** no rate-limit SQL, credential, employee ID, PIN change, Owner grant, staging Owner app deployment, passkey/Authenticator setup or other production/Timcorp/Chrome change was made. Direct authenticated employee/Scanner tests are still pending; CI and Railway health are not such tests.
+- Reconciled `handoffs/owner-login.md`, `handoffs/employee-admin-security.md`, central master project index and review records. Next independent gate is Owner staging database/roles/secrets preparation and separately approved production SQL before enabling any real Owner authentication.
+
+---
+
+
 ## 2026-11-12 — Owner login setup preflight and runbook, no production changes
 
 - Rechecked tested source and deployed status of Owner Timeclock PR #59 and Owner app PR #60. The existing production Timeclock deployment is still `eaaa2b25` at consolidated `014a7a9`, rollback eligible; a reviewed two-source-field PR #59 pin `20177311` remains **staged/unapplied**. No Owner staging flags, secrets, login schema or real employee selection have been applied.
