@@ -1,5 +1,11 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Repair injected rollback test SQL fixture
+
+- Codespaces operator ran the expanded disposable PostgreSQL 18 status suite: **six nested database checks passed, injected rollback check failed, parent suite failed**. No Node final summary/cleanup confirmation in pasted excerpt.
+- Found and corrected the manually added PL/pgSQL trigger function test body's malformed `AS $ ...  quoting. New escaped quoted body creates the deliberate database trigger exception; added a strict match that the HTTP 400 is specifically the intended injected error. Files: `tests/core-operations-status-postgres-isolated.test.mjs`, plus documentation. Draft Lightspeed PR #61; corrected test commit `b3c01630`.
+- No working production code or route gate modified. Corrected test is **not yet run**; require rerun and confirmed temporary Docker container cleanup. No production deploy, migration, grant, vendor change or extension package.
+
 ## 2026-11-12 — Strengthen disposable status transaction regression and cleanup
 
 - Operator reported PostgreSQL 18 in remote Codespaces initialized successfully and five nested SQL status security tests plus parent test passed at `Tawgod/Lightspeed@f1c8fbb`. Final process-exit and cleanup confirmation not present in pasted output.
