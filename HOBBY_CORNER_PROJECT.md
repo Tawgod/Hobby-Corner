@@ -1,5 +1,9 @@
 # Hobby Corner Project Registry
 
+## Special Orders status transition guard milestone — 2026-11-12
+
+**In Development / Testing; NOT deployed.** `Tawgod/Lightspeed:integration/security-all-tools-20261111` draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) now separates proposed routine `OOS`/`READY_TO_ORDER`/`BACKORDERED` changes from higher impact `PREORDER`/`ORDERED`/`RECEIVED`/`HELD`/`CUSTOMER_NOTIFIED`/`COMPLETED`/`CANCELLED` actions under distinct exact grants, with an additional source-status check under the database row lock. Requires explicit trusted backend `locked-transition-v1` opt-in and exact verified employee grant; remains unmounted and unapproved. New isolated tests/CI pending; staging database, physical passkey, Chrome/web acceptance and owner policy choices remain required. Production/permissions untouched. See `handoffs/employee-admin-security.md`, `SECURITY_COORDINATED_ROLLOUT.md` and source [docs](https://github.com/Tawgod/Lightspeed/blob/integration/security-all-tools-20261111/docs/CORE_OPERATIONS_AUTHORIZATION_ADMISSION.md).
+
 ## Verified Core Operations audit-identity tests — 2026-11-11
 
 **Testing; no production deployment.** Owner verified 11/11 actor-attribution/actual router tests on `Tawgod/Lightspeed:integration/security-all-tools-20261111@5a641a6`; [CI 43107480216](https://github.com/Tawgod/Lightspeed/actions/runs/43107480216) SUCCESS. The owner supplied duplicate terminal output but tests are counted once. Cumulative 72 individually displayed passes across seven separate local runs. The shared security guard is still not mounted by `server.js`; role/grant policy remains pending, and real Lightspeed/DB/device/browser staging acceptance is not complete. See `SECURITY_COORDINATED_ROLLOUT.md`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61) and `handoffs/employee-admin-security.md`.
