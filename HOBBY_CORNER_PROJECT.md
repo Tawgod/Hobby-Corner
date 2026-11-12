@@ -1,5 +1,13 @@
 # Hobby Corner Project Registry
 
+## First Owner login — latest readiness checkpoint, 2026-11-12
+
+**Status:** In Development / Testing; no real Owner commissioned, no Owner authentication service deployed. Scoped Timeclock candidate [draft PR #59](https://github.com/Tawgod/Lightspeed/pull/59) at `a595fd3` and private Owner staging candidate [draft PR #60](https://github.com/Tawgod/Lightspeed/pull/60) at functional commit `6b6498a` both have successful Owner/Scanner CI; new Owner setup execution checklist was added to PR #60, commit `64abf05`. Verified production Timeclock still running consolidated `014a7a9` on deployment `eaaa2b25` (rollback eligible), while its exact **two-field code-only** PR #59 source-pin patch `20177311` remains staged/unapplied. No new production Owner variables or schema. Existing `HC Owner Security Staging/test` has 55 staged changes (Owner app, PG18 and volume), zero deployments; do not apply the whole patch without separate DB privileges, secrets and exact HTTPS domain. Previous encrypted production backup passed owner-run 54-table PG18 restore and matching USB checksum; Google Drive copy only user-confirmed, not independently hash-verified.
+
+**Next authorization:** owner to confirm production **Timeclock-only default-disabled PR #59 code deployment**, with no database SQL/Owner grant/credential activation. Later approve separate throttle SQL, isolated Owner DB/app provisioning and owner-present private passkey/Authenticator setup. The existing Timeclock PIN remains unchanged. Future `timcorp-projects.com` WebAuthn RP/cookie path compatibility will need a distinct same-origin integration decision; a Railway-staging passkey does not transfer to another hostname. Full owner handoff: `handoffs/owner-login.md`.
+
+---
+
 ## Latest foundation security / Owner login status — 2026-11-12
 
 **System:** Shared Core Operations policy and first Owner identity. **Staging-only guard status: Deployed/Testing PASS. Owner login: In Development; not deployed/commissioned.**
