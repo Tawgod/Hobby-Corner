@@ -1,5 +1,14 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — PR #70 synthetic signed-staff/exact-grant acceptance tests
+
+- Created draft [`Tawgod/Lightspeed#70`](https://github.com/Tawgod/Lightspeed/pull/70) on `test/core-ops-employee-auth-acceptance-20261112`, stacked on the verified PR #63 application source. New `tests/core-operations-employee-acceptance.test.mjs` verifies in-process signed employee session -> MFA/registered-station simulation -> exact route-operation permission for all 38 review-pending employee candidates, including identity/factor/grant revocation and body/query/status promotion boundaries.
+- Reused the existing combined foundation CI (no new workflow): [run 43318226550](https://github.com/Tawgod/Lightspeed/actions/runs/43318226550) **SUCCESS** on `fa1cfeb95391d05c1b69c9e44b2c55da3b4eb42d`.
+- Documented actual Timeclock gateway, PostgreSQL Ed25519 station, MFA and durable grant adapter prerequisites in `docs/CORE_OPERATIONS_EMPLOYEE_ACCEPTANCE.md` (latest docs-only commit `8f002b92f7432ecf1064e5bc9a675f21114c48c9`). Real WebAuthn/Owner authentication and employee identity provisioning remain untested and uncommissioned.
+- No PR merge, Railway deployment/configuration, grant activation, production, Timcorp gateway/DNS, Lightspeed/Discord business action or Chrome release change. Existing isolated PR #63 app remains zero-grant at `50fda74b`.
+
+---
+
 ## 2026-11-12 — PR #63 isolated foundation staging redeployed and verified
 
 - With explicit staging-only approval, Railway `HC PR63 Isolated Staging/staging` service `hc-foundation-pr63` source pin changed from `34d92a0` to verified `50fda74b`, via reviewed one-change non-destructive patch `1042ee79`; new deployment `427f570b-f36d-4040-bf91-e83a0a331721` **SUCCESS**.

@@ -1,5 +1,19 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Isolated positive employee authorization acceptance — 2026-11-12
+
+**Status:** **Testing / development-only**. New draft [Lightspeed PR #70](https://github.com/Tawgod/Lightspeed/pull/70), branch `test/core-ops-employee-auth-acceptance-20261112`, stacked on the deployed **PR #63** development branch at `50fda74b`. Source head after documentation-only update: `8f002b92f7432ecf1064e5bc9a675f21114c48c9`; last verified code/workflow commit `fa1cfeb95391d05c1b69c9e44b2c55da3b4eb42d`.
+
+**Tests:** Existing bounded combined foundation GitHub [run 43318226550](https://github.com/Tawgod/Lightspeed/actions/runs/43318226550) **SUCCESS** on `fa1cfeb`. New `tests/core-operations-employee-acceptance.test.mjs` exercises the actual existing staff-session adapter, MFA-ticket verifier, policy bridge and Core Operations gate with ephemeral test-only signed staff, workstation and simulated strong proof. All **38 review-pending** employee operation proposals get exact separate grant/assurance positive and negative checks; revocation, factor-generation rotation, cross-employee replay, expired/inactive sessions and status/body/query privilege escalation are checked. This is a **synthetic in-process contract**, not real WebAuthn, not Timeclock/Owner commissioning and not a staging employee sign-in.
+
+**Readiness blockers verified in source:** `services/staffAuthGateway.js` has real Timeclock-bound session primitives but is not wired into this staging service; `staffWorkstationsPostgres.js` and `staffMfaSessions.js` require manager-provisioned device, durable database, registered factors, test credentials and verified adapters. Genuine origin-bound passkey/IdP proof and an independently approved durable 38-route employee grant matrix are not commissioned. The route gate trusts backend-provided exact route-operation declarations; require a reviewed manifest/fail-closed mapping check before any nonzero grants. See PR #70 doc `docs/CORE_OPERATIONS_EMPLOYEE_ACCEPTANCE.md`.
+
+**Safety/readback:** PR #70 remains draft and unmerged. The current Railway `hc-foundation-pr63` stays at approved `50fda74b` with `approvedRoutes:[]`. No new service, stage deployment, fake header acceptance, Owner enrollment, employee PIN/TOTP/passkey registration, secrets, Chrome changes, Timcorp gateway or production modification.
+
+**Next authorized work:** security-owner review of manifest and employee role grants, plus real test-only Timeclock/station/passkey adapters in an independently approved isolated identity environment. Real enrollment, durable grants, gateway and production remain separate approval gates.
+
+---
+
 ## PR #63 isolated staging deployment of reviewed security source — 2026-11-12
 
 **Status:** **Testing / staging deployment SUCCESS / production NOT deployed.** Reviewed combined `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1` is now running only on isolated Railway `hc-foundation-pr63` deployment `427f570b-f36d-4040-bf91-e83a0a331721`. Staged patch `1042ee79-728a-47fb-801a-94111640c18a` changed only that service's GitHub commit pin. Existing isolated Owner preview/database were left intact.

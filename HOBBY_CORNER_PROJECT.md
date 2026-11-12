@@ -1,5 +1,13 @@
 # Hobby Corner Project Registry
 
+## Core Operations employee authorization — synthetic positive-access milestone — 2026-11-12
+
+**Status: Testing; source implemented/tested but NOT deployed or commissioned.** Draft `Tawgod/Lightspeed` [PR #70](https://github.com/Tawgod/Lightspeed/pull/70), `test/core-ops-employee-auth-acceptance-20261112`, stacked on PR #63, now tests 38 exact review-pending employee operations with signed disposable test sessions, TOTP tickets, station/strong factors, grant revocation and cross-employee replay. [Bounded combined workflow 43318226550](https://github.com/Tawgod/Lightspeed/actions/runs/43318226550) **SUCCESS** at tested code commit `fa1cfeb`; latest `8f002b9` only updates documentation. Review `docs/CORE_OPERATIONS_EMPLOYEE_ACCEPTANCE.md` for adapter inventory and blockers.
+
+**Not deployed:** No PR70 merge, Railway change or permission grant. `HC PR63 Isolated Staging/hc-foundation-pr63` stays pinned to `50fda74b`, zero-grant/403. Real Timeclock/station/strong-auth adapter, exact durable grant manifest and real browser/backend positive acceptance remain **Blocked** pending owner/security review and separate identity-environment approval. Existing Owner locked preview, vendor systems, Timcorp gateway/DNS, production and Chrome extension remain unchanged.
+
+---
+
 ## PR #63 approved isolated staging source update accepted — 2026-11-12
 
 **Status:** **Testing — isolated staging Deployed and post-deploy tests PASS; production NOT deployed.** `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1` now runs on Railway `HC PR63 Isolated Staging/staging/hc-foundation-pr63`, deployment `427f570b-f36d-4040-bf91-e83a0a331721` **SUCCESS**. Exactly one staged non-destructive source pin update was committed; previous live source was `34d92a0`. No environment variables, databases or other service sources were changed.

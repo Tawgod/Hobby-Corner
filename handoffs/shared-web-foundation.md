@@ -1,5 +1,11 @@
 # Shared Web Foundation — Current Handoff
 
+## Employee security bridge acceptance candidate passes in development — 2026-11-12
+
+Draft [Lightspeed PR #70](https://github.com/Tawgod/Lightspeed/pull/70) adds in-process exact employee grant/assurance tests for all 38 pending Core Operations proposals, using existing staff session, MFA and route-admission code; [combined GitHub CI 43318226550](https://github.com/Tawgod/Lightspeed/actions/runs/43318226550) **SUCCESS** on `fa1cfeb`. Latest `8f002b9` adds only a verified adapter-readiness document. This is **Testing**, not authenticated browser commissioning, real passkey proof, activated route grants or deployment. The independent Railway `hc-foundation-pr63` app remains pinned to `50fda74b` with zero-approved routes; gateway `https://timcorp-projects.com/HobbyCorner/` remains **reserved and inactive**. See `handoffs/employee-admin-security.md` and PR #70 docs for the missing authenticated identity and proxy acceptance prerequisites.
+
+---
+
 ## PR #63 isolated foundation staging redeploy and acceptance PASS — 2026-11-12
 
 **Status:** **Testing — deployed to isolated staging, post-deploy HTTP and real Chromium acceptance PASS; NOT production.** Approved scope was only `hc-foundation-pr63` in `HC PR63 Isolated Staging/staging` (project `5b46096d-3178-47ec-ba88-d5037696346a`, environment `46b93c76-3085-4e76-a37d-90dfdd250dd2`, service `10540df5-8fab-497b-bd2c-80d4f7f0c702`). Railway source pin moved **only** from `34d92a04f0905f60f5b71552862cdd404cab34bd` to fully tested `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1`. One non-destructive staged change (source commit SHA only; patch `1042ee79-728a-47fb-801a-94111640c18a`) was read back before application. New deployment `427f570b-f36d-4040-bf91-e83a0a331721` reached **SUCCESS**; runtime logs show Special Orders DB initialized true and server listening on 8080. No schema migration or variable change.

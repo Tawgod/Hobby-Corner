@@ -1,5 +1,17 @@
 # Core Operations / Special Orders / Ordering / Preorders / GW — Current Handoff
 
+## All 38 candidate Core Operations employee scopes: synthetic positive-access CI PASS — 2026-11-12
+
+**Status:** **Testing (development-only; no live grants)**. Draft [Lightspeed PR #70](https://github.com/Tawgod/Lightspeed/pull/70), branch `test/core-ops-employee-auth-acceptance-20261112` stacked on PR #63, code/workflow verification at `fa1cfeb95391d05c1b69c9e44b2c55da3b4eb42d` via [GitHub run 43318226550](https://github.com/Tawgod/Lightspeed/actions/runs/43318226550) **SUCCESS**. Latest doc-only source head `8f002b92f7432ecf1064e5bc9a675f21114c48c9`.
+
+**Actual test coverage:** All 38 review-pending per-route employee candidate operations, each installed **only inside a disposable Node test** with signed synthetic employee session, independently signed workstation or simulated strong step-up, explicit per-operation in-memory grant. No grant/no factor/wrong factor/TOTP on protected write/revocation deny. Real `staffMfaSessions` routine ticket verifies employee/session/factor generation. Cross-employee, inactive/expired sessions, dynamic allocation refresh, customer Lightspeed sync and special-order status split deny inappropriate privilege downgrades. Public staging zero-grant factory still denies these synthetic fixtures.
+
+**Unverified:** real Timeclock/registered workstation/real WebAuthn or IdP authentication; granted routes through deployed business HTTP handlers; durable grant persistence and server-derived write audit identity; any live customer, Lightspeed, Discord, GW or supplier operation. A trusted backend could map an incorrect operation to a route unless its manifest is reviewed: add a fail-closed mapping review before ever commissioning grants. None of these pending proposals is an accepted owner policy.
+
+**Railway unchanged:** isolated PR #63 remains deployed at `50fda74b` with all business APIs 403 by default. Draft PR #70 not merged, no staging/prod deploy, no new test employees/services, no gateway/DNS.
+
+---
+
 ## Reviewed Core Operations policy deployed to isolated staging, still zero-grant — 2026-11-12
 
 **Status:** **Testing**; combined branch `Tawgod/Lightspeed:feature/shared-foundation-security-web-20261112@50fda74b19a3701d60e992db4850668d6c85b3f1` is deployed **only** to `hc-foundation-pr63` isolated Railway staging, deployment `427f570b-f36d-4040-bf91-e83a0a331721` **SUCCESS**. Scope: source pin change only; no Core Operations production change, database migration or route/employee grant.
