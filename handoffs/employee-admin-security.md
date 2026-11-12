@@ -1,5 +1,19 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Disposable PostgreSQL rollback and cleanup hardening — 2026-11-12
+
+**System/feature:** Staff Security → Special Orders status-transaction integrity. **Status:** In Development / Testing, **not deployed**. **Repo:** `Tawgod/Lightspeed`, branch `integration/security-all-tools-20261111`, draft [PR #61](https://github.com/Tawgod/Lightspeed/pull/61), head `e704b58767b60074c24774d58328e58d388ef9f3`.
+
+**Verified prior milestone:** User ran `bash scripts/run-isolated-security-status-postgres.sh` in Codespaces after syncing to `f1c8fbb`; console showed PostgreSQL 18 schema loaded and **five nested integration test checks passed, with the parent test passing**. Real isolated SQL covered routine progress/history, received-order downgrade denial, guarded cancellation/notification suppression, a concurrent DB lock, and malformed/legacy-key write denial. **Final Node summary, process exit code and Docker container-removal confirmation were not present in user paste.** These cannot yet be claimed verified. Prior ordinary GitHub Actions [43226273528](https://github.com/Tawgod/Lightspeed/actions/runs/43226273528) SUCCESS at the unit/HTTP security checkpoint.
+
+**New code since that test:** Manual-only `tests/core-operations-status-postgres-isolated.test.mjs` now has **seven nested database checks**, adding (a) `COMPLETED` suppression of both PENDING/QUEUED notifications while retaining already SENT entries, (b) forced DB trigger failure during notification suppression with verification that status/changed timestamps/audit history/notification rows all roll back and later retry succeeds. The disposable shell launcher now verifies and reports destruction of its own temporary PostgreSQL Docker container, with explicit error on cleanup failure. Code-only documentation updated at `docs/CORE_OPERATIONS_AUTHORIZATION_ADMISSION.md`. No new GitHub Actions worker or remote test services added.
+
+**Testing:** 5 old SQL checks observed passing; **the 2 new SQL checks and Docker cleanup reporting remain unverified until the owner runs** `cd /workspaces/Lightspeed-security && git pull --ff-only && bash scripts/run-isolated-security-status-postgres.sh` again. Script checks local Node dependency/syntax, permits only loopback disposable database, and does not access production. Existing `server.js` still does NOT inject any new guard or grant staff permissions.
+
+**Remaining blockers:** Explicit owner approval of routine vs sensitive statuses, staffed-store browser acceptance, actual production-bound signed sessions/MFA devices, back-end grant storage and scoped machine creds, other 73 endpoint reviews, live DB staging/restore and rollback. **No production deployment, migration, or Chrome release.** Continue automatically after verified success; only ask user for essential approval or test output.
+
+---
+
 ## Disposable PostgreSQL status security acceptance — 2026-11-12
 
 **System/feature:** Shared staff security → Special Orders guarded status transitions, isolated SQL acceptance. **Status:** In Development / Testing; **not deployed; new integration test NOT RUN yet**.
