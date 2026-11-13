@@ -1,5 +1,15 @@
 # Hobby Corner Project Registry
 
+## Employee Security / Core Operations — separate synthetic read pilot deployed and tested — 2026-11-12
+
+**Status: Testing / isolated test deployment SUCCESS; real staff rollout Blocked.** New draft `Tawgod/Lightspeed` [PR #72](https://github.com/Tawgod/Lightspeed/pull/72), branch `feature/isolated-employee-pilot-runtime-20261112` stacked on #71/#70. Actual deployed SHA `f023bad90f269d8c40b50cb9451c881080433182` in brand-new Railway project `HC Employee Read Pilot` `c528d08e-b835-4b72-95f2-8a05090a2195`; `test` environment `33519424-2ad3-4206-a476-253a0ae68c8d`; app `hc-employee-pilot` `01f28a7d-b7d4-4659-ae10-4a0bca20ef6b`; independent Postgres `a88faff0-5a0f-4e6d-a054-c947a67e2a43`. Runtime deployment `577c4250-dbe3-4746-9841-f92397f1fa39` **SUCCESS** and Railway `/health` PASS. Public test page `https://hc-employee-pilot-test.up.railway.app/HobbyCorner/`.
+
+**Implemented/tested:** One-time bootstrap provisions synthetic-read-only grant and two restricted runtime principals; admin DB URL removed before public app deployment. Synthetic employee `901` signed PIN session + one-use test operator Ed25519 device registration + five-minute signed station proof + separately stored, expiring `special-orders.read` permission; ONLY stub GET `/orders` and `/stats`. [Disposable SQL/HTTP CI 43348234139](https://github.com/Tawgod/Lightspeed/actions/runs/43348234139) 70/70 PASS. [Deployed HTTPS/Chromium CI 43349242115](https://github.com/Tawgod/Lightspeed/actions/runs/43349242115) SUCCESS with 4 live HTTPS groups and mobile Chromium Ed25519 private-key confirmation. Live positive physical-browser/user step still unverified; do not count as real staff logon.
+
+**Dependencies/blockers:** Real Timeclock, independently confirmed Owner/passkey MFA, actual registered store Chrome/hardware, durable owner-reviewed 38 route grants and read/write business-handler acceptance need separate approvals. No production, Owner setup, PR63 existing staging, Chrome package/release, vendor credentials or Timcorp gateway/DNS change. PR72 draft/unmerged; original shared PR63 deployment remains source pinned `50fda74b`, default-deny. Full runbook in `Tawgod/Lightspeed/docs/CORE_OPERATIONS_EMPLOYEE_PILOT_RAILWAY_HANDOFF.md`.
+
+---
+
 ## Employee Security / Core Operations — isolated SELECT-only read pilot CI complete, 2026-11-12
 
 **Status: Testing — implemented in development, 68 tests PASS, staging NOT deployed.** Draft `Tawgod/Lightspeed` [PR #71](https://github.com/Tawgod/Lightspeed/pull/71), `feature/isolated-employee-read-pilot-20261112`, based on draft PR #70. Code test SHA `c642c8b967b8ddca1c48b9e6c2fe8c4cefefa7dc`; current doc-only PR SHA `f7139810911dbf7c8a8c491bbb5119c9b0dffbc8`. [Bounded existing combined CI run 43345338052](https://github.com/Tawgod/Lightspeed/actions/runs/43345338052) **SUCCESS (68/68)**.

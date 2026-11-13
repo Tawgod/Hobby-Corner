@@ -1,5 +1,21 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Isolated synthetic employee browser pilot now deployed — 2026-11-12
+
+**Status: Testing — implemented, disposable CI tested, and deployed ONLY in an independent Railway TEST project; real staff/Owner NOT commissioned.** Draft [Lightspeed PR #72](https://github.com/Tawgod/Lightspeed/pull/72) stacks on #71 → #70. New source branch `feature/isolated-employee-pilot-runtime-20261112`, deployed/tested code `f023bad90f269d8c40b50cb9451c881080433182`; later source additions are deployment acceptance scripts and `docs/CORE_OPERATIONS_EMPLOYEE_PILOT_RAILWAY_HANDOFF.md`, not yet deployed.
+
+**Railway verified:** Separate `HC Employee Read Pilot` project `c528d08e-b835-4b72-95f2-8a05090a2195` / environment `test` `33519424-2ad3-4206-a476-253a0ae68c8d`. App `hc-employee-pilot` `01f28a7d-b7d4-4659-ae10-4a0bca20ef6b`, new independent Postgres `a88faff0-5a0f-4e6d-a054-c947a67e2a43`. One-time bootstrap deployment `81ef92ce-de58-4f44-a5c3-6f2f81ae9506` provisioned test-only tables/restricted roles; runtime deployment `577c4250-dbe3-4746-9841-f92397f1fa39` **SUCCESS**, `/health` PASS, old admin `DATABASE_URL` blanked and startup rejects any admin credential. Public test-only UI `https://hc-employee-pilot-test.up.railway.app/HobbyCorner/`.
+
+**Positive security fixture, no live staff:** Existing signed synthetic identity `901` and durable PIN throttle, one-time high-entropy operator-assisted browser Ed25519 key registration (not real Owner/passkey), registered workstation one-use signed challenge, session-bound five-minute station proof, exact expiring synthetic `special-orders.read` grant in PostgreSQL. `hc_pilot_auth_runtime` can only mutate throttle/station tables; `hc_pilot_grants_reader` can SELECT the grant table and cannot change grants or create schema. Only GET `/orders`/`stats` synthetic empty fixtures; all writes/business and admin routes deny. Operator registration is one-use, grant expires after 23 hours and is not auto-renewed.
+
+**Tests:** [combined CI 43348234139](https://github.com/Tawgod/Lightspeed/actions/runs/43348234139) **70/70 PASS** (66 baseline + 2 prior PG + 2 new restricted-role/operator HTTP). Live deployed [HTTPS + Chromium CI 43349242115](https://github.com/Tawgod/Lightspeed/actions/runs/43349242115) **SUCCESS**: 70 local tests + 4 live HTTPS groups, real Chromium signed-out page/asset/mobile/WebCrypto non-exportable Ed25519 PASS. Railway HTTP logs confirm 200 on health/page/assets, unauthenticated orders/stats 403, no unsigned session 401, Admin 404 and unknown paths 404. No test PIN/operator key was entered through live CI; real user's browser device registration/positive live read remains **manual acceptance pending**.
+
+**Unchanged:** Current `HC PR63 Isolated Staging` stays at `50fda74b`, `approvedRoutes:[]`; locked Owner preview, both existing DBs, production, real Timeclock, Lightspeed, Discord, Chrome extension release, Timcorp gateway/DNS untouched. PR #72 draft/unmerged. Real Owner/staff factor commissioning and approved 38-route role matrix are **Blocked**, require explicit separate approval.
+
+**Next:** On intended Windows Chrome test device, owner uses synthetic-only PIN and one-time `HC_PILOT_OPERATOR_KEY` from the new Railway service's Variables page; then verify Ed25519 proof, synthetic fixture read and logout. Operator key is NOT in Git/docs. Do not test with real employee PIN or store data. Full runbook `Tawgod/Lightspeed:feature/isolated-employee-pilot-runtime-20261112/docs/CORE_OPERATIONS_EMPLOYEE_PILOT_RAILWAY_HANDOFF.md`.
+
+---
+
 ## Next milestone — SELECT-only PostgreSQL employee read pilot (code/CI only), 2026-11-12
 
 **Status: Testing PASS / not deployed or commissioned.** Draft [Lightspeed PR #71](https://github.com/Tawgod/Lightspeed/pull/71), branch `feature/isolated-employee-read-pilot-20261112`, stacked on draft PR #70. Tested code SHA `c642c8b967b8ddca1c48b9e6c2fe8c4cefefa7dc`, latest documentation-only SHA `f7139810911dbf7c8a8c491bbb5119c9b0dffbc8`. Existing bounded [GitHub combined CI run 43345338052](https://github.com/Tawgod/Lightspeed/actions/runs/43345338052) **SUCCESS**: 66 existing regressions + 2 disposable PostgreSQL pilot tests = **68 PASS, 0 fail**.

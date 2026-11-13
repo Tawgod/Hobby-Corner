@@ -1,5 +1,13 @@
 # Shared Web Foundation — Current Handoff
 
+## Separate synthetic staff read pilot online; central gateway still inactive — 2026-11-12
+
+The new [Lightspeed PR #72](https://github.com/Tawgod/Lightspeed/pull/72) source has been deployed **only** to a separate Railway project `HC Employee Read Pilot` (`c528d08e-b835-4b72-95f2-8a05090a2195`) at `https://hc-employee-pilot-test.up.railway.app/HobbyCorner/`. Pinned app code `f023bad`; runtime deploy `577c4250-dbe3-4746-9841-f92397f1fa39` **SUCCESS**, schema and restricted grants in independent Postgres. Browser page, prefixed assets, signed-out HTTP 403/404 and mobile Chromium/WebCrypto Ed25519 PASS in [live CI 43349242115](https://github.com/Tawgod/Lightspeed/actions/runs/43349242115). Only synthetic fixture reads can be granted, and the test operator's one-time device setup remains pending physical browser acceptance.
+
+No DNS or central Timcorp gateway change: intended `https://timcorp-projects.com/HobbyCorner/` still reserved **not active**; existing direct Railway app URLs preserved. Existing shared PR #63 staging still at approved `50fda74b`, zero approved staff routes. Real Owner, staff, Chrome and production unchanged. See Employee Security handoff and PR72 `docs/CORE_OPERATIONS_EMPLOYEE_PILOT_RAILWAY_HANDOFF.md`.
+
+---
+
 ## Read-only employee staging pilot is prepared but NOT deployed — 2026-11-12
 
 Draft [Lightspeed PR #71](https://github.com/Tawgod/Lightspeed/pull/71), based on PR #70, supplies unmounted isolated synthetic-staff/Ed25519-station/SELECT-only PostgreSQL exact-grant composition for a read-only Core Operations pilot. [Combined disposable PostgreSQL CI 43345338052](https://github.com/Tawgod/Lightspeed/actions/runs/43345338052) **SUCCESS** (66 existing + 2 new = 68 tests). This does not change the public Railway foundation preview or future Timcorp gateway. `HC PR63 Isolated Staging/staging/hc-foundation-pr63` remains at `50fda74b` and `approvedRoutes:[]`. No new service/env variable/permission/staff credential/deployment; no DNS/gateway changes. Before any public pilot, require independent Owner/security approval and a separate isolated test service/DB with read-only role and real-factor commissioning. See `handoffs/employee-admin-security.md` and `docs/CORE_OPERATIONS_ISOLATED_EMPLOYEE_PILOT.md`.

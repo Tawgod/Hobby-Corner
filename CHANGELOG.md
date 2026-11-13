@@ -1,5 +1,15 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Independent synthetic employee read pilot deployed, fail-closed HTTPS/Chromium PASS
+
+- Created separate Railway project `HC Employee Read Pilot` `c528d08e-b835-4b72-95f2-8a05090a2195`, isolated `test` environment `33519424-2ad3-4206-a476-253a0ae68c8d`, PostgreSQL `a88faff0-5a0f-4e6d-a054-c947a67e2a43` with independent volume; no existing customer/Owner DB accessed.
+- Draft [Lightspeed PR #72](https://github.com/Tawgod/Lightspeed/pull/72), stacked on #71/#70, adds a one-time private-role bootstrap script, test-only HTTP server, guided synthetic employee browser page with non-exportable Ed25519 station key, single-use operator-assisted registration, strict runtime isolation and fixture-only GET `/orders`/`stats`.
+- One-time bootstrap deployment `81ef92ce-de58-4f44-a5c3-6f2f81ae9506` provisioned constrained grant, auth role and SELECT-only grant-reader role. Then emptied admin `DATABASE_URL` and disabled bootstrap, switched to restricted runtime; pinned deployment `577c4250-dbe3-4746-9841-f92397f1fa39` `SUCCESS` with `/health` PASS at SHA `f023bad90f269d8c40b50cb9451c881080433182`. Test URL `https://hc-employee-pilot-test.up.railway.app/HobbyCorner/`.
+- [CI 43348234139](https://github.com/Tawgod/Lightspeed/actions/runs/43348234139) passed 70 local/disposable PG tests; [live HTTP + Chromium 43349242115](https://github.com/Tawgod/Lightspeed/actions/runs/43349242115) passed 4 HTTPS smoke groups and actual mobile Chromium page/asset/WebCrypto Ed25519 checks. Physical user browser operator device registration and positive live read **pending**. Operator key/test PIN not stored in source or central docs.
+- No real employee/Owner provisioning, write grant, business/customer data, Lightspeed/Discord integration, Chrome extension release, PR merge, production, existing PR63 staging, or public Timcorp gateway/DNS change. The original foundation staging remains pinned to `50fda74b` with zero approved routes.
+
+---
+
 ## 2026-11-12 — Isolated SELECT-only employee read pilot prepared and verified (draft PR #71)
 
 - Added unmounted test-only `services/security/coreOperationsIsolatedReadPilot.js` and `services/security/coreEmployeePilotGrantReader.js`; reuses signed synthetic employee session, real Ed25519 workstation verification, exact admission, and separately provisioned **SELECT-only** PostgreSQL grant checks. Only GET `/orders` and `/stats` for the synthetic test identity; no Owner role inference or real write permissions.

@@ -1,5 +1,15 @@
 # Core Operations / Special Orders / Ordering / Preorders / GW — Current Handoff
 
+## Synthetic read-only Core Operations pilot has isolated live HTTPS — 2026-11-12
+
+**Status: Testing / isolated test deployment SUCCESS.** Draft [Lightspeed PR #72](https://github.com/Tawgod/Lightspeed/pull/72) now runs a **separate** synthetic staff read test service on Railway. Project `HC Employee Read Pilot` `c528d08e-b835-4b72-95f2-8a05090a2195`, app `hc-employee-pilot` `01f28a7d-b7d4-4659-ae10-4a0bca20ef6b`, Postgres separate `a88faff0-5a0f-4e6d-a054-c947a67e2a43`, deployment `577c4250-dbe3-4746-9841-f92397f1fa39` **SUCCESS**, source pin `f023bad`. Page: `https://hc-employee-pilot-test.up.railway.app/HobbyCorner/`.
+
+**Only** GET `/api/special-orders/orders` and GET `/api/special-orders/stats` return empty `synthetic:true` fixtures following signed test employee session, independently verified Ed25519 station and DB-sourced test grant. Operator enrolment is synthetic one-use test key, not real Owner passkey. Runtime has separate limited auth-table and SELECT-only grant-table roles; admin DB URL removed after one-time setup. No real Lightspeed or Core Operations DB. [CI 43348234139](https://github.com/Tawgod/Lightspeed/actions/runs/43348234139) **70/70 PASS**; [live HTTPS + Chromium 43349242115](https://github.com/Tawgod/Lightspeed/actions/runs/43349242115) **SUCCESS** with four live read-only smoke groups and non-exportable browser Ed25519 validation. Deployed requests verified 200/401/403/404 fail-closed. Positive real-device browser proof is **not yet manually completed**.
+
+**Safety:** The 38 proposed real employee scopes remain review-pending, no production/admin/Owner grants. Existing PR #63 preview still zero-grant at `50fda74b`; no current business handler, extension, Discord, Timcorp gateway or production change. Next: test-only manual user device onboarding, then independent security/owner approval before real Timeclock/passkey and persistent role rollout.
+
+---
+
 ## Authenticated read-only Core Operations pilot — disposable PostgreSQL acceptance PASS, 2026-11-12
 
 **Testing / not deployed.** Draft [Lightspeed PR #71](https://github.com/Tawgod/Lightspeed/pull/71), stacked on PR #70. New unmounted test-only composition explicitly permits only GET `/orders` and `/stats` after the **real cryptographic Ed25519 workstation proof** and signed synthetic staff session both validate, and an independently operator-provisioned expiring `special-orders.read` grant exists in SELECT-only PostgreSQL. No grant = 403; PIN alone = 403; false Owner headers = 403; POST order creation = 403; grant revocation immediately denies. Responses are fixture empty records, not customer data; the source never contacts Lightspeed/Discord. The database runtime lacks mutation privileges and its read queries check those privileges again.
