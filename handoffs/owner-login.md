@@ -1,3 +1,26 @@
+## Owner explicitly approved isolated staging SQL migration; operator execution pending — 2026-11-13
+
+**Explicit user authorization received:** "I approve the migration" as a direct reply to the specific question asking permission to apply **only** `db/hc_owner_stage_expired_activation_recovery.sql` to the isolated `hc_owner_stage_test` database in `HC PR63 Isolated Staging/staging/Postgres-x8Ui`. This is limited to the staging SQL migration. **It is not authorization to issue a replacement 10-minute code, create an Owner account, merge PR #75, deploy a web app or change production.**
+
+**Independent pre-execution checks:** Railway connector read staging project `5b46096d-3178-47ec-ba88-d5037696346a`, environment `46b93c76-3085-4e76-a37d-90dfdd250dd2`: `Postgres-x8Ui` and `hc-owner-staging` deployed successfully; no pending changes. Drive metadata confirms encrypted staging archive `hc-owner-stage-20261113T204750Z-64857.dump.age` (37,741 bytes) exists in private backups folder. Previously operator's disposable PostgreSQL 18 restore of local archive passed; local hash `2342d2443084c4c432a05d81532953acb7acf5d2f6d3fc66ddfcde70f9049bee`, Git SQL blob `b27bd4a162c8337b1e969c3ad9a3bf464d3872f1`. Draft branch `feature/owner-expired-activation-recovery-20261113`, current head before operator run `40609e176f0ed3cab674588e09a8ebe0df03aba8`.
+
+**Execution status: NOT YET APPLIED.** ChatGPT cannot invoke the user's GitHub Codespaces terminal directly; Railway connector has no SQL/terminal execution action. Operator must run this approved-only, guarded sequence from Codespaces and report sanitized output. Script `scripts/apply-owner-recovery-staging-sql.sh` performs a fresh read-only preflight, interactive confirmation, upload of exact reviewed SQL to exact staging Postgres service, transactional SQL, and post-migration privilege readback. It refuses wrong branch, SQL blob, encrypted backup hash and approvals.
+
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git pull --ff-only
+bash -n scripts/preflight-owner-recovery-staging.sh
+bash -n scripts/apply-owner-recovery-staging-sql.sh
+bash scripts/preflight-owner-recovery-staging.sh
+# Only if the preflight printed HC_OWNER_STAGING_RECOVERY_PREFLIGHT_OK:
+HC_OWNER_STAGING_MIGRATION_APPROVAL=APPROVED_ISOLATED_STAGE_SQL_ONLY \
+  bash scripts/apply-owner-recovery-staging-sql.sh --apply-approved-staging-sql
+```
+
+At the prompt, operator types `APPLY OWNER STAGING SQL`; never paste credentials or private secrets into chat. Expected final success is `HC_OWNER_STAGE_SQL_MIGRATED_VERIFIED=true`. If SQL partially applies or post-readback fails, **do not blindly rerun**; inspect the exact state privately first. Only after confirmed migration can a separately approved private Timeclock-verified operator issue the one-time activation, with phone/passkey ready within its 10-minute expiry. No production effects.
+
+---
+
 ## Owner staging archive confirmed in Google Drive; migration preflight prepared (2026-11-13)
 
 **Offsite archive VERIFIED by direct Google Drive folder readback:** The user reported upload and the Drive connector confirmed exact private [backup file](https://drive.google.com/file/d/1pLRPMwAU1f0Xn8pCnWv5BO5SEjBZUbqW/view?usp=drivesdk) in [HC Backups → Railway → Railway backups](https://drive.google.com/drive/folders/1FClPbgzdZljQzjqENdoK88omJC000Zom), named `hc-owner-stage-20261113T204750Z-64857.dump.age`, **37,741 bytes**, created Nov 13 21:12 UTC. This matches the archive the operator previously decrypted and successfully restored to isolated Docker PostgreSQL 18, checksum `2342d2443084c4c432a05d81532953acb7acf5d2f6d3fc66ddfcde70f9049bee` on the Codespaces copy. The **Google Drive copy's own hash is not independently measured**. The sensitive password document was not opened, credentials not accessed. Offsite archive existence criterion now satisfied.
