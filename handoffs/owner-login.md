@@ -1,5 +1,13 @@
 # First Owner Login — Current Handoff
 
+## Canonical staff identity candidate must not bypass first real Owner — 2026-11-12
+
+Draft [Lightspeed PR #73](https://github.com/Tawgod/Lightspeed/pull/73) adds code-only real-Timeclock *self identity* preview on top of the separately accepted synthetic pilot, not real Owner commissioning. Existing `ownerSecurityStagingMount`, unified Owner passkey/activation candidate and independent approver checks are reused **as future dependencies**, not duplicated. Scanner `role` and `canApprove` are explicitly stripped from the employee preview. A genuine independent Owner assignment reader is mandatory; no browser/PIN/synthetic 901 self-appointment or TOTP/passkey QR may be activated.
+
+**Live Railway readback:** separate `HC Owner Security Staging` project `2b350cde-048e-4402-bd92-4e8ba6c9f877` has **55 STAGED changes** in `test`, not committed. Do not apply or deploy this patch without inventory/reconciliation and explicit approval. The existing locked Owner preview in `HC PR63 Isolated Staging` remains untouched. [Combined CI 43356076149](https://github.com/Tawgod/Lightspeed/actions/runs/43356076149) **73 PASS, 0 failed** on synthetic/fake Timeclock and disposable PostgreSQL. Real first Owner identity/device attestation and real role appointment remain **Blocked**, pending independent secure commissioning.
+
+---
+
 ## Owner staging identities, secrets and locked HTTPS preview — 2026-11-12 (latest)
 
 **System/feature:** Hobby Corner first Owner login pre-enrollment. **Status:** Database and app **Deployed in isolated staging**; restricted-credential and HTTP/denial tests **PASS**; **real Owner login not enabled / not commissioned**.

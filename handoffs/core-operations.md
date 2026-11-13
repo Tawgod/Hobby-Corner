@@ -1,5 +1,11 @@
 # Core Operations / Special Orders / Ordering / Preorders / GW — Current Handoff
 
+## Real employee self-discovery preflight prepared — no business permissions (2026-11-12)
+
+On top of accepted synthetic test pilot draft #72, new draft [Lightspeed PR #73](https://github.com/Tawgod/Lightspeed/pull/73) composes existing canonical Timeclock verification and signed staff sessions to permit **only a future read-only employee /self discovery**. No live service mounted; no real Timeclock PIN, live Special Orders, customer data, role grant, Owner authority or 38-route permission activation. Login selector must match the PIN-resolved employee ID; source-IP and account login throttle is persistent and restricted; an actual Owner assignment is checked independently, not inferred. Synthetic 901 rejected. [CI run 43356076149](https://github.com/Tawgod/Lightspeed/actions/runs/43356076149) **73/73 PASS**, source-only. Draft PR #72 synthetic Railway app remains pinned to original code `f023bad` and verified with user physical-browser acceptance. Real operations remain **Blocked**, requiring independent Owner and route matrix approval.
+
+---
+
 ## Special Orders employee read pilot — physical-browser acceptance PASS (2026-11-12)
 
 **Status: Testing PASS / Deployed (separate synthetic-only Railway TEST); real operations not deployed.** **Live evidence:** Railway HTTP request logs recorded six 200 successes in the real test deployment on November 12, 2026 (CST): signed synthetic employee login **8:37:19 PM**, one-use workstation registration **8:38:32 PM**, challenge and signed proof **8:38:39 PM**, fixture orders **8:38:44 PM**, fixture stats **8:38:46 PM**. The operator explicitly confirmed browser testing and sign-out. Server logs corroborate the access path; browser sign-out is **user-verified**, not independently demonstrated by HTTP logs. The services are online, zero warnings/criticals, no pending changes.

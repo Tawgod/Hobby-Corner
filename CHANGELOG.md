@@ -1,5 +1,14 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Canonical real-Timeclock self-identity setup candidate (source-only)
+
+- Created draft [Tawgod/Lightspeed PR #73](https://github.com/Tawgod/Lightspeed/pull/73) on `feature/canonical-employee-onboarding-preview-20261112`, stacked on accepted synthetic pilot PR #72, with **no Railway deployment**.
+- Reused existing canonical Timeclock client, staff-signed session gateway, primary read-only `/self` route and persistent PostgreSQL login throttle. Added opt-in public employee ID selector to bind pre-PIN account/source throttling to returned canonical identity, while preserving default legacy scanner/Owner/pilot sign-in behavior. Added isolated setup factory with no business/Owner/factor route, independent backend Owner reader prerequisite, denial of synthetic 901 and real credential/biz settings, and DB least-privilege preflight. Timeclock Scanner `role` is stripped from employee browser responses, not elevated.
+- Added focused disposable PostgreSQL + fake Timeclock HTTP integration tests to **existing** combined CI. Verified [run 43356076149](https://github.com/Tawgod/Lightspeed/actions/runs/43356076149) **73/73 PASS**, UI [run 43356076090](https://github.com/Tawgod/Lightspeed/actions/runs/43356076090) SUCCESS on code `fbf267721e6e2ea5b6733a85958f6811e5df50e8`. New runbook `docs/CANONICAL_EMPLOYEE_ONBOARDING_PREVIEW.md`.
+- Read-only Railway inventory found existing independent Owner staging project `2b350cde-048e-4402-bd92-4e8ba6c9f877` has **55 pending staged changes**, not committed. No existing Railway project or database was modified. Real employee onboarding, authentic first Owner passkey commissioning, business permissions, production, Chrome extension and Timcorp gateway remain **Blocked**.
+
+---
+
 ## 2026-11-12 — Live positive synthetic employee browser acceptance completed
 
 - Test operator confirmed the full synthetic test-browser flow, including sign-out. Railway HTTP logs independently confirm **200** for POST synthetic session at **8:37:19 PM CST**, one-time workstation registration **8:38:32 PM**, challenge/cryptographic verification **8:38:39 PM**, test GET orders **8:38:44 PM**, test GET summary **8:38:46 PM**. Client-side sign-out is operator-confirmed, not server-observable.
