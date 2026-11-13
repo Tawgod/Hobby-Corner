@@ -1,5 +1,14 @@
 # First Owner Login — Current Handoff
 
+## Requested Owner staging enrollment enablement — 2026-11-12 late evening
+
+User explicitly requested **enable isolated staging passkey enrollment for canonical employee 1**, while sending the URL to their personal phone. Scope excludes production Owner role grant or gateway/DNS changes. Rechecked Railway **read only**: locked preview `HC PR63 Isolated Staging/staging` service `hc-owner-staging` (deployment `c97a3939-8372-4412-b2b7-c89ec8c9e610`, pinned `60cefaf71d7b737753728f95f8474df17e99912c`) still starts `node staging/owner-locked-preview.js`, with HTTPS hostname, staging origin/RP ID and independent secrets present by variable name. It does **not** expose passkey registration. Production Timeclock service `dd3469bd-5fce-43bc-b9f9-7aa2a7806457`, code `a595fd336c5a38dcc5ab5423a8967698777c0929`, **does not have** any `OWNER_STAGING_IDENTITY_ENABLED`, `OWNER_STAGING_EMPLOYEE_ID`, `OWNER_STAGING_SERVICE_SECRET` or `OWNER_STAGING_THROTTLE_SECRET` variable names. Required Timeclock throttle schema `timeclock/db/hc_owner_stage_login_limits.sql` remains unconfirmed/unapplied. Staging `hc-owner-staging` also lacks `HC_OWNER_TIMECLOCK_EMPLOYEE_ID` and `HC_OWNER_TIMECLOCK_ORIGIN` variable names. Railway connector redacts secret values, so variable presence alone cannot confirm correct values. Staging environment had **no pending patch**.
+
+**Decision:** Approval to enable is noted but prerequisites for safe enablement are **not met**. Do not simply replace the locked start command, toggle a flag, apply production SQL, or issue activation token. No changes deployed or staged in this review. Next, separately review backup/schema migration and Owner-specific independent credentials/allowlist before an exact, staged, tested transition to the real enrollment app. First Owner activation remains an interactive trusted-operator step. User must register passkey on personal phone and TOTP afterward, with no secrets in chat.
+
+---
+
+
 ## First Owner identity and current staging readiness — 2026-11-12 evening
 
 **Identity selection (user-confirmed through restored Discord Hobby Bot Timeclock employee list):** canonical Timeclock employee **1** is the intended first Owner; employee **13** is the intended second Owner **later**. This is an operator selection, **not** proof of a server-side active-employee recheck or an Owner grant. No PIN, Authenticator seed, activation token or customer record was shared. Employee 13 must only be added later through strong-authenticated, audited Admin delegation, never through first-Owner bootstrap.
