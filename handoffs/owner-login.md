@@ -1,5 +1,16 @@
 # First Owner Login — Current Handoff
 
+## Owner-scoped Timeclock environment configuration — 2026-11-13
+
+**User-authorized production configuration-only deployment:** Railway `Hobby Corner / production`, Timeclock service `dd3469bd-5fce-43bc-b9f9-7aa2a7806457`. Reviewed staged patch `76bf178c-bcb8-4983-99e6-35e0d10e17c3` (exactly four **added** variables, only Timeclock service, non-destructive): `OWNER_STAGING_EMPLOYEE_ID`, `OWNER_STAGING_IDENTITY_ENABLED`, `OWNER_STAGING_SERVICE_SECRET`, `OWNER_STAGING_THROTTLE_SECRET`. Operator independently confirmed employee ID 1, enabled flag exactly `false`, and matching value with staging `HC_OWNER_TIMECLOCK_SERVICE_SECRET`. Connector redacts values; no secret values were read or disclosed.
+
+**Action:** `accept_deploy` committed the four-variable patch; workflow `commitChanges/c562fbb2-8431-4beb-834d-6938b3a2ad10/76bf178c-bcb8-4983-99e6-35e0d10e17c3`. New Timeclock deployment **`0c75bbb3-1cd5-49a0-b1b8-98dbf5e5d379` was BUILDING at last readback**, while previous `06ca0840-cbb8-4eb4-85f7-481050e5420e` was SUCCESS. Variable names now appear live; environment staged patch is null. PostgreSQL remained online, no new warnings. **Do not describe the replacement as healthy/SUCCESS until a fresh Railway readback confirms.**
+
+**Scope:** No Owner identity endpoint activation (flag remains disabled by owner-confirmed value), Owner role grant, staging preview unlock, PIN change, DB write or other-service intentional change. Next: verify Timeclock deployment SUCCESS and health, then separately review and approve enabling scoped verifier with full staging origin/proxy security tests; existing isolated Owner preview remains locked.
+
+---
+
+
 ## Production Owner PIN-throttle SQL applied — operator verification, 2026-11-13
 
 **Authorization / execution:** Owner previously expressly authorized applying only `timeclock/db/hc_owner_stage_login_limits.sql` after verified backup; user ran the reviewed exact `CREATE TABLE IF NOT EXISTS` in a transaction through Codespaces Railway production PostgreSQL SSH tunnel. User's preflight showed `current_database=railway`, `current_user=postgres`, `public.employees` present, `public.hc_owner_stage_login_limits` absent. User subsequently reported post-migration table/existing-row verification **“Verified.”** No independent SQL readback by ChatGPT; treat migration as **operator-verified**, not connector-confirmed.
