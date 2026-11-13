@@ -1,5 +1,18 @@
 # First Owner Login — Current Handoff
 
+## Isolated first Owner enrollment service deployed — 2026-11-13
+
+**Scope:** Existing `HC PR63 Isolated Staging/staging` `hc-owner-staging` only; existing protected Timeclock service secret, independent Owner PG18 and HTTPS hostname reused. Deployed already-pinned Lightspeed source `60cefaf71d7b737753728f95f8474df17e99912c` with no source/branch switch. Staged Railway patch `3e5b6e49-e282-47b0-806e-700b9d42ac88` contained **exactly four non-destructive service-only changes**: start command `node staging/owner-locked-preview.js` → `node staging/owner-security-server.js`, set `HC_OWNER_STAGING_ENABLED=true`, `HC_OWNER_TIMECLOCK_EMPLOYEE_ID=1`, and `HC_OWNER_TIMECLOCK_ORIGIN=https://timeclock-production-2bfa.up.railway.app`. No other app, DB, volume, shared setting or production service was part of the patch.
+
+**Result:** Railway `accept_deploy` committed patch. New staging deployment **`7d682a97-0b62-4e49-a4c8-af83d03d8e08` SUCCESS/online**, 1/1 replica, zero warnings or critical issues; service health check remains `/health`, new start command verified. Isolated Owner PostgreSQL `Postgres-x8Ui` remained online. Owner server's startup is fail-closed on exact HTTPS origin, independent secrets, restricted runtime DB privileges, selected canonical employee ID and synthetic login flags.
+
+**Verification boundary:** No independently successful authenticated Timeclock verifier request; public HTTPS route content could not be read through available external browser/network clients. Railway platform health alone does not establish passkey registration/CSRF/real WebAuthn function. No operator first-Owner one-use token issued, no actual Owner created, passkey enrolled, TOTP attached, production role granted or Timeclock PIN altered. First activation must come from **separate trusted local interactive operator** using `scripts/issue-owner-stage-activation.mjs --issue-staging-owner` and operator-specific restricted DB identity, 10-minute one-use code, never through assistant/CI/logging. Live public enrollment page may now be present; advise user **not to enter PIN or activation before the one-use private operator step and browser/security acceptance are confirmed**.
+
+**Next:** Read-only HTTP/security/negative probe from a trusted client, confirm exact Owner-staging login URL and same-origin requirements in actual browser, independently check allowed employee 1 auth and disabled employee 13, then private operator bootstrap and physical passkey/TOTP. Staging passkey is bound to staging hostname, not automatically the future production hostname. No public Timcorp gateway or production Owner privileges modified.
+
+---
+
+
 ## Dedicated Timeclock Owner verifier enabled — 2026-11-13
 
 **Exact authorization:** User explicitly approved changing only production Timeclock `OWNER_STAGING_IDENTITY_ENABLED` to `true` for canonical employee **1** with existing dedicated service secret and rate limiter; no Owner role or other-service changes.
