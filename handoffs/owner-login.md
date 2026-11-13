@@ -1,3 +1,13 @@
+## PR #75 Codespaces recovery test failed — retest required, 2026-11-13
+
+**Observed from operator terminal:** `bash scripts/test-owner-recovery-disposable.sh` on branch `feature/owner-expired-activation-recovery-20261113` pulled Docker `postgres:18` and executed 4 tests: 3 passed, 1 failed. Failing database test `one expired unused activation can be reissued with immutable audit, never twice` returned `terminating connection due to administrator command`. No successful disposable recovery migration or token reissue was verified. Local Node source tests and non-TTY checks passed; no Railway/database production/staging mutation occurred.
+
+**Development response in draft [PR #75](https://github.com/Tawgod/Lightspeed/pull/75):** commit `5b3d14b` replaces readiness detection of the transient Docker initialization server with stable published TCP checks; `03496be` adds per-phase SQL failure diagnostics, preserves original errors, and removes force-drop teardown of a still-connected disposable DB. Runbook updated. Root cause is not conclusively established until the next test. Exact command to rerun in existing Codespace after `git pull --ff-only`: `bash scripts/test-owner-recovery-disposable.sh` (remote disposable PostgreSQL only).
+
+**Status:** Implementation: code candidate; Testing: **failed, retest pending**; Deployed: **no recovery changes**. Keep existing Owner staging instance untouched and do not issue activation until PostgreSQL test passes, security review is completed, staging backup is checked, and separate explicit staging migration approval is given.
+
+---
+
 ## Owner staging expired activation recovery PR #75 — code only, 2026-11-13
 
 **Operator Codespaces HTTP results:** `GET /health` returned `{"service":"owner-security-staging","ready":true}`; `GET /owner-setup/` HTTP 200; `GET /owner-setup/client.js` HTTP 200; cross-site registration POST HTTP 403; same-origin registration POST missing activation HTTP 403. These are user-provided HTTP checks (five successful probes), **not** independently verified physical WebAuthn, signed Timeclock authorization, Authenticator, complete authentication, or recovery.
