@@ -1,5 +1,16 @@
 # First Owner Login — Current Handoff
 
+## Source-controlled gated activation review — 2026-11-12
+
+**Code/documentation milestone:** Created draft [Lightspeed PR #74](https://github.com/Tawgod/Lightspeed/pull/74) from the **deployed** Owner-staging Timeclock code SHA `a595fd336c5a38dcc5ab5423a8967698777c0929`, new doc `docs/FIRST_OWNER_STAGING_ENABLEMENT_GATES_20261112.md`, head `ff059e331b05e8afccd902b99b126ac9ae35d3a9`. The plan maps the exact production throttle table, independent Owner-only service credentials, canonical employee 1 allowlist, HTTPS cross-Railway-project connectivity, reuse of existing `hc-owner-staging` locked preview + `Postgres-x8Ui` database, mobile WebAuthn acceptance and human-only one-use activation. Clarifies employee 13 must be added later through authenticated Admin grant.
+
+**Important verification:** Timeclock production already has source `timeclock/ownerStagingIdentity.js` (default-disabled) but variable inventory lacks `OWNER_STAGING_*` credentials/allowlist. Its additive `timeclock/db/hc_owner_stage_login_limits.sql` was not verified as installed or backed up. Existing Owner staging web app uses `node staging/owner-locked-preview.js` and also lacks real employee 1 and Timeclock origin configuration. Since staging and Timeclock are in different Railway projects, no cross-project private DNS reachability can be assumed; approved HTTPS service endpoint requires security review.
+
+**Status:** PR #74 documents gates only. No live login enablement, SQL migration, staging unlock, service deploy, production role grant, passkey, TOTP, activation issuance, or secret reads. **Next:** Independent approval of production Timeclock backup + additive throttle schema, restricted credentials and network route, then exact staged application switch and physical phone enrollment.
+
+---
+
+
 ## Requested Owner staging enrollment enablement — 2026-11-12 late evening
 
 User explicitly requested **enable isolated staging passkey enrollment for canonical employee 1**, while sending the URL to their personal phone. Scope excludes production Owner role grant or gateway/DNS changes. Rechecked Railway **read only**: locked preview `HC PR63 Isolated Staging/staging` service `hc-owner-staging` (deployment `c97a3939-8372-4412-b2b7-c89ec8c9e610`, pinned `60cefaf71d7b737753728f95f8474df17e99912c`) still starts `node staging/owner-locked-preview.js`, with HTTPS hostname, staging origin/RP ID and independent secrets present by variable name. It does **not** expose passkey registration. Production Timeclock service `dd3469bd-5fce-43bc-b9f9-7aa2a7806457`, code `a595fd336c5a38dcc5ab5423a8967698777c0929`, **does not have** any `OWNER_STAGING_IDENTITY_ENABLED`, `OWNER_STAGING_EMPLOYEE_ID`, `OWNER_STAGING_SERVICE_SECRET` or `OWNER_STAGING_THROTTLE_SECRET` variable names. Required Timeclock throttle schema `timeclock/db/hc_owner_stage_login_limits.sql` remains unconfirmed/unapplied. Staging `hc-owner-staging` also lacks `HC_OWNER_TIMECLOCK_EMPLOYEE_ID` and `HC_OWNER_TIMECLOCK_ORIGIN` variable names. Railway connector redacts secret values, so variable presence alone cannot confirm correct values. Staging environment had **no pending patch**.
