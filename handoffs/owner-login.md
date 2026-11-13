@@ -1,3 +1,15 @@
+## Drive backup inventory — production dumps found; Owner staging recovery still unverified (2026-11-13)
+
+User reports no backups visible in Railway, but has manual USB and Google Drive backup workflow. Drive connector verified folder chain **HC Backups → Railway → Railway backups**, at [Drive folder](https://drive.google.com/drive/folders/1FClPbgzdZljQzjqENdoK88omJC000Zom). It contains two opaque encrypted files:
+- `hc-production-20261113T150210Z.dump.age` (1,442,672 bytes; created Nov 13) [Drive file](https://drive.google.com/file/d/1S4342V0jOJnuexqavuq7W7JmO-tk-ljC/view?usp=drivesdk)
+- `hc-production-20261110T213753Z.dump.age` (1,442,494 bytes; created Nov 11) [Drive file](https://drive.google.com/file/d/1LfrJnfBjFzXZLJhXwGwhEdCb_LU5zRoH/view?usp=drivesdk)
+
+A separate `Backup password.rtf` exists in the folder. **Do not open, expose, transmit or quote credential contents.** Neither `.age` blob was decrypted or restored; metadata only. Filename `hc-production` points to a production-labeled backup and **does not establish coverage of Owner staging database `hc_owner_stage_test` in separate Railway `Postgres-x8Ui`**. A Drive search for Owner/staging PostgreSQL backup identifiers did not locate an additional candidate. Another unrelated folder called `Backups` is empty. USB files are not mounted or verified.
+
+**Next gate:** confirm the manual backup source (which Railway service/database) and locate/create a protected, timestamped **Owner staging** dump from `Postgres-x8Ui`, retaining encrypted external copy and validating a restore to an isolated disposable database before migration. Do not substitute the `hc-production` backups for staging, presume USB backup contents, edit Railway, perform a restore over live data, or open password files. Existing draft PR #75 has 4/4 disposable tests passing; staging migration remains **blocked** until dedicated recoverability and explicit separate approval.
+
+---
+
 ## Final hardened Owner recovery regression PASS — backup gate next (2026-11-13)
 
 **Operator Codespaces result (latest):** On branch `feature/owner-expired-activation-recovery-20261113`, after fast-forward to `2b716f7564194e1e9a632f844aefbc0154c8b63c`, owner ran `bash scripts/test-owner-recovery-disposable.sh`. Docker PostgreSQL 18 test suite **4 passed / 0 failed / 0 skipped**, ~1.04s; runner reported disposable container removed. This test covers the dedicated NOLOGIN/NOINHERIT non-superuser `SECURITY DEFINER` function-owner changes, operator/runtime privilege separation, expiry/consumption denial, immutable audit and one-time recovery/rollback. Evidence is owner-supplied terminal output, not a direct Codespaces shell result.
