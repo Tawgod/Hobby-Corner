@@ -1,5 +1,20 @@
 # First Owner Login — Current Handoff
 
+## First Owner identity and current staging readiness — 2026-11-12 evening
+
+**Identity selection (user-confirmed through restored Discord Hobby Bot Timeclock employee list):** canonical Timeclock employee **1** is the intended first Owner; employee **13** is the intended second Owner **later**. This is an operator selection, **not** proof of a server-side active-employee recheck or an Owner grant. No PIN, Authenticator seed, activation token or customer record was shared. Employee 13 must only be added later through strong-authenticated, audited Admin delegation, never through first-Owner bootstrap.
+
+**Live production connection:** Hobby Bot and Timeclock redeployed after the operator aligned the existing Timeclock admin secret with Railway shared configuration. Railway on 2026-11-12 21:41 CST showed bot deployment `a972688e-e6c7-4eea-9ca4-aef8021b314a` and Timeclock `06ca0840-cbb8-4eb4-85f7-481050e5420e`, both SUCCESS/online; Discord bot connected and command group synchronized. User reports Discord employee lookup works. The credential value was not read or recorded, and the existing shared admin credential must **not** be reused as the separate Owner staging service credential.
+
+**Authoritative isolated staging reuse:** Read-only Railway check of `HC PR63 Isolated Staging/staging` (project `5b46096d-3178-47ec-ba88-d5037696346a`, environment `46b93c76-3085-4e76-a37d-90dfdd250dd2`) confirms **hc-owner-staging** locked preview deployment `c97a3939-8372-4412-b2b7-c89ec8c9e610` SUCCESS/online, **Postgres-x8Ui** Owner DB `51d04bf4-0f3e-4716-ba17-8e756a1bc1be` SUCCESS/online, and **no staged changes**. Locked preview is not an active Owner enrollment screen. Separate old `HC Owner Security Staging/test` patch `45d1db2e-1f10-4b27-94e0-c0970c5d2d28` still has 55 STAGED changes for another app, PG and volume; **do not apply**.
+
+**Blocked next gates:** (1) approved additive Timeclock per-account throttle schema and independent `OWNER_STAGING_*` credential/active employee 1 allowlist; (2) isolated staging locked-preview-to-real-enrollment source/HTTPS origin/proxy review and physical WebAuthn test; (3) separately authorized interactive operator-only first activation with restricted operator DB identity, no code issuance by chat/CI; (4) owner physically registers passkey, then Google Authenticator TOTP on that same employee identity; (5) recovery/revocation acceptance; (6) separate, approved production Owner permission commissioning. **No actual Owner created or TOTP/passkey enabled.** Never send PIN, activation, QR seed or six-digit code to ChatGPT.
+
+**Implementation:** Owner passkey and TOTP draft candidates exist; automated staging contract tests historically passed. **Tested in current check:** Railway health and Discord employee lookup reported by operator; real owner passkey and Authenticator untested. **Deployed:** only locked preview, separate restricted DB and default-disabled Timeclock identity endpoint.
+
+---
+
+
 ## Railway Owner staging patch reconciled read-only — 2026-11-12
 
 **Status: STAGED, not applied.** Inspected Railway pending patch `45d1db2e-1f10-4b27-94e0-c0970c5d2d28` in `HC Owner Security Staging` (project `2b350cde-048e-4402-bd92-4e8ba6c9f877`, test environment `db9d6e8c-bb03-441b-a154-80c11536dfbb`). The 55 entries consist of **three staged CREATE resources**: the `owner-security-staging` app (repo `Tawgod/Lightspeed`, pinned candidate commit `6b6498a01d0cfca42db273f00e97680d140a6ccb`, start command `node staging/owner-security-server.js`), `Postgres` (PostgreSQL 18 SSL image), and a dedicated `postgres-volume`. Some variables are staged but encrypted values are not available for approval. Railway marks patch **non-destructive**, but that is not proof it is complete or secure. **Not deployed:** no committed runtime for this project; the patch remains unapplied.
