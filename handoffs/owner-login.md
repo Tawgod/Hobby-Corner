@@ -1,5 +1,14 @@
 # First Owner Login — Current Handoff
 
+## Reconciled existing Codespaces production backup evidence — 2026-11-12
+
+**Correction to previous backup blocker:** A recoverable production logical backup was in fact performed **November 10–11, 2026** in a private Codespace, not archived in GitHub source. Evidence in `docs/POSTGRES_BACKUP_WITHOUT_RAILWAY_TIER.md`, commit `07e9889136d2c8e82e3fc8f8fef798db7acffe72`, records operator-reported full decrypt, `pg_restore --list`, and disposable PostgreSQL 18 **54-public-table restore PASS** for `hc-production-20261110T213753Z.dump.age`. Git history `3a89ee6b02c0124b9a4a71b28aa5fdf611d25ac0` records matching SHA-256 for encrypted copy on operator's external USB G: drive (`55a0b85cea20ebc0fc42e97aecd20d3ebb8368f0752d0e0d2158294592314b81`); commit `c6fddbeb9df48a3d6aa9a6c5efa899e2b5b42b12` records operator confirmation of passphrase custody in password manager. Operator reported a further Google Drive upload, but its file/checksum were **not independently verified** (`c6922617b3316efd4ef7383992ac5a35db76a0f9`).
+
+This is a **tested point-in-time logical backup** of the shared production PostgreSQL instance, including Timeclock, not continuous PITR or a verified current Railway-native volume snapshot. It proves historical recovery to November 10, not that all changes up to the upcoming SQL migration are backed up. Earlier handoff entry claiming backup evidence absent is superseded; it specifically meant no native Railway backup visibility. **The authorized production migration remains unapplied.** Before applying, owner/operator should decide whether a fresh pre-migration logical backup is required, verify protected archive accessibility/custody and exact live target schema, and use a reviewed private SQL execution channel. No database or service changes were made while reconciling the record.
+
+---
+
+
 ## Production Timeclock throttle migration authorization and backup gate — 2026-11-12
 
 **Authorization received:** User authorizes verifying recoverable production Timeclock backup and applying **only** the reviewed `timeclock/db/hc_owner_stage_login_limits.sql` if all safeguards pass; explicitly forbids employee-record and other-service changes.
