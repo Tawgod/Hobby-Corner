@@ -1,5 +1,20 @@
 # First Owner Login — Current Handoff
 
+## Production Timeclock throttle migration authorization and backup gate — 2026-11-12
+
+**Authorization received:** User authorizes verifying recoverable production Timeclock backup and applying **only** the reviewed `timeclock/db/hc_owner_stage_login_limits.sql` if all safeguards pass; explicitly forbids employee-record and other-service changes.
+
+**Read-only Railway verification:** `Hobby Corner/production` project `f7e91de7-43f6-472e-b4ca-46b0623f8e0e`, environment `c562fbb2-8431-4beb-834d-6938b3a2ad10`: Timeclock service `dd3469bd-5fce-43bc-b9f9-7aa2a7806457`, deployed pinned source `a595fd336c5a38dcc5ab5423a8967698777c0929` (default-disabled Owner endpoint). Production PostgreSQL service `9a4660e3-766c-46cf-adbb-4d2c8e341c44`, `postgres-ssl:18`, volume `f50e8013-7ada-4dd4-ba1e-0f933fb0e17b` on `/var/lib/postgresql/data` size 5000 MB, successful service deployment `e2f7330b-dc79-4d29-b0bb-8003d349f109`. No pending Railway environment patch.
+
+**SQL source check:** `timeclock/db/hc_owner_stage_login_limits.sql` adds only `CREATE TABLE IF NOT EXISTS hc_owner_stage_login_limits (scope_key char(64) PRIMARY KEY CHECK hex format, count integer NOT NULL with nonnegative bound, window_start timestamptz NOT NULL)`. No employee, Timeclock entry, existing permission, credential, or existing table DML in reviewed SQL. Existing Owner verifier routes are disabled until separately configured. Database presence does not establish table absence or migration state; a privileged `to_regclass` query is still required.
+
+**Blocking backup gate:** Available Railway connector exposes service/volume/deployment status but **does not expose volume backup inventory, latest verified recovery point, PITR status, snapshot creation, SQL console, or restore drill**. Railway docs describe `railway postgres pitr status --service postgres`, `railway postgres pitr backup create --service postgres --name pre-migration`, and backup restore procedures; none were run here. A persistent volume is **not** evidence of a backup. Also no live DB SQL execution was performed. Accordingly the user authorization's prerequisite is **not satisfied**: no migration applied, no secret read, no variables or services changed. Require operator to verify healthy backup/restoration (and preferably fresh pre-migration snapshot), then use an approved private migration runner with the exact SQL; confirm table and old operations afterward. Do not enable Owner login as a side effect.
+
+**Status:** Planned/Blocked, backup unverified; database migration NOT implemented in production, NOT tested against live database, NOT deployed.
+
+---
+
+
 ## Source-controlled gated activation review — 2026-11-12
 
 **Code/documentation milestone:** Created draft [Lightspeed PR #74](https://github.com/Tawgod/Lightspeed/pull/74) from the **deployed** Owner-staging Timeclock code SHA `a595fd336c5a38dcc5ab5423a8967698777c0929`, new doc `docs/FIRST_OWNER_STAGING_ENABLEMENT_GATES_20261112.md`, head `ff059e331b05e8afccd902b99b126ac9ae35d3a9`. The plan maps the exact production throttle table, independent Owner-only service credentials, canonical employee 1 allowlist, HTTPS cross-Railway-project connectivity, reuse of existing `hc-owner-staging` locked preview + `Postgres-x8Ui` database, mobile WebAuthn acceptance and human-only one-use activation. Clarifies employee 13 must be added later through authenticated Admin grant.
