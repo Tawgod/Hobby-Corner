@@ -1,5 +1,13 @@
 # First Owner Login — Current Handoff
 
+## Railway Owner staging patch reconciled read-only — 2026-11-12
+
+**Status: STAGED, not applied.** Inspected Railway pending patch `45d1db2e-1f10-4b27-94e0-c0970c5d2d28` in `HC Owner Security Staging` (project `2b350cde-048e-4402-bd92-4e8ba6c9f877`, test environment `db9d6e8c-bb03-441b-a154-80c11536dfbb`). The 55 entries consist of **three staged CREATE resources**: the `owner-security-staging` app (repo `Tawgod/Lightspeed`, pinned candidate commit `6b6498a01d0cfca42db273f00e97680d140a6ccb`, start command `node staging/owner-security-server.js`), `Postgres` (PostgreSQL 18 SSL image), and a dedicated `postgres-volume`. Some variables are staged but encrypted values are not available for approval. Railway marks patch **non-destructive**, but that is not proof it is complete or secure. **Not deployed:** no committed runtime for this project; the patch remains unapplied.
+
+**Decision:** Preserve the patch but **do not commit** until its owner-specific source, environment values, secret availability, first-Owner commissioning authority, backend Timeclock contract, WebAuthn origin/RP ID, and database/migration+role separation have been independently verified. The code-only canonical employee preview PR #73 is **not** this staged service. Existing `HC PR63 Isolated Staging` locked Owner preview is separate and unchanged. Owner/password/PII values were not retrieved or disclosed.
+
+---
+
 ## Canonical staff identity candidate must not bypass first real Owner — 2026-11-12
 
 Draft [Lightspeed PR #73](https://github.com/Tawgod/Lightspeed/pull/73) adds code-only real-Timeclock *self identity* preview on top of the separately accepted synthetic pilot, not real Owner commissioning. Existing `ownerSecurityStagingMount`, unified Owner passkey/activation candidate and independent approver checks are reused **as future dependencies**, not duplicated. Scanner `role` and `canApprove` are explicitly stripped from the employee preview. A genuine independent Owner assignment reader is mandatory; no browser/PIN/synthetic 901 self-appointment or TOTP/passkey QR may be activated.
