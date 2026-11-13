@@ -1,3 +1,15 @@
+## Expired staging first-Owner authorization — operator readback, 2026-11-13
+
+**Latest operator-supplied Codespaces read-only SQL output:** isolated `hc_owner_stage_test` is reachable as `postgres`; staging activation row for employee **1** reports `expired=true`, `used=false`, `passkey_recorded=false`, and active Owner count **0**. This is an **operator-observed SQL result**, not independently read back through ChatGPT's Railway connection. No passkey enrollment or Owner grant is evidenced. Compared with the earlier handoff ("no operator activation issued"), the existence of this expired row is newer evidence and supersedes that earlier statement. The exact issuance time and issuer have not been independently verified.
+
+**Newly confirmed source limitation at deployed `60cefaf71d7b737753728f95f8474df17e99912c`:** `scripts/issue-owner-stage-activation.mjs` refuses to issue when **any** existing activation row exists, including an expired unused row (`previous.rowCount!==0`). `hc_first_owner_activations` has `employee_id` as primary key, and `hc_owner_stage_operator_privs` has only `SELECT, INSERT` on this table—not `UPDATE` or `DELETE`. Consequently, rerunning the existing issuer cannot renew this authorization; manually deleting, truncating, overriding, or changing DB grants would bypass the reviewed one-time controls and is **not authorized**.
+
+**Safest next step:** use a trusted Codespace for no-credential HTTPS `/health`, `/owner-setup/` and explicit cross-origin denial probes, followed by a separately reviewed and approved **staging-only, audited expired-authorization recovery** if a new 10-minute physical Owner ceremony is needed. Reissue design should require independent canonical Timeclock employee-1 verification, separate restricted operator identity, proof of expiry and non-consumption and zero existing Owner, transactional locking, an append-only evidence record preserving the prior digest/timestamps/issuer, and no runtime/web issuance path. Current source/DB privileges do **not** implement this recovery. An alternative isolated DB rebuild would be a separate destructive authorization and is not implied.
+
+**Execution boundary:** no new token issued; no database changes, source changes, Railway changes, Timeclock changes, live HTTP acceptance, production Owner privilege or WebAuthn/TOTP enrollment performed in this review. Railway read access through this connector returned insufficient permission, and public URL could not be independently reached from available network clients.
+
+---
+
 # First Owner Login — Current Handoff
 
 ## Isolated first Owner enrollment service deployed — 2026-11-13
