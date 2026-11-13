@@ -1,3 +1,22 @@
+## Owner staging backup script v2 — Railway CLI file download corrected, Nov 13, 2026
+
+**Operator Codespaces run (user supplied):** On feature branch after fast-forward to `086a501`, installed `age` successfully from Ubuntu 24.04 packages, and ran new staging backup helper. Railway SSH to isolated `HC PR63 Isolated Staging / staging / Postgres-x8Ui` succeeded with user's local SSH-key unlock. Exact `hc_owner_stage_test` database validated, then a `pg_dump -Fc` was created on remote service and verified with `pg_restore --list`: output **`HC_OWNER_STAGING_DUMP_READY`**. The subsequent local download failed at CLI parsing: `error: unexpected argument '--project' found` for `railway service files download`. Thus **no local encrypted backup, disposable restore, Drive/USB archive or migration was completed**. Existing cleanup trap attempted remote temp removal; removal not independently verified.
+
+**Fix committed only in development branch**: [`51a7977`](https://github.com/Tawgod/Lightspeed/commit/51a79779b83723f23ab6e4cc9a097688e35d1fef) updates `scripts/backup-owner-staging-verified.sh` to use a temporary isolated working directory with `railway link --project <exact project UUID> --environment <exact staging UUID> --service <exact Postgres-x8Ui UUID>`; then invokes flagless `railway service files download` in that context. Temporary link removed on exit, existing repository Railway link unchanged. No production or DB migration performed; download/encryption/restore **remain untested** until operator reruns script.
+
+**Immediate next command in same remote Codespace**:
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git pull --ff-only
+bash -n scripts/backup-owner-staging-verified.sh
+bash scripts/backup-owner-staging-verified.sh --backup-owner-staging-only
+```
+The passphrase is entered locally and must not be pasted into chat. Require `BACKUP_AND_RESTORE_VERIFIED=true` and private external archive before SQL migration. If another failure occurs, stop and report **only sanitized error**. Time-sensitive user travel in ~1h, leave [fast finish guide](https://github.com/Tawgod/Lightspeed/blob/feature/owner-expired-activation-recovery-20261113/docs/OWNER_STAGING_FAST_FINISH.md).
+
+**Status:** Backup: remote dump successfully attempted but **not verified externally**; recovery migration draft PR #75 still unmerged/undeployed, 4/4 disposable PostgreSQL security tests PASS; Owner enrollment not started.
+
+---
+
 ## Time-sensitive Owner staging finish — backup helper prepared, not executed (Nov 13, 2026)
 
 **Goal:** user leaving for one week shortly; preserve current code, exact steps and blockers to avoid restarting. No staging/production migration, new activation, passkey, admin grant or deployment is authorized or performed in this update.
