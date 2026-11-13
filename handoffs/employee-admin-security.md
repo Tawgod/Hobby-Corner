@@ -1,5 +1,15 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Synthetic employee security pilot — live positive browser acceptance verified (2026-11-12)
+
+**Status: Deployed + Testing PASS in isolated TEST only; real staff/Owner Blocked.** Physical browser acceptance completed and operator-confirmed. **Live evidence:** Railway HTTP request logs recorded six 200 successes in the real test deployment on November 12, 2026 (CST): signed synthetic employee login **8:37:19 PM**, one-use workstation registration **8:38:32 PM**, challenge and signed proof **8:38:39 PM**, fixture orders **8:38:44 PM**, fixture stats **8:38:46 PM**. The operator explicitly confirmed browser testing and sign-out. Server logs corroborate the access path; browser sign-out is **user-verified**, not independently demonstrated by HTTP logs. The services are online, zero warnings/criticals, no pending changes.
+
+The earlier manual positive-browser blocker is **closed** for **only** the isolated `HC Employee Read Pilot` app. Separate Railway project `c528d08e-b835-4b72-95f2-8a05090a2195`, test environment `33519424-2ad3-4206-a476-253a0ae68c8d`, app `01f28a7d-b7d4-4659-ae10-4a0bca20ef6b`, runtime deployment `577c4250-dbe3-4746-9841-f92397f1fa39` SUCCESS and pinned source `f023bad90f269d8c40b50cb9451c881080433182`. Browser read responses contain only synthetic fixture data. No real Timeclock/Owner or actual employee permissions activated. The one-use device registration is now consumed; the original 23-hour synthetic read grant naturally expires and must not be silently renewed.
+
+**Verification source:** `Tawgod/Lightspeed` draft [PR #72](https://github.com/Tawgod/Lightspeed/pull/72), runbook `docs/CORE_OPERATIONS_EMPLOYEE_PILOT_RAILWAY_HANDOFF.md` updated with Railway timestamps and evidence. Existing baseline tests 70/70 plus live HTTPS/Chromium success, unchanged. **Next:** security-owner review of real Timeclock identity, WebAuthn Owner/manager registration, persistent exact grants and full role/route matrix. No production, live business routes, PR merge, Chrome package, or Timcorp gateway change.
+
+---
+
 ## Isolated synthetic employee browser pilot now deployed — 2026-11-12
 
 **Status: Testing — implemented, disposable CI tested, and deployed ONLY in an independent Railway TEST project; real staff/Owner NOT commissioned.** Draft [Lightspeed PR #72](https://github.com/Tawgod/Lightspeed/pull/72) stacks on #71 → #70. New source branch `feature/isolated-employee-pilot-runtime-20261112`, deployed/tested code `f023bad90f269d8c40b50cb9451c881080433182`; later source additions are deployment acceptance scripts and `docs/CORE_OPERATIONS_EMPLOYEE_PILOT_RAILWAY_HANDOFF.md`, not yet deployed.

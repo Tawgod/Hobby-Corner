@@ -1,5 +1,13 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Live positive synthetic employee browser acceptance completed
+
+- Test operator confirmed the full synthetic test-browser flow, including sign-out. Railway HTTP logs independently confirm **200** for POST synthetic session at **8:37:19 PM CST**, one-time workstation registration **8:38:32 PM**, challenge/cryptographic verification **8:38:39 PM**, test GET orders **8:38:44 PM**, test GET summary **8:38:46 PM**. Client-side sign-out is operator-confirmed, not server-observable.
+- Independent Railway `HC Employee Read Pilot` environment remains **online, no warning/critical**, runtime deployment `577c4250-dbe3-4746-9841-f92397f1fa39` SUCCESS pinned `f023bad`; no new deployment or service configuration changed. Live acceptance runbook updated in draft [Lightspeed PR #72](https://github.com/Tawgod/Lightspeed/pull/72).
+- Isolated synthetic pilot's manual acceptance milestone **closed**; 23-hour test grant expires normally. Real Timeclock staff, Owner/WebAuthn, production/gateway, live data, Chrome extension and 38 permission grants remain **not commissioned**. No PR merge.
+
+---
+
 ## 2026-11-12 — Independent synthetic employee read pilot deployed, fail-closed HTTPS/Chromium PASS
 
 - Created separate Railway project `HC Employee Read Pilot` `c528d08e-b835-4b72-95f2-8a05090a2195`, isolated `test` environment `33519424-2ad3-4206-a476-253a0ae68c8d`, PostgreSQL `a88faff0-5a0f-4e6d-a054-c947a67e2a43` with independent volume; no existing customer/Owner DB accessed.

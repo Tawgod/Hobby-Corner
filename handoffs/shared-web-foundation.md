@@ -1,5 +1,13 @@
 # Shared Web Foundation — Current Handoff
 
+## Independent employee pilot acceptance signed off; gateway still blocked (2026-11-12)
+
+The test operator confirmed complete physical-browser acceptance of the **independent** `https://hc-employee-pilot-test.up.railway.app/HobbyCorner/` synthetic read pilot. **Live evidence:** Railway HTTP request logs recorded six 200 successes in the real test deployment on November 12, 2026 (CST): signed synthetic employee login **8:37:19 PM**, one-use workstation registration **8:38:32 PM**, challenge and signed proof **8:38:39 PM**, fixture orders **8:38:44 PM**, fixture stats **8:38:46 PM**. The operator explicitly confirmed browser testing and sign-out. Server logs corroborate the access path; browser sign-out is **user-verified**, not independently demonstrated by HTTP logs. The services are online, zero warnings/criticals, no pending changes.
+
+**Scope:** only test identity `901`, own Postgres, one-use station, fixture GETs. New pilot deploy still SUCCESS on `f023bad`, services online. This acceptance **does not** activate or validate a central Timcorp route: `timcorp-projects.com/HobbyCorner/` remains unconfigured; no shared gateway/DNS, existing PR63 staging, Owner service, production, or real staff access changed. Full runbook in Lightspeed draft [PR #72](https://github.com/Tawgod/Lightspeed/pull/72).
+
+---
+
 ## Separate synthetic staff read pilot online; central gateway still inactive — 2026-11-12
 
 The new [Lightspeed PR #72](https://github.com/Tawgod/Lightspeed/pull/72) source has been deployed **only** to a separate Railway project `HC Employee Read Pilot` (`c528d08e-b835-4b72-95f2-8a05090a2195`) at `https://hc-employee-pilot-test.up.railway.app/HobbyCorner/`. Pinned app code `f023bad`; runtime deploy `577c4250-dbe3-4746-9841-f92397f1fa39` **SUCCESS**, schema and restricted grants in independent Postgres. Browser page, prefixed assets, signed-out HTTP 403/404 and mobile Chromium/WebCrypto Ed25519 PASS in [live CI 43349242115](https://github.com/Tawgod/Lightspeed/actions/runs/43349242115). Only synthetic fixture reads can be granted, and the test operator's one-time device setup remains pending physical browser acceptance.

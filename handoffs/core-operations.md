@@ -1,5 +1,13 @@
 # Core Operations / Special Orders / Ordering / Preorders / GW — Current Handoff
 
+## Special Orders employee read pilot — physical-browser acceptance PASS (2026-11-12)
+
+**Status: Testing PASS / Deployed (separate synthetic-only Railway TEST); real operations not deployed.** **Live evidence:** Railway HTTP request logs recorded six 200 successes in the real test deployment on November 12, 2026 (CST): signed synthetic employee login **8:37:19 PM**, one-use workstation registration **8:38:32 PM**, challenge and signed proof **8:38:39 PM**, fixture orders **8:38:44 PM**, fixture stats **8:38:46 PM**. The operator explicitly confirmed browser testing and sign-out. Server logs corroborate the access path; browser sign-out is **user-verified**, not independently demonstrated by HTTP logs. The services are online, zero warnings/criticals, no pending changes.
+
+Positive GET `/HobbyCorner/api/special-orders/orders` and GET `/HobbyCorner/api/special-orders/stats` returned **200** after signed synthetic employee session + one-time Ed25519 workstation verification + exact read-only PostgreSQL grant. Only `synthetic:true` fixtures, no customer/order records or Lightspeed connections. Browser sign-out was confirmed by the user; server logs do not independently prove client-side token clearing. The synthetic registration is consumed and its grant expires after 23 hours; this is **not** a permanent employee grant. Keep [PR #72](https://github.com/Tawgod/Lightspeed/pull/72) draft and real 38-scope permission proposals review-pending. Existing PR63 staging remains pinned zero-grant, no real business writes or production changes.
+
+---
+
 ## Synthetic read-only Core Operations pilot has isolated live HTTPS — 2026-11-12
 
 **Status: Testing / isolated test deployment SUCCESS.** Draft [Lightspeed PR #72](https://github.com/Tawgod/Lightspeed/pull/72) now runs a **separate** synthetic staff read test service on Railway. Project `HC Employee Read Pilot` `c528d08e-b835-4b72-95f2-8a05090a2195`, app `hc-employee-pilot` `01f28a7d-b7d4-4659-ae10-4a0bca20ef6b`, Postgres separate `a88faff0-5a0f-4e6d-a054-c947a67e2a43`, deployment `577c4250-dbe3-4746-9841-f92397f1fa39` **SUCCESS**, source pin `f023bad`. Page: `https://hc-employee-pilot-test.up.railway.app/HobbyCorner/`.

@@ -1,5 +1,15 @@
 # Hobby Corner Project Registry
 
+## Employee security pilot — physical browser tested and verified; isolated milestone closed (2026-11-12)
+
+**Status classification:** **Deployed** (isolated synthetic TEST service only); **Testing PASS** (real-browser positive login/station/read corroborated by Railway, sign-out user-reported). **Blocked** (real employee/Owner and production rollout). **Live evidence:** Railway HTTP request logs recorded six 200 successes in the real test deployment on November 12, 2026 (CST): signed synthetic employee login **8:37:19 PM**, one-use workstation registration **8:38:32 PM**, challenge and signed proof **8:38:39 PM**, fixture orders **8:38:44 PM**, fixture stats **8:38:46 PM**. The operator explicitly confirmed browser testing and sign-out. Server logs corroborate the access path; browser sign-out is **user-verified**, not independently demonstrated by HTTP logs. The services are online, zero warnings/criticals, no pending changes.
+
+**Assets/owner:** `Tawgod/Lightspeed` draft [PR #72](https://github.com/Tawgod/Lightspeed/pull/72), `feature/isolated-employee-pilot-runtime-20261112`, Railway project `HC Employee Read Pilot` `c528d08e-b835-4b72-95f2-8a05090a2195`, environment `test`, app `hc-employee-pilot`, Postgres distinct, source pinned `f023bad90f269d8c40b50cb9451c881080433182`, deployment `577c4250-dbe3-4746-9841-f92397f1fa39` SUCCESS. Test URL `https://hc-employee-pilot-test.up.railway.app/HobbyCorner/`.
+
+**Milestone closed:** the previously pending manual physical-Chrome positive pathway is completed. Existing 70 disposable/combined tests plus 4 deployed HTTPS smoke groups and a Chromium WebCrypto test passed. **Still required before real use:** canonical Timeclock identity integration, independently verified Owner/manager WebAuthn, employee device issuance/revocation, approval of the 38 exact operation grants, actual Special Orders data boundary tests, and separate approved deployments. The test grant naturally expires after 23 hours and must not be treated as a persistent entitlement. No production, shared foundation PR63 staging, central Timcorp gateway, Chrome release or real data changed. Runbook `Tawgod/Lightspeed/docs/CORE_OPERATIONS_EMPLOYEE_PILOT_RAILWAY_HANDOFF.md`.
+
+---
+
 ## Employee Security / Core Operations — separate synthetic read pilot deployed and tested — 2026-11-12
 
 **Status: Testing / isolated test deployment SUCCESS; real staff rollout Blocked.** New draft `Tawgod/Lightspeed` [PR #72](https://github.com/Tawgod/Lightspeed/pull/72), branch `feature/isolated-employee-pilot-runtime-20261112` stacked on #71/#70. Actual deployed SHA `f023bad90f269d8c40b50cb9451c881080433182` in brand-new Railway project `HC Employee Read Pilot` `c528d08e-b835-4b72-95f2-8a05090a2195`; `test` environment `33519424-2ad3-4206-a476-253a0ae68c8d`; app `hc-employee-pilot` `01f28a7d-b7d4-4659-ae10-4a0bca20ef6b`; independent Postgres `a88faff0-5a0f-4e6d-a054-c947a67e2a43`. Runtime deployment `577c4250-dbe3-4746-9841-f92397f1fa39` **SUCCESS** and Railway `/health` PASS. Public test page `https://hc-employee-pilot-test.up.railway.app/HobbyCorner/`.
