@@ -1,5 +1,18 @@
 # First Owner Login — Current Handoff
 
+## Production Owner PIN-throttle SQL applied — operator verification, 2026-11-13
+
+**Authorization / execution:** Owner previously expressly authorized applying only `timeclock/db/hc_owner_stage_login_limits.sql` after verified backup; user ran the reviewed exact `CREATE TABLE IF NOT EXISTS` in a transaction through Codespaces Railway production PostgreSQL SSH tunnel. User's preflight showed `current_database=railway`, `current_user=postgres`, `public.employees` present, `public.hc_owner_stage_login_limits` absent. User subsequently reported post-migration table/existing-row verification **“Verified.”** No independent SQL readback by ChatGPT; treat migration as **operator-verified**, not connector-confirmed.
+
+**Backup recovery:** Nov 13 fresh `hc-production-20261113T150210Z.dump.age` full age decryption exit 0; operator reported disposable PostgreSQL 18 restore drill PASS, then USB file SHA-256 exactly matched Codespaces original: `DE1335403CBE76E77F09F7C60456CBA30F3F28A95FC8E86944D4FE3B365DE75B`. External USB copy confirmed by operator, cloud copy not independently verified. Passphrase is retained separately per prior owner report. No passwords/seeds/employee data disclosed.
+
+**Read-only after-migration Railway check:** Timeclock service remains SUCCESS/online `06ca0840-cbb8-4eb4-85f7-481050e5420e`; production PostgreSQL SUCCESS/online `e2f7330b-dc79-4d29-b0bb-8003d349f109`, no staged changes. **No** `OWNER_STAGING_*` environment variable names on production Timeclock. Existing `HC PR63 Isolated Staging/staging` `hc-owner-staging` and separate Owner PG remain SUCCESS/online, but Owner app variable inventory still lacks `HC_OWNER_TIMECLOCK_ORIGIN` and `HC_OWNER_TIMECLOCK_EMPLOYEE_ID`; web runtime is still locked-preview. These require separately reviewed secure changes before physical enrollment.
+
+**Status:** Production throttle-table migration **operator-verified applied**, not directly verified by connector; passkey/TOTP **not enrolled**, production Owner permission **not granted**, Timeclock Owner verifier **disabled**. Next: private issuance and reconciliation of independent Timeclock service/throttle credentials, allowlist employee 1, cross-project HTTPS endpoint review, then isolated staging deployment of actual enrollment server with previously tested DB roles and fresh device verification. Never reuse Discord/Scanner/admin secret.
+
+---
+
+
 ## Reconciled existing Codespaces production backup evidence — 2026-11-12
 
 **Correction to previous backup blocker:** A recoverable production logical backup was in fact performed **November 10–11, 2026** in a private Codespace, not archived in GitHub source. Evidence in `docs/POSTGRES_BACKUP_WITHOUT_RAILWAY_TIER.md`, commit `07e9889136d2c8e82e3fc8f8fef798db7acffe72`, records operator-reported full decrypt, `pg_restore --list`, and disposable PostgreSQL 18 **54-public-table restore PASS** for `hc-production-20261110T213753Z.dump.age`. Git history `3a89ee6b02c0124b9a4a71b28aa5fdf611d25ac0` records matching SHA-256 for encrypted copy on operator's external USB G: drive (`55a0b85cea20ebc0fc42e97aecd20d3ebb8368f0752d0e0d2158294592314b81`); commit `c6fddbeb9df48a3d6aa9a6c5efa899e2b5b42b12` records operator confirmation of passphrase custody in password manager. Operator reported a further Google Drive upload, but its file/checksum were **not independently verified** (`c6922617b3316efd4ef7383992ac5a35db76a0f9`).
