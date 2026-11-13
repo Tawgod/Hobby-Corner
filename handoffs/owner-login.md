@@ -1,3 +1,21 @@
+## Time-sensitive Owner staging finish — backup helper prepared, not executed (Nov 13, 2026)
+
+**Goal:** user leaving for one week shortly; preserve current code, exact steps and blockers to avoid restarting. No staging/production migration, new activation, passkey, admin grant or deployment is authorized or performed in this update.
+
+**Prepared only (developer-source writes, draft PR #75 branch):**
+- [Operator-only staging backup script](https://github.com/Tawgod/Lightspeed/blob/feature/owner-expired-activation-recovery-20261113/scripts/backup-owner-staging-verified.sh), commit `0746b96`. It is constrained to isolated Railway project `5b46096d-3178-47ec-ba88-d5037696346a` / staging / **Postgres-x8Ui**, database `hc_owner_stage_test`; uses Railway SSH to create a temporary restricted custom `pg_dump`, Railway service file download, `age -p` encrypted output, disposable PostgreSQL 18 full restore validation, cleans remote temp and plaintext. Encrypted output remains in Codespaces `~/hc-owner-private-backups`; user must separately download and move to private Drive/USB. Script **shell syntax linted only; has NOT executed against Railway**, therefore DO NOT say a backup has been made or validated.
+- [Fast finish/resume checklist](https://github.com/Tawgod/Lightspeed/blob/feature/owner-expired-activation-recovery-20261113/docs/OWNER_STAGING_FAST_FINISH.md) with exact SSH read-only preflight, backup, external encrypted copy, migration review/approval, private 10-minute activation and device TOTP sequence.
+- Railway current CLI docs confirm SSH with `--project`, `--service`, `--environment` and `railway service files download` command families. Codespaces CLI authorization and exact operator connectivity are **not yet verified**. User asked to run read-only:
+  `railway ssh --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service Postgres-x8Ui -- sh -lc 'psql -U postgres -d hc_owner_stage_test -tAc "SELECT current_database(), current_user"'`
+  Never paste secrets/URLs/activation codes to chat.
+- If SSH probe succeeds: `cd /workspaces/Lightspeed-owner-migration && git pull --ff-only && bash -n scripts/backup-owner-staging-verified.sh && bash scripts/backup-owner-staging-verified.sh --backup-owner-staging-only` (**age** must be installed). Look for explicit `BACKUP_AND_RESTORE_VERIFIED=true`, encrypted file SHA, verify private Drive or USB copy. If any step fails, do not apply SQL.
+- The existing 4/4 passing regression tests apply to migration source commit `2b716f7`; adding this separate backup helper/docs does **not** mean any backup or staging migration was tested/applied. Draft PR #75 remains unmerged. Never issue a new 10-minute activation until phone/passkey is ready and explicit SQL approval confirmed.
+- Existing [Drive Railway backups folder](https://drive.google.com/drive/folders/1FClPbgzdZljQzjqENdoK88omJC000Zom) only contains production-labeled encrypted files, not a verified staging dump; `Backup password.rtf` deliberately unopened.
+
+**Status:** Implementation In Development (backup helper pending operator run); recovery candidate Testing/PASS (disposable PostgreSQL); deployment recovery NONE; blocking: verified encrypted staging backup & restore + external copy, explicit staging-only SQL approval, operator-only activation and physical passkey/TOTP enrollment. All steps are resumable via the linked runbook.
+
+---
+
 ## Drive backup inventory — production dumps found; Owner staging recovery still unverified (2026-11-13)
 
 User reports no backups visible in Railway, but has manual USB and Google Drive backup workflow. Drive connector verified folder chain **HC Backups → Railway → Railway backups**, at [Drive folder](https://drive.google.com/drive/folders/1FClPbgzdZljQzjqENdoK88omJC000Zom). It contains two opaque encrypted files:
