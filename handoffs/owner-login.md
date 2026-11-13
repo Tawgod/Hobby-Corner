@@ -1,3 +1,22 @@
+## Owner staging backup downloaded and encrypted; standalone restore verification next (2026-11-13)
+
+**Operator's latest Codespaces evidence:** After `git pull --ff-only` to commit `51a7977`, backup helper reached **step 4/5**. SSH to dedicated `HC PR63 Isolated Staging / staging / Postgres-x8Ui` verified `hc_owner_stage_test` and printed `HC_OWNER_STAGING_DUMP_READY`. CLI downloaded the dump to `/home/codespace/hc-owner-private-backups/hc-owner-stage-20261113T204750Z-64857.dump`; `age -p` encryption and immediate decrypt+SHA-256 equality checks passed (script entered 4/5). Docker restore was blocked because the script contained a literal trailing `$` in the `CONTAINER` name. Exit cleanup attempted to remove local plaintext and remote temp file; no independent post-cleanup readback. **No disposable restore or independently copied offsite encrypted archive yet, so backup gate remains BLOCKED.**
+
+**Development response only, draft PR #75:** Fixed unique Docker container name from `hc-owner-restore-check-$` to `hc-owner-restore-check-$$` in `scripts/backup-owner-staging-verified.sh` (commit `77a9c6e`). Added stand-alone `scripts/verify-owner-staging-archive.sh` (commit `7cc01dc`), which uses an existing `.dump.age` backup, decrypts only into `--network none` disposable PostgreSQL 18 container, validates archive source DB name, restores database, confirms expected staging tables and first Owner activation state, outputs integrity metadata only, then destroys container. Updated [fast-finish runbook](https://github.com/Tawgod/Lightspeed/blob/feature/owner-expired-activation-recovery-20261113/docs/OWNER_STAGING_FAST_FINISH.md). **New verification script has passed shell syntax reasoning, but not yet real operator execution.** No Railway deploy/SQL changes, no production writes.
+
+**Next owner command** (in existing remote Codespace, with the original age passphrase ready):
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git pull --ff-only
+bash -n scripts/verify-owner-staging-archive.sh
+bash scripts/verify-owner-staging-archive.sh --verify-encrypted-staging-dump "$HOME/hc-owner-private-backups/hc-owner-stage-20261113T204750Z-64857.dump.age"
+```
+Once it emits **`BACKUP_AND_RESTORE_VERIFIED=true`**, externally copy the encrypted file to private [Drive backup folder](https://drive.google.com/drive/folders/1FClPbgzdZljQzjqENdoK88omJC000Zom) or USB; keep passphrase in password manager, never in chat. Then separately approve staging-only migration `db/hc_owner_stage_expired_activation_recovery.sql`; issuance must be restricted to operator login with device present and 10-minute expiry. If user leaves before that step, pause; preserve all evidence via this handoff.
+
+**Status:** Recovery integration tests 4/4 PASS on last changed recovery SQL; backup created and encrypted but **restore verification pending**; staging migration not applied; Owner activation not issued; physical passkey/TOTP untested.
+
+---
+
 ## Owner staging backup script v2 — Railway CLI file download corrected, Nov 13, 2026
 
 **Operator Codespaces run (user supplied):** On feature branch after fast-forward to `086a501`, installed `age` successfully from Ubuntu 24.04 packages, and ran new staging backup helper. Railway SSH to isolated `HC PR63 Isolated Staging / staging / Postgres-x8Ui` succeeded with user's local SSH-key unlock. Exact `hc_owner_stage_test` database validated, then a `pg_dump -Fc` was created on remote service and verified with `pg_restore --list`: output **`HC_OWNER_STAGING_DUMP_READY`**. The subsequent local download failed at CLI parsing: `error: unexpected argument '--project' found` for `railway service files download`. Thus **no local encrypted backup, disposable restore, Drive/USB archive or migration was completed**. Existing cleanup trap attempted remote temp removal; removal not independently verified.
