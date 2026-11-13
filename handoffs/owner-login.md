@@ -1,5 +1,18 @@
 # First Owner Login — Current Handoff
 
+## Dedicated Timeclock Owner verifier enabled — 2026-11-13
+
+**Exact authorization:** User explicitly approved changing only production Timeclock `OWNER_STAGING_IDENTITY_ENABLED` to `true` for canonical employee **1** with existing dedicated service secret and rate limiter; no Owner role or other-service changes.
+
+**Read-only preflight:** Existing production Timeclock `0c75bbb3-1cd5-49a0-b1b8-98dbf5e5d379` SUCCESS/online, PostgreSQL SUCCESS/online; four `OWNER_STAGING_*` variable names present (values OAuth-redacted). A one-variable Timeclock-only patch `75c1aab4-77cc-4f99-bffc-12f84550d2e4` was already staged. Explicitly set `OWNER_STAGING_IDENTITY_ENABLED=true` **staged**, then re-reviewed the patch: exactly one non-destructive Timeclock variable change, no shared variables or other services.
+
+**Action:** Railway `accept_deploy` committed patch and triggered replacement Timeclock deployment **`6364db6d-6ca5-4c89-a317-4870454e6995`** at 2026-11-13 16:20 UTC; initial readback showed BUILDING, previous deployment SUCCESS, PG online, staged patch cleared. **Do not claim new deploy healthy until subsequent readback verifies SUCCESS/online.** This action enabled code's dedicated authentication endpoint with scoped credential but **does not prove** a successful authorized Timeclock HTTP authentication, table SQL existence by direct tool readback, or credential equivalence (operator separately verified). No Owner credential enrolled, production Admin permission granted, PIN reset, or staging site unlock.
+
+**Remaining:** verify new production service health, review protected cross-project server-to-server HTTPS routing and exact staging origin/RP ID and JWT/cookie contract, then explicitly review and deploy existing `staging/owner-security-server.js` with `HC_OWNER_TIMECLOCK_EMPLOYEE_ID=1` and `HC_OWNER_TIMECLOCK_ORIGIN` only after same-origin/security tests. Current `hc-owner-staging` remains locked. Operator-only first Owner activation token is a separate interactive step.
+
+---
+
+
 ## Owner-scoped Timeclock environment configuration — 2026-11-13
 
 **User-authorized production configuration-only deployment:** Railway `Hobby Corner / production`, Timeclock service `dd3469bd-5fce-43bc-b9f9-7aa2a7806457`. Reviewed staged patch `76bf178c-bcb8-4983-99e6-35e0d10e17c3` (exactly four **added** variables, only Timeclock service, non-destructive): `OWNER_STAGING_EMPLOYEE_ID`, `OWNER_STAGING_IDENTITY_ENABLED`, `OWNER_STAGING_SERVICE_SECRET`, `OWNER_STAGING_THROTTLE_SECRET`. Operator independently confirmed employee ID 1, enabled flag exactly `false`, and matching value with staging `HC_OWNER_TIMECLOCK_SERVICE_SECRET`. Connector redacts values; no secret values were read or disclosed.
