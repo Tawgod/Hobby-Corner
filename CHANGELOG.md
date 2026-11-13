@@ -1,5 +1,14 @@
 # Hobby Corner Project Changelog
 
+## 2026-11-12 — Isolated SELECT-only employee read pilot prepared and verified (draft PR #71)
+
+- Added unmounted test-only `services/security/coreOperationsIsolatedReadPilot.js` and `services/security/coreEmployeePilotGrantReader.js`; reuses signed synthetic employee session, real Ed25519 workstation verification, exact admission, and separately provisioned **SELECT-only** PostgreSQL grant checks. Only GET `/orders` and `/stats` for the synthetic test identity; no Owner role inference or real write permissions.
+- Added unapplied `db/hc_core_employee_pilot_grants.sql` (read-only synthetic scope `special-orders.read`, independent approver, expiry/revocation) and `tests/core-operations-isolated-read-pilot-postgres.test.mjs` with local HTTP and disposable PostgreSQL role privilege enforcement; reused existing combined CI workflow, no new workflow.
+- Draft [Lightspeed PR #71](https://github.com/Tawgod/Lightspeed/pull/71) stacked on PR #70. [GitHub run 43345338052](https://github.com/Tawgod/Lightspeed/actions/runs/43345338052) **SUCCESS** at tested code `c642c8b967b8ddca1c48b9e6c2fe8c4cefefa7dc`: 66 existing + 2 pilot = **68 pass, 0 fail**. Latest documentation-only commit `f713981` records limitations.
+- No code merged or deployed; no real Timeclock/Owner or passkey enrollment, grant activation, schema applied outside disposable CI, Railway config, Chrome extension release, central Timcorp route/DNS, production or vendor integrations changed. Existing isolated PR #63 service remains at `50fda74b`, zero-grant.
+
+---
+
 ## 2026-11-12 — PR #70 adds review-only route-grant draft consistency audit
 
 - Added `services/security/coreOperationsEmployeeDraftAudit.js` and `tests/core-operations-employee-draft-audit.test.mjs` to draft [Lightspeed PR #70](https://github.com/Tawgod/Lightspeed/pull/70). Rejects weak-read/broad-manage mislabel on a protected write route, absent dynamic security policy annotation, duplicate routes, unknown routes and service audience in an employee draft; never emits grants and always reports `eligibleForActivation:false`.

@@ -1,5 +1,15 @@
 # Hobby Corner Project Registry
 
+## Employee Security / Core Operations — isolated SELECT-only read pilot CI complete, 2026-11-12
+
+**Status: Testing — implemented in development, 68 tests PASS, staging NOT deployed.** Draft `Tawgod/Lightspeed` [PR #71](https://github.com/Tawgod/Lightspeed/pull/71), `feature/isolated-employee-read-pilot-20261112`, based on draft PR #70. Code test SHA `c642c8b967b8ddca1c48b9e6c2fe8c4cefefa7dc`; current doc-only PR SHA `f7139810911dbf7c8a8c491bbb5119c9b0dffbc8`. [Bounded existing combined CI run 43345338052](https://github.com/Tawgod/Lightspeed/actions/runs/43345338052) **SUCCESS (68/68)**.
+
+**Purpose:** A source-only, explicit `NODE_ENV=test`/isolated-staging **unmounted** read pilot reuses existing signed synthetic employee, registered Ed25519 workstation, PostgreSQL-granted `special-orders.read` and exact Core Operations admission. The new database reader is SELECT-only and fails closed, including immediate revocation; schema allows only synthetic `901` and one read scope, not real employees. Actual HTTP acceptance used empty fixtures and disposable Postgres 16, NOT real store records.
+
+**Verified NOT changed:** Draft unmerged, no Railway deploy, migrations, environment variables, employee PIN/Owner activation, Timcorp gateway/DNS, Chrome release or Lightspeed/Discord; existing `hc-foundation-pr63` remains zero-grant `50fda74b`. Separate isolated environment, real test Timeclock service, device registration ceremony, authentic WebAuthn, audited grants and browser/gateway acceptance remain **Blocked pending owner/security review and authorization**.
+
+---
+
 ## PR #70 draft manifest audit joins employee positive-auth testing — 2026-11-12
 
 **Testing PASS / not deployed.** The source-only PR #70 now includes an immutable **candidate-only** audit of the 38 review-pending employee Core Operations route/operation mappings, with mandatory dynamic body/status policy markers and downgrade/duplicate/unknown-path rejection. Even a consistent proposal has `eligibleForActivation:false`; actual staff grants and the runtime admission gate remain unchanged. Tested source/workflow `673229a9` in [CI 43319291360](https://github.com/Tawgod/Lightspeed/actions/runs/43319291360): **66 passed, 0 failed**. Latest PR head `11941dd3` adds only docs. Next prerequisite is security-owner reviewed **enforced** manifest + real test-only identity adapters; no staging authorization/deployment or production cutover approved.

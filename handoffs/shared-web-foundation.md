@@ -1,5 +1,11 @@
 # Shared Web Foundation — Current Handoff
 
+## Read-only employee staging pilot is prepared but NOT deployed — 2026-11-12
+
+Draft [Lightspeed PR #71](https://github.com/Tawgod/Lightspeed/pull/71), based on PR #70, supplies unmounted isolated synthetic-staff/Ed25519-station/SELECT-only PostgreSQL exact-grant composition for a read-only Core Operations pilot. [Combined disposable PostgreSQL CI 43345338052](https://github.com/Tawgod/Lightspeed/actions/runs/43345338052) **SUCCESS** (66 existing + 2 new = 68 tests). This does not change the public Railway foundation preview or future Timcorp gateway. `HC PR63 Isolated Staging/staging/hc-foundation-pr63` remains at `50fda74b` and `approvedRoutes:[]`. No new service/env variable/permission/staff credential/deployment; no DNS/gateway changes. Before any public pilot, require independent Owner/security approval and a separate isolated test service/DB with read-only role and real-factor commissioning. See `handoffs/employee-admin-security.md` and `docs/CORE_OPERATIONS_ISOLATED_EMPLOYEE_PILOT.md`.
+
+---
+
 ## Employee security bridge acceptance candidate passes in development — 2026-11-12
 
 Draft [Lightspeed PR #70](https://github.com/Tawgod/Lightspeed/pull/70) adds in-process exact employee grant/assurance tests for all 38 pending Core Operations proposals, using existing staff session, MFA and route-admission code; [combined GitHub CI 43318226550](https://github.com/Tawgod/Lightspeed/actions/runs/43318226550) **SUCCESS** on `fa1cfeb`. Latest `8f002b9` adds only a verified adapter-readiness document. This is **Testing**, not authenticated browser commissioning, real passkey proof, activated route grants or deployment. The independent Railway `hc-foundation-pr63` app remains pinned to `50fda74b` with zero-approved routes; gateway `https://timcorp-projects.com/HobbyCorner/` remains **reserved and inactive**. See `handoffs/employee-admin-security.md` and PR #70 docs for the missing authenticated identity and proxy acceptance prerequisites.

@@ -1,5 +1,19 @@
 # Employee Administration & Central Tool Settings — Current Handoff
 
+## Next milestone — SELECT-only PostgreSQL employee read pilot (code/CI only), 2026-11-12
+
+**Status: Testing PASS / not deployed or commissioned.** Draft [Lightspeed PR #71](https://github.com/Tawgod/Lightspeed/pull/71), branch `feature/isolated-employee-read-pilot-20261112`, stacked on draft PR #70. Tested code SHA `c642c8b967b8ddca1c48b9e6c2fe8c4cefefa7dc`, latest documentation-only SHA `f7139810911dbf7c8a8c491bbb5119c9b0dffbc8`. Existing bounded [GitHub combined CI run 43345338052](https://github.com/Tawgod/Lightspeed/actions/runs/43345338052) **SUCCESS**: 66 existing regressions + 2 disposable PostgreSQL pilot tests = **68 PASS, 0 fail**.
+
+**Implemented:** New **unmounted** `coreOperationsIsolatedReadPilot.js` composes the existing signed synthetic PIN session gateway, existing registered Ed25519 workstation proof, existing exact Core Operations admission and `coreEmployeePilotGrantReader.js`. The new `hc_core_employee_pilot_grants` table constrains grants to test employee `901` and `special-orders.read`, independent operator approval, <=24-hour expiry and revocation. The runtime principal must have SELECT only and no schema CREATE; checks fail closed each request. The pilot is hardcoded to test-only environment and only GET `/orders` and GET `/stats`, without strong write permissions. No real Timeclock, manager WebAuthn or customer data was used.
+
+**Test acceptance:** A fresh local `hc_test` PostgreSQL service runs with a separate random SELECT-only database principal; CI verifies the role cannot UPDATE grants, unsigned/PIN-only sessions cannot read, one-use Ed25519 station proof + signed synthetic employee session plus exact operator-provisioned database grant permits *synthetic stub* reads, revoked grant immediately denies, rotating staff session breaks station token, all writes and forged Owner roles deny. The manager authorization in CI is a test double, NOT real Owner approval.
+
+**Boundary:** PR #71 remains draft/unmerged; absolutely no Railway deployment/config/SQL migration/credentials, real grants or staff activation. Existing `HC PR63 Isolated Staging/hc-foundation-pr63` remains pinned `50fda74b` with `approvedRoutes:[]`. Owner preview/Postgres, production, gateway/DNS, Lightspeed/Discord and Chrome unchanged. See `docs/CORE_OPERATIONS_ISOLATED_EMPLOYEE_PILOT.md` in PR #71.
+
+**Next review gate:** Owner/security approval of a **new independent test-only identity/DB deployment**, approved manager/device registration, real test Timeclock adapter and trusted WebAuthn step-up, then authenticated staging-browser and reverse-proxy acceptance. The current pilot MUST NOT be mounted on PR #63 staging or commissioned for real store employees.
+
+---
+
 ## Supplemental exact route-manifest draft audit — 2026-11-12
 
 **Status: Testing PASS; review-only code, NOT mounted.** Draft [Lightspeed PR #70](https://github.com/Tawgod/Lightspeed/pull/70) now includes `services/security/coreOperationsEmployeeDraftAudit.js` and `tests/core-operations-employee-draft-audit.test.mjs`. The helper checks an explicitly supplied proposed employee route plan against the 38 existing review-pending method/path/operation candidates, including required body/status policy annotations, duplicate entries and unknown/service routes. An intentionally mislabeled `POST /orders` using `special-orders.read` or legacy broad manage fails the draft audit. The helper never returns `approvedRoutes` or a live grant; `eligibleForActivation:false` is unconditional, including for fully consistent plans.

@@ -1,5 +1,15 @@
 # Core Operations / Special Orders / Ordering / Preorders / GW — Current Handoff
 
+## Authenticated read-only Core Operations pilot — disposable PostgreSQL acceptance PASS, 2026-11-12
+
+**Testing / not deployed.** Draft [Lightspeed PR #71](https://github.com/Tawgod/Lightspeed/pull/71), stacked on PR #70. New unmounted test-only composition explicitly permits only GET `/orders` and `/stats` after the **real cryptographic Ed25519 workstation proof** and signed synthetic staff session both validate, and an independently operator-provisioned expiring `special-orders.read` grant exists in SELECT-only PostgreSQL. No grant = 403; PIN alone = 403; false Owner headers = 403; POST order creation = 403; grant revocation immediately denies. Responses are fixture empty records, not customer data; the source never contacts Lightspeed/Discord. The database runtime lacks mutation privileges and its read queries check those privileges again.
+
+**CI evidence:** existing combined GitHub Actions [43345338052](https://github.com/Tawgod/Lightspeed/actions/runs/43345338052) **SUCCESS 68 tests / 68 passed, 0 failed** on `c642c8b`. Latest PR71 doc-only head `f713981`. Separate schema, read gate and test described in `docs/CORE_OPERATIONS_ISOLATED_EMPLOYEE_PILOT.md`.
+
+**Unverified/blocked:** real Timeclock identity, strong Owner/WebAuthn, actual Chrome device, persistent independent staging database/service, approved staff permission matrix beyond the single synthetic pilot read, real Special Orders handlers, browser under gateway. The public PR #63 staging service continues to run default-deny at `50fda74b`; NO pilot deployment, permissions, business writes or PR merge.
+
+---
+
 ## Configuration-downgrade prevention for future employee grant drafts — 2026-11-12
 
 Draft [PR #70](https://github.com/Tawgod/Lightspeed/pull/70) adds **review-only** route-operation manifest audit and tests: exact match of 38 proposed routes, required `locked-transition-v1` and `customer-profile-sync-v1` markers, unknown routes, duplicates and wrong employee/service audience. The audit detects accidental `POST /orders` authorization under weaker `special-orders.read` or broad `special-orders.manage`. **It does not grant or enforce anything**; always says `eligibleForActivation:false`. Combined CI [43319291360](https://github.com/Tawgod/Lightspeed/actions/runs/43319291360) **66/66 passed** at code commit `673229a9` (latest `11941dd3` is documentation-only). Security review must still require validated backend route-operation mapping before installing any nonzero route manifest. PR #63 isolated Railway remains pinned to `50fda74b`, zero-grant, unchanged.
