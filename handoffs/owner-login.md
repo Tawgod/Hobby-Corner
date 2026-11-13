@@ -1,3 +1,27 @@
+## Owner staging archive confirmed in Google Drive; migration preflight prepared (2026-11-13)
+
+**Offsite archive VERIFIED by direct Google Drive folder readback:** The user reported upload and the Drive connector confirmed exact private [backup file](https://drive.google.com/file/d/1pLRPMwAU1f0Xn8pCnWv5BO5SEjBZUbqW/view?usp=drivesdk) in [HC Backups → Railway → Railway backups](https://drive.google.com/drive/folders/1FClPbgzdZljQzjqENdoK88omJC000Zom), named `hc-owner-stage-20261113T204750Z-64857.dump.age`, **37,741 bytes**, created Nov 13 21:12 UTC. This matches the archive the operator previously decrypted and successfully restored to isolated Docker PostgreSQL 18, checksum `2342d2443084c4c432a05d81532953acb7acf5d2f6d3fc66ddfcde70f9049bee` on the Codespaces copy. The **Google Drive copy's own hash is not independently measured**. The sensitive password document was not opened, credentials not accessed. Offsite archive existence criterion now satisfied.
+
+**Independent Railway verification:** `HC PR63 Isolated Staging / staging` has no pending Railway changes; `hc-owner-staging` and dedicated `Postgres-x8Ui` both have SUCCESS deployments. The reviewed recovery SQL blob in GitHub remains `b27bd4a162c8337b1e969c3ad9a3bf464d3872f1`, with historic user-supplied hardened disposable PostgreSQL 18 suite **4/4 pass**.
+
+**Prepared new development-only tooling, NOT EXECUTED against staging:**
+- `scripts/preflight-owner-recovery-staging.sh` commit `6f2329d`: read-only exact staging Postgres-x8Ui DB checks with only OK/BLOCKED output. Requires current expired/unused employee-1 grant, no Owner/passkey/event/reissue and restricted operator/runtime role groups.
+- `scripts/apply-owner-recovery-staging-sql.sh` commits `5b86dea`, `58c9149`: guarded, separate **write** helper. Requires explicit in-chat approval of only `db/hc_owner_stage_expired_activation_recovery.sql` on `hc_owner_stage_test`, interactive TTY, exact SQL blob + encrypted local backup SHA, new preflight, local approval environment acknowledgement and typed phrase. Uploads SQL via temporary Railway link to exact service UUID, executes transactional SQL, reads back non-superuser NOLOGIN definer function ACL/Owner and no new activation. **Do not run until the user explicitly approves**. Scripts have not been end-to-end executed in Codespaces; require `bash -n` on current branch.
+- [Updated fast-finish guide](https://github.com/Tawgod/Lightspeed/blob/feature/owner-expired-activation-recovery-20261113/docs/OWNER_STAGING_FAST_FINISH.md) includes steps.
+
+**Next owner command (no writes):**
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git pull --ff-only
+bash -n scripts/preflight-owner-recovery-staging.sh
+bash scripts/preflight-owner-recovery-staging.sh
+```
+Once `HC_OWNER_STAGING_RECOVERY_PREFLIGHT_OK` returned, separately obtain owner's explicit staging-only SQL approval. The user saying "backup uploaded" is **not authorization** to apply SQL. Even when migration succeeds, no one-time activation automatically issued; physical passkey+TOTP must still be enrolled privately by user before travel. No production effect.
+
+**Status:** Backup/restorable: PASS; Drive offsite exists: PASS (metadata); code recovery tests: PASS; staging migration: **Not applied, awaiting explicit approval**; Owner passkey and TOTP: not enrolled. No release/deploy/production change.
+
+---
+
 ## Owner staging backup — expose encrypted file in Codespaces Explorer (Nov 13, 2026)
 
 **Current blocker:** Operator successfully restored encrypted backup locally on disposable PostgreSQL 18 (see prior handoff) but cannot locate the `.dump.age` file in Codespaces Explorer. Its verified path is `/home/codespace/hc-owner-private-backups/hc-owner-stage-20261113T204750Z-64857.dump.age`; the default VS Code Explorer likely only shows `/workspaces/Lightspeed-owner-migration`. Latest Drive connector search for `hc-owner-stage` found no staging archive, so an offsite copy is **not confirmed**.
