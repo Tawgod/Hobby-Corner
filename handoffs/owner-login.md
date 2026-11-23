@@ -1,3 +1,15 @@
+## Nov 23 Owner passkey registered (operator-reported); TOTP staging enrollment next
+
+**Owner registration milestone:** User explicitly reported `Owner passkey registered` after final staging recovery ceremony. This is **operator-reported browser success**, not an independently queried database readback; do not claim database passkey/Owner rows independently confirmed until checked. Prior recovery issue markers and audit remain preserved. No code, key, QR, TOTP seed or recovery code was sent through chat.
+
+**Verified deployed source:** Railway staging `hc-owner-staging` source is `Tawgod/Lightspeed:fix/owner-staging-activation-digest-20261123` at `977f63b267f226a29b731541386d492bb537c312`, latest Railway deployment `b3951f2f-77df-43f7-aa94-8c3fc9708ad3` SUCCESS. In deployed source `services/security/ownerSecurityStagingMount.js`, registered Owner passkey verifier is composed with `ownerPasskeyTotpEnrollmentCandidate` and mounted at `/staff-security/` while Timeclock PIN session uses `/api/staff-auth`. HTML is `staff-security.html`, JS `staff-security-client.js`. Only canonical Owner (employee 1) can self-approve their own enrollment after signed Timeclock session + fresh WebAuthn passkey proof (within 5 minutes) and existing `hc_admin_principals` Owner record. TOTP backend `staffTotpPostgres.js` stores AES-256-GCM encrypted secret, 10-minute pending enrollment, disallows replacing active factor via ordinary flow, requires 6-digit confirmation, and tracks anti-replay.
+
+**User-facing next step:** On existing secure stage host open `https://hc-owner-staging-staging.up.railway.app/staff-security/`, sign in Timeclock PIN; Request approval -> Approve my setup with passkey (Owner only) -> Set up authenticator -> scan private QR or enter manual key in authenticator app -> enter six-digit code -> Confirm. Never paste seed, QR, code or PIN into chat. Then verify status `Enabled`, sign out/in, verify a *fresh* code via `Verify this session`, check server-confirmed MFA status. The staff-security HTML still has stale 'Development preview · Not active' banner, but actual isolated stage mount is active; consider safe UI copy update separately without changing permission boundary.
+
+**Reporting:** Owner passkey registration operator-reported completed (staging), backend TOTP staging functionality deployed, Authenticator enrollment **not yet confirmed**. No production changes.
+
+---
+
 ## Nov 23 second ceremony restricted operator permission correction
 
 **Diagnostic evidence (user-operated read only):** Identity PASS, second function exists PASS, operator EXECUTE PASS, no direct digest update PASS, expired unused PASS, first-reissue count 1 PASS, second-audit table exists PASS, second-audit empty PASS, zero Owners PASS; operator query `SELECT` on staff passkeys and first-Owner activation events each returned PostgreSQL 42501 permission denied. `ALL_PASS=false`, read only, no issuance. The restricted operator has intentionally no SELECT on those tables, so application-side preflight incorrectly required privileges that must remain denied.
