@@ -1,3 +1,11 @@
+## Nov 23 fresh original Owner MFA recheck server-confirmed
+
+**Fresh credential continuity checkpoint:** User reported “Success, verification accepted” from original Owner URL; Railway HTTP records independently confirm recent canonical `POST /api/staff-auth/session` 200 at 19:58:16Z and `POST /staff-security/api/mfa/session` 200 at **19:58:34Z** on Nov 23, 2026 (1:58:34 PM CST). App remains online, successful pinned deployment, one running replica, no recent Railway failures or warnings. The latest window does **not** include a new passkey authentication verify call; earlier `/staff-passkey/authentication/verify` HTTP 200 at 17:13:06Z remains the last separately observed passkey proof. Thus label fresh MFA ACCEPTED, fresh passkey verification NOT observed in same window; do not equate latest MFA status with WebAuthn. No QR, PIN, TOTP or passkey secrets handled.
+
+**Next:** HC Secure new project remains staging-only pending patch with no deployed database or auth service; exact approved new host `secure-hc.timcorp-productions.com`, new RP ID, passkey registration/handoff and staff coverage pending. Original Owner system and DB must remain intact.
+
+---
+
 ## Nov 23 HC Secure staging DB prepared; Owner fresh credential check pending
 
 **No Owner credential migration or alteration.** User asked to proceed toward fresh credential test and employee-security rollout. Original live Owner auth/DB in `HC PR63 Isolated Staging` confirmed again 2026-11-23 online (1 running replica each). New `HC Secure/staging` has only staged-create `hc-secure-auth-staging` and `hc-secure-postgres-staging` plus 5GB unprovisioned volume, Railway patch `60012c69-e526-4778-9422-055d705150f2` 15 changes, **not deployed and no copied secrets/data**. New target `https://secure-hc.timcorp-productions.com` does not yet have configured DNS/domain/host. Existing passkey bound to original `hc-owner-staging-staging.up.railway.app` WebAuthn RP ID and cannot simply work on new hostname. See `handoffs/hc-secure.md` for migration and staff security work.
