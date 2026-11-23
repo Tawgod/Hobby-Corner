@@ -1,3 +1,12 @@
+## 2026-11-23 — HC Secure security consolidation staging prepared
+
+- Created **private `HC Secure`** Railway project `120de974-f2e8-46be-9a00-8eb8b1be4cc4` and `staging` environment `8c8cd3a9-079f-4fe8-b8f5-a76c79813f0c` for Owner, employee and future independently isolated customer authentication.
+- Prepared **staged-only** `hc-secure-auth-staging` service `8ef9adc0-2a4d-46c0-92cf-ba54834e33b5`: pinned original verified source `Tawgod/Lightspeed@977f63b267f226a29b731541386d492bb537c312`, secure Owner staging startup command and healthcheck. Pending Railway patch `60012c69-e526-4778-9422-055d705150f2` **10 changes; no deployment, domain, database, volume, secrets or credential duplication**.
+- Verified original Owner staging and dedicated Owner DB remain online, as does older synthetic staff staging. No production changes, no DNS/gateway changes, no old service deletion. Source audit found exact HTTPS origin/RP ID binding and Owner-only authorization, so simple DB cloning would not establish new-host passkey or general staff login.
+- Recorded protected migration/acceptance gates and status in [HC Secure handoff](handoffs/hc-secure.md), [Owner Security handoff](handoffs/owner-login.md), and [Railway consolidation](handoffs/railway-consolidation.md). Staged config must not be deployed until separately verified.
+
+---
+
 ## 2026-11-23 — Railway one-time cleanup and central test consolidation plan
 
 - User-approved retirement completed: permanently deleted Railway one-shot service `migration-test-bsi117` from main Hobby Corner production and `admin-grants-schema-once` from Hobby Corner Integration Test/test. Both had zero running replicas and no domains or attached volumes; Railway confirmed no detached volumes.
