@@ -1,3 +1,11 @@
+## Nov 23 HC Secure staging DB prepared; Owner fresh credential check pending
+
+**No Owner credential migration or alteration.** User asked to proceed toward fresh credential test and employee-security rollout. Original live Owner auth/DB in `HC PR63 Isolated Staging` confirmed again 2026-11-23 online (1 running replica each). New `HC Secure/staging` has only staged-create `hc-secure-auth-staging` and `hc-secure-postgres-staging` plus 5GB unprovisioned volume, Railway patch `60012c69-e526-4778-9422-055d705150f2` 15 changes, **not deployed and no copied secrets/data**. New target `https://secure-hc.timcorp-productions.com` does not yet have configured DNS/domain/host. Existing passkey bound to original `hc-owner-staging-staging.up.railway.app` WebAuthn RP ID and cannot simply work on new hostname. See `handoffs/hc-secure.md` for migration and staff security work.
+
+**Next immediate safe user test:** Browser on registered passkey device at `https://hc-owner-staging-staging.up.railway.app/staff-security/`: fresh canonical Timeclock sign in, complete WebAuthn authentication, verify a fresh TOTP session, `Check verification status`. Report only outcomes/nonsecret errors; never share PIN, code or passkey key. To establish new host continuity require approved, audited cross-origin credential handoff/new registration; no recovery reset or duplicate issuance. No production auth rollout done.
+
+---
+
 ## Nov 23 HC Secure future Owner/staff consolidation — replacement staged only
 
 **Current authoritative Owner runtime remains original and ONLINE:** `HC PR63 Isolated Staging/staging/hc-owner-staging` `3a8f9555-90e5-4bc2-bb63-4f48d8c852d0` and dedicated `Postgres-x8Ui` `5c4498e4-cffb-4224-916a-af57391d1cd9`. Prior browser and Railway HTTP verification of existing passkey and TOTP remains valid, with no new action on those credentials.
