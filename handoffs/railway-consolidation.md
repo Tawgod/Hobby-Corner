@@ -1,3 +1,22 @@
+## November 23 user-authorized safe-moves audit — no cross-project runtime cutover
+
+**User request:** “move anything that is safe to move.” Reverified current sources and documented Railway migration support. No further live service was safe to move automatically without changing source guards, migrating private databases, handling secrets or impacting security boundaries; **no new service, duplicate, deploy, secrets, domain, public route, production workload or database was created, moved or deleted in this phase.** The two approved one-shot services were already retired in the immediately preceding phase.
+
+**Source-grounded blockers and decisions:**
+
+1. `HC Employee Read Pilot/test` app `hc-employee-pilot` at deployed `Tawgod/Lightspeed@f023bad90f269d8c40b50cb9451c881080433182`, file `staging/employee-read-pilot-server.js`: fail-closed `HC_PILOT_PROJECT_ID===c528d08e-b835-4b72-95f2-8a05090a2195`; `NODE_ENV=test`; private `HC_PILOT_DB_HOST` hostname; exact `HC_PILOT_DB_NAME=railway`; exact HTTPS origin; SIX independent high-entropy credentials plus synthetic test PIN hash; two restricted DB accounts (`hc_pilot_auth_runtime` and `hc_pilot_grants_reader`) with startup role/privilege assertions. **Not portable by copying the service**, and must not attach to either existing central test database. Before moving, prepare a small fail-closed source change for new exact project ID and new HTTPS host, initialize a separate synthetic-only DB + restricted principals, test no real business/Owner credentials, maintain old endpoint until smoke/browser/regression passed. Or archive the completed synthetic milestone and separately approve retiring its app and volume.
+2. `HC PR63 Isolated Staging/staging` `hc-foundation-pr63` source `Tawgod/Lightspeed@50fda74b`, `server.js` calls `initializeSpecialOrdersDb()` during startup; `coreOperationsStagingActivation.js` validates exact staging env, `DATABASE_URL`, `/HobbyCorner` base-path and a bank of explicit anti-production kill-switches. **Do not point it at either occupied central test DB**, which could introduce/alter tables; separate DB, migrations/data audit and safe tests required to move.
+3. `hc-owner-staging` + `Postgres-x8Ui`: **do not move**; registered real Owner passkey/TOTP origin/RPID/session factors, audit records and restrictive security credentials are sensitive and active. Keep as isolated staging until explicit security-specific migration plan and browser/domain acceptance.
+4. `Hobby Corner Codespaces Bridge`: source under `Tawgod/Hobby-Corner/codespaces-integration` and separate persisted audit volume; logs reported standby (no tunnel, GitHub access or commands). Not an application test; don't copy/erase audit volume into synthetic test project.
+5. `Hobby Corner Integration Test/test` already hosts `staff-security-staging` and `consignment-beta`; no move needed. `admin-nav-bridge-test` still **staged-create** (15 pending changes); don't accept/deploy or discard without navigation workstream coordination.
+6. Old `HC Owner Security Staging` has **no live services**, but one unprovisioned staged-only volume; connector cannot delete an unprovisioned volume, leave unchanged for Railway UI patch discard.
+
+**Platform constraint:** As documented in Railway Central Station by Railway staff, cross-project service relocation is manual recreation/configuration/data migration (https://station.railway.com/questions/how-to-move-a-service-from-one-project-t-958291f3). Services cannot be magically dragged into `Hobby Corner Integration Test/test` preserving IDs, volumes and private DNS. Railway's environment isolation and private-networking scopes also matter.
+
+**Next substantive safe action:** Choose between (A) retired synthetic pilot with preserved test evidence (no recreation cost), or (B) source fix + safe parallel reconstruction in central test with its own isolated database and exact scoped secrets, followed by browser tests and later cutover. This choice affects running costs, user test workflows and retention; do not make it implicitly. The static PR63 foundation can be moved in a later isolated test DB migration; Owner must remain separate. Existing production 7 services and primary staging unchanged.
+
+---
+
 ## November 23 follow-up — explicit retirement approved and verified
 
 **User approval:** “retire the one time services. if possible can we put all the testing productions for hobby corner into one environment rather than so many separate ones?”
