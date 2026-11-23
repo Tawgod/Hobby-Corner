@@ -1,3 +1,13 @@
+## Nov 23 activation preflight stopped by Railway SSH key authentication — no reissue
+
+**New operator output:** Codespaces fetched `scripts/preflight-owner-stage-activation-live.sh` from commit `5cec5f2` successfully and started the read-only Railway SSH request to `hc-owner-staging`. Railway repeatedly prompted for passphrase on `/home/codespace/.ssh/id_ed25519`, then returned `You need an SSH key so Railway can recognise you`, and the script printed `STOP: Timeclock lookup unavailable. No recovery issued.` **This is an SSH-authentication failure before the remote Timeclock check executed**, not a failed real Timeclock identity lookup or application fault. No staging write, reissue, WebAuthn or TOTP occurred.
+
+**Safest next step:** in the same Codespaces shell use `eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_ed25519 && ssh-add -l`, entering only the SSH private-key passphrase locally. Then validate non-sensitive Railway SSH with `railway ssh --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service hc-owner-staging -- node -e "console.log('RAILWAY_SSH_OK')"` before rerunning `bash scripts/preflight-owner-stage-activation-live.sh`. If SSH still fails, check registered keys through `railway ssh keys` and compare fingerprints locally; never send private keys, passphrases or other credentials in chat. Railway docs: https://docs.railway.com/cli/ssh. Do not regenerate/replace keys unless necessary, and do not open database ports or issue an activation to diagnose connectivity.
+
+**Current security state unchanged:** isolated staging recovery migration is applied and previously verified, offsite encrypted backup exists, but the one-time 10-minute activation is **not issued**, and no Owner passkey/TOTP enrolled. Production untouched.
+
+---
+
 ## Resume activation: read-only live operator and Timeclock preflight prepared (2026-11-23)
 
 **Owner explicitly requested "Resume Owner activation."** This authorizes continuing investigation and read-only preparation; it does **not** by itself approve consuming the one permitted 10-minute recovery or any deployment/production changes.
