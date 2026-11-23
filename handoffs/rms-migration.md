@@ -1,7 +1,7 @@
 # RMS Migration / Legacy Importer — Current Handoff
 
 **Last verified:** 2026-11-23  
-**Status:** Testing; migration logic is substantially hardened, but v67 runtime verification and controlled test execution remain pending. Not a live general-purpose staff importer.
+**Status:** Testing; v68 source-freshness safeguards implemented. Next verification is a fresh RMS export + manifest and read-only notebook setup. Controlled test execution remains pending. Not a live general-purpose staff importer.
 
 ## Source
 - Runtime/bridge repository: `Tawgod/Hobby-Corner-Discord-Bot`.
@@ -14,7 +14,11 @@
 - Private recovery/schema-only branch `backup/hobby-corner-postgres-source-schema-20261029` is **not** a dump of live records.
 
 ## Implemented / verified in source
-- The active `product-migration-colab` README documents notebook hardening through **v67**.
+- The active `product-migration-colab` notebook is now **v68** (`2026-11-23-v68`).
+- v68 adds a bridge-generated `.manifest.json` sidecar with UTC export time, CSV SHA-256, exported row count, and direct RMS counts for items, suppliers, departments, categories, aliases, supplier-list rows, distinct brands, and latest item update.
+- Notebook setup requires the matched manifest by default, rejects stale exports older than 6 hours by default, verifies CSV hash and row count, and writes a durable `Source Freshness Audit` for new/unmapped departments, department/category pairs, suppliers, and manufacturers/brands.
+- New named suppliers are surfaced even when current migration policy would otherwise fall them back to Lightspeed `Other`.
+- The active `product-migration-colab` README documents prior hardening through **v67** plus the new v68 freshness layer.
 - Authoritative migration source remains the Drive RMS CSV; legacy candidate-sheet fallback is fail-closed unless explicitly enabled.
 - RMS quantity remains selection-only; opening Lightspeed inventory is never imported from RMS.
 - Category mapping uses `LS: importer / Mapping`; live category UUID reconciliation, Category UUID Audit, Category Leaf Audit, safe missing-leaf creation, parent-category fallback leaves, pagination, and exact full-path verification are implemented.
@@ -48,7 +52,9 @@
 - Do not merge, deploy, retire, rename, or delete migration branches as a side effect of helper reuse.
 
 ## Remaining blockers / gates
-- Run the current v67 setup end-to-end against fresh authoritative inputs and confirm the category/supplier/brand audit outputs.
+- Generate a fresh RMS product export with the current bridge and copy the CSV **and its `.manifest.json` sidecar together** into the migration Drive location.
+- Run the current v68 setup end-to-end and confirm the manifest freshness/hash/row-count checks plus the `Source Freshness Audit` output.
+- Review any newly discovered RMS department/category/supplier/manufacturer values before a controlled write batch.
 - Re-run source-wide and existing-Lightspeed product-code collision preflight on the final migration dataset.
 - Reconcile malformed/split `Error Items` rows against an authoritative export rather than spreadsheet position.
 - Execute a bounded controlled test batch only with explicit authorization; verify read-back, inventory tracking, reorder behavior, images, and cleanup/retry handling.
@@ -63,7 +69,7 @@
 - Which legacy importer functions and credentials remain necessary after cutover.
 
 ## Recommended next action
-1. Regenerate/obtain a fresh authoritative RMS export and run v67 setup read-only.
+1. Regenerate the authoritative RMS export with the current bridge so the CSV and freshness manifest are produced as a matched pair, then run v68 setup read-only.
 2. Compare the generated review/audit outputs with the supplied `LS: importer`, explicitly excluding malformed split continuation rows from normal identity analysis.
 3. Resolve any new mapping/UUID/collision failures.
 4. Only then prepare an explicitly authorized controlled test batch.
