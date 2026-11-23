@@ -1,3 +1,17 @@
+## Railway infrastructure consolidation audit and staged-only cleanup — 2026-11-23
+
+**Status: Maintenance / partial cleanup performed; production consolidation Planned.** Live Railway inventory found six Hobby Corner-labeled projects with **23 service definitions before cleanup** (including never-deployed staged services), alongside independent Timcorp foundation. The canonical Hobby Corner production project `f7e91de7-43f6-472e-b4ca-46b0623f8e0e` contains Timeclock, Lightspeed API, Special Orders (misleadingly named `special-orders-test`), Store Map, Rewards, Discord Bot, the production Postgres volume and one completed no-domain/zero-running-replica verifier `migration-test-bsi117`. **Do not delete any of these production services without exact scoped approval; protect production DB.**
+
+**Owner security must stay isolated:** `HC PR63 Isolated Staging` project `5b46096d-3178-47ec-ba88-d5037696346a` has four successfully deployed services including `hc-owner-staging`, dedicated `Postgres-x8Ui` (real Owner/passkey/TOTP and recovery audits), `hc-foundation-pr63` and an independent foundation `Postgres`. Verified Owner passkey and Authenticator staging sessions succeeded Nov 23; no production security rollout. Both staging databases have separate mounted volumes and must not be merged or reset.
+
+**Actual cleanup:** Superseded `HC Owner Security Staging` project `2b350cde-048e-4402-bd92-4e8ba6c9f877` had only a 55-change uncommitted patch, no ever-deployed services or provisioned data. Removed the pending `owner-security-staging` and `Postgres` service definitions. A never-provisioned `postgres-volume` placeholder remains as a **2-change staged patch**; Railway's delete-volume action declined it because it does not exist live. **Do not apply this patch.** Requires dashboard discard/empty-project retirement. Main production and PR63 staged work verified unchanged.
+
+**Further consolidation candidates (not deleted):** completed one-shot `migration-test-bsi117` in production and `admin-grants-schema-once` in integration test (both zero running replicas); pending `admin-nav-bridge-test` (15 changes; check unified-navigation ownership); older synthetic `staff-security-staging` and `HC Employee Read Pilot`; two standby Codespaces bridge copies under HC and Malcor with separate audit volumes. `consignment-beta` currently logs missing-database scheduled reconciliation errors; fix or retire after feature acceptance, not by blind deletion. Keep the independent Timcorp foundation, production service URLs, and all provisioned DB volumes intact. **No live service deletions, DNS changes, migrations or deploys.**
+
+**Authoritative live audit and exact service IDs / dependencies / remaining approvals:** [handoffs/railway-consolidation.md](handoffs/railway-consolidation.md). Next: discard unprovisioned old patch using Railway dashboard; obtain named-service authorization for any live cleanup. Distinguish implementation, tests and deployments.
+
+---
+
 # Hobby Corner Project Registry
 
 ## Employee Administration — canonical Timeclock self-discovery is code-ready, NOT deployed — 2026-11-12
