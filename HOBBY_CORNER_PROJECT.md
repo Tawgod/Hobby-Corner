@@ -1,3 +1,9 @@
+## HC Secure selected hostname — 2026-11-23
+
+**Decision:** User approved `secure-hc.timcorp-productions.com` as permanent HC Secure login hostname. Target HTTPS origin `https://secure-hc.timcorp-productions.com`; target new WebAuthn RP ID `secure-hc.timcorp-productions.com`. Existing Owner passkey is registered to its current Railway hostname and is **not automatically portable**. Keep `HC PR63 Isolated Staging` Owner authentication live while developing and testing migration. `HC Secure/staging` remains a **staged-only service with no domain, DB, variables, credentials, deployment or data migration**. No Timcorp DNS/gateway change authorized or performed. Detailed entry: [handoffs/hc-secure.md](handoffs/hc-secure.md).
+
+---
+
 ## HC Secure central identity project — staged candidate created 2026-11-23
 
 **Status: In Development; original Owner staging deployed/verified; HC Secure replacement not deployed or tested.** Owner requested one dedicated `HC Secure` Railway project for Owner, staff, future customer authentication, with duplication and testing before retiring original. Created *private* new project **`HC Secure`** `120de974-f2e8-46be-9a00-8eb8b1be4cc4`, single `staging` environment `8c8cd3a9-079f-4fe8-b8f5-a76c79813f0c`; added staged-only service **`hc-secure-auth-staging`** `8ef9adc0-2a4d-46c0-92cf-ba54834e33b5`, source pinned to exact live Owner source `Tawgod/Lightspeed@977f63b267f226a29b731541386d492bb537c312`, start command `node staging/owner-security-server.js`, health `/health`. Pending Railway patch `60012c69-e526-4778-9422-055d705150f2` **10 changes STAGED, NOT DEPLOYED**; no new domain, DB, volume, secrets or live data replicated. **Do not accept patch in current incomplete state.**
