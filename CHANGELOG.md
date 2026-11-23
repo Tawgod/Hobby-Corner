@@ -1,3 +1,11 @@
+## 2026-11-23 — HC Secure permanent hostname selected
+
+- Approved permanent login hostname **`secure-hc.timcorp-productions.com`**, target origin `https://secure-hc.timcorp-productions.com` and future new WebAuthn RP ID `secure-hc.timcorp-productions.com`.
+- Configuration/identity migration **not** applied: existing Owner credential is bound to the current Railway host and needs a tested continuity/registration workflow; HC Secure replacement remains staged only. No DNS, gateway, TLS, Railway domain, secrets, database or production changes.
+- Decision documented in [HC Secure handoff](handoffs/hc-secure.md) and master project index.
+
+---
+
 ## 2026-11-23 — HC Secure security consolidation staging prepared
 
 - Created **private `HC Secure`** Railway project `120de974-f2e8-46be-9a00-8eb8b1be4cc4` and `staging` environment `8c8cd3a9-079f-4fe8-b8f5-a76c79813f0c` for Owner, employee and future independently isolated customer authentication.
