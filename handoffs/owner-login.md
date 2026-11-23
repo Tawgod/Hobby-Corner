@@ -1,3 +1,13 @@
+## Nov 23 operator-reported second-recovery SQL migration verified
+
+**Operator report:** `HC_OWNER_SECOND_STAGE_SQL_MIGRATED_VERIFIED=true`, from private, exact staging-only migration script `scripts/apply-owner-second-stage-sql.sh --apply-second-owner-staging` on `Tawgod/Lightspeed:feature/owner-stage-second-recovery-20261123`. The script's success marker is emitted only after attempted atomic migration and post-commit privilege readback (non-login recovery definer, operator execute grant, runtime execute refusal, zero second-recovery audit entries, unchanged first-reissue count 1 and zero Owners). Treat this as operator-reported, not independently read from DB by ChatGPT. Per explicit request, no fresh backup made; preexisting encrypted backup retained. No Owner/passkey/key issuance occurred during migration.
+
+**Next:** Do not rerun migration. Run `scripts/launch-owner-second-recovery-ceremony.mjs` only from current second-recovery Codespace worktree after tunnel 127.0.0.1:15439 remains available and phone/PIN/passkey are ready; private dual nested Railway variables (Postgres-x8Ui outer, hc-owner-staging inner). The launcher performs read-only restricted-role DB/Timeclock/HTTPS preflight, requires manual exact phrase `ISSUE SECOND OWNER STAGING KEY`, then issuer prompts employee ID `1`. Code displayed ONLY in private terminal, expires 10 minutes after SQL issuance. Do not paste secrets in chat. If nonzero/interrupt after consent, inspect second-recovery audit state via read-only query before considering retry; do not regenerate blindly.
+
+**Status:** SQL migration operator-reported verified; issuance NOT YET requested/executed; no production change.
+
+---
+
 ## Nov 23 user requests no additional backup and new private one-time staging key
 
 **Current user instruction:** 'no more backup, reinitialize when we need to do to get a new one time activation key.' Interpret as request to skip a **new backup** and proceed with tightly scoped second-recovery setup; retain the earlier externally verified encrypted Nov 13 staging backup. Do NOT reset or destroy the isolated Owner DB or erase original/first-reissue audit. User acknowledges proceeding without a new point-in-time backup; this is an increased rollback/data-loss risk. No new backup was created.
