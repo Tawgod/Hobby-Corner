@@ -1,3 +1,26 @@
+## Nov 23 next milestone — read-only HC Secure database preflight
+
+**Development milestone (not deployed):** Reviewed actual deployed Owner runtime privilege code `services/security/ownerStagingDatabasePreflight.js`, which requires nine tables and specifically **refuses** Owner activation issuance, deletion, or rewrite authority while permitting only the controlled consume/credential update needed by registered Owner enrollment. A fresh PG18 container alone does not supply this schema/role model.
+
+**Source changes made** on `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` (draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77)):
+- New `scripts/check-hc-secure-fresh-db.mjs` at commit `fb1d205fd7e240f2a7e65cace07cd64ccb2bdfcc`: **read-only** preflight before any schema provisioning. Refuses project ID other than `120de974-f2e8-46be-9a00-8eb8b1be4cc4`, env ID other than `8c8cd3a9-079f-4fe8-b8f5-a76c79813f0c`, DB hostname other than `hc-secure-postgres-staging.railway.internal`, DB name other than `hc_owner_stage_test`, blank DB user/password or same connection URL as `DATABASE_URL` / original `HC_OWNER_STAGING_DATABASE_URL`. Performs only `BEGIN READ ONLY`, SELECT `current_database`, `current_setting('transaction_read_only')` and `to_regclass` for nine security tables, then `ROLLBACK`. Fresh target must have all nine tables absent; existing/partial schema forces a separate reconciliation, **not an automatic reset**. Logs only fixed status boolean; no credentials/rows.
+- New `tests/hc-secure-fresh-db-preflight.test.mjs` at commit `25d5f5d8692fc653e2108865a7ed01c290d8bcc9`, five independent mock-only cases checking exact target, original-host/DB refusal, transaction read-only behavior and rollback/cleanup, partial schema rejection, and no connection on wrong project.
+- **New tests NOT YET EXECUTED**, not represented as verified passing and not yet deployed; old positive config tests were operator-reported successful.
+
+**Critical current blocker:** Target `HC Secure/staging` PG18 image service + volume are still `staged-create` without bootstrap password, dedicated database, prepared restricted roles or migrated schema. This code is intentionally **not** a schema writer: migration authoring must reuse reviewed Owner SQL and its separation between offline operator and restricted runtime. Do not accept-deploy pending Railway patch `60012c69-e526-4778-9422-055d705150f2` or point its runtime at original Owner DB. Existing original Owner app and DB remain unchanged. Domain/RPID/credential continuity and staff-wide authorization still pending.
+
+**Next focused Codespace command (no live DB):**
+```bash
+cd /workspaces/Lightspeed
+git fetch origin feature/hc-secure-staging-readiness-20261123
+git switch feature/hc-secure-staging-readiness-20261123
+git pull --ff-only
+node --test tests/hc-secure-fresh-db-preflight.test.mjs
+```
+Run with installed `pg` dependencies. Report only pass/fail, never credentials. After successful tests, independently provision new staging PG credentials and role/schema in a separate reviewed migration then run read-only probe in an authenticated Railway context only for the *new* database.
+
+---
+
 ## Nov 23 Codespace security tests — operator-reported success
 
 **User report:** After cloning `Tawgod/Lightspeed` and running `npm install` rather than `npm ci` (no package-lock exists on branch), user reported **“success”** following requested `node --test tests/hc-secure-staging-gate.test.mjs tests/hc-secure-staging-readiness.test.mjs`. **Classification:** operator-reported Tests PASS, full stdout/individual assertion count not independently available via connector. Do not claim independent CI evidence or physical credential verification on new host. The test files remain on `feature/hc-secure-staging-readiness-20261123`, tracked in [draft PR #77](https://github.com/Tawgod/Lightspeed/pull/77). 
