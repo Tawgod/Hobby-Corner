@@ -1,3 +1,29 @@
+## Nov 23 HC Secure next phase — fail-closed entrypoint and staged safe config
+
+**State:** In Development / Testing pending. Read back HC Secure project `120de974-f2e8-46be-9a00-8eb8b1be4cc4`, `staging` env `8c8cd3a9-079f-4fe8-b8f5-a76c79813f0c`. The prepared `hc-secure-auth-staging` `8ef9adc0-2a4d-46c0-92cf-ba54834e33b5`, `hc-secure-postgres-staging` `454f4979-6148-4ee5-9857-97bc793dc72d`, and `hc-secure-staging-pgdata` `468ccb0a-3006-48b1-ac2d-f74293c7c075` remain **staged-create only** (no deployment/data/volume provision). Original verified Owner app and DB in `HC PR63 Isolated Staging` still successful and unaffected.
+
+**Actual staging configuration written (STAGED ONLY):** eight nonsecret variables on auth service: `NODE_ENV=test`, `HC_SECURITY_ENV=isolated-staging`, `HC_OWNER_STAGING_ENABLED=true`, `HC_OWNER_TIMECLOCK_EMPLOYEE_ID=1`, `HC_OWNER_STAGING_ORIGIN=https://secure-hc.timcorp-productions.com`, `HC_OWNER_STAGING_RPID=secure-hc.timcorp-productions.com`, `HC_STAGING_TEST_LOGIN_ENABLED=false`, `HC_STAGING_PIN_SETUP_ENABLED=false`. **No credentials, encryption key or database connection injected.** Both target services' Railway variable listings contain *only Railway automatic variables* before this staging patch; PostgreSQL lacks its necessary provisioned database password/roles. **Do not accept pending patch**.
+
+**Source-only implementation:** Created `services/security/hcSecureStagingGate.js` and `staging/hc-secure-security-server.js` on `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123`, commits `43ff760` and `e2d61b9`. The new entrypoint guards the **exact** HC Secure project + environment IDs, approved secure HTTPS origin/RP ID, Owner canonical employee, isolated staging flags, no fake staff logins, no live business/Timeclock admin keys, private DB hostname `hc-secure-postgres-staging.railway.internal` with exact `/hc_owner_stage_test` and nonblank DB user/password, before delegating to existing Owner server preflight. Existing `staging/owner-security-server.js` unchanged. If wrong, server logs only a generic error and refuses to open port. This is extra defense, not proof of full secure DB/Timeclock configuration. Added six negative/positive cases `tests/hc-secure-staging-gate.test.mjs` commit `70429b1880fbc304eaa9246e2a036a32a5961acd` and previously authored `tests/hc-secure-staging-readiness.test.mjs`. **Both unexecuted; do not claim passing tests.**
+
+**Staged source readback:** `hc-secure-auth-staging` now points to EXACT dev branch commit `70429b1880fbc304eaa9246e2a036a32a5961acd`, start command `node staging/hc-secure-security-server.js`; still no live deployment. GitHub **draft PR #77**: https://github.com/Tawgod/Lightspeed/pull/77, base `fix/owner-staging-activation-digest-20261123`; DO NOT MERGE TO PRODUCTION. No custom domain, DNS/gateway change or public route.
+
+**Next safe test:** With working `Tawgod/Lightspeed` Codespace and dependencies installed, on branch `feature/hc-secure-staging-readiness-20261123`, run:
+
+```bash
+git fetch origin feature/hc-secure-staging-readiness-20261123
+git checkout --detach origin/feature/hc-secure-staging-readiness-20261123
+node --check services/security/hcSecureStagingGate.js
+node --check staging/hc-secure-security-server.js
+node --test tests/hc-secure-staging-gate.test.mjs tests/hc-secure-staging-readiness.test.mjs
+```
+
+**Unresolved prerequisites BEFORE live staging deployment:** (1) Configure PostgreSQL template's private password/roles safely and separately provision an empty DB with exact name and required least privilege, *not* a clone of live Owner database; (2) ensure verified HTTPS hostname + DNS/TLS and exact RP ID, with authenticated new-passkey registration/handoff strategy (existing WebAuthn credential cannot sign for different RP); (3) verify trusted Timeclock identity and separately scoped secrets without pasting credentials; (4) run source and disposable DB tests, then isolated auth browser negative and positive tests; (5) separate user approval for domain/gateway changes and later production integration; (6) authorize non-Owner staff enrollment separately, not via Owner-only setup. Current old Owner TOTP fresh 19:58:34Z 200 verified, but no new same-window passkey proof. **Production staff strong MFA still not enforced across tools.**
+
+**Important risk:** Railpack PostgreSQL image service was staged from the PG18 public image, NOT created through Railway's managed Postgres template flow. Its automatic variable name listing lacks POSTGRES_PASSWORD and other bootstrap values. The DB is **not deploy-ready** without explicit safe provisioning, startup test, and DB restore/privilege plan. Do not run accept-deploy to discover missing values.
+
+---
+
 ## Nov 23 fresh original-host MFA check — verified Railway 200
 
 **Fresh user report:** “Success, verification accepted” after instructed original-host authentication check. **Live Railway confirmation:** isolated `HC PR63 Isolated Staging/staging/hc-owner-staging` HTTP log shows `POST /api/staff-auth/session` 200 at `2026-11-23T19:58:16.325477Z`, and `POST /staff-security/api/mfa/session` **200 at `2026-11-23T19:58:34.825572Z`** (1:58:34 PM CST); earlier GETs for authenticator/enrollment also 200 at 19:58:12 and 19:58:52 UTC. Server stays online, deployment SUCCESS, 1 running replica, 0 recent failures/warnings/criticals. **This is fresh server confirmation of MFA/TOTP session acceptance**, not evidence that the same latest login session performed fresh WebAuthn; recent HTTP records contain no new `/staff-passkey/authentication/verify` during 19:58 window. Prior independent WebAuthn `/staff-passkey/authentication/verify` 200 at 17:13:06Z remains historical proof. Never misstate this as a verified new-host passkey.
