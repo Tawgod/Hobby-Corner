@@ -1,3 +1,24 @@
+## Resume activation: read-only live operator and Timeclock preflight prepared (2026-11-23)
+
+**Owner explicitly requested "Resume Owner activation."** This authorizes continuing investigation and read-only preparation; it does **not** by itself approve consuming the one permitted 10-minute recovery or any deployment/production changes.
+
+**Fresh connector checks, November 23:** `HC PR63 Isolated Staging` / `staging`: exact `Postgres-x8Ui` and `hc-owner-staging` deployments still SUCCESS, same IDs as Nov 13, **no Railway staged changes**. The staging Owner app still runs `node staging/owner-security-server.js` on `hc-owner-staging-staging.up.railway.app`; separate PG has no public TCP proxy. GitHub draft recovery PR #75 remains OPEN/DRAFT, branch `feature/owner-expired-activation-recovery-20261113`; no new web deploy. The Nov 13 operator-observed SQL success `HC_OWNER_STAGE_SQL_MIGRATED_VERIFIED=true` remains the last DB write evidence; a fresh live reissue-state check is required.
+
+**New prepared, additive, read-only script:** `scripts/preflight-owner-stage-activation-live.sh`, commit `5cec5f22a7d24e5caab3fb63f150cc937f234d28` on PR #75 branch. It uses Railway SSH directly into the existing **staging app** container to call the already-deployed `createTimeclockScannerIdentity({mode:'owner-staging'}).authorize('1')` with the app's **existing** Timeclock service secret, verifying canonical active employee 1 provenance and permissions without showing any personal data or exporting a secret. Then Railway SSH directly into isolated `Postgres-x8Ui` to check that the original activation remains expired/unconsumed, no Owner/passkey/reissue exists, the migrated one-use function exists, and an **actual restricted operator LOGIN role** can authenticate using the existing operator DB password already scoped to PostgreSQL with only operator privileges. It checks the operator is not simultaneously a runtime login. All outputs are status markers; **no activation or DB mutation**, no public proxy or environment variable/config changes. This is **prepared only**; operator has not executed it yet, and no Codespaces test evidence for this newly added script. Bash syntax check required.
+
+**Single next Codespaces command:**
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git pull --ff-only
+bash -n scripts/preflight-owner-stage-activation-live.sh
+bash scripts/preflight-owner-stage-activation-live.sh
+```
+Look for **`HC_OWNER_PRIVATE_ACTIVATION_PREFLIGHT_OK=true`**. If Timeclock check blocks, troubleshoot true deployed Timeclock endpoint/service access rather than issuing a token; if operator login blocks, check restricted role/password within DB container, not the public web app. No need to repeat the backup/migration. Do not paste Timeclock PIN, codes, or any secrets in chat. If both pass, prepare a private-only execution path for the already reviewed issuer (no app runtime operator credentials) and separately ask for issuance authorization when physical device and signed Timeclock PIN session are ready. Reissue is single-use and expires 10 minutes after creation.
+
+**Status:** Backup Deployed/offsite verified; isolated SQL migration applied/privileges verified Nov 13; live Timeclock/DB operator preflight pending; **activation unused**; passkey/TOTP not enrolled; production untouched.
+
+---
+
 ## Departure checkpoint — Owner activation not issued (2026-11-13)
 
 **Immediate operator-facing summary:** Owner reports imminent departure and serious frustration after repeated configuration checks. Do not make them repeat completed steps. **Verified complete:** dedicated Owner staging deployment healthy; isolated `hc_owner_stage_test` database present; expired unused employee-1 first activation; hardened one-time recovery code tested 4/4 disposable PostgreSQL 18; encrypted staging backup `hc-owner-stage-20261113T204750Z-64857.dump.age` (37,741 bytes) successfully restored from the encrypted archive to disposable PostgreSQL 18; exact private offsite Google Drive [archive](https://drive.google.com/file/d/1pLRPMwAU1f0Xn8pCnWv5BO5SEjBZUbqW/view?usp=drivesdk) confirmed; user specifically approved and operator ran `db/hc_owner_stage_expired_activation_recovery.sql`, which returned `HC_OWNER_STAGE_SQL_MIGRATED_VERIFIED=true` in isolated staging. No production changes, no PR merge/deploy.
