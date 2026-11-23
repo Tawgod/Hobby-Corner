@@ -1,3 +1,11 @@
+## Nov 23 fresh-database preflight test results — operator-confirmed 5/5 PASS
+
+**Codespace test evidence supplied by operator:** In `/workspaces/Lightspeed`, branch `feature/hc-secure-staging-readiness-20261123`, fast-forwarded from `70429b1` to `25d5f5d` and ran `node --test tests/hc-secure-fresh-db-preflight.test.mjs`. Output: **5 tests, 5 pass, 0 fail, 0 skipped, 0 cancelled**, duration `107.122218ms`. Passed cases: exact private target scope; original/wrong DB and unsafe URL rejection; read-only transaction, release and pool cleanup; partial schema/wrong DB/reported read-write rejection; and fail-before-connect on incorrect project ID. Tests are mocked and **do not establish real PG18 connectivity or migrations**.
+
+**Status:** HC Secure fresh DB safety preflight **Testing: PASS (operator-supplied complete stdout)**, no staging deployment. Next: review actual Owner SQL schema and permission model, develop disposable PG18-only bootstrap/least-privilege tests before provisioning the separate HC Secure staging PostgreSQL. Do not copy Owner secrets, data or passkey/TOTP rows; existing staging credential workflow remains authoritative until separately migrated and tested.
+
+---
+
 ## Nov 23 next milestone — read-only HC Secure database preflight
 
 **Development milestone (not deployed):** Reviewed actual deployed Owner runtime privilege code `services/security/ownerStagingDatabasePreflight.js`, which requires nine tables and specifically **refuses** Owner activation issuance, deletion, or rewrite authority while permitting only the controlled consume/credential update needed by registered Owner enrollment. A fresh PG18 container alone does not supply this schema/role model.
