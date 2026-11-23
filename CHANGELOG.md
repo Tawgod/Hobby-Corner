@@ -1,3 +1,11 @@
+## 2026-11-23 — HC Secure strict staging entrypoint and nonsecret preparation
+
+- Staged **only** eight nonsecret isolated Owner runtime flags, including approved `https://secure-hc.timcorp-productions.com` and RP ID, in HC Secure/staging. No live deployment.
+- New fail-closed `hcSecureStagingGate` and dedicated startup wrapper reject unexpected Railway project/environment, wrong RP ID, fake staff identity, unexpected business secrets or non-private Owner DB URL. Added positive/negative source tests and opened [draft PR #77](https://github.com/Tawgod/Lightspeed/pull/77), branch `feature/hc-secure-staging-readiness-20261123`, commit `70429b1`; **tests not yet executed**.
+- Staged auth service source/start changed to the new commit/entrypoint; Railway pending patch still unapplied. PG18 image does **not** have DB bootstrap secret/runtime roles configured yet. No custom domain, DNS, gateway, DB mutation, passkey transfer, production auth update or old service removal. [Operational handoff](handoffs/hc-secure.md).
+
+---
+
 ## 2026-11-23 — HC Secure credential test readiness and staged isolated database
 
 - Prepared **but did not deploy** `hc-secure-postgres-staging` service `454f4979-6148-4ee5-9857-97bc793dc72d`, source `ghcr.io/railwayapp-templates/postgres-ssl:18`, and staged 5 GB `hc-secure-staging-pgdata` volume `468ccb0a-3006-48b1-ac2d-f74293c7c075` for new private `HC Secure/staging`. Existing pending patch `60012c69-e526-4778-9422-055d705150f2` now has 15 changes, including auth service, DB service and volume; none has a running instance.
