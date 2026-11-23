@@ -1,3 +1,22 @@
+## Nov 23 second-recovery disposable test fixture failure corrected
+
+**Operator output:** In disposable PG18 second-recovery test, the fault-injection assertion at tests/owner-expired-activation-recovery.test.mjs:320 expected `second audit insertion fault` but actual SQL raised `Second Owner staging recovery denied`. This is a failed test, not a live Railway issue. No staging migration or issuance performed.
+
+**Cause found:** The disposable historical fixture changed the first-reissue audit timestamps and the current approval timestamps with separate `now()` SQL commands. Their microsecond timestamps differ, while the second recovery function intentionally requires exact first-audit/current-activation equality. Correct SQL rejected the mismatched fixture before reaching fault-injection trigger.
+
+**Fix on draft PR #76 only:** commit `b4b4e849fbf0e9763885938d5b0a3f365671f229` changes the disposable test's UPDATE to copy the precise `replacement_approved_at` and `replacement_expires_at` directly from the seeded audit row. No recovery SQL, production, or staging deployment changes. This correction is NOT yet independently tested by operator.
+
+**Next Codespaces retry:**
+```bash
+cd /workspaces/Lightspeed-owner-second-recovery
+git fetch origin feature/owner-stage-second-recovery-20261123
+git checkout --detach origin/feature/owner-stage-second-recovery-20261123
+bash scripts/test-owner-second-recovery-disposable.sh
+```
+Require `HC_OWNER_SECOND_RECOVERY_DISPOSABLE_TESTS_PASSED=true`. Existing test runner creates/cleans a disposable local PostgreSQL container; it cannot affect Railway. If failure persists, inspect full sanitized failing phase; do not deploy or apply SQL without separate explicit approval.
+
+---
+
 ## Nov 23 second recovery approved for development/testing ONLY — draft PR #76
 
 **User approval scope:** User answered 'approved' to *preparing and testing* a second, tightly controlled isolated Owner staging recovery. This is NOT authorization to apply migrations, issue any replacement activation, deploy, merge PRs, modify production, or alter recovery audit records.
