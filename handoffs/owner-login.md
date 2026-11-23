@@ -1,3 +1,20 @@
+## Nov 23 second ceremony DB preflight repeats failure despite tunnel verified
+
+**Observed:** User demonstrated localhost SSH port 127.0.0.1:15439 LISTEN and existing restricted operator read-only `diagnose-owner-stage-activation-state.mjs` returned `EXPIRED_UNUSED`, `RECOVERY_RECORDS=1`, `REGISTERED_OWNERS=0`, `READ_ONLY=true`. But running second-recovery ceremony with nested Postgres-x8Ui + hc-owner-staging Railway variable injection still returned `HC_OWNER_SECOND_CEREMONY_BLOCKED: operator DB preflight failed; no code issued`. This indicates more specific SQL/permission/query error within second ceremony; do not assume tunnel disconnected again or retry issuance blindly. Existing reported migration success marker `HC_OWNER_SECOND_STAGE_SQL_MIGRATED_VERIFIED=true` means post-migration verification was operator-reported successful, but second operator privileges still need checking.
+
+**Additive read-only troubleshooting:** Committed `scripts/diagnose-owner-second-ceremony.mjs` in `Tawgod/Lightspeed:feature/owner-stage-second-recovery-20261123` at `618e4a9e28cf91073cca961887cd4da00b46e3b2`. It uses existing tunnel + restricted operator and only the Postgres service Railway variable injection, checks 11 independent boolean conditions (DB/role/read-only; new function existence/EXECUTE; digest update refusal; first and second audit; expiry; zero Owner/passkeys/events), reports PASS/BLOCKED/SQLSTATE, no secrets or writes/issuance.
+
+**Next user command:**
+```bash
+cd /workspaces/Lightspeed-owner-second-recovery
+git fetch origin feature/owner-stage-second-recovery-20261123
+git checkout --detach origin/feature/owner-stage-second-recovery-20261123
+railway run --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service Postgres-x8Ui --no-local env HC_OWNER_OPERATOR_TUNNEL_CHECK=READ_ONLY node scripts/diagnose-owner-second-ceremony.mjs
+```
+Review safe Boolean results before changing the launcher. Do not generate or print activation until all guards pass and the operator is ready. No production or database changes.
+
+---
+
 ## Nov 23 operator-reported second-recovery SQL migration verified
 
 **Operator report:** `HC_OWNER_SECOND_STAGE_SQL_MIGRATED_VERIFIED=true`, from private, exact staging-only migration script `scripts/apply-owner-second-stage-sql.sh --apply-second-owner-staging` on `Tawgod/Lightspeed:feature/owner-stage-second-recovery-20261123`. The script's success marker is emitted only after attempted atomic migration and post-commit privilege readback (non-login recovery definer, operator execute grant, runtime execute refusal, zero second-recovery audit entries, unchanged first-reissue count 1 and zero Owners). Treat this as operator-reported, not independently read from DB by ChatGPT. Per explicit request, no fresh backup made; preexisting encrypted backup retained. No Owner/passkey/key issuance occurred during migration.
