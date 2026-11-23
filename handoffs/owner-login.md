@@ -1,3 +1,11 @@
+## Nov 23 restricted operator tunnel read-only preflight PASSED
+
+**Operator Codespaces success:** Existing SSH tunnel into dedicated isolated `Postgres-x8Ui` was already open. After pulling new source `5359588`, the operator executed `railway run --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service Postgres-x8Ui --no-local env HC_OWNER_OPERATOR_TUNNEL_CHECK=READ_ONLY node scripts/preflight-owner-operator-tunnel.mjs`. Output: **`HC_OWNER_OPERATOR_TUNNEL_PREFLIGHT_OK=true`** and **`READ_ONLY=true; ACTIVATION_NOT_ISSUED=true`**. The test used **actual restricted** `hc_owner_stage_operator` login via loopback 127.0.0.1:15439 tunnel, checked operator function execute/deny privileges, exact staging DB, original activation expired/unconsumed, no recovery record and zero Owner. This confirms an eligible *still-unspent* first-Owner recovery on Nov 23. Password came from Railway's supported variable injection and was not exposed.
+
+**Also already passed:** `HC_OWNER_TIMECLOCK_PREFLIGHT_OK` from deployed staging app using server-side canonical Timeclock `authorize('1')`. Both essential prerequisites now verified individually. Next is integrating a **private operator ceremony** that can reach both live Timeclock and restricted PG without ever giving public app the operator password or issuing prematurely. The one-shot 10-minute recovery MUST only be invoked after final readiness with phone available; no one-time activation was generated, no passkey/TOTP enrolled, and no production changes.
+
+---
+
 ## Nov 23 operator password accessible via Railway run; private tunnel preflight ready
 
 **New operator evidence:** In existing Codespaces branch `feature/owner-expired-activation-recovery-20261113`, explicit `railway run --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service Postgres-x8Ui --no-local node -e '...'` returned **`HC_OWNER_OPERATOR_DB_PASSWORD: SET`**. This establishes that the *existing* Railway PostgreSQL operator secret can be securely injected into a local subprocess without recreating it. Its value was never displayed or sent in chat. Earlier SSH remote shell / PID1 missing value is now superseded as an access method; don't repeat those attempts.
