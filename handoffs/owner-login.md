@@ -1,3 +1,16 @@
+## Nov 23 remote PID1 environment also lacks operator password; use supported Railway local variable injection next
+
+**Operator evidence:** The corrected `scripts/preflight-owner-stage-activation-live.sh` at `b2a6ee4` passed `HC_OWNER_TIMECLOCK_PREFLIGHT_OK` in deployed `hc-owner-staging` using the registered new Railway SSH key. Dedicated `Postgres-x8Ui` SSH succeeded but reported `HC_OWNER_OPERATOR_PREFLIGHT_BLOCKED: password unavailable to Railway SSH` after both the remote shell and read-only PID1 environment fallback could not find `HC_OWNER_OPERATOR_DB_PASSWORD`. The preflight stopped before any DB verification was run; **no reissue, Owner, passkey, migration, deployment or production change**. Railway service metadata still lists the operator password variable name, but this does not guarantee it is injected into SSH shells.
+
+**Next supported, safe diagnosis:** Railway CLI `railway run` fetches variables for a selected service into a *Codespaces-local subprocess*; sealed variables are not available this way. Test only presence, **never print the value**:
+```bash
+cd /workspaces/Lightspeed-owner-migration
+railway run --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service Postgres-x8Ui --no-local node -e 'console.log("HC_OWNER_OPERATOR_DB_PASSWORD: "+(process.env.HC_OWNER_OPERATOR_DB_PASSWORD?"SET":"NOT SET"))'
+```
+If SET, use separate approved, **loopback-only Railway SSH port-forwarding** (https://docs.railway.com/cli/ssh#forward-a-port-with-ssh--l) to reach private PG for restricted operator auth; this requires careful verification, must not leak credentials via CLI arguments, logs or chat. Before any reissue, use a read-only SQL state check on exact isolated DB and separately authorize issuance with real device and 10 minutes reserved. If NOT SET, stop and investigate sealed variable access via trusted private operator workflow (do not shift operator secrets to public app or expose DB TCP proxy). The original database bootstrap, migration, offsite backup, and Timeclock identity success remain intact.
+
+---
+
 ## Nov 23 live Timeclock passes; DB operator password hidden from SSH shell
 
 **Fresh operator output:** After `git pull` to `262e0e3` and explicit new Railway key, `scripts/preflight-owner-stage-activation-live.sh` connected into actual Owner staging app and returned **`HC_OWNER_TIMECLOCK_PREFLIGHT_OK`**, independently checking real canonical Timeclock employee 1 through deployed owner-staging integration. A second authenticated SSH connection to exact isolated `Postgres-x8Ui` succeeded, but exited at `HC_OWNER_OPERATOR_PREFLIGHT_BLOCKED: DB password missing`. **No activation, DB write, passkey or TOTP happened.**
