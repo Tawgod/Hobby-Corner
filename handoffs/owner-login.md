@@ -1,3 +1,24 @@
+## Nov 23 Owner digest hotfix deployment approved; disposable test gate
+
+**Explicit user approval:** In response to a request to approve deployment of the narrowly scoped raw-byte activation digest fix **only to isolated Owner staging after tests pass**, the user replied **"Yes deploy."** Approval includes changing only the Owner staging application's source/deployment after successful focused tests. It does **not** include production, gateway, DNS, extension, unrelated Railway services, migration, role edits, database reset, or new recovery issuance.
+
+**Fix:** `Tawgod/Lightspeed:fix/owner-staging-activation-digest-20261123` based on the existing deployed staging source branch. Changed `services/security/operatorFirstOwnerPasskeyCandidate.js` to decode canonical 43-character base64url into 32 bytes before SHA-256, exactly matching `scripts/issue-owner-stage-activation.mjs`. Updated `tests/operator-first-owner-postgres.test.mjs` to model true issuer hashing. Additive `scripts/test-owner-digest-hotfix-disposable.sh` at commit `977f63b267f226a29b731541386d492bb537c312` invokes disposable PostgreSQL 18 (localhost-only), three focused tests, syntax checks and removes test Docker container. **Codespaces focused tests have NOT YET RUN**. Private local Node check of raw token digest compatibility passed 200/200, but does not substitute for integration tests.
+
+**Deployment gate:** User runs in existing remote Codespace:
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git fetch origin fix/owner-staging-activation-digest-20261123
+git show origin/fix/owner-staging-activation-digest-20261123:scripts/test-owner-digest-hotfix-disposable.sh > /tmp/test-owner-digest-hotfix-disposable.sh
+bash -n /tmp/test-owner-digest-hotfix-disposable.sh
+```
+**Important:** This runner `cd`s to its own script directory; it must be run from a checkout of the hotfix branch, not via /tmp. Prefer `git worktree add /workspaces/Lightspeed-owner-digest-hotfix origin/fix/owner-staging-activation-digest-20261123`, `cd` there, `npm install --ignore-scripts --no-audit --no-fund` if needed, then `bash scripts/test-owner-digest-hotfix-disposable.sh`. Do not run disposable tests against Railway DB. Require `HC_OWNER_DIGEST_HOTFIX_TESTS_PASSED=true` and all tests PASS **before** staging deploy. Tool connector cannot execute user's Codespace commands, and no environment fork sandbox exists; therefore deployment not yet triggered.
+
+**Post-test approved deploy method:** Read fresh staging environment and ensure no pending changes or source drift. Stage only `hc-owner-staging` `connect_service_source({repo:'Tawgod/Lightspeed',branch:'fix/owner-staging-activation-digest-20261123',commitSha:<tested-exact-SHA>,staged:true,environmentId:'46b93c76-3085-4e76-a37d-90dfdd250dd2'})`, review staged diff for exact service only, then `accept_deploy` after successful gate using existing user approval. Monitor deployment health; do not change database. **Potential incidental deploy of other staged changes is prohibited; check staged inventory before commit.** If user cannot do tests, mark testing/deployment BLOCKED rather than infer pass.
+
+**Activation state warning:** At last read-only DB check, `ACTIVE_UNUSED`, `HC_OWNER_RECOVERY_RECORDS=1`, `HC_OWNER_REGISTERED_OWNERS=0`. That 10-minute window is time sensitive; a code fix deployment does not extend it. Once expired, single recovery policy forbids issuing a replacement without separate reviewed new recovery capability; do not rewrite grants.
+
+---
+
 ## Nov 23 activation issued, setup options 403: confirmed issuer/enrollment digest incompatibility
 
 **Operator evidence:** After the interactive owner recovery ceremony, owner reported having the private activation code but browser showed `Setup authorization denied or expired.` Actual staging HTTP logs on Nov 23 15:32 UTC showed successful Timeclock PIN session POST 200 followed by two `/owner-setup/registration/options` POST 403. The owner executed fresh restricted **read-only** SQL state script and reported `HC_OWNER_ACTIVATION_STATE=ACTIVE_UNUSED`, `HC_OWNER_RECOVERY_RECORDS=1`, `HC_OWNER_REGISTERED_OWNERS=0`, `READ_ONLY=true` (at time of check). **Single recovery has now been ISSUED and consumed in the audit**, even though no Owner account/passkey has been created. Do not run a second issuer or alter/delete audit rows.
