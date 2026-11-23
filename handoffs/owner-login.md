@@ -1,3 +1,22 @@
+## Nov 23 Owner setup rejected registration options after PIN success; read-only diagnosis
+
+**User reported after private code issuance:** Owner staging browser displayed **`Setup authorization denied or expired.`** They have not reported successful passkey registration. Do not rerun one-time recovery or manually edit/delete staging DB authorization.
+
+**Read-only Railway HTTP logs actually inspected:** On **2026-11-23 15:32 UTC**, staging `/api/staff-auth/session` POST returned **HTTP 200** (real PIN session accepted), followed by two `/owner-setup/registration/options` POSTs at 15:32:19 and 15:32:48 UTC returning **HTTP 403**. Neither browser WebAuthn registration nor verification is shown. The deployed client maps all HTTP 403 errors to the same generic authorization-denied message. Source `routes/firstOwnerActivation.js` shows the 403 could arise from Origin/Fetch-Metadata/content-type guard, missing/invalid 43-character activation header, signed session, digest, expiry, or other candidate denial; HTTP metadata alone cannot distinguish. Do not paste HTTP client IP, PIN or activation code in chat.
+
+**Additive diagnostic (prepared, not yet operator-run):** `scripts/diagnose-owner-stage-activation-state.mjs` at source commit `c286ccfc1220dce63171badd11d2a6ccb27194ee`. It uses the previously verified loopback port 15439 and restricted `hc_owner_stage_operator` login with password injected privately by Railway, sets transaction_read_only, and reports only `HC_OWNER_ACTIVATION_STATE` (ACTIVE_UNUSED/EXPIRED_UNUSED/CONSUMED/... ), reissue count, Owner count. Does not print tokens, digests, employee names, timestamps or credentials, and cannot consume recovery.
+
+**Next Codespaces command, tunnel in Terminal 1 must remain open:**
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git pull --ff-only
+node --check scripts/diagnose-owner-stage-activation-state.mjs
+railway run --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service Postgres-x8Ui --no-local env HC_OWNER_OPERATOR_TUNNEL_CHECK=READ_ONLY node scripts/diagnose-owner-stage-activation-state.mjs
+```
+Do not issue another token based only on the generic UI message. Interpret state before deciding safe follow-up; if one reissue exists and expired, single-recovery policy means no automatic reset/reissue. Also investigate whether browser sent expected same-origin headers, without logging activation value, only if DB state was active at moment of failed requests.
+
+---
+
 ## Nov 23 combined private ceremony preflight PASSED; interactive launcher prepared
 
 **Latest operator evidence (Nov 23):** In existing Codespaces with the private PostgreSQL SSH loopback tunnel open, two nested `railway run` calls successfully combined exact DB and Owner-app variables. Actual operator output:
