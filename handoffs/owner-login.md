@@ -1,3 +1,22 @@
+## SSH fixed; Railpack Node PATH missing in remote login shell (2026-11-23)
+
+**Latest operator result:** Codespaces downloaded commit `17a1792`, new Railway SSH key worked and connected to Owner staging, but the read-only activation preflight's first remote `sh -lc` command returned **`sh: 8: node: not found`** and then `STOP: Timeclock lookup unavailable. No recovery issued.` This is a **remote Node executable PATH failure**, not proof of failed canonical Timeclock identity or wrong credentials. There was **no mutation**.
+
+**Read-only deployment inspection:** Staging app continues to run successfully from Railpack V3 builder, source commit `60cefaf71d7b737753728f95f8474df17e99912c`, start command `node staging/owner-security-server.js`; thus Node exists in running service context even though SSH login shell could not locate it.
+
+**Code-only fix on draft PR #75:** Updated `scripts/preflight-owner-stage-activation-live.sh` to use a non-login `sh -c` remotely, restore only PID1's `PATH` locally within the remote container when necessary without printing environment data, and check limited known Node executable paths. Commits `56c6692` and `262e0e3`. This update is not yet operator-run; no production or staging deployment. Existing isolated DB preflight/activation state remains unmodified.
+
+**Next operator Codespaces command (uses registered working key):**
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git pull --ff-only
+bash -n scripts/preflight-owner-stage-activation-live.sh
+HC_OWNER_RAILWAY_SSH_KEY="$HOME/.ssh/hc_owner_railway_20261123" bash scripts/preflight-owner-stage-activation-live.sh
+```
+Success requires `HC_OWNER_PRIVATE_ACTIVATION_PREFLIGHT_OK=true`. If it does not pass, stop without reissue and preserve sanitized error. The one-use activation has not been generated; passkey/TOTP enrollment pending. Never change production or public networking to debug this.
+
+---
+
 ## Nov 23 Railway SSH authentication restored with separate key; read-only preflight rerun pending
 
 **Operator evidence:** Existing Codespaces `~/.ssh/id_ed25519` private key could not be unlocked (incorrect passphrase); previous read-only Railway SSH activation preflight stopped before contacting Timeclock. Operator created/registered an independent public key and successfully ran `railway ssh -i ~/.ssh/hc_owner_railway_20261123 --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service hc-owner-staging -- node -e "console.log('RAILWAY_SSH_OK')"` with result `RAILWAY_SSH_OK` and clean SSH close. New key is authorized; old key was not overwritten. Passphrases/private keys never shared. No staging data changed.
