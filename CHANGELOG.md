@@ -1,3 +1,12 @@
+## 2026-11-23 — Railway one-time cleanup and central test consolidation plan
+
+- User-approved retirement completed: permanently deleted Railway one-shot service `migration-test-bsi117` from main Hobby Corner production and `admin-grants-schema-once` from Hobby Corner Integration Test/test. Both had zero running replicas and no domains or attached volumes; Railway confirmed no detached volumes.
+- Independently verified post-delete: **seven** other main production services remain with SUCCESS deployments and intact production Postgres volume; Integration Test retains app services and both Postgres volumes; Owner PR63 remains four services/two isolated Postgres databases. No production application redeploy, database reset, secret, DNS or domain change.
+- Earlier this date, discarded two **never-deployed** staged resource definitions (`owner-security-staging` and its `Postgres`) from superseded HC Owner Security Staging; an unprovisioned volume placeholder remains as a two-change staged patch; Railway refused deletion of an unprovisioned volume. Do not apply that patch.
+- Proposed **not executed**: centralize synthetic/integration test workloads under existing `Hobby Corner Integration Test/test`; preserve active canonical Owner passkey/TOTP in separate security environment/project and do not mix with synthetic identities. Cross-project service migration requires tested recreation of services/variables/private DNS/data, verification and separate cutover. Details: [Railway consolidation handoff](handoffs/railway-consolidation.md). No other live service retired.
+
+---
+
 # Hobby Corner Project Changelog
 
 ## 2026-11-12 — Canonical real-Timeclock self-identity setup candidate (source-only)
