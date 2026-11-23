@@ -1,3 +1,30 @@
+## Nov 23 combined private ceremony preflight PASSED; interactive launcher prepared
+
+**Latest operator evidence (Nov 23):** In existing Codespaces with the private PostgreSQL SSH loopback tunnel open, two nested `railway run` calls successfully combined exact DB and Owner-app variables. Actual operator output:
+```
+HC_OWNER_CEREMONY_ENV=PASS
+HC_OWNER_CEREMONY_TTY=PASS
+HC_OWNER_CEREMONY_OPERATOR_DB=PASS
+HC_OWNER_CEREMONY_TIMECLOCK=PASS
+HC_OWNER_CEREMONY_PREFLIGHT_OK=true; ACTIVATION_NOT_ISSUED=true
+```
+**Both actual live integrations are confirmed reachable simultaneously**; one-time recovery **still unspent** at this read-only checkpoint.
+
+**New source preparation:** draft PR #75 branch commit `6e117f756fad518fd223955d51f9d93655ab9b23`, `scripts/launch-owner-stage-recovery-ceremony.mjs`. This is an interactive, operator-only Codespaces launcher; enforces isolated staging, canonical Timeclock employee ID 1, exact HTTPS staging URL, existing password/secret present, no operator pre-override, runs combined read-only preflight, checks live HTTPS `/health` and `/owner-setup/`, then **requires exact interactive phrase `ISSUE STAGING OWNER RECOVERY`** before handing operator-only loopback database URL to reviewed `scripts/issue-owner-stage-activation.mjs --reissue-expired-staging-owner` with pre-approved local acknowledgment env and human confirmation of canonical employee ID. It prints the one-time activation only to the trusted Codespaces TTY. New launcher is **not yet executed or integration-tested**; no secrets copied into repo, Railway environment, or chat, no public TCP proxy or production changes.
+
+**When operator physically has phone/passkey and PIN ready, and confirms they want to consume the one-time replacement:** keep Terminal 1 existing SSH tunnel open. In Terminal 2:
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git pull --ff-only
+node --check scripts/launch-owner-stage-recovery-ceremony.mjs
+railway run --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service Postgres-x8Ui --no-local \
+ railway run --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service hc-owner-staging --no-local \
+ node scripts/launch-owner-stage-recovery-ceremony.mjs
+```
+Only if the launcher prints ready and device/session available should they type `ISSUE STAGING OWNER RECOVERY`, then independently confirm `1` at the issuer's employee prompt. The token is valid **10 minutes only**; immediately open https://hc-owner-staging-staging.up.railway.app/owner-setup/ and complete signed Timeclock PIN session + real passkey registration; then enroll Google Authenticator TOTP, sign-out/in test. Never share token, PIN, passkey/TOTP secret or QR in chat. Any nonzero process/failure needs state inspection **before retry**, since the issuance could have committed even if output was interrupted. If one-time opportunity expires after committed issuance, **do not manually UPDATE/DELETE** records. Status is still **activation unissued**, no device credential enrolled, no production changes.
+
+---
+
 ## Nov 23 combined private ceremony preflight prepared after operator tunnel PASS
 
 **Latest operator result confirmed:** `HC_OWNER_OPERATOR_TUNNEL_PREFLIGHT_OK=true` and `READ_ONLY=true; ACTIVATION_NOT_ISSUED=true` from exact restricted staging PostgreSQL login over local-only SSH tunnel using existing DB password injected by `railway run`. Deployed app's `HC_OWNER_TIMECLOCK_PREFLIGHT_OK` was also independently reported. Both standalone checks PASS; no actual one-time token has been issued.
