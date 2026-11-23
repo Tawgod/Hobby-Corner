@@ -1,3 +1,20 @@
+## Nov 23 Owner staging recovery exhausted: EXPIRED_UNUSED, one reissue, zero owners
+
+**Fresh read-only operator output after deployed digest hotfix:**
+```
+HC_OWNER_ACTIVATION_STATE=EXPIRED_UNUSED
+HC_OWNER_RECOVERY_RECORDS=1
+HC_OWNER_REGISTERED_OWNERS=0
+READ_ONLY=true
+```
+**Interpretation:** Existing single-use 10-minute recovery has expired **without first Owner appointment**. One immutable first-Owner reissue audit already exists; current recovery SQL function is intentionally one-time and must not be called again or bypassed. The SHA-256 issuer/verifier mismatch was fixed and deployed only after the recovery had already been issued. Actual browser passkey enrollment and TOTP are not completed.
+
+**Next decision required:** Design a separate, versioned, audited second-recovery procedure for **isolated Owner staging only**. Inspect existing SQL and tests to define strict eligibility (exact employee 1, first reissue recorded, both grants expired and unused, zero Owners, zero passkeys/activation events; canonical Timeclock recheck, restricted operator-only access, short expiry, one extra recovery maximum, independent backup and restore), test disposable PostgreSQL before approval, and seek explicit user approval for any new database migration or issuance. Do not extend token expiry, edit existing reissue audit, weaken origin/PIN/activation checks, or touch production. Full source+Railway deployment readback commit remains 977f63b267f226a29b731541386d492bb537c312, deployment b3951f2f-77df-43f7-aa94-8c3fc9708ad3 SUCCESS.
+
+**Status:** Staging digest fix deployed; first Owner enrollment BLOCKED; recovery exhausted, no Owner. Next action review and approve a new narrowly scoped recovery, not reissue via old script.
+
+---
+
 ## Nov 23 Owner staging activation digest hotfix deployed successfully
 
 **Approval and tests:** User explicitly authorized this isolated staging deployment after tests pass, and reported HC_OWNER_DIGEST_HOTFIX_TESTS_PASSED=true from Codespaces disposable PostgreSQL hotfix suite. The two code changes are raw-byte SHA-256 activation verification and updated database regression fixture, plus a disposable test runner, on Tawgod/Lightspeed branch fix/owner-staging-activation-digest-20261123, exact commit 977f63b267f226a29b731541386d492bb537c312.
