@@ -1,3 +1,28 @@
+## Nov 23 operator password accessible via Railway run; private tunnel preflight ready
+
+**New operator evidence:** In existing Codespaces branch `feature/owner-expired-activation-recovery-20261113`, explicit `railway run --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service Postgres-x8Ui --no-local node -e '...'` returned **`HC_OWNER_OPERATOR_DB_PASSWORD: SET`**. This establishes that the *existing* Railway PostgreSQL operator secret can be securely injected into a local subprocess without recreating it. Its value was never displayed or sent in chat. Earlier SSH remote shell / PID1 missing value is now superseded as an access method; don't repeat those attempts.
+
+**Prepared safe operator connectivity:** Added `scripts/preflight-owner-operator-tunnel.mjs` on draft PR #75 branch, commit `5359588cf6d0e1d207c611b96014c657405e4fa4`. It connects **only** via `127.0.0.1:15439` to `hc_owner_stage_test` using fixed restricted role `hc_owner_stage_operator` and password from environment injected with Railway run; never uses root/runtime DB URL, and forces a read-only session. It verifies current user, narrow privileges, original employee-1 activation expired and unused, no reissue or Owner, and recovery function executable. Prints PASS/BLOCKED only. **New helper not yet executed by operator.**
+
+**Private tunnel operator procedure** (two Codespaces terminals; exact isolated DB target):
+Terminal A:
+```bash
+railway ssh config --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service Postgres-x8Ui --alias hc-owner-stage-db --identity-file "$HOME/.ssh/hc_owner_railway_20261123"
+ssh -N -o ExitOnForwardFailure=yes -L 127.0.0.1:15439:127.0.0.1:5432 hc-owner-stage-db
+```
+Leave tunnel terminal open. Terminal B:
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git pull --ff-only
+node --check scripts/preflight-owner-operator-tunnel.mjs
+railway run --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service Postgres-x8Ui --no-local env HC_OWNER_OPERATOR_TUNNEL_CHECK=READ_ONLY node scripts/preflight-owner-operator-tunnel.mjs
+```
+Success marker `HC_OWNER_OPERATOR_TUNNEL_PREFLIGHT_OK=true`. SSH local forwarding is officially supported and confined to the container loopback/private network; no public TCP proxy, no live service deployment. If the SSH tunnel fails, check alias and host/port before doing anything else; if client returns BLOCKED, do not issue the one permitted reissue. No new activation executed.
+
+**Current verified status:** Timeclock canonical employee 1 auth `HC_OWNER_TIMECLOCK_PREFLIGHT_OK`; DB password availability via Railway run SET; restricted operator actual TCP auth pending; offsite encrypted backup/restorable and isolated SQL migration completed Nov 13; recovery unspent based on latest operator evidence. Production untouched.
+
+---
+
 ## Nov 23 remote PID1 environment also lacks operator password; use supported Railway local variable injection next
 
 **Operator evidence:** The corrected `scripts/preflight-owner-stage-activation-live.sh` at `b2a6ee4` passed `HC_OWNER_TIMECLOCK_PREFLIGHT_OK` in deployed `hc-owner-staging` using the registered new Railway SSH key. Dedicated `Postgres-x8Ui` SSH succeeded but reported `HC_OWNER_OPERATOR_PREFLIGHT_BLOCKED: password unavailable to Railway SSH` after both the remote shell and read-only PID1 environment fallback could not find `HC_OWNER_OPERATOR_DB_PASSWORD`. The preflight stopped before any DB verification was run; **no reissue, Owner, passkey, migration, deployment or production change**. Railway service metadata still lists the operator password variable name, but this does not guarantee it is injected into SSH shells.
