@@ -1,3 +1,18 @@
+## Nov 23 Railway SSH authentication restored with separate key; read-only preflight rerun pending
+
+**Operator evidence:** Existing Codespaces `~/.ssh/id_ed25519` private key could not be unlocked (incorrect passphrase); previous read-only Railway SSH activation preflight stopped before contacting Timeclock. Operator created/registered an independent public key and successfully ran `railway ssh -i ~/.ssh/hc_owner_railway_20261123 --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service hc-owner-staging -- node -e "console.log('RAILWAY_SSH_OK')"` with result `RAILWAY_SSH_OK` and clean SSH close. New key is authorized; old key was not overwritten. Passphrases/private keys never shared. No staging data changed.
+
+Updated only `scripts/preflight-owner-stage-activation-live.sh` on development PR #75 branch, commit `17a17927ba1632c13fc9543af1457337920705f3`, to allow optional `HC_OWNER_RAILWAY_SSH_KEY`, passed as `-i` on both Railway SSH calls. **Not yet tested in Codespaces.** Next operator command:
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git pull --ff-only
+bash -n scripts/preflight-owner-stage-activation-live.sh
+HC_OWNER_RAILWAY_SSH_KEY="$HOME/.ssh/hc_owner_railway_20261123" bash scripts/preflight-owner-stage-activation-live.sh
+```
+Expected `HC_OWNER_PRIVATE_ACTIVATION_PREFLIGHT_OK=true`. Stop and report sanitized output if Timeclock or restricted operator DB fails. One-time 10-minute activation is still **unissued**; no WebAuthn/TOTP enrolled. No production or staging deploy.
+
+---
+
 ## Nov 23 activation preflight stopped by Railway SSH key authentication — no reissue
 
 **New operator output:** Codespaces fetched `scripts/preflight-owner-stage-activation-live.sh` from commit `5cec5f2` successfully and started the read-only Railway SSH request to `hc-owner-staging`. Railway repeatedly prompted for passphrase on `/home/codespace/.ssh/id_ed25519`, then returned `You need an SSH key so Railway can recognise you`, and the script printed `STOP: Timeclock lookup unavailable. No recovery issued.` **This is an SSH-authentication failure before the remote Timeclock check executed**, not a failed real Timeclock identity lookup or application fault. No staging write, reissue, WebAuthn or TOTP occurred.
