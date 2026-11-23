@@ -1,3 +1,28 @@
+## Nov 23 second recovery approved for development/testing ONLY — draft PR #76
+
+**User approval scope:** User answered 'approved' to *preparing and testing* a second, tightly controlled isolated Owner staging recovery. This is NOT authorization to apply migrations, issue any replacement activation, deploy, merge PRs, modify production, or alter recovery audit records.
+
+**Verified starting facts:** Owner staging digest hotfix deployed at commit 977f63b267f226a29b731541386d492bb537c312 / Railway deploy b3951f2f-77df-43f7-aa94-8c3fc9708ad3 SUCCESS. Last restricted read-only staging SQL: HC_OWNER_ACTIVATION_STATE=EXPIRED_UNUSED, HC_OWNER_RECOVERY_RECORDS=1, HC_OWNER_REGISTERED_OWNERS=0, READ_ONLY=true.
+
+**Development changes prepared (NOT run/applied to live DB):** Git branch Tawgod/Lightspeed:feature/owner-stage-second-recovery-20261123 based on earlier recovery feature branch. Draft PR https://github.com/Tawgod/Lightspeed/pull/76 (unmerged). New db/hc_owner_stage_second_failed_enrollment_recovery.sql: exact isolated DB/role guards; separate append-only single-row second recovery audit linking existing immutable first reissue to current expired untouched activation; no Owner/passkey/activation event; exactly employee 1; advisory lock, narrow non-login definer, operator-only EXECUTE, no runtime privilege; 10-minute DB-controlled expiry. Private scripts/issue-owner-stage-activation.mjs adds explicit --second-recover-expired-staging-owner requiring I_REVIEWED_SECOND_FAILED_ENROLLMENT_RECOVERY and exact canonical Timeclock employee verification. tests/owner-expired-activation-recovery.test.mjs now covers positive path, negative paths and privilege, audit, replay and rollback in disposable PG18. New scripts/test-owner-second-recovery-disposable.sh invokes existing isolated docker test runner and outputs HC_OWNER_SECOND_RECOVERY_DISPOSABLE_TESTS_PASSED=true.
+
+**TESTING STATUS: PENDING actual Codespaces execution.** No local/remote PostgreSQL test engine accessible to chat. Next Codespaces command should use a separate worktree (no disruption to existing project branch):
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git fetch origin feature/owner-stage-second-recovery-20261123
+git worktree add --detach /workspaces/Lightspeed-owner-second-recovery origin/feature/owner-stage-second-recovery-20261123
+cd /workspaces/Lightspeed-owner-second-recovery
+npm install --ignore-scripts --no-audit --no-fund
+bash scripts/test-owner-second-recovery-disposable.sh
+```
+Do not set HC_TEST_DATABASE_URL to Railway; disposable runner handles fresh PG18 localhost. If all pass, gather exact output. If tests fail, fix on new branch without touching real database.
+
+**Next after tests:** review separate operator-only migration execution script and fresh backup/restore before any request to approve staging SQL, then stage-only readback. The code-only draft PR is not the deployed app source. No activation may be issued without its own explicit approval and device readiness. Never rewrite original first-reissue audit or alter token expiry by hand.
+
+**Status:** second-recovery proposal In Development; not yet tested or deployed, migration not applied, token not issued.
+
+---
+
 ## Nov 23 Owner staging recovery exhausted: EXPIRED_UNUSED, one reissue, zero owners
 
 **Fresh read-only operator output after deployed digest hotfix:**
