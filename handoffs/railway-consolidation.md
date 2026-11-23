@@ -1,3 +1,13 @@
+## November 23 — HC Secure new staging project and staged-only auth candidate
+
+**User direction:** consolidate staff and Owner security under **HC Secure**, allow future customer portal authentication, duplicate/test original Owner before any cutover or retirement. **Implemented** new private Railway project `HC Secure` `120de974-f2e8-46be-9a00-8eb8b1be4cc4`, `staging` `8c8cd3a9-079f-4fe8-b8f5-a76c79813f0c`; one `hc-secure-auth-staging` `8ef9adc0-2a4d-46c0-92cf-ba54834e33b5` **staged-create only**, pinned exact original working Owner source `Tawgod/Lightspeed@977f63b267f226a29b731541386d492bb537c312`, correct owner server start command and `/health`. Railway patch `60012c69-e526-4778-9422-055d705150f2`, ten staged changes. **No deployment, domain, database, volume, variables or secrets** in HC Secure yet. Do **not** accept-deploy this incomplete patch.
+
+**Verified:** existing `HC PR63 Isolated Staging` Owner app and protected `Postgres-x8Ui` online (1 replica each); older `Hobby Corner Integration Test` synthetic `staff-security-staging` online. Existing Owner mount already serves `/staff-security` settings, but its current policy restricts staff approval to canonical Owner, so staff onboarding is not yet supported in new source. Existing RP ID and exact HTTPS Origin are bound to original `hc-owner-staging-staging.up.railway.app`; moving to a new generated domain cannot use existing registered WebAuthn passkey. Owner DB is encrypted, audited and protected; do not copy credentials/rows blindly. Original services and production Timeclock untouched.
+
+**Next:** reviewed HTTPS domain/RPID and passkey continuity strategy, isolated new staging database plus approved backup/privilege migration (not a reset), staff canonical identity+permissions integration, separate customer identities, then runtime/physical passkey test and explicit cutover approval. Full operational source/security handoff: [handoffs/hc-secure.md](hc-secure.md). No old resource can be removed on this work alone.
+
+---
+
 ## November 23 user-authorized safe-moves audit — no cross-project runtime cutover
 
 **User request:** “move anything that is safe to move.” Reverified current sources and documented Railway migration support. No further live service was safe to move automatically without changing source guards, migrating private databases, handling secrets or impacting security boundaries; **no new service, duplicate, deploy, secrets, domain, public route, production workload or database was created, moved or deleted in this phase.** The two approved one-shot services were already retired in the immediately preceding phase.
