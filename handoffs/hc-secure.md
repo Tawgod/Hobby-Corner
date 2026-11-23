@@ -1,3 +1,10 @@
+## Confirmed permanent security hostname — 2026-11-23
+
+**Approved hostname decision:** User selected **`secure-hc.timcorp-productions.com`** for the new HC Secure security login service. This replaces earlier suggested `secure.timcorp-productions.com` (which was only a suggestion). Target origin **`https://secure-hc.timcorp-productions.com`**, target WebAuthn RP ID **`secure-hc.timcorp-productions.com`** for *new credentials registered against that host*. Keep both exact values synchronized in `HC_OWNER_STAGING_ORIGIN` and `HC_OWNER_STAGING_RPID` when a **new**, separately configured HC Secure environment becomes deployable, and in CSRF/signed challenge validation, cookie domain rules, allowed redirects and gateway configuration. Do not assume old Owner credentials registered against `hc-owner-staging-staging.up.railway.app` will work under the new RP ID; require an explicitly tested safe credential migration or additional registration with existing strong Owner authentication. For future customer auth, design separate credential audience/policies, not implicit employee/Owner sharing.
+
+**Change scope this turn:** design/documentation decision only. **No public DNS, Timcorp gateway, Railway custom domain attachment, TLS, environmental secrets, Owner data, deployment or production route changed.** Maintain existing working Owner staging URL through test and cutover. Future exact DNS/gateway changes require explicit separately reviewed launch approval after domain ownership verification and hardware/browser passkey tests. New `HC Secure` candidate remains staged-only (10 pending config changes) with no database/domain/secrets and must not be deployed.
+
+---
 # HC Secure — Identity & Authenticator Consolidation Handoff
 
 **Last verified:** 2026-11-23  
