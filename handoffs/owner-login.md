@@ -1,3 +1,13 @@
+## Nov 23 second recovery disposable tests operator-reported PASS
+
+**Operator result:** user replied `=true` in response to the required `HC_OWNER_SECOND_RECOVERY_DISPOSABLE_TESTS_PASSED=true` output after applying the precise microsecond timestamp fixture correction. Treat as **operator-reported pass** on draft `Tawgod/Lightspeed` PR #76, branch `feature/owner-stage-second-recovery-20261123`, head `b4b4e849fbf0e9763885938d5b0a3f365671f229`. Full terminal log was not independently reviewed in chat.
+
+**Scope remains development and testing approval ONLY.** The staging migration has NOT been applied, token NOT issued, production untouched. Live database remains previously observed `EXPIRED_UNUSED`, first reissues 1, Owners 0. Next steps: fresh independently verified encrypted staging backup and restore; verify offsite copy; review migration privileges and exact SQL; separately seek user's explicit approval before any staging SQL migration; later seek separate token issuance approval with phone ready.
+
+**Source inspection caveat:** prior `scripts/backup-owner-staging-verified.sh` on this branch contains a suspicious literal `CONTAINER="hc-owner-restore-check-$"` near beginning. Correct and review isolated backup script before asking operator to run it; never infer fresh backup from earlier Nov 13 archive.
+
+---
+
 ## Nov 23 second-recovery disposable test fixture failure corrected
 
 **Operator output:** In disposable PG18 second-recovery test, the fault-injection assertion at tests/owner-expired-activation-recovery.test.mjs:320 expected `second audit insertion fault` but actual SQL raised `Second Owner staging recovery denied`. This is a failed test, not a live Railway issue. No staging migration or issuance performed.
