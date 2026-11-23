@@ -1,3 +1,9 @@
+## HC Secure database safety preflight authored — 2026-11-23
+
+**In Development; not deployed.** Added read-only database preflight on `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77): `scripts/check-hc-secure-fresh-db.mjs` and five tests `tests/hc-secure-fresh-db-preflight.test.mjs`. Probe requires exact new HC Secure Railway project/environment/private PG hostname and `hc_owner_stage_test`, forbids shared/old Owner DB and rejects partial/migrated tables, using only a read-only transaction. **Tests written, not run.** New PG18 service/volume and app remain staged-create, unprovisioned and without DB bootstrap credentials. Original Owner DB/passkey/TOTP, Timeclock and production tool security unaffected. [Handoff](handoffs/hc-secure.md).
+
+---
+
 ## HC Secure tests operator-reported successful — 2026-11-23
 
 **Testing:** Operator reported “success” after running HC Secure Codespace source tests in `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` (draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77)). Treat as operator-reported PASS, not independently collected detailed test log. **Railway state unchanged:** new `HC Secure/staging` auth service, PG18 and 5 GB volume are all `staged-create`; 23 changes remain unapplied; no runtime, DNS, production or credential transfer. Original Owner service and protected Postgres still online/SUCCESS. Next gate: independently provision fresh private DB credentials and restricted schema after disposable PG test, plus new-host WebAuthn credential continuity without modifying existing Owner. See [HC Secure handoff](handoffs/hc-secure.md).
