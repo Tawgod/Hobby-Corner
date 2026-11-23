@@ -1,3 +1,11 @@
+## 2026-11-23 — HC Secure read-only fresh PostgreSQL preflight
+
+- Reviewed real Owner runtime privilege-check requirements: nine security tables, no broad Owner issuance/deletion/digest rewrite privilege for app role.
+- Added `scripts/check-hc-secure-fresh-db.mjs` (read-only target/empty-schema probe) and `tests/hc-secure-fresh-db-preflight.test.mjs` (five positive/negative mock cases) to `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77). **Not yet executed.**
+- No SQL schema migration, credentials, railway deployment, database initialization, DNS, Owner records or production security changed; target app/PG18/volume remain staged and original Owner system unaffected. Details: [HC Secure handoff](handoffs/hc-secure.md).
+
+---
+
 ## 2026-11-23 — HC Secure strict staging entrypoint and nonsecret preparation
 
 - Staged **only** eight nonsecret isolated Owner runtime flags, including approved `https://secure-hc.timcorp-productions.com` and RP ID, in HC Secure/staging. No live deployment.
