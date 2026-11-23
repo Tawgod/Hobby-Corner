@@ -1,3 +1,15 @@
+## Nov 23 Owner staging activation digest hotfix deployed successfully
+
+**Approval and tests:** User explicitly authorized this isolated staging deployment after tests pass, and reported HC_OWNER_DIGEST_HOTFIX_TESTS_PASSED=true from Codespaces disposable PostgreSQL hotfix suite. The two code changes are raw-byte SHA-256 activation verification and updated database regression fixture, plus a disposable test runner, on Tawgod/Lightspeed branch fix/owner-staging-activation-digest-20261123, exact commit 977f63b267f226a29b731541386d492bb537c312.
+
+**Live Railway verification:** Before update, no staged changes. The staged patch contained exactly two source fields (branch and commit) for hc-owner-staging only; no other service, database, environment variable, networking or destructive changes. Patch 8ca3c332-d8e1-4eab-a58a-da01011ccf2f committed via accept_deploy using explicit user staging approval. Railway deployment b3951f2f-77df-43f7-aa94-8c3fc9708ad3 SUCCESS, one replica running, zero crash/warning/critical, settled November 23 2026 15:46:02 UTC. Read-back confirms source commit 977f63b and existing /health healthcheck. Other services hc-foundation-pr63, Postgres-x8Ui and Postgres remained online and untouched; no production changes.
+
+**Outstanding:** Browser passkey/TOTP enrollment and sign-out/re-login have NOT been verified. Prior read-only activation state was ACTIVE_UNUSED, reissues=1, Owners=0, but single 10-minute token may have expired while staging rolled out. One reissue is already recorded: DO NOT rerun recovery issuer, reset/delete audit or approval, or pretend a new code can be issued. Verify current activation state using existing read-only Codespaces script diagnose-owner-stage-activation-state.mjs via restricted operator loopback tunnel and Railway DB variable injection. If expired, design and approve separate audited recovery path. Only request user to use same code if read-only check establishes ACTIVE_UNUSED. Staging URL https://hc-owner-staging-staging.up.railway.app/owner-setup/ .
+
+**Status:** Implementation done; focused disposable tests operator-reported PASS; staging deployment independently verified SUCCESS; live enrollment pending / possible expiry blocker.
+
+---
+
 ## Nov 23 Owner digest hotfix deployment approved; disposable test gate
 
 **Explicit user approval:** In response to a request to approve deployment of the narrowly scoped raw-byte activation digest fix **only to isolated Owner staging after tests pass**, the user replied **"Yes deploy."** Approval includes changing only the Owner staging application's source/deployment after successful focused tests. It does **not** include production, gateway, DNS, extension, unrelated Railway services, migration, role edits, database reset, or new recovery issuance.
