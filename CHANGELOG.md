@@ -1,3 +1,12 @@
+## 2026-11-23 — HC Secure credential test readiness and staged isolated database
+
+- Prepared **but did not deploy** `hc-secure-postgres-staging` service `454f4979-6148-4ee5-9857-97bc793dc72d`, source `ghcr.io/railwayapp-templates/postgres-ssl:18`, and staged 5 GB `hc-secure-staging-pgdata` volume `468ccb0a-3006-48b1-ac2d-f74293c7c075` for new private `HC Secure/staging`. Existing pending patch `60012c69-e526-4778-9422-055d705150f2` now has 15 changes, including auth service, DB service and volume; none has a running instance.
+- New source-only `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` branch at `4074d6698ab7b659d6091b19ad682097908be4c3`; added exact hostname/RP ID, DB isolation, synthetic login rejection and independent-secret regression tests plus read-only acceptance matrix. No test execution, GitHub Actions, code merge or production deploy yet.
+- Audit confirms existing Timeclock PIN/session integration in production Special Orders but NOT universal fresh passkey/TOTP enforcement; legacy `x-hobby-corner-key` client fallback remains. Security rollout across tools requires verified staff factor enrollment and service-caller compatibility.
+- Original working Owner security app and Postgres-x8Ui remain live with no changes. Fresh Owner phone passkey and Authenticator verification on **original** hostname is next user-only check; registered WebAuthn credential cannot automatically authenticate the new `secure-hc.timcorp-productions.com` RP ID. No DNS/gateway, database data migration, credential copying or old service removal. See [HC Secure handoff](handoffs/hc-secure.md).
+
+---
+
 ## 2026-11-23 — HC Secure permanent hostname selected
 
 - Approved permanent login hostname **`secure-hc.timcorp-productions.com`**, target origin `https://secure-hc.timcorp-productions.com` and future new WebAuthn RP ID `secure-hc.timcorp-productions.com`.
