@@ -1,3 +1,9 @@
+## Owner MFA fresh recheck verified — November 23, 2026
+
+**Testing status: Owner Authenticator on original staging verified again.** User reported accepted verification. Independent Railway HTTP record `POST /api/staff-auth/session` 200 at `19:58:16Z` and `POST /staff-security/api/mfa/session` 200 at `19:58:34Z` on Nov 23 (1:58:34 PM CST). Owner app SUCCESS/online with zero recent failures. The latest window **did not show a separate passkey authentication verify call**; last prior WebAuthn HTTP 200 is 17:13:06Z. Do not claim fresh device passkey test or acceptance on `secure-hc.timcorp-productions.com`. New HC Secure staging remains **not deployed**; universal staff/Owner MFA across production tools remains **In Development**. See [HC Secure handoff](handoffs/hc-secure.md).
+
+---
+
 ## HC Secure credential continuity and production staff-security audit — 2026-11-23
 
 **Status: In Development / Testing pending; production unchanged.** Under user authorization to prepare new `secure-hc.timcorp-productions.com` identity service and confirm Owner credentials before cross-tool rollout, staged a separate `hc-secure-postgres-staging` PG18 service and 5 GB volume alongside previously staged `hc-secure-auth-staging` in private HC Secure/staging. Pending Railway patch `60012c69-e526-4778-9422-055d705150f2`; no app, DB, volume, DNS, gateway or custom domain deployed, no credential or data copy. New GitHub dev branch `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` contains source-only config tests `tests/hc-secure-staging-readiness.test.mjs` and acceptance document `docs/HC_SECURE_AUTH_INTEGRATION_ACCEPTANCE.md`; tests unexecuted, no production merge. Existing Owner staging remains online, registered passkey bound to original HTTPS RP ID. **Immediate credential proof requires user fresh passkey and TOTP on existing host**; new host cannot use old RP credential without separately reviewed handoff/registration.
