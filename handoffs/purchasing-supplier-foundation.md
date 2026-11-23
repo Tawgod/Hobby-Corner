@@ -1,0 +1,91 @@
+# Purchasing & Supplier Foundation — Current Handoff
+
+**Last verified:** 2026-11-23  
+**Status:** Read-only source audit / contract proposed; implementation not started; no deployment
+
+## Source
+- Management repository: `Tawgod/Hobby-Corner:main`; handoff path `handoffs/purchasing-supplier-foundation.md`.
+- Authoritative production-connected application: `Tawgod/Lightspeed:integration/hobby-corner-consolidation` (current head not independently read in this audit).
+- Existing shared service candidates: PR #32 (`feature/shared-lightspeed-services-phase1-20261029`); stacked PR #33 (`feature/shared-lightspeed-services-phase2-reads-20261029`), both not merged/deployed per current management register.
+- Existing PO Companion PR #31; optional shared-reader compatibility PR #37 stacked on #31, tested but not mounted. Review before editing `routes/poCompanionRead.js`.
+- Source references read: `SHARED_TOOL_DEPENDENCIES.md`, `LIGHTSPEED_SHARED_SERVICES.md`, `FEATURE_INVOICE_RECONCILIATION.md`, `handoffs/po-companion.md`, `handoffs/product-scanner.md`, `handoffs/TEMPLATE.md`; `services/lightspeed/purchaseOrders.js` and `docs/SHARED_LIGHTSPEED_PHASE2_READS.md` on PR #33 branch. PR #32/#33 changed-file inventories inspected.
+
+## Current-source audit / existing versus missing
+| Surface | Existing / verified in source or documented handoff | Gap / boundary |
+| --- | --- | --- |
+| Ordering and Avery 5960 PO labels | Existing production-connected `server.js` PO and label reads; direct older Lightspeed GETs per dependency register | Shared conversion and paginated tenant parity not verified; do not rewrite label rendering |
+| Shared PO reader | PR #33 `services/lightspeed/purchaseOrders.js`: complete `2026-04/purchase_orders` list, unique ID match, `/line_items`, normalized supplier/lines, raw vendor payload | Candidate only, unmounted; read-only; real tenant response/scope and pagination still need acceptance |
+| PO Companion | PR #31 has read-only Timeclock-checked `GET /api/scanner/purchase-orders/:id`, local supplier SKU/product mappings and per-PO/supplier draft review; PR #37 adds optional shared-reader injection with fail-closed parity tests | PR #31/#37 not production-integrated; real Chrome PO and signed-session acceptance incomplete |
+| Product Scanner | Existing match/review foundations; supplier identifiers preserved exactly, invoice proposal bridge planned | Do not duplicate matcher or add its own invoice PO writer |
+| Suppliers/catalog | Shared PR #32/#33 catalog references and existing Special Orders supplier/product mappings | Product Foundation owns canonical catalog supplier/product relationships, exact supplier SKU/cost/primary preference; Purchasing consumes and contributes evidence |
+| Invoice reconciliation | `FEATURE_INVOICE_RECONCILIATION.md` approved architecture: invoice staging, full-invoice human review, match existing PO or propose new OPEN PO, sender aliases, tracking and provenance | No live invoice ingest, shared approval writer, or independently authorized vendor mutation |
+| Receiving and stock | Special Orders/Ordering receiving business workflows already exist; Inventory owns canonical physical receiving and stock events | No invoice/tracking-to-receiving coupling whatsoever |
+
+## Safe shared PO contract v0 (proposal only, NOT a deployed endpoint)
+- `listPurchaseOrders({supplierId?, outletId?, status?, cursor?})` -> `{items, page, source:{system,apiVersion,readAt,complete}}`. A collection must not claim complete if pagination fails. Maintain underlying PR #33 pagination behavior rather than implementing another transport.
+- `getPurchaseOrder(poId)` -> `{id, poType:'SUPPLIER', supplier:{id,name}, outletId, purchasingStatus, lines:[{id,productId,productName,orderedQty,supplierSku,sku,upc,unitCost,currency,raw}], source:{...}, raw}`. All IDs and supplier/product codes **strings**; preserve leading zeroes. Absent values `null`, not 0. An unverified field is absent/null, never invented from a vendor response.
+- `purchasingStatus` represents vendor PO state only, e.g. `OPEN` if positively sourced; unknown mapped to `UNKNOWN`. Separate `receiving:{state,receivedQty,source,verifiedAt}` supplied **only** by Inventory's accepted physical receiving reader, never derived from invoice/tracking/PO text.
+- Product Foundation owns `resolveSupplierIdentity({source,alias})`, `findSupplierProductLink(productId,supplierId)` and catalog write decisions. Purchasing owns evidence-backed shipping-sender aliases, supplier order references, invoice/PO/shipment associations; ambiguous aliases fail closed. Supplier SKU and historical unit cost retain provenance, timestamp, and source.
+- Invoice `{id,supplierId,invoiceNumber,invoiceDate,documentHash,lines,associationStatus,approvalState,sourceEvidence}`; line `{orderedQty,invoicedQty,receivedQty,unitCostInvoice,currency,matchState,evidence}` keeps all three quantities distinct. `receivedQty` only sourced from Inventory and must remain unknown when unverified. Store invoice quantities in Hobby Corner PostgreSQL if Lightspeed PO fields cannot represent them safely.
+- Shipment/tracking is many-to-many across invoice, PO and PO lines, with carrier, exact tracking reference, evidence, confidence, event timestamp, last verified time, tentative ETA, and `needs_review` state when ambiguous. Informational `on_the_way` projection never means received, ready, allocated, or notification-worthy without an independent workflow.
+- Proposed write workflow for *future separately authorized milestone*: `proposePOChange({invoiceId,mode:'update_open'|'create_open',targetPoId?,supplierId,outletId,expectedPoVersion,reviewedLines,sourceEvidence})` -> durable non-mutating diff; final fully resolved invoice approval + exact operation grant + source recheck + duplicate PO check + audited idempotency + vendor readback. No live writer is authorized by this contract. If existing PO is incompatible/closed, reject and require separate review; never silently change received/dispatched states.
+- Vendor adapters return normalized **evidence**, not inventory commands. Exact identifiers, source message IDs, document hashes, supplier alias provenance and uncertain associations must survive normalization.
+- Security: consume Core API transport/audit/idempotency and independently approved Foundational Security identity/grants. Read permission never implies write approval. Avoid direct browser credentials.
+
+## Invariants / non-negotiable safety
+1. **Invoice, credit memo, preorder confirmation and tracking evidence NEVER receive products, increase inventory, allocate customer-ready items, mark a PO received, or mark Special Orders READY.**
+2. Approved invoice may only propose authorized `OPEN` supplier PO creation or compatible existing PO update, and must never directly receive stock.
+3. Physical receiving and inventory movements are separately owned, authorized and evidenced by Inventory's accepted workflow.
+4. Do not equate Lightspeed `SUPPLIER` consignments with Hobby Corner customer-owned used-item Consignment.
+5. No inferred supplier alias, no ambiguous PO matches, no primary-supplier overwrite, no numeric conversion of SKU/UPC, no duplicate PO creation.
+6. Mutations must be explicit, operation-specific, replay-safe, audited and readback-verified, with uncertain writes quarantined.
+
+## Implemented
+- This **management handoff and interface proposal only**; no application code changed.
+
+## Tested
+- Automated: **not run for this handoff**. Historical PR #37 PO read regression GitHub Actions `42698964439` SUCCESS; historical PR #33 read/permission tests reported passed in its source documentation, **not rerun here**.
+- Browser / employee acceptance: not performed; real tenant PO and supplier mapping parity unverified.
+- Runtime / deployment verification: current management register reviewed; no independent Railway recheck in this milestone.
+
+## Deployed
+- Environment: **none for this foundation**.
+- Service / extension version: none.
+- Deployment reference: none.
+- Production status: unchanged. Existing production-connected Ordering and labels remain owned by their current services.
+
+## Shared dependencies / ownership
+- Foundation Manager: contract registry F20/F21 and sequencing, conflict approval.
+- Core API: `readCollection.js` pagination, `client.js` transport, audit/idempotency, versioning, gateway orchestration.
+- Product & Catalog: canonical supplier identities/catalog aliases, product-supplier mappings, exact supplier SKU, cost/primary status; review proposal interfaces rather than duplicate writes.
+- Inventory: received quantities, receiving events, stock mutations and stock timestamp validity.
+- Purchasing (this workstream): PO projection, purchase-facing status, invoice/PO matching and proposals, shipping alias *evidence*, invoice/tracking association contracts and vendor adapters.
+- PO Companion / Ordering / Scanner / Labels: keep their own UI, review, barcode and print workflows; consume shared read projections.
+- Foundational Security: trusted staff identity and exact operation authorization; do not build a parallel system.
+
+## Shared files / integration surfaces affected
+- This handoff only. Proposed later code changes isolated to a named Purchasing branch, with changes to existing `services/lightspeed/purchaseOrders.js` only after coordinating PR #33/Core API ownership.
+- Do not modify `server.js`, `routes/poCompanionRead.js`, `extension/manifest.json`, `extension/popup.js`, Scanner/PO Companion UI, or labels in the audit milestone.
+
+## Remaining blockers
+1. Obtain Foundation Manager's reviewed F20/F21 schema/operation IDs and Product/Inventory interface ownership agreement.
+2. Verify current authoritative integration branch head and actual Ordering/Avery endpoint code; compare field/source shapes with PR #33 and PO Companion PR #37.
+3. Read-only test-tenant validation of PO list/cursor completeness, PO lines, supplier IDs, outlet, status, exact codes, monetary fields and API version. Avoid undocumented direct GET assumptions.
+4. Verify supplier alias, invoice numbering and PO reference uniqueness across multiple documents/shipments; design fixture dataset with ambiguous matches.
+5. Define compatibility preconditions for OPEN PO updates and approved invoice proposal replay recovery; no writer until separately authorized.
+6. Validate real browser/employee identity and PO Companion shared-reader adapter later with owning workstream.
+
+## Decisions needed
+- Canonical supplier ID versus shipping-sender alias registry ownership and approved provenance format with Product.
+- Whether all PO reads stay `2026-04` until tenant validation; `2026-07` supplier-consignment create semantics must be independently scoped before any writes.
+- Version 0 DTO fields and an explicit source for receiving status from Inventory.
+- Approved account/service role for later invoice *approval* (distinct from any employee's ability to view invoices).
+
+## Recommended next action
+- Ask Foundation Manager to register this v0 read-only contract and resolve F07/F20/F21 ownership. On an independent Purchasing branch, add a **pure, read-only PO projection adapter and fixtures** built on PR #33's existing reader, prove complete pagination, exact string identity, missing/ambiguous fields, status separation and no receiving side effects. Wire one low-risk Ordering/PO Companion read consumer only after gated parity and review. No production PO writes or deployments.
+
+## Restrictions / safety
+- No production PO edits, receiving, inventory adjustments, product mutations, deployment, merge, live invoice auto-application or mailbox ingestion enabled by this milestone.
+
+## Documentation
+- `SHARED_TOOL_DEPENDENCIES.md` (F07, F08, F20, F21, F15, F25, F27), `LIGHTSPEED_SHARED_SERVICES.md`, `FEATURE_INVOICE_RECONCILIATION.md`, `handoffs/po-companion.md`, `handoffs/product-scanner.md`.
