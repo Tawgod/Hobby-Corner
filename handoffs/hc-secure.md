@@ -1,3 +1,13 @@
+## Nov 23 Codespace security tests — operator-reported success
+
+**User report:** After cloning `Tawgod/Lightspeed` and running `npm install` rather than `npm ci` (no package-lock exists on branch), user reported **“success”** following requested `node --test tests/hc-secure-staging-gate.test.mjs tests/hc-secure-staging-readiness.test.mjs`. **Classification:** operator-reported Tests PASS, full stdout/individual assertion count not independently available via connector. Do not claim independent CI evidence or physical credential verification on new host. The test files remain on `feature/hc-secure-staging-readiness-20261123`, tracked in [draft PR #77](https://github.com/Tawgod/Lightspeed/pull/77). 
+
+**Fresh Railway readback:** `HC Secure/staging` retains patch `60012c69-e526-4778-9422-055d705150f2` of **23 staged changes**; `hc-secure-auth-staging`, `hc-secure-postgres-staging` and its volume remain `staged-create`, none deployed/provisioned. Original `HC PR63 Isolated Staging/hc-owner-staging` and `Postgres-x8Ui` are independently online, latest deployments SUCCESS.
+
+**Next work gate:** use a new, isolated HC Secure PG18 instance with independently provisioned database/admin credentials and reviewed least-privilege roles. The current service was staged from a generic PostgreSQL Docker image and was observed without bootstrap variables; **do not accept-deploy as-is**. Write/test DB schema and privilege bootstrapping in disposable Docker/PG18 first; plan a separate backup and encrypted TOTP/passkey continuity with old-host login and new RP ID, rather than copying existing Owner production records or keys blindly. Never print keys/QR/PIN/TOTP through chat; no live domain/production changes approved. After DB+runtime preflight, independent staging deployment approval is required, followed by physical device browser tests and employee-scoped grants integration.
+
+---
+
 ## Nov 23 HC Secure next phase — fail-closed entrypoint and staged safe config
 
 **State:** In Development / Testing pending. Read back HC Secure project `120de974-f2e8-46be-9a00-8eb8b1be4cc4`, `staging` env `8c8cd3a9-079f-4fe8-b8f5-a76c79813f0c`. The prepared `hc-secure-auth-staging` `8ef9adc0-2a4d-46c0-92cf-ba54834e33b5`, `hc-secure-postgres-staging` `454f4979-6148-4ee5-9857-97bc793dc72d`, and `hc-secure-staging-pgdata` `468ccb0a-3006-48b1-ac2d-f74293c7c075` remain **staged-create only** (no deployment/data/volume provision). Original verified Owner app and DB in `HC PR63 Isolated Staging` still successful and unaffected.
