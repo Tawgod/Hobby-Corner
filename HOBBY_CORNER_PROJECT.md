@@ -2398,3 +2398,22 @@ Timeclock remains internal for the first gateway phase. Its unrelated staged Rai
 ## Back-in-Stock Notifications — planned
 
 **Status: Planned.** Future shared customer notification capability for both in-store and online customers. Track a deduplicated product/variant waitlist using canonical Lightspeed product identity; verify actual availability through the shared Inventory service before notification; respect customer contact consent/preferences and approved notification channels; preserve audit/history. A notification request does **not** reserve inventory unless a separate reservation policy is explicitly designed and approved. Reuse shared customer synchronization, Product Scanner identity and notification infrastructure rather than creating a competing product/customer matching system.
+
+
+---
+
+## Backroom Restock Tool — planned
+
+**Status: Planned.** Create a store-operations tool that lets authorized staff register a SKU with a configured **Shelf Stock** target (for example, 4 means four units fit on the sales-floor shelf). Once per day, compare the configured shelf target and observed/on-shelf quantity against canonical Lightspeed on-hand inventory. When the shelf is below target and system inventory indicates stock should be available, send staff a consolidated Discord restock notice rather than one message per SKU.
+
+**Required workflow:** For each qualifying SKU show **Restock Qty**, **On Hand Qty**, **Storage Qty**, **sales-floor location**, **backroom/storage location**, and an action to flag **Missing Qty / inventory discrepancy**. Restock quantity should be bounded by the shelf target and available stock; do not imply more stock exists than Lightspeed reports. The discrepancy action must create/append a durable item in the shared Inventory Tool review queue so a mismatch noticed during restocking is not forgotten. Preserve SKU/product identity, who flagged it, timestamps, expected/system quantity, observed quantity, source tool, and resolution/audit state.
+
+**Architecture requirement:** Reuse the shared Lightspeed inventory/product identity and existing Discord infrastructure. Do not create an independent inventory truth. Exact semantics for **Storage Qty** and **On Shelf** need implementation design because Lightspeed total on-hand alone does not prove physical shelf-vs-backroom placement; the tool must distinguish configured/observed shelf state from canonical total inventory and fail safely when the quantities cannot be reconciled.
+
+## Multi-user Lightspeed Inventory Tool — planned
+
+**Status: Planned.** Build a shared inventory-count workspace that allows multiple employees to count simultaneously under their authenticated staff identities, while combining their work into one controlled inventory result suitable for the existing Lightspeed inventory workflow. The tool should avoid duplicate/overlapping counts, preserve each employee's entries and audit trail, expose conflicts for review, and require validation before any Lightspeed inventory write/export/finalization. It must not bypass Lightspeed's one-active-inventory limitation by issuing competing inventory operations.
+
+**Discrepancy / count-needed queue:** Maintain a durable queue of SKUs that need investigation when staff cannot immediately perform a count. The Backroom Restock Tool is an initial producer; future Hobby Corner tools may also submit flagged items through the same interface. Queue records should include SKU/product identity, source tool/reason, expected/system quantity, observed quantity when known, locations/context, reporting employee, timestamp, priority/status, assignee/claim state where useful, notes, and final resolution. Staff should be able to work this queue opportunistically and feed verified counts into the active shared inventory session without losing the original discrepancy history.
+
+**Integration requirements:** Use canonical Lightspeed inventory/product identity, shared employee authentication/permissions, and shared location data. Coordinate with Product Scanner and other inventory-aware tools rather than duplicating SKU lookup or inventory logic. Safeguard against duplicate submissions, simultaneous edits, stale Lightspeed quantities, partial failures, accidental inventory adjustments, and one employee overwriting another's count. Final Lightspeed mutation/export behavior requires separate design and explicit approval after testing.
