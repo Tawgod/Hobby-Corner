@@ -1,57 +1,76 @@
 # RMS Migration / Legacy Importer — Current Handoff
 
-**Last verified:** 2026-10-29  
-**Status:** Testing / Maintenance; not a live general-purpose staff importer.
+**Last verified:** 2026-11-23  
+**Status:** Testing; migration logic is substantially hardened, but v67 runtime verification and controlled test execution remain pending. Not a live general-purpose staff importer.
 
 ## Source
-- Runtime/bridge repository: `Tawgod/Hobby-Corner-Discord-Bot:main@ce54862f67d678f8a1cb77302e520c59fb0c7118`.
-- Active unmerged branches in Discord-Bot: `product-migration-colab@ee68894f5393f5a1a8537ac47b3e24f6dd182193`, `rms-history-read-bridge-20261026@065d8cd87c24efcf3e1085398afa26a454c00397`, `feature/rms-readonly-reporting@e5898f58d0ea22b385651676f3e4f31f447a798f`.
-- Legacy Apps Script repo: `Tawgod/Lightspeed-Importer:main@190c7a7d2bf9ebb119e98c00d625b70a6fa3869a` and `ChatGPT@8c519084b10b14bef990384680db60438872c9d0`. Distinct branch histories; do not merge blindly.
+- Runtime/bridge repository: `Tawgod/Hobby-Corner-Discord-Bot`.
+- Active migration branches remain: `product-migration-colab`, `rms-history-read-bridge-20261026`, and `feature/rms-readonly-reporting`.
+- 2026-11-23 comparison against Discord-Bot `main`:
+  - `product-migration-colab`: diverged, 200 commits ahead / 4 behind.
+  - `rms-history-read-bridge-20261026`: diverged, 221 commits ahead / 4 behind.
+  - `feature/rms-readonly-reporting`: diverged, 2 commits ahead / 3 behind.
+- Legacy Apps Script repo remains `Tawgod/Lightspeed-Importer`; `ChatGPT` is still a distinct diverged history (2 ahead / 2 behind main on 2026-11-23). Do not merge blindly.
 - Private recovery/schema-only branch `backup/hobby-corner-postgres-source-schema-20261029` is **not** a dump of live records.
 
-## Implemented
-- Legacy RMS source import and product/category/supplier/customer mapping scripts exist; Rewards source has `rms_customer_staging`, `rms_transaction_staging`, identity bridge tables/job tracking.
-- Separate migration/read bridge branches preserve staged reporting work but their latest feature tests and production use are not established by this handoff.
-- Continued `LS: importer` Sheet remains a historical business workflow; migration code should reuse shared product identity/validation when feasible.
+## Implemented / verified in source
+- The active `product-migration-colab` README documents notebook hardening through **v67**.
+- Authoritative migration source remains the Drive RMS CSV; legacy candidate-sheet fallback is fail-closed unless explicitly enabled.
+- RMS quantity remains selection-only; opening Lightspeed inventory is never imported from RMS.
+- Category mapping uses `LS: importer / Mapping`; live category UUID reconciliation, Category UUID Audit, Category Leaf Audit, safe missing-leaf creation, parent-category fallback leaves, pagination, and exact full-path verification are implemented.
+- Supplier resolution includes live UUID reconciliation, stale-cache correction, exact-name behavior, `Other` fallback policy, and the special Horizon Hobby Rockets / ESTES rule documented in v67.
+- Brand resolution includes canonicalization through `LS: importer / Brands`, live UUID reconciliation, stale-cache correction, and just-in-time creation only for selected controlled writes.
+- Product identity hardening includes exact SKU/GTIN checks, source-wide product-code collision detection, invalid Lightspeed SKU routing to REVIEW, and failed-test-product re-verification/repair without modifying unrelated existing products.
+- Controlled legacy product writes verify inventory tracking, product fields, codes, supplier, category, brand, price, weight, active flags, images, and reorder behavior.
+- Operational review/audit tabs were centralized into the dedicated Flagged Migration workbook in v63; `LS: importer` remains mapping/reference authority.
+- The previously ambiguous low-volume category pairs now have explicit v67 fallbacks; future new unmapped pairs remain review-visible.
+
+## Current workbook finding — 2026-11-23
+- Read-only inspection of the supplied `LS: importer` workbook found the expected mapping/reference tabs plus `Error Items` (1,653 data rows), `Lightspeed POS Inventory Export` (626 data rows), and related review/export tabs.
+- A block of Games Workshop records in `Error Items` is physically split across adjacent spreadsheet rows: the first row contains identity through supplier code and the next row contains price/category/stock/date fields shifted to the left.
+- These malformed rows create false duplicate/mapping signals if treated as normal records. They must remain fail-closed / review-only unless reconstructed from an authoritative source. Do not infer product identity from the shifted continuation row.
 
 ## Tested
-- No fresh full-catalog rehearsal or physical inventory parity test this turn. Source branch heads and file presence verified.
-- Migration bridge/reward runtime latest deployment SUCCESS from main; **that does not establish** migration branch deployment or completion.
-- Known required checks: full-catalog collision preflight, category/supplier/brand review, leading zero retention, primary/secondary supplier fidelity, dry-run counts, no RMS on-hand stock import, rollback/reconciliation.
+- Source and branch topology reverified 2026-11-23.
+- No production write, Railway deployment, branch merge, category/supplier/product mutation, or RMS on-hand import was performed in this verification.
+- Current source documentation marks **v67 runtime setup verification and a controlled test batch as still pending**.
+- A fresh full-catalog final-cutover collision preflight against all existing Lightspeed product codes remains required.
 
 ## Deployed
-- Legacy import scripts are not a new Railway production application. Branches above are not verified deployed; main Discord/Rewards services deployed separately.
-- Migration-specific Railway Bun test function exists; direct Lightspeed actions must be treated as sensitive until retired or tightly controlled.
+- Migration branches are not verified deployed as production migration code.
+- Main Discord/Rewards deployment status does not establish migration-branch readiness.
+- Legacy import scripts are not a new Railway production application.
 
-## Continuing conversation and reuse boundary — owner decision 2026-10-29
+## Continuing conversation and reuse boundary
+- The **RMS Item Migration** conversation remains active and intentionally separate from normal production operations tools.
+- Other Hobby Corner tools may reuse reviewed, deterministic product identity/mapping/validation helpers only after source verification and regression tests.
+- Never copy migration credentials, source records, RMS on-hand quantities, test-only persistence, or bulk migration writers into standard production features.
+- Do not merge, deploy, retire, rename, or delete migration branches as a side effect of helper reuse.
 
-- The **RMS Item Migration** conversation remains active and intentionally **separate from the production operations tools**. It continues developing, testing and reconciling the migration and is **not an archived feature chat**.
-- Other Hobby Corner tools may reuse appropriate **reviewed migration code** or algorithms, but this does not transfer migration ownership or mandate a common release cadence.
-- Candidate reusable areas: product name/category/brand/supplier normalization, exact SKU/UPC fidelity (leading zeros), duplicate/collision preflight, supplier mappings, validation, staged previews and source provenance.
-- Before reuse: verify the active migration branch, exact source commit, licenses/dependencies and tests; prefer extracting **pure, read-only, deterministic helpers** or shared contracts with regression fixtures. If adapting source into the canonical shared Lightspeed layer, have this chat and the consuming tool coordinate and document adopted code, test coverage and behavior changes.
-- Boundaries: **never** copy live migration credentials, private source records, test-tenant hardcoding, RMS on-hand quantities, migration-only import scripts or direct bulk Lightspeed writers into production features. Standard tools must continue using shared Timeclock auth, product matching/PO reads and authorized audited/idempotent Lightspeed operations.
-- Keep the current migration code and histories intact; do not merge, deploy, rename, retire, or refactor migration branches merely because a tool needs a helper. The migration owner makes migration-specific decisions; manager and Deployment Coordination approve any production adoption.
-- Context/status must be reverified against GitHub when the RMS conversation makes further progress; branch SHAs above are the **2026-10-29 snapshot**, not perpetual current pointers.
+## Remaining blockers / gates
+- Run the current v67 setup end-to-end against fresh authoritative inputs and confirm the category/supplier/brand audit outputs.
+- Re-run source-wide and existing-Lightspeed product-code collision preflight on the final migration dataset.
+- Reconcile malformed/split `Error Items` rows against an authoritative export rather than spreadsheet position.
+- Execute a bounded controlled test batch only with explicit authorization; verify read-back, inventory tracking, reorder behavior, images, and cleanup/retry handling.
+- Complete larger rehearsal, cutover audit, rollback/reconciliation plan, legacy credential retirement, and physical-inventory process before final migration.
+- No validated independent PostgreSQL full-data backup is established by this handoff; schema-only recovery material is not a data backup.
 
-## Shared dependencies
-- `LIGHTSPEED_SHARED_SERVICES.md`, planned read-only Product and supplier contracts (PR #32/#33 unmerged), source-specific migration test approvals.
-- Invoice Reconciliation must **not** use RMS historical invoice rows to trigger live PO writes. Future invoice sender alias matching must be verified against current supplier identities, not assumed from legacy labels.
-
-## Shared files / integration surfaces affected
-- `Tawgod/Lightspeed-Importer:*.gs`, Discord-Bot `migration/*` and `rms_bridge/*`, and shared supplier/product identity data. Any live importer branch needs its own handoff before cutover.
-
-## Remaining blockers
-- Final migration scope/collision review, larger controlled rehearsal, supplier/category mapping, data recovery and cutover audit, legacy credential removal.
-- No validated independent PostgreSQL full data backup; source archive is only database DDL reference.
-
-## Decisions needed
-- Which importer functions remain operationally necessary after January 2027 cutover and which legacy credentials may be retired.
+## Decisions still open
+- Final treatment of RMS inactive state for migrated in-store products.
+- Whether/when any migrated products become active on Ecwid/online.
+- Whether tags beyond private migration annotations are required.
+- Confirm/retain the documented `LB` default RMS weight-unit assumption.
+- Which legacy importer functions and credentials remain necessary after cutover.
 
 ## Recommended next action
-- Use read-only source counts and collision fixtures to decide branch consolidation; preserve both legacy histories until full migration rehearsal and reconciliation are signed off.
+1. Regenerate/obtain a fresh authoritative RMS export and run v67 setup read-only.
+2. Compare the generated review/audit outputs with the supplied `LS: importer`, explicitly excluding malformed split continuation rows from normal identity analysis.
+3. Resolve any new mapping/UUID/collision failures.
+4. Only then prepare an explicitly authorized controlled test batch.
 
 ## Restrictions / safety
-- No bulk Lightspeed writes, RMS stock quantity imports, branch deletion, secret exposure or production rollout without explicit authorization.
+- No bulk Lightspeed writes, RMS stock quantity imports, branch deletion, secret exposure, production rollout, or destructive cleanup without explicit authorization.
 
 ## Documentation
-- `ROADMAP.md`, `RAILWAY_VARIABLE_SECURITY_AUDIT.md`, `BRANCH_AND_DEPLOYMENT_POLICY.md`, `FEATURE_INVOICE_RECONCILIATION.md`.
+- Migration source: `Tawgod/Hobby-Corner-Discord-Bot:migration/product_migration/README.md`.
+- Related project docs: `ROADMAP.md`, `RAILWAY_VARIABLE_SECURITY_AUDIT.md`, `BRANCH_AND_DEPLOYMENT_POLICY.md`, `FEATURE_INVOICE_RECONCILIATION.md`.
