@@ -1,3 +1,35 @@
+## November 23 follow-up — explicit retirement approved and verified
+
+**User approval:** “retire the one time services. if possible can we put all the testing productions for hobby corner into one environment rather than so many separate ones?”
+
+### Actual scoped deletions (complete)
+
+1. **`migration-test-bsi117`** service `826e3b1a-c3b2-4572-b9ba-ea62d362e1a3` permanently deleted from `Hobby Corner/production` `f7e91de7-43f6-472e-b4ca-46b0623f8e0e/c562fbb2-8431-4beb-834d-6938b3a2ad10`. Before deletion: zero running replicas, no domains, no attached volumes, successful historical one-time verifier. `delete_service` responded with exact name/ID and `detachedVolumes:[]`.
+2. **`admin-grants-schema-once`** service `b0c1f060-4f33-4073-bf2b-103cd479afb4` permanently deleted from `Hobby Corner Integration Test/test` `c4586f88-0a5e-4582-8e0f-3861d851567b/24b41ef2-e3d8-4c7a-b011-355204ecf075`. Before deletion: zero running replicas, no domains, no attached volumes, historical smoke job passed. `delete_service` responded with exact name/ID and `detachedVolumes:[]`.
+3. **Readback:** production now has **7 live services** `timeclock`, `Hobby-Corner-Discord-Bot`, `Hobby-Corner-Rewards`, `lightspeed-api`, `special-orders-test`, `store-map`, `Postgres`; all SUCCESS, primary workloads each one running replica, production volume untouched, zero staged changes. Integration Test now has `staff-security-staging`, `consignment-beta`, `Postgres`, `Postgres-O39p` live, with `admin-nav-bridge-test` still staged-create (15 pending changes) and its two existing Postgres volumes untouched. PR63 Owner environment still 4 live/healthy services with two separate database volumes. No other service/database/domain changed.
+
+### Proposed destination architecture (NOT YET MIGRATED)
+
+**Central testing destination:** Reuse existing `Hobby Corner Integration Test` Railway project (project ID above) and its current `test` environment. Don't create a third new project or clone `Hobby Corner/production` wholesale because environment duplication would copy service configurations/variables, risking production credentials/accidental writes.
+
+| Existing test resource | Migration recommendation | Data / cutover gate |
+| --- | --- | --- |
+| `staff-security-staging`, `consignment-beta` | Already in target test environment | Keep until consolidation/feature review. Consignment beta currently logs scheduled database-missing errors |
+| `hc-employee-pilot` + distinct pilot `Postgres`, `HC Employee Read Pilot/test` | Migrate/recreate test app under central test project only if still needed. Otherwise archive the tested synthetic pilot and retire it | Confirm API test coverage, persisted data and audit retention; never point synthetic pilot at Owner database |
+| `hc-foundation-pr63` + foundational `Postgres`, `HC PR63 Isolated Staging/staging` | Later recreate into central test environment after shared gateway/38 grant integration acceptance | Preserve separate least-privilege DB and PR63 staging until replacement health/permissions/domains validated |
+| `hc-owner-staging` + `Postgres-x8Ui` | **EXCEPTION: keep isolated** while actual Owner WebAuthn/TOTP records and recovery audits are in use. Could eventually move under a second **`owner-security` environment in the same central test project** (single project, distinct environment isolation) with explicit secrets/DB migration and Owner browser/passkey revalidation. Do not put canonical real Owner credentials in the shared synthetic test environment | WebAuthn RP ID + HTTPS origin/domain continuity, exact signed session secrets, KMS/encryption key custody, DB audit integrity, backup & restore verification, staged permissions, full strong-auth acceptance. No reinitialization or data loss. |
+| `admin-nav-bridge-test` (staged-create) | Reconcile existing 15-change test patch with unified-navigation owners; only deploy or discard after decision | Do not accidentally apply pending branch/DB changes |
+| `Hobby Corner Codespaces Bridge/development` | Development infrastructure, **not a retail test app**; keep separate or retire if permanently standby. Another same-repo standby bridge exists in Malcor with separate audit volume | Preserve audit data and ownership; never delete Malcor service without Malcor decision |
+| Old `HC Owner Security Staging/test` | Service definitions already removed, only 2 staged changes for unprovisioned volume remain | Railway refused volume removal because it never existed live; discard pending patch via dashboard, never deploy it |
+
+**Why not one literal environment for everything?** Railway environments isolate deployments, variables and private networking, but *multiple services in the same environment share that private-network boundary*. Production and real Owner Security must remain separated from fake employee accounts, insecure development fallbacks, or experimental APIs. Consolidate the projects/UI in one **central testing project**, with ordinary synthetic/integration tests in `test` and eventually real Owner Security in a **separate security environment**, if and only if a properly validated migration is requested. In a single shared `test` environment, distinct Postgres services and DB roles still help but do not replace environment-level isolation.
+
+**Railway capabilities verified:** Current connected tools support creating new services, setting sources/config, and environment reads; they do **not** expose a one-step cross-project move preserving service IDs, existing volumes, domain names, private DNS or sealed credentials. Actual consolidation is a parallel-recreate/configure/test/cutover/retire sequence. Current automation must not silently rotate or expose secrets; do not change active domains or databases just to reduce project count.
+
+**Migration sequence when authorized:** (1) map current dependencies and protected database contents for exact target service, including sealed secrets; (2) resolve staged navigation patch; (3) stage a new replacement service with exact repo commit and distinct test-only variables/DB; (4) test HTTP, CSRF, WebAuthn/passkeys where applicable, service-to-service DNS, permissions and real browser flow; (5) preserve old endpoint while replacement is tested; (6) separately approve traffic cutover; (7) separately approve deleting obsolete app and persistent storage. **No cross-project live app migration, DNS change, production deployment, or DB move performed yet.**
+
+---
+
 # Railway Consolidation — Current Handoff
 
 **Last verified:** 2026-11-23
