@@ -1,3 +1,22 @@
+## Nov 23 combined private ceremony preflight prepared after operator tunnel PASS
+
+**Latest operator result confirmed:** `HC_OWNER_OPERATOR_TUNNEL_PREFLIGHT_OK=true` and `READ_ONLY=true; ACTIVATION_NOT_ISSUED=true` from exact restricted staging PostgreSQL login over local-only SSH tunnel using existing DB password injected by `railway run`. Deployed app's `HC_OWNER_TIMECLOCK_PREFLIGHT_OK` was also independently reported. Both standalone checks PASS; no actual one-time token has been issued.
+
+**Prepared newly (not yet executed in Codespaces):** `scripts/preflight-owner-ceremony.mjs` commit `1c6e9f77fee233a2d49e8d2b36b6f5feded573e0`, strictly read-only combined environment test. It is designed to run inside Codespaces with the existing local-only PG tunnel and two nested `railway run` calls that inject variables from `Postgres-x8Ui` and `hc-owner-staging`, respectively, then performs local `hc_owner_stage_operator` restricted DB read-only check, direct canonical Timeclock `authorize('1')`, and TTY readiness. No sensitive values or identity names printed. The nesting and network reachability are **not yet independently verified**; it may fail if Railway local variable merge drops env, if Timeclock origin is private-only, or if TTY isn't propagated. DO NOT issue recovery until these are resolved. No production changes.
+
+**Next operator command** (leave existing Terminal 1 Railway SSH PostgreSQL loopback tunnel open):
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git pull --ff-only
+node --check scripts/preflight-owner-ceremony.mjs
+railway run --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service Postgres-x8Ui --no-local \
+  railway run --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service hc-owner-staging --no-local \
+  node scripts/preflight-owner-ceremony.mjs
+```
+Look for `HC_OWNER_CEREMONY_ENV=PASS`, `HC_OWNER_CEREMONY_TTY=PASS`, `HC_OWNER_CEREMONY_OPERATOR_DB=PASS`, `HC_OWNER_CEREMONY_TIMECLOCK=PASS`, `HC_OWNER_CEREMONY_PREFLIGHT_OK=true; ACTIVATION_NOT_ISSUED=true`. Only then construct explicit operator-only issuance with separate approval, private terminal, physical device and known 10-minute window. Otherwise report only markers, do not send PIN, TOTP, SSH passphrase or activation secrets.
+
+---
+
 ## Nov 23 restricted operator tunnel read-only preflight PASSED
 
 **Operator Codespaces success:** Existing SSH tunnel into dedicated isolated `Postgres-x8Ui` was already open. After pulling new source `5359588`, the operator executed `railway run --project 5b46096d-3178-47ec-ba88-d5037696346a --environment staging --service Postgres-x8Ui --no-local env HC_OWNER_OPERATOR_TUNNEL_CHECK=READ_ONLY node scripts/preflight-owner-operator-tunnel.mjs`. Output: **`HC_OWNER_OPERATOR_TUNNEL_PREFLIGHT_OK=true`** and **`READ_ONLY=true; ACTIVATION_NOT_ISSUED=true`**. The test used **actual restricted** `hc_owner_stage_operator` login via loopback 127.0.0.1:15439 tunnel, checked operator function execute/deny privileges, exact staging DB, original activation expired/unconsumed, no recovery record and zero Owner. This confirms an eligible *still-unspent* first-Owner recovery on Nov 23. Password came from Railway's supported variable injection and was not exposed.
