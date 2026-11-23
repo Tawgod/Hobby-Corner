@@ -1,3 +1,22 @@
+## Nov 23 live Timeclock passes; DB operator password hidden from SSH shell
+
+**Fresh operator output:** After `git pull` to `262e0e3` and explicit new Railway key, `scripts/preflight-owner-stage-activation-live.sh` connected into actual Owner staging app and returned **`HC_OWNER_TIMECLOCK_PREFLIGHT_OK`**, independently checking real canonical Timeclock employee 1 through deployed owner-staging integration. A second authenticated SSH connection to exact isolated `Postgres-x8Ui` succeeded, but exited at `HC_OWNER_OPERATOR_PREFLIGHT_BLOCKED: DB password missing`. **No activation, DB write, passkey or TOTP happened.**
+
+**Read-only Railway connector recheck:** dedicated PostgreSQL `Postgres-x8Ui` still has live deployed variable name `HC_OWNER_OPERATOR_DB_PASSWORD`, deployment SUCCESS and no staged changes; this does **not** establish value visibility inside SSH's sanitized shell. The existing app/DB remain deployed and unchanged.
+
+**Code-only correction (not yet operator-tested):** PR #75 branch commit `b2a6ee47372dc09c973ffbe177ff2e1ccc42ee04` adds a narrowly scoped fallback in the operator preflight: if the SSH shell lacks `HC_OWNER_OPERATOR_DB_PASSWORD`, extract that one variable only from the **running PostgreSQL container's own `/proc/1/environ`**, keep it in the remote shell, then attempt local-loopback login as the existing restricted operator role and verify function permissions and unspent recovery. Never echo/archive/transmit the password. If PID1 env lacks it or can't be read, fail closed. No production changes or redeploy.
+
+**Next operator command:**
+```bash
+cd /workspaces/Lightspeed-owner-migration
+git pull --ff-only
+bash -n scripts/preflight-owner-stage-activation-live.sh
+HC_OWNER_RAILWAY_SSH_KEY="$HOME/.ssh/hc_owner_railway_20261123" bash scripts/preflight-owner-stage-activation-live.sh
+```
+Expected `HC_OWNER_PRIVATE_ACTIVATION_PREFLIGHT_OK=true`. If absent, stop with sanitized error. This read-only check doesn't consume the single-use 10-minute token; do not trigger a reissue without separately approved, fully ready private ceremony. Timeclock is now verified PASS.
+
+---
+
 ## SSH fixed; Railpack Node PATH missing in remote login shell (2026-11-23)
 
 **Latest operator result:** Codespaces downloaded commit `17a1792`, new Railway SSH key worked and connected to Owner staging, but the read-only activation preflight's first remote `sh -lc` command returned **`sh: 8: node: not found`** and then `STOP: Timeclock lookup unavailable. No recovery issued.` This is a **remote Node executable PATH failure**, not proof of failed canonical Timeclock identity or wrong credentials. There was **no mutation**.
