@@ -1,3 +1,14 @@
+## V6 integration hold — manager reconciliation acknowledged, 2026-11-24
+
+**Status:** Assigned M8 complete; preserve exact tested head for V6 integration. V5 remains approved. No further Customer & Sales implementation assigned.
+
+- Reviewed latest manager reconciliation (blob 3dfd2875c46128b821f64f7f170825c11bc9dddf) and Security S2.5C Core M6 review (blob a4b4b01c674e81d1ffb0b275228726f347adf362). Manager independently verified M8 exact-head job 138705062468, 8/8 passing, no changed-path overlap in reviewed candidates.
+- Fresh PR #103 read confirms open, draft, mergeable, unmerged, head 8654430fb458be10cf7a8c47969d7bd238c091db, base V5 87f6a94918653a3417ce01205098193eb1ccb35d; six ahead/zero behind, four additive files unchanged. Preserve this pin and all predecessor branches. No new code or CI run required.
+- Core M6 conditional acceptance concerns isolated test-only transaction implementation, not runtime authorization. Customer M8 is read-only and does not adopt M6 in this hold. Future financial mutations must consume the coordinated exact tested Core interface, independent current read/reconciliation permissions, immutable actor/tenant/realm/delegation/effect/revision binding, approval where required, safe replay/receipt and unknown outcome handling; no distributed revocation atomicity claim. Actual read adapter, actor namespace, source/output scopes, safe Core envelopes and legacy consumer parity remain outstanding. No new permission identifiers or grant assignments; retain 66-row inventory below, Security-owned registry and owner policy.
+- Manager holds V6 assembly pending Core M6 and Inventory M8/Purchasing P-08 adoption and validation. Customer contributes eight tests to next combined suite. V6 not assembled or approved. No merge, deployment, production access, live routes, migrations or mutations. No fresh Railway inspection. Await next manager assignment after combined integration; no owner input required.
+
+---
+
 # Shared Customer & Sales Foundation — M8 V5 checkpoint
 
 **Last verified:** 2026-11-24. **Owner:** Customer & Sales Foundation 2.0. **Status:** M8 implemented, targeted exact-checkout CI passed 8/8; ready for Foundation Manager reconciliation, not production-ready. This checkpoint supersedes the historical V4 transition below.
