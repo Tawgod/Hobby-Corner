@@ -1,3 +1,31 @@
+# Shared Customer & Sales Foundation — M8 V5 checkpoint
+
+**Last verified:** 2026-11-24. **Owner:** Customer & Sales Foundation 2.0. **Status:** M8 implemented, targeted CI in progress; not yet accepted or production-ready. This checkpoint supersedes the historical V4 transition below.
+
+## Source / baseline
+- Approved V5 Tawgod/Lightspeed:test/hc-foundation-combined-v5-20261124@87f6a94918653a3417ce01205098193eb1ccb35d, manager CI 45450851407 299/299 exact checkout. M1–M7 accepted for isolated development. Prior PRs #81/#88/#92/#99 freshly verified open, draft, unmerged at recorded historical pins; #99 unchanged, no missing deltas.
+- M8 branch feature/hc-customer-sales-m8-v5-20261124, draft [PR #103](https://github.com/Tawgod/Lightspeed/pull/103), head 8654430fb458be10cf7a8c47969d7bd238c091db; exact V5 base, 6 ahead/0 behind, four additive files, mergeable/open/unmerged. No shared interface, legacy route or production file edits.
+
+## Implemented
+- services/lightspeed/offlineCustomerSales.js composes existing M5/M6/M7 projectors and shared search; test-only explicit environment, injected actor/tenant verifier, literal true before source I/O and recheck before output, fixed minimal projections, request correlation. Conservative broad source admission for unsplit raw feeds, exact customer scope for balance/output, no implicit tool grant. Search first-page order/20-item URL preserved; local profile enrichment and actual legacy route array parity not proven.
+- Purpose-specific consent, channel status and minimal linkage evidence, no automatic link or notification. Explicit partial pickup events and original reversal linkage, no net quantity, cumulative eligibility, stock or financial effect. Existing payment/deposit/work-order/fulfillment/reversal/credit evidence reused; no real writer or inferred balance.
+- docs/CUSTOMER_SALES_M8.md; tests/customer-sales-m8.test.mjs eight targeted cases; one capped PR-only workflow .github/workflows/hc-customer-sales-m8.yml. Core M5 transaction adapter not applicable to pure reads; no competing persistence.
+
+## Testing
+- [Targeted CI 45467171632](https://github.com/Tawgod/Lightspeed/actions/runs/45467171632), exact head checkout configured, job 138705062468; in progress at checkpoint. No pass count asserted. Local Git checkout unavailable (DNS); no reconstructed dependency doubles used. No other CI initiated. Manager should include M8 test file in next combined run after targeted success (V5 +8 customer cases).
+- No actual Security, provider, browser or feature acceptance; no full route parity verified.
+
+## Security and administration UI inventory — delta from consolidated 66-row Customer inventory
+- Preserve all 66 provisional rows below unchanged. No new identifier, alias, grant, role or assignment. Existing customers.search/read/contacts.read/custom-fields.read/notes.read require broad source scope for raw unsplit search; customer-specific search/read checks before output. This deliberately over-restricts basic search and must not be treated as approved default. UI must distinguish minimal search, raw source access, per-result/field scope, export and ordinary employee policy.
+- customers.identity.read provider scope; customers.consent.read purpose/channel scope; raw provider filtering and provenance not proved. sales.read, customers.read, sales.payments.read, sales.deposit.read, sales.work-orders.read, fulfillments.read, sales.reversals.read, sales.returns.read, store-credit.read independently required in composite fixture; all relevant source grants before unsplit I/O, exact customer scope before balance, rechecks before projection. This is conservative even for guest workflows; narrow source adapters and exact all-of semantics require Security/Core coordination. No tool-specific bypass.
+- Pickup evidence currently uses fulfillments.read; Security to decide independently scoped pickup read versus shared fulfillment read. Existing confirm/reverse operations remain separate; no new ID. Preserve aliases contact(s), consent update/modify, refund/reverse, credit issue/post and other manager reconciliation queue; no automatic mapping. All active employees may view wholesale cost through ordinary authorized product access; modification separate.
+- Administration UI needs source-vs-output scopes, actor/tenant/outlet/customer/sale/line, channel/purpose/provider, dependency/conflict warnings and denied/expired/revoked handling; actual Security adapter, trusted server context, atomic/current multi-grant decision semantics, Core safe envelope mapping, per-field source filtering and endpoint/bulk/delegated bypass tests remain unresolved. Synthetic test-only verifier does not establish actual enforcement or audit durability.
+
+## Deployment / remaining gates
+None. No merge, deploy, live data, grant, route mounting, schema, stock, payment, credit or notification effect. Railway metadata inherited from previous checkpoint, not freshly inspected. Next: verify targeted CI, then manager reconciliation for isolated candidate only; source filtering, exact legacy parity, authorization contract and provider semantics remain gates. No production acceptance.
+
+---
+
 # Shared Customer & Sales Foundation — Transition checkpoint
 
 **Last verified:** 2026-11-24. **Successor:** Customer & Sales Foundation 2.0. **Status:** M7 implemented, manager reviewed, V5 combined validation/approval pending. Transition only; no new development authorized or performed.
