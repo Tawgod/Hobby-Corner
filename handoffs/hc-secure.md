@@ -1,3 +1,11 @@
+## 2026-11-24 — Restricted-role tests operator-reported PASS; role-only patch staged
+
+User reported all tests passed in response to six-case locked-role suite; no raw summary independently collected. Reverified schema deployment ecf6fcd7-16dd-4abd-9d10-2f107502aad9 SUCCESS and runtime HC_SECURE_SCHEMA_BOOTSTRAP_OK tables=9 nonlogin_groups=2 no_logins=true activations=0. Offline service private, restart NEVER. Reviewed corrected role script at 5877c6e5039bc70325c188489bd1e52574403b66.
+
+Staged patch 1cfeb83a-d5e7-4149-a219-f305b64197d9 contains exactly 5 non-destructive config changes exclusively hc-secure-db-bootstrap-once: pin 5877c6e5039bc70325c188489bd1e52574403b66, start node scripts/prepare-hc-secure-locked-roles.mjs, HC_SECURE_DB_BOOTSTRAP_ONLY=false, HC_SECURE_ROLE_PREPARE_ONLY=true, HC_SECURE_DB_MUTATION_APPROVED=HC_SECURE_LOCKED_ROLES_ONLY. Credential commission flag remains disabled; no other resources/shared variables. Applying intentionally creates two restricted LOGIN roles with PASSWORD NULL and separated privileges; no Owner activation or credential commissioning. Await explicit approval to deploy exact five changes. Verify actual commit and runtime HC_SECURE_LOCKED_ROLES_OK count=2 passwords_set=false. If failure or ambiguous COMMIT, inspect state before retry. Previous live schema-only configuration still active until patch applies; do not redeploy old command. No new SQL writes or deployment this checkpoint, no secret retrieval, no production/original Owner modifications.
+
+---
+
 ## 2026-11-24 — Corrected live schema initialization SUCCESS; role isolation fix pending tests
 
 User explicitly approved four-change schema retry patch f7ff6ae8-5f69-4373-a96a-f91a767bb69a. Revalidated exact non-destructive Railway config patch only on offline service, accepted committed=true, deployment ecf6fcd7-16dd-4abd-9d10-2f107502aad9 at corrected source 3e60a0950886a1469479b4b99e2f1896bcc6d6ac. Live Railway logs independently show SUCCESS and HC_SECURE_SCHEMA_BOOTSTRAP_OK tables=9 nonlogin_groups=2 no_logins=true activations=0; zero returned build errors. New isolated database and nine tables/two nonlogin groups now provisioned, no runtime/operator login accounts or Owner activation. Success marker emitted after SQL COMMIT; no separate postcommit DB readback yet.
