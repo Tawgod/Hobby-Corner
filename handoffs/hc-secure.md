@@ -23,6 +23,14 @@
 - Coordination gate: review proposed Timeclock identity semantics and independent credential/throttle namespace with Timeclock owner and Foundation Manager. Separate Timeclock branch from deployed pin, not from business V4. Owner privately commissions six app secrets only, with exact staged patch review; do not add Timeclock service secret to current readiness runtime. No need to share values. Existing Owner and offline provisioner unchanged.
 - Next: following design review, implement/test unmounted identity adapter and Timeclock route on independent branches; review key-material independence and activation gate; separate approval for any production Timeclock deployment. Security registry consolidation can proceed independently when Manager supplies cumulative register. No actual grant or role policy approved.
 
+## S2.5A permission registry first-pass reconciliation (2026-11-24)
+
+- Manager consolidated all five workstream inventories, 213 source rows (not unique operations), exact input blob 1306922eaf8f2a2e0c24e8f179fcc92b402b86db; reviewed updated V4/V5 manager checkpoint. This supersedes earlier pending-consolidation notes.
+- Security design proposal [FOUNDATION_SECURITY_REGISTRY_REVIEW.md](../FOUNDATION_SECURITY_REGISTRY_REVIEW.md), management commit beef2de7a27282a9c15b6d1293de2e9bd49c7cef, blob e3410818ee5b91c2d5ed1fd56d64adc0b1d73855, exact readback verified. Covers all manager alias groups, proposed domain naming, cost/receipt/payment distinctions, scoped grant and deny precedence, reusable role bundles, execution/approval/delegation rules, administration UI and owner decisions D1-D8. All proposed, not approved or assigned.
+- Owner-approved wholesale cost read preserved with ordinary authorized employee product access. Cross-tool effect checks mandatory. Proposed explicit scoped restrictions override grants, no implicit Owner bypass, separate tool visibility and domain permissions. PO line cost versus catalog master cost, independent receiving evidence vs execution, refunds vs reversals, broad legacy aliases require explicit review. No automatic migration.
+- Gate: Owner decisions on precedence, ordinary employee defaults, high-risk approvals/self-approval, cost scope, role administration, temporary/delegated permissions, MFA/recovery, location/data scope. Manager/domain review of semantic differences and Core execution-time decision/transaction seam. Next normalize every grouped row into explicit operation/scope manifest and synthetic authorization matrix; no live grant or endpoint coverage claimed.
+- S2.1 and existing #77/#98, original Owner and Railway readiness/commissioning state unchanged. No runtime changes, tests, deployment, credentials, production access or role assignments in registry review. No fresh Railway read required for documentation-only milestone; last verified infrastructure checkpoint retained. V5 testing independent.
+
 ## Source
 
 - Repository: Tawgod/Lightspeed
