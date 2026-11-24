@@ -1,3 +1,15 @@
+# Core Shared API Foundation 2.0 — M6 implementation checkpoint
+
+**Last verified:** 2026-11-24
+**Status:** Manager/Security conditional acceptance for isolated implementation; candidate committed, targeted CI running; NOT a tested dependency pin yet.
+- V5 exact parent 87f6a94918653a3417ce01205098193eb1ccb35d, approved combined 299/299. Manager current reconciliation and FOUNDATION_SECURITY_CORE_M6_REVIEW.md read. Existing #100 branch feature/core-api-m6-v5-20261124, head 055a1510acab12e6f35d8e2aee01e0ec23a82635, verified mergeable draft/unmerged, six changed paths. No merge or deployment.
+- Implemented services/lightspeed/localTransactionM6.js, additive typed methods on tests/fixtures/coreDisposablePg.mjs (preserving M5 methods), tests/core-api-m6-postgres.test.mjs, docs/CORE_API_M6_ADAPTER_CONTRACT.md and capped workflow. Original proposal retained. Immutable synthetic actor/tenant/effects/revisions/approval command binding, deterministic declared typed locks including absence, post-lock verification and authorization, precommit check, independent read/reconcile checks, restricted domain transaction callback, minimal receipt, canonical event fingerprint, safe postcommit/unknown classification. Domain supplies trusted effect/approval verifier and projector; no real Security engine.
+- Targeted [CI 45470994612](https://github.com/Tawgod/Lightspeed/actions/runs/45470994612), job 138718583006 in progress at exact candidate head; 14 new cases expected plus 20 inherited. No claimed pass yet. Do not adopt until exact test result verified. No combined CI launched by Core.
+- Security inventory retained below: no new business grants or registry aliases. Current Security review requires exact per-effect scoped authorization including read and reconciliation, approval and delegation validation, restrictions override grants, no Owner bypass. Separate PO line and master catalog cost effects. Ordinary authorized employee cost/customer contact/notes/financial read defaults preserved. On-site session revalidation does not imply repeated PIN. Fixture callbacks simulate decisions, not actual registry enforcement. No atomic distributed revocation, real network/restart recovery, actual projection/approval enforcement or production isolation established. Domain-owned receipt values and record history remain trusted; no real outbox delivery.
+- Next verify CI exact head and logs, address any failures, publish exact tested dependency pin for Inventory M8/Purchasing P-08 and Manager. No production data, shared migrations, grants, routes, deployment or merge.
+
+---
+
 # Core Shared API Foundation 2.0 — V5 / M6 interface coordination gate
 
 **Last verified:** 2026-11-24
