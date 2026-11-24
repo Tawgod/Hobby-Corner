@@ -1,5 +1,45 @@
 # Shared Customer & Sales Foundation — Current Handoff
 
+## Current milestone — 2026-11-24: M4 pre-integration route-source compatibility
+
+**Status:** Offline route-source compatibility PASS; ready for manager reconciliation, NOT approved for actual consumer switch, merge or deployment.
+
+### Source
+- Approved common baseline: Tawgod/Lightspeed:feature/hc-foundation-reconcile-20261124@71a1cd6e312ed52efc1e9af9da85db6b02e3756c (PR #78).
+- Independent branch feature/hc-customer-sales-m1-20261124, head 1c979a7d6a02d8e974b7f8af1a3591a3c2835028.
+- [Draft PR #81](https://github.com/Tawgod/Lightspeed/pull/81) remains open/unmerged; 5 changed files; correct base SHA. Immediately after commit GitHub reported mergeable=false (previous head true); recheck after calculation; no merge attempted.
+- Core API handoff reviewed: [PR #83](https://github.com/Tawgod/Lightspeed/pull/83) at 6722414245be56e138566beebcfcb0f19e2eef8e proposes core.v1 envelope, authorizeRead seam, stricter pagination/correlation. Core contract and grants NOT frozen. Do not duplicate or import that branch independently.
+
+### Implemented
+- Added three offline test groups to tests/customer-sales-evidence.test.mjs. Harness extracts the exact GET /customers/search handler between checked-in route markers from special-orders.js; evaluates only that trusted source with fake router, transport, pool and response. In-memory candidate substitutes only the vendor fetch block with customers.searchFirstPage(q).rows. All other route logic remains original. No actual route or runtime module changes.
+- Compares original/candidate name/email/phone initial URLs, one-page behavior, response fields/order, local profile enrichment and exact DB query/IDs. Also covers blank query, empty results, no pool, simulated DB and upstream exceptions. Malformed response explicitly differs: original returns 200 empty, candidate rejects with 502.
+- Shared customer search remains feature-independent: existing paginated search and get plus first-page compatibility. Future features consume shared backend reader through approved security and projections; no Special Orders local database dependency.
+- Integration guide: docs/SHARED_CUSTOMER_SEARCH.md.
+
+### Tested
+- Node.js v22.16.0 local node --test tests/customer-sales-evidence.test.mjs: **20/20 PASS**, zero failed/skipped, duration 249.55 ms. Seven existing local JS files matched prior GitHub hashes; modified test file hash-object matched new GitHub blob 8a26a60d341bcdad9ba9f95d075253afaa2b8f51.
+- Local special-orders.js was reconstructed ONLY from GitHub fetched route excerpt (source blob dd432d6737b918e458bd2aefc020f6d0e912cf1a, lines 4000–4045 plus next route marker), not a full checkout or full-file hash verification. Test in GitHub reads the complete checked-in source file and extracts handler. No live app boot or actual Express middleware/auth/browser/real DB acceptance. Remote push CI outcome remains unverified. No full baseline regression rerun.
+- Test harness is deliberately source-marker-dependent; future route refactors must update harness after review. Synthetic dependency errors do not establish parity with real HTTP status/error shapes. Raw legacy response contains PII and is not approved as a new public contract.
+
+### Deployment
+None. No live vendor traffic, customer/employee data read/write, route mount, actual consumer switch, DB migration, security grants, merge or Railway deployment.
+
+### Manager reconciliation requests — required before actual M4 integration
+1. Review PR #81 against approved base and Core PR #83, freeze public read envelope, error taxonomy, operation grant seam and correlation propagation. Verify remote CI, mergeability and combined regressions before authorized integration.
+2. Coordinate Special Orders owner: approve exact transport substitution with first-page behavior, retained local enrichment and appropriate PII field allowlist, and resolve stricter malformed-envelope/error response behavior. The proposed substitution is test-only, not a production patch.
+3. Security owner must approve active staff/exact customer lookup operation grants and trusted authorization adapter; no raw customer data accessible to unapproved consumers, no new identity system. Core owns correlation and safe error response.
+4. Approve whether next domain milestone is customer identity/consent read model or selected actual consumer integration after Core/Security reconciliation. No automatic linking, creation, updates or credit posting.
+5. Other consumer parity (Rewards, Split/Recall, Preorders, Consignment), vendor versions/shapes, inactive coverage, deposits, work orders, fulfillment/return line evidence and store-credit history remain open.
+
+### Next action
+Stop at coordination gate for this checkpoint. No personal user decision needed before Foundation Manager review. Continue with the manager-approved integration contract and test sequence; do not mount a gateway or modify live routes without coordinated acceptance and authorization.
+
+---
+
+## Previous milestone (historical)
+
+# Shared Customer & Sales Foundation — Current Handoff
+
 ## Current milestone — 2026-11-24: M3 reusable customer search and compatibility fixtures
 
 **Status:** Implemented, offline tested, draft manager review; no consumer switched or deployed.
