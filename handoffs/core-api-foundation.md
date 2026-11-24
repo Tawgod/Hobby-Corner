@@ -1,6 +1,36 @@
 # Core Shared API Foundation — Current Handoff
 
 **Last verified:** 2026-11-24
+**Status:** M1 narrow CI passed; M2 implementation committed, full regression pending; manager/Security acceptance pending. No merge/deploy.
+
+## Source and verified changes
+- Approved source: Tawgod/Lightspeed @ 71a1cd6e312ed52efc1e9af9da85db6b02e3756c (PR #78).
+- Branch feature/core-api-m1-20261124; draft [PR #83](https://github.com/Tawgod/Lightspeed/pull/83) targets feature/hc-foundation-reconcile-20261124.
+- Latest head 6722414245be56e138566beebcfcb0f19e2eef8e. Compare verified 8 ahead, 0 behind approved pin, 5 files changed. No domain, Security, DB, server or gateway edits.
+- M1: additive unmounted coreReadContract.js, core.v1 envelope, literal-true injected admission, safe error mapping, UUID trace; strict collection endpoint/cursor/offset checks.
+- M2: readCollection.js preserves non-pagination query filters including duplicate values and leading zeros, rejects contradictory continuation metadata, accepts optional correlationId forwarded on each page. Strict allowlist of pagination keys (page/page_size/offset/after/cursor); vendor-specific alternate links or omitted filters require fixture review. No snapshot consistency guarantee.
+- Added three M2 regression cases to existing eight tests. End-to-end synthetic trace through executor, collection and transport; domain readers still need opt-in integration.
+- Published [integration contract candidate](https://github.com/Tawgod/Lightspeed/blob/feature/core-api-m1-20261124/docs/CORE_API_INTEGRATION_CONTRACT.md), including POST-for-read proposal only; generic POST remains disabled.
+- Expanded existing isolated branch PR workflow to full foundation and Core Operations tests with disposable PostgreSQL, 8-minute cap, no lifecycle scripts, no deployment. Existing common workflow untouched.
+
+## Tests
+- M1 exact head 14c6150f35247bd7057bbbef6249239119ea646d: [CI 45417133843](https://github.com/Tawgod/Lightspeed/actions/runs/45417133843) completed SUCCESS; PR reported mergeable at that head.
+- Prior approved baseline CI 45414393938: 40/40 shared foundation + 11/11 Core Operations, real disposable PostgreSQL passed.
+- Latest head full regression configured (11 new tests + baseline 51 = expected 62); workflow lookup initially returned no runs. Do not infer pass or current mergeability. Verify exact head CI and test counts before acceptance.
+- No live data, browser, production, or vendor acceptance.
+
+## Manager reconciliation requests
+1. Review/freeze core.v1 read envelope, error taxonomy and version policy; approve any public API changes before mounting or consumer adoption. Mutation outcomes separate, not implemented here.
+2. Security owns active identity/exact operation grant verifier; review authorizeRead seam, no implicit grants. Domain projection and trusted server-owned callbacks required; no raw PII exposure.
+3. Coordinate domain correlation propagation and compatibility of strict pagination; verify vendor fixtures before changing whitelist. Do not overwrite domain work.
+4. Inventory/Purchasing/manager review exact documented POST-for-read path and body schema before implementation. Keep generic transport read-only; no write-capable transport for read exception.
+5. Verify latest PR #83 full regression, mergeability, dependency reproducibility; integrate only after explicit authorization. Gateway remains unmounted. No merge, deploy, migrations, live vendor calls or changes to production branch.
+- Next milestone M3 controlled consumer integration requires manager and Security acceptance. No further independent interface changes recommended until reconciliation.
+
+## Historical handoff
+# Core Shared API Foundation — Current Handoff
+
+**Last verified:** 2026-11-24
 **Status:** M1 implementation candidate; automated execution pending verification; not merged or deployed.
 
 ## Current milestone
