@@ -1,3 +1,9 @@
+## Owner clarification — 2026-11-24
+- All employees may view wholesale costs. Catalog cost visibility must not require an elevated role; separate cost modification permissions remain appropriate. Retain field-level authorization capability for other information and future configurable policies; do not infer public/anonymous access. PR #86 separate cost-check fixture is a candidate, not approved business policy; align employee baseline grants and tests with Security before activation.
+- Owner supports centrally assignable Security roles spanning all tools. Security owns role definitions, grants, assignment, revocation and identity verification; domain tools consume approved operation decisions. Role names/groupings remain proposals, not approved grant matrices.
+- Foundational Security is currently consolidating employee and owner Security deployments into a single environment. Owner will move that conversation into Foundations after completing consolidation. Until then keep Security as separate workstream and coordinate via GitHub; do not interfere with commissioning, infrastructure or existing approvals.
+- Business foundation combined V3 testing can proceed independently with synthetic authorization fixtures; actual Security admission remains gated. No production changes authorized.
+
 # Foundation Manager — V2 coordination checkpoint
 
 **Last verified:** 2026-11-24
