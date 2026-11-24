@@ -15,6 +15,14 @@
 - Security integration contract review with Core: trusted actor provenance, exact server-derived effect authorization, all prerequisite grants, resource/field/location/environment scope, execution-time revocation revalidation, actor-bound replay and safe output reprojection, delegated service scope, fail-closed errors and audit correlation. No actual grant or runtime endpoint approved.
 - Transfer checkpoint is documentation only; no new code, tests, deployment or actual permissions changed. Further source review and final consolidated registry remain pending.
 
+## S2.1 design coordination gate (2026-11-24)
+
+- Source reviewed at exact deployed pins: HC Secure be24458aa6281834591da52f865af8b98c89b366 (readiness, Owner bundle and Scanner client); Timeclock a595fd336c5a38dcc5ab5423a8967698777c0929 (server and ownerStagingIdentity router).
+- Existing private readiness rejects HC_OWNER_TIMECLOCK_SERVICE_SECRET. Existing Owner bundle uses old owner-staging credential namespace and scanner-derived canLookup. Separate identity-only contract must avoid treating Scanner privileges as employment status or Owner authority. Existing validator checks signing/service secret string duplication but not equivalent TOTP encryption key material.
+- Design-only independent branch feature/hc-secure-s21-contract-20261124 from exact HC Secure pin, draft PR [#98](https://github.com/Tawgod/Lightspeed/pull/98), head 29fae8645981e0d14770447bd96ac3240ab6b60a, mergeable=true. One additive document [HC_SECURE_S21_IDENTITY_CONTRACT.md](https://github.com/Tawgod/Lightspeed/blob/feature/hc-secure-s21-contract-20261124/docs/HC_SECURE_S21_IDENTITY_CONTRACT.md). Proposes independently disabled endpoint, selected Owner identity only, separate credential and durable throttle, minimal identity projection, no roles, TLS and fail-closed negative cases. No runtime code or automated tests added; no deployment, secret, grant, DNS or database changes.
+- Coordination gate: review proposed Timeclock identity semantics and independent credential/throttle namespace with Timeclock owner and Foundation Manager. Separate Timeclock branch from deployed pin, not from business V4. Owner privately commissions six app secrets only, with exact staged patch review; do not add Timeclock service secret to current readiness runtime. No need to share values. Existing Owner and offline provisioner unchanged.
+- Next: following design review, implement/test unmounted identity adapter and Timeclock route on independent branches; review key-material independence and activation gate; separate approval for any production Timeclock deployment. Security registry consolidation can proceed independently when Manager supplies cumulative register. No actual grant or role policy approved.
+
 ## Source
 
 - Repository: Tawgod/Lightspeed
