@@ -1,3 +1,11 @@
+## 2026-11-24 — HC Secure disposable PostgreSQL credential integration verified
+
+- Operator supplied passing real disposable PG18 integration output confirming postcommit role re-lock, SCRAM operator/runtime authentication, incorrect password denied and final roles password-locked; **0 Owner activations**.
+- Disposable runner reported cleanup pending immediately before shell EXIT trap; Docker deletion not independently verified.
+- Railway check: HC Secure new services/volume remain 23 staged-only changes, original Owner app/PG online/SUCCESS. No Railway deployment, live DB password provisioning, credential transfer, DNS or production auth cutover. [HC Secure handoff](handoffs/hc-secure.md).
+
+---
+
 ## 2026-11-24 — HC Secure credential commissioning mock pass and disposable integration authored
 
 - User reported **6/6 commissioning mock tests PASS**.
