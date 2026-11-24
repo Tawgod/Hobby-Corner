@@ -1,3 +1,13 @@
+## 2026-11-24 — Live read-only root inspection PASS; production health verified
+
+Railway HC Secure/staging deployment 1074dbfe-3faf-48f7-a98e-95e43bc83b8b SUCCESS, pinned 2a337447461b209c66aada04a24cffc062aa6ac3. Runtime log independently confirms HC_SECURE_ROOT_READY=true read_only=true target_absent=true roles_absent=true root_empty=true. Zero build errors in returned logs. New PG SUCCESS, auth placeholder FAILED (intentionally inactive; exact failure cause not verified), no pending patch. Root reference remains configured in offline service; no schema or roles created by probe.
+
+Production read-only health check: Hobby Corner/production c562fbb2-8431-4beb-834d-6938b3a2ad10, all seven services online/SUCCESS (timeclock, Discord bot, store-map, lightspeed-api, special-orders-test, Rewards, Postgres), zero reported failures in default eight-hour window, zero active warnings/criticals, no pending work. Original HC PR63 Isolated Staging environment 46b93c76-3085-4e76-a37d-90dfdd250dd2: all four latest deployments SUCCESS including hc-owner-staging and Postgres-x8Ui. No new production MFA rollout; deployment health is not application-level acceptance testing.
+
+Next: separate explicit authorization before real HC Secure schema creation. Restore inert offline command/remove root reference unless authorized next step requires it; stage only after scope review. No writes, deployment or secret retrieval performed during this health check.
+
+---
+
 ## 2026-11-24 — Approved read-only inspection deployment triggered
 
 User explicitly approved four staged read-only changes. Revalidated exact patch 9b1f4224-3143-448c-b594-f8e1b563f8a9, non-destructive, only hc-secure-db-bootstrap-once source pin, root URL reference, start command and NEVER restart. Accepted deployment; committed=true, deploymentStatus=triggered. New deployment 1074dbfe-3faf-48f7-a98e-95e43bc83b8b, commit 2a337447461b209c66aada04a24cffc062aa6ac3, BUILDING at last check; no runtime marker or build logs yet. No readiness result, no authorization for SQL writes. Auth remains disabled; no original Owner/production change. Next check exact deployment runtime logs for HC_SECURE_ROOT_READY=true read_only=true target_absent=true roles_absent=true root_empty=true; if blocked, diagnose safely without secret output. Restore inert command/remove root reference after inspection unless separately authorized continuation requires it. Do not claim schema created or execute bootstrap yet.
