@@ -1,3 +1,12 @@
+## 2026-11-24 — HC Secure isolated Railway setup advanced (staged, not deployed)
+
+- Verified pending Railway HC Secure/staging patch before modifying. Confirmed image-specific Railway `postgres-ssl:18` expects volume mount `/var/lib/postgresql/data` (distinct from stock postgres:18).
+- Staged PG18 startup variables `POSTGRES_USER`, `POSTGRES_DB`, `PGDATA`, `POSTGRES_INITDB_ARGS` and `LOG_TO_STDOUT`, plus private network hostname `hc-secure-postgres-staging`.
+- Staged separate `hc-secure-db-bootstrap-once` offline service, source pinned to Lightspeed commit `4484ef6b`, with inert start command, no restart and explicit security mutation flags disabled. No credentials or database writes.
+- **45 changes remain STAGED; NOT DEPLOYED.** DB bootstrap `POSTGRES_PASSWORD` missing, so full patch is not safe to apply yet. Original Owner app/database untouched. [HC Secure handoff](handoffs/hc-secure.md).
+
+---
+
 ## 2026-11-24 — HC Secure disposable PostgreSQL credential integration verified
 
 - Operator supplied passing real disposable PG18 integration output confirming postcommit role re-lock, SCRAM operator/runtime authentication, incorrect password denied and final roles password-locked; **0 Owner activations**.
