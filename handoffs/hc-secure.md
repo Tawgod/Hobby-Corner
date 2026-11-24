@@ -52,6 +52,12 @@
 - Proposed device flow: registered store workstation or individually approved phone, trusted server-side network/site evidence, revocable employee-bound device credential, short-lived one-use administrator-approved enrollment challenge/QR. Revalidate site qualification on protected requests; unknown or lost site qualification cannot use PIN-only access. SSID/client location or untrusted forwarding headers not proof. Off-site permission separate; no automatic role/grant expansion. Review existing device code, site attestation, proxy and dynamic IP handling before implementation.
 - Updated [registry review](../FOUNDATION_SECURITY_REGISTRY_REVIEW.md), commit 7fbf2ef7de4eaacb180c03ac9db687152d7093bb; exact readback verified. No runtime code, tests, grants, credentials, Railway changes or deployment. S2.1 and original Owner intact.
 
+## Owner clarification — session-based business authorization (2026-11-24)
+
+- Approved on-site Option A with sensitive Security administration exceptions. Timeclock PIN establishes employee session; no repeated PIN/MFA for authorized business operations, including refunds, product creation/edit, store credit, wholesale cost edits, purchasing or stock adjustments. Active session, current grants, trusted site/device evidence, exact effects/scopes and applicable approvals are still enforced server-side at execution. Expiry/logout/revocation or loss of trusted on-site qualification requires appropriate reauthentication.
+- Employee permission and role changes retain recent strong authentication; credential/recovery ceremonies retain separate safeguards. D7c permits recent proof; administrative freshness maximum remains open. D7b 30-minute business strong-auth window retained where applicable off-site; precise off-site assurance policy remains to be finalized. No changes to Owner commissioning or previously approved D1-D6/D8.
+- Updated [registry review](../FOUNDATION_SECURITY_REGISTRY_REVIEW.md), commit 467354585cc0b8e8fe1d9d592b1846094f69747a, readback verified. Design only; no runtime, tests, grants, role assignments, credentials, or Railway/deployment changes. Next normalize operation registry and assurance classifications; coordinate Core authorization/approval contract and site/device proof implementation.
+
 ## Source
 
 - Repository: Tawgod/Lightspeed
