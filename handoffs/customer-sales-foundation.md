@@ -1,5 +1,48 @@
 # Shared Customer & Sales Foundation — Current Handoff
 
+## Current milestone — 2026-11-24: M1 internal read evidence projections
+
+**Status:** Implemented; targeted offline automated tests PASS; draft manager review; NOT deployed or consumer-integrated.
+
+### Source
+- Approved baseline: Tawgod/Lightspeed:feature/hc-foundation-reconcile-20261124@71a1cd6e312ed52efc1e9af9da85db6b02e3756c ([PR #78](https://github.com/Tawgod/Lightspeed/pull/78)).
+- Independent branch: feature/hc-customer-sales-m1-20261124; exact head ba3a5f2f109aa4e8d3c271922a9755bb05b5b637.
+- Draft [PR #81](https://github.com/Tawgod/Lightspeed/pull/81) targets reconciliation branch, not production; creation response confirms approved base SHA, 3 added files, 190 additions, zero deletions. Mergeability not established (creation response false). No merge requested.
+- Read approved FOUNDATION_DEVELOPMENT_BASELINE.md, SHARED_TOOL_DEPENDENCIES.md (F17–F19/F22–F24/F27–F30) and previous handoff. No separate cherry-pick of original PRs #32/#33/#51.
+
+### Implemented
+- Added services/lightspeed/customerSalesEvidence.js (blob b9d727805ccaacd7c5b864bfe416e048cacce69a), opt-in internal projections over existing injected customer, sales, fulfillment and credit readers. No new transport or public route.
+- Exact string customer and sale IDs, minimal customer reference, email/phone candidate matching through existing paginated search, duplicate row rejection, ambiguity and mandatory review even on zero/one match. No auto-link/create eligibility.
+- Sale projections retain invoice zeros and customer associations, reject tested mismatches/duplicate rows. Sale search explicitly single-page/incomplete. Deposit, partial pickup and return events unknown.
+- Fulfillment distinguishes request-scoped versus explicit source association; single-page/incomplete, pickup quantity unknown. Credit preserves decimal strings including zero; missing/numeric amounts unknown, no transaction history or writes.
+- New files only: services/lightspeed/customerSalesEvidence.js, tests/customer-sales-evidence.test.mjs, .github/workflows/customer-sales-m1.yml. Branch-specific CI chosen to avoid broad CI usage; no dependency install or credentials.
+- Existing readers, envelopes, production routes, Core transport and Security files unchanged.
+
+### Tested
+- Local Node.js v22.16.0, node --test tests/customer-sales-evidence.test.mjs: **9/9 passed, 0 failed, 0 skipped**. All seven source/test files reconstructed from GitHub content and independently verified using git hash-object against repository blob SHA; test blob 13f2abb95aa9fc1097dd0c8294cec2fe02e90107. Synthetic injected transport only.
+- Coverage: exact IDs, omitted contact fields, multi-page duplicate matches, phone formatting, no auto-create on absence, malformed/duplicate records, legacy sale envelope and invoice zeros, sale association mismatch, fulfillment uncertainty, missing versus zero credit, no write methods and upstream error propagation.
+- Branch-scoped Actions workflow added; push-run result not accessible through available PR-run listing; remote CI outcome unverified. Full baseline regression not rerun here; manager's prior 40+11 tests separate evidence. No browser, live tenant or consumer acceptance.
+
+### Deployment
+- None. No production reads/writes, route mount, credentials, DB migration, merge, deployment, customer/employee changes or notifications.
+
+### Remaining blockers / decisions
+- Internal evidence projections are not public API/authorization boundary; IDs remain sensitive. Core API envelope and Security operation grants require approval.
+- Contact matching is not identity proof, exhaustive duplicate absence, international phone equivalence or consent. Name matching, linkage, contact ownership and inactive customer coverage not verified.
+- Sale/fulfillment single-page coverage intentionally incomplete. State filtering and conflicting/malformed source IDs (especially direct/nested fulfillment IDs and numeric coercion) require further hardening before consumer use. Credit only accepts string decimal pending real source shape confirmation.
+- Core API owns continuation scope and shared error handling; do not interpret search candidates as complete vendor evidence.
+- Full consumer route parity (Special Orders, Rewards, Split/Recall, Preorders, Consignment) outstanding. Deposits, work orders, line quantities, pickup/returns, consent and credit transaction history not implemented. No consumer switched. All writes require separate authorization, idempotency, audit and readback.
+- Live vendor evidence, complete feature regression, grants and manager review remain required.
+
+### Next action
+Manager review draft #81 and coordinate coverage/error/auth seam with Core API. Harden conflicting/malformed association evidence and state filtering, map actual consumer read paths, and test parity of one selected consumer. No route mounting or writes.
+
+---
+
+## Historical audit (2026-11-23; superseded baseline/status)
+
+# Shared Customer & Sales Foundation — Current Handoff
+
 **Last verified:** 2026-11-23  
 **Status:** Source audit / read-only contract planning; no new runtime implementation or deployment
 
