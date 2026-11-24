@@ -1,3 +1,9 @@
+## HC Secure disposable PG18 tests PASSED — 2026-11-24
+
+**Testing PASS; new Railway deployment still staged.** Codespace operator supplied complete summary: 21/21 HC Secure security tests passed (0 failures, 0 skipped). Disposable real PostgreSQL 18 runner completed twice, each confirming 7 reviewed fixtures, 9 tables, 2 NOLOGIN privilege groups and outer transaction rollback; second run confirmed no persistent DB/schema/role writes. Next: implement and test isolated HC Secure-specific Railway DB initialization with separate runtime/operator logins and secret custody; preserve original Owner DB and registered factors. Do not claim new-host authentication or production-wide employee MFA is deployed. [Verified handoff](handoffs/hc-secure.md).
+
+---
+
 ## HC Secure disposable PG18 schema milestone ready — 2026-11-24
 
 **In Development / Testing pending.** Reused the actual seven Owner SQL fixtures from `Tawgod/Lightspeed/scripts/bootstrap-owner-stage-database.mjs` to implement a **rollback-only**, loopback-only disposable PostgreSQL 18 schema/grant integration test (`scripts/test-hc-secure-schema-disposable.mjs`), five guard tests (`tests/hc-secure-disposable-schema.test.mjs`), and an auto-cleanup Docker runner (`scripts/run-hc-secure-disposable-pg18.sh`) on draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77). **Not yet executed.** It checks nine tables, two NOLOGIN groups and explicit denial of Owner activation issuance/rewrites by the runtime role, using transactions rolled back after success and failure. No Railway database, schema, DNS or Owner credential change. Next Codespace test and exact command in [handoffs/hc-secure.md](handoffs/hc-secure.md).
