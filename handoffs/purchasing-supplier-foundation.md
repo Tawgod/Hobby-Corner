@@ -1,7 +1,7 @@
 # Purchasing & Supplier Foundation — V5 P-08 coordination checkpoint
 
 **Last verified:** 2026-11-24
-**Status:** V5 accepted; P-08 assigned; branch created; blocked at shared Core M6 interface coordination gate. No P-08 implementation or tests yet.
+**Status:** V5 accepted; P-08 assigned; branch created; awaiting exact implemented and tested Core M6 dependency after Manager/Security conditional acceptance. No P-08 implementation or tests yet.
 
 - Active successor: Purchasing & Supplier Foundation 2.0. Exact V5 baseline Tawgod/Lightspeed:test/hc-foundation-combined-v5-20261124 @ 87f6a94918653a3417ce01205098193eb1ccb35d. Canonical baseline and manager handoff verified; combined CI 45450851407 job 138647208385 SUCCESS rechecked; 299/299 from manager verified logs. Prior P-07 branch compared identical to 9be3cf2def313e0ceedf5e07f1163c9eca28bcb5; V5 manifest includes that pin. No carry-forward duplicate.
 - Created feature/hc-purchasing-p8-v5-20261124 from exact V5; compare identical, 0 ahead/behind. No new PR yet. Historical branches and PRs preserved.
@@ -14,6 +14,12 @@
 ## P-08 consumer review of Core M6 proposal — 2026-11-24
 
 Reviewed exact Core draft PR #100 proposal at 53351c692ef47df1534ae2d0a7e6da50f63013e2; accepted in principle for Purchasing, not final shared-interface approval. [Consumer coordination response](https://github.com/Tawgod/Lightspeed/pull/100#issuecomment-7141637958) records typed tenant-bound invoice, source tuple, document hash and supplier/invoice-number locks, canonical compound keys preserving leading zeros, abort/reprepare if target set changes, immutable revision/approval inserts and revision-checked current pointer, minimal non-executable historical receipt, fresh scoped projection, stale intent checks, atomic writes and no receiving. No outlet-based duplicate partition assumed without policy approval. Exact per-effect/resource/field authorization, no implicit owner bypass, separate PO line and catalog master cost effects; no new permission IDs or assignments. Synthetic precommit check does not establish atomic distributed revocation. Existing 52-entry cumulative inventory retained. Manager acceptance and exact implemented/tested M6 dependency pin required before P-08 integration. No application code, test execution, CI, deployment or live data changes at this design gate.
+
+## Manager/Security conditional acceptance — P-08 dependency gate (2026-11-24)
+
+Manager V6 reconciliation handoff (blob 3dfd2875c46128b821f64f7f170825c11bc9dddf) and FOUNDATION_SECURITY_CORE_M6_REVIEW.md (blob a4b4b01c674e81d1ffb0b275228726f347adf362) reviewed. Purchasing design accepted; M6 conditional test-only implementation authorized for Core. V5 remains approved; adopt exact tested Core pin only. Fresh #100 PR metadata and branch compare: head 53351c692ef47df1534ae2d0a7e6da50f63013e2, one additive design file, open draft unmerged; no implemented/tested dependency yet. Purchasing feature/hc-purchasing-p8-v5-20261124 remains identical to V5 87f6a94918653a3417ce01205098193eb1ccb35d. Do not fork shared adapter or assume proposal signatures.
+
+P-08 test acceptance additions: immutable trusted actor/tenant/realm, exact effect/resource/field binding and locked evidence rederivation; fail closed for unsupported delegation or mismatched actor, scope, stale/expired/revoked approval and session; independent current read/field projection and scoped reconciliation authorization; no receipt disclosure after denial; distinguish precommit rollback from committed-but-denied projection, unknown commit never blindly retried; review-only intent, no delivery. No distributed revocation atomicity claim, no real grants, no per-action interactive authentication solely for ordinary authorized on-site work. Preserve 52 permission entries and unresolved alias review; no new proposed IDs. Reviewer separation and production approval/assurance policy remain Security-owned. No executable delta or new CI run; no deployment, live data or production changes. Next: consume exact Core M6 implemented/tested commit after publication and complete targeted disposable PG P-08 tests; no owner input required now.
 
 ---
 
