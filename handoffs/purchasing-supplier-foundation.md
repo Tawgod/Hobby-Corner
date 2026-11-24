@@ -1,7 +1,16 @@
 # Purchasing & Supplier Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** P-04 synthetic CI PASS; manager reconciliation gate; no deployment
+**Status:** V2 / P-05 implementation; targeted CI pending; no deployment
+
+## 2026-11-24 — V2 / P-05 provider-neutral document evidence
+
+**Status:** implemented; targeted CI pending; no deployment.
+- Approved V2 parent `2365de8af4e8d69b162f6909d1f78be246e74fdf`, branch `feature/hc-purchasing-p5-v2-20261124`, exact head `f2666ca31b053f4fd5c8864ccbacd7db95d7d60c`, draft [PR #84](https://github.com/Tawgod/Lightspeed/pull/84) targets test/hc-foundation-combined-20261124. Compare four ahead, zero behind, three additive files. Old branch identical to V2 included PR #82 pin a2096345709ac1a4a1113362d6bf8123a71227ad; no carry-forward or duplicate changes; old PR preserved. Read V2 baseline, manager handoff, dependency register, own handoff and source manifest.
+- Added services/lightspeed/supplierDocumentEvidence.js: offline normalized Gmail/Graph/vendor/manual PDF document contract, source/account/message/attachment key, content hash, scan receipt metadata, bounded attachment and extraction sizes, page references, decimal text and exact identifiers, replay/conflicting source detection. Invoice, credit note, preorder confirmation, shipping notice and unknown documents remain evidence only. Reuses V2 Catalog resolveSupplierIdentity and inspectSupplierProductLinks with scoped exact sender and product/variant/SKU evidence; candidate only, no promotion or automatic verified P-02 match. No existing module edited.
+- Seven new fixture tests plus existing 42 Purchasing and ten Catalog M3 tests targeted by one branch-scoped three-minute workflow (59 expected tests). No npm install or full integrated rerun; initial workflow lookup empty. Previous V2 combined CI 187/187 is historical baseline evidence only.
+- Decisions/limitations: PDF metadata only, 20 MiB maximum, 500 lines and 100 references per document; actual bytes, malware scan, parser provenance, trusted account/tenant scope, completeness and identity evidence are not independently verified. No actual provider adapter, cursor/checkpoint persistence, private object storage, attachment fetching/parsing, email-body-only support, confidence calibration, durable replay reservation, shipment event extraction or credit processing. No automatic conversion to P-02 approved proposal; Catalog target selection and exact field mapping need coordination. No raw document text/body or credentials exposed; internal metadata/costs require future field permission projection. No production data, vendor/mail calls, grants, DB writes/migrations, routes, merges or deployment.
+- Next gate: Manager/Catalog/Core/Security review source scope, evidence provenance, supplier alias mapping, trusted provider ingestion and durable replay/storage interfaces. P-06 offline cross-tool workflow scenarios may proceed after coordination; actual provider activation and live/durable mutation require separate authorization. Preserve P-04 synthetic harness and Inventory exclusive receipt boundary.
 
 ## 2026-11-24 — P-04 synthetic controlled PO mutation harness
 
