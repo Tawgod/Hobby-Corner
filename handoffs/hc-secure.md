@@ -1,3 +1,9 @@
+## 2026-11-24 — Private runtime readiness tests PASS; deployment staged
+
+Operator reported all nine tests passed (runtime readiness and existing staging readiness suites). Reviewed runtime code at be24458aa6281834591da52f865af8b98c89b366. Staged Railway patch 48defdcb-8849-4190-84e6-2ca94c5f0846, exactly eight non-destructive config changes on hc-secure-auth-staging only: pin tested commit, start node staging/hc-secure-runtime-readiness.js, health timeout 60s, HC_SECURE_RUNTIME_READINESS_ONLY=true, Owner/synthetic/PIN setup flags false, HC_OWNER_STAGING_DATABASE_URL constructed with internal reference to offline provisioner runtime password and exact private PG hostname/role/database. No actual password values retrieved, no root/operator credential transferred, no shared variables or public domains. Explicit deployment approval required. Expected runtime HC_SECURE_RUNTIME_READINESS_OK read_only=true restricted_runtime=true login_routes=false and /health success. Internal reference resolution and actual readiness runtime not yet verified. Temporary dependency on offline provisioner runtime secret must be replaced or retained securely before deleting provisioner secrets. No production/Timeclock/original Owner changes; no public authentication or new activation. Next verify readiness, plan secure credential custody cleanup and independent canonical Timeclock integration.
+
+---
+
 ## 2026-11-24 — Commissioning disarm verified; private auth runtime readiness authored
 
 User manually deployed disarm patch. Railway 656231dc-cecb-49da-a9ba-3abad859519e SUCCESS at f8ecc09a7eb9ceba3d84eba7c7294b0fa4e3caed, exact HC_SECURE_OFFLINE_PROVISIONER_DISABLED marker. No pending patch. Root reference and both password variables remain on offline provisioner temporarily. Auth service remains inert/FAILED placeholder, no public domains, source old pin 70429b1880fbc304eaa9246e2a036a32a5961acd.
