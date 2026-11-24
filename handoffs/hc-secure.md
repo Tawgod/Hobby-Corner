@@ -1,3 +1,28 @@
+## Nov 24 milestone — disposable PG18 schema & privilege integration test ready
+
+**Current milestone: In Development, awaiting operator Codespace test.** Located original Owner schema and provisioner in `Tawgod/Lightspeed`: `scripts/bootstrap-owner-stage-database.mjs` exports the **seven** existing SQL fixture paths and enforces the original Owner Railway scope; `db/hc_owner_staging_privilege_groups.sql` creates **two NOLOGIN grants groups** with deliberately restricted activation issuance/deletion/updates. Reviewed `scripts/prepare-owner-locked-login-roles.mjs`, `scripts/commission-owner-stage-db-credentials.mjs` and the Owner runtime preflight. **No original bootstrap was modified or used on the new Railway project.**
+
+**Source-only implementation:** On `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77):
+- `scripts/test-hc-secure-schema-disposable.mjs` — uses exact seven existing Owner schema fixtures on an empty **disposable** PostgreSQL 18 database. Hard guard: no Railway project/environment/service variables, exact `127.0.0.1:15488`, `hc_owner_stage_test`, local `postgres` login, forced `cluster_name=hc-secure-disposable-pg18` and PG18 version. Requires all nine tables and privilege groups absent before test. Runs fixtures and verifies Owner tables, forbidden runtime activation issuance/digest/employee/expiry rewrites, permitted activation consumption/credential, operator-only activation issuance, no operator TOTP SELECT. **Wraps every change in a transaction that ALWAYS ROLLS BACK**, even on success; strips existing `BEGIN/COMMIT` from one reviewed privilege fixture and rejects transaction control in others. Does not create a real Owner, activation token, credential or role password.
+- `tests/hc-secure-disposable-schema.test.mjs` — local-only target, origin/Railway rejection, transaction delimiter handling, fail-before-connect and unexpected PG cluster/version refusal (five tests).
+- `scripts/run-hc-secure-disposable-pg18.sh` — temp Docker `postgres:18` with **tmpfs**, bound only to loopback `127.0.0.1:15488`; random throwaway password, Docker container removed on exit. Runs complete PG18 SQL/grant test **twice**; second pass catches any failure to roll back first pass.
+- Acceptance document updated at `Tawgod/Lightspeed:docs/HC_SECURE_AUTH_INTEGRATION_ACCEPTANCE.md`. Latest source commit `7047bb79cc516d1aafb8f7049eb04d890d42adf8`.
+- **All three new scripts/tests authored but NOT yet run in Codespaces or deployed.**
+
+**User-run next test:**
+```bash
+cd /workspaces/Lightspeed
+git switch feature/hc-secure-staging-readiness-20261123
+git pull --ff-only
+node --test tests/hc-secure-disposable-schema.test.mjs
+bash scripts/run-hc-secure-disposable-pg18.sh
+```
+Expected two `HC_SECURE_DISPOSABLE_SCHEMA_OK fixtures=7 tables=9 nonlogin_groups=2 rollback=true` messages and `HC_SECURE_DISPOSABLE_PG18_DOUBLE_PASS=true`. Docker may not be available in Codespaces; report that blockage without substituting a real Owner PostgreSQL DB. No live Railway change, DB schema migration, first-Owner activation, hostname/DNS change or production login rollout is part of this test.
+
+**Next after result:** If PG18 tests PASS, design **new HC Secure-specific** provisioner that requires private new Railway project/database/service guards and fresh backup/secret/role provisioning, rather than reusing hard-coded original Owner provisioner. Do not commit/accept staged Railway patch until separate PG credentials and new-host WebAuthn continuity are independently reviewed.
+
+---
+
 ## Nov 23 fresh-database preflight test results — operator-confirmed 5/5 PASS
 
 **Codespace test evidence supplied by operator:** In `/workspaces/Lightspeed`, branch `feature/hc-secure-staging-readiness-20261123`, fast-forwarded from `70429b1` to `25d5f5d` and ran `node --test tests/hc-secure-fresh-db-preflight.test.mjs`. Output: **5 tests, 5 pass, 0 fail, 0 skipped, 0 cancelled**, duration `107.122218ms`. Passed cases: exact private target scope; original/wrong DB and unsafe URL rejection; read-only transaction, release and pool cleanup; partial schema/wrong DB/reported read-write rejection; and fail-before-connect on incorrect project ID. Tests are mocked and **do not establish real PG18 connectivity or migrations**.
