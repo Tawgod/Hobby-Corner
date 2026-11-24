@@ -1,7 +1,16 @@
 # Purchasing & Supplier Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** P-03 offline contract CI PASS; P-04 authorization gate; no deployment
+**Status:** P-04 synthetic implementation; CI pending; manager reconciliation gate; no deployment
+
+## 2026-11-24 — P-04 synthetic controlled PO mutation harness
+
+**Status:** user authorized isolated development and synthetic testing; implementation committed, CI pending; NOT deployed.
+- Approved parent `71a1cd6e312ed52efc1e9af9da85db6b02e3756c`; branch `feature/hc-purchasing-foundation-m1-20261124`; head `a2096345709ac1a4a1113362d6bf8123a71227ad`; draft [PR #82](https://github.com/Tawgod/Lightspeed/pull/82). Compare: 15 ahead, 0 behind, nine added files only.
+- Added syntheticPurchaseOrderMutation.js using existing Core audited mutation, audit and idempotency contracts, default disabled and fixture-only test environment. Recomputes association/proposal and approval binding; stable invoice key, injected exclusive scope and duplicate guard; OPEN SUPPLIER create or cost-only update, explicit full snapshot precondition and readback; no receive/dispatch/stock/allocation commands. Secondary supplier writes rejected and deferred to Catalog. Unknown results require quarantine; verified same-mode replay via Core. Existing receipt-bearing PO blocked conservatively.
+- Added ten P-04 tests; combined suite defines 42 tests; initial exact-head workflow lookup empty, verification pending. No live calls.
+- Limitations: fixture marker, policy, lock, expected snapshot, duplicate assertion and state persistence are trusted synthetic adapters, NOT production enforcement or actual durable concurrency. Snapshot is normalized PO fields only, no actual stock/event evidence. Approval expiry and evidence versions are fixture supplied; no live atomic vendor version preconditions, cross-mode durable exclusion, receipt/stock verification, catalog grants, or unknown-write recovery adapter. Audit and idempotency use existing Core implementation, but in-memory store is strictly test-only. No production execution eligibility, no routes, transport, credentials, migrations, grants, merges or deployments.
+- Manager reconciliation requests: coordinate approved Core mutation outcome contract and Security exact operations, Product Catalog supplier mapping and cost scope, Inventory physical receipt boundary. Review before any actual storage or vendor adapter integration; verify provider version and conditional update semantics, full integrated tests and independent test-tenant authorization. P-05 provider-neutral mail/vendor evidence adapters can be planned offline after reconciliation. Stop here for user's planned manager review.
 
 ## 2026-11-24 — P-03 review revision and cumulative quantity contract
 
