@@ -1,3 +1,14 @@
+# Core M6 repair checkpoint — 2026-11-24
+
+**Status:** Initial CI FAILED; corrected candidate committed, exact-head validation pending. Do not adopt either pin until passing evidence is published.
+
+- Initial head 055a1510acab12e6f35d8e2aee01e0ec23a82635, CI 45470994612 job 138718583006: independently read logs, 25/34 pass, 9 fail, zero skips. Manager comment 7142241073 confirms frozen receipt-field array sort in exact().
+- Corrected #100 head 964b84d084c0224b251b3ecef0bb1af30f9cdf22, same exact V5 base, one fast-forward repair commit containing two changed files, preserving existing six-path PR scope. Readback blob pins: executor 52b90d3c1cf113128f5bae2192699d203aeb42da; tests c528409778be52e547f0baa53023d955bad55c8b. Replace mutating sort/join with exact own-key membership and count; immutable binding retained. Focused PG regression covers frozen field arrays, canonical replay order, malformed receipt rejection and no reapplication. No interface or permission change.
+- Local Node 22.16.0 isolated helper check reproduced old TypeError and passed 10 assertions for corrected comparison. Local checkout unavailable (GitHub DNS), PostgreSQL tooling absent; not full source/PG validation.
+- One batched repair ref update triggers existing eight-minute capped targeted workflow, expected 35 tests (15 M6 + 20 inherited). Exact-head run not yet visible at initial lookup. No manual rerun, no combined CI. Inventory/Purchasing remain gated until exact passing dependency. Security inventory and prior limitations below unchanged. No merge/deploy/live data/production modifications.
+
+---
+
 # Core Shared API Foundation 2.0 — M6 implementation checkpoint
 
 **Last verified:** 2026-11-24
