@@ -1,7 +1,17 @@
 # Purchasing & Supplier Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** Testing / offline CI SUCCESS; no deployment
+**Status:** P-02 implementation / combined CI pending; no deployment
+
+## 2026-11-24 — P-02 invoice reconciliation candidate
+
+**Status: Implementation committed; combined offline CI pending; NOT deployed.**
+- Approved baseline unchanged: `71a1cd6e312ed52efc1e9af9da85db6b02e3756c`. Existing purchasing branch `feature/hc-purchasing-foundation-m1-20261124`, head `c8e41d6918891bc9034671d8c85bdb466edb1bbe`, draft [PR #82](https://github.com/Tawgod/Lightspeed/pull/82). Compare to approved SHA: 7 ahead, 0 behind, five added files only.
+- Added `services/lightspeed/invoiceReconciliation.js`: pure offline association and review proposals, complete unfiltered PO and prior invoice history gates, exact supplier/outlet/reference matching, duplicate/corrected invoice detection, OPEN supplier PO update only, conservative new OPEN PO candidate only if no plausible existing PO and no unresolved explicit reference. No fuzzy auto-link. Exact verified sender aliases only. Catalog evidence supplied by caller; no duplicate matcher or catalog writes. Secondary supplier proposal preserves primary. Quantity/cost/currency kept as evidence (integer quantities, decimal cost strings, no conversion). Partial invoice quantity never overwrites ordered quantity; shipment evidence can associate multiple shipments to invoice lines, never establish receipt.
+- Added 12 fixture tests in `tests/purchasing-foundation-m2.test.mjs`; workflow now executes both P-01 and P-02 suites (22 tests defined). Initial head workflow lookup returned no runs; no new PASS claimed yet. P-01 previous CI remains historical PASS.
+- No gateway, authorization, production vendor read/write, database, mailbox, inventory, allocation, notification or deployment changes. Every returned candidate/proposal is explicitly non-executable; full approval is a requirement, not implemented authority.
+- Decisions: require exact reviewed catalog evidence; block duplicate products/ambiguous PO lines, credit notes, fractional quantities, mixed currencies and unresolved explicit references for manual review. Caller completeness/verification evidence is not independently authenticated; these are offline DTOs only. Supplier alias normalization, durable duplicate/revision handling, cumulative partial invoice totals, version/freshness checks, price variance, multi-invoice shipment mapping, and real supplier/cost/PO schema parity remain outstanding. No assumption of execution eligibility from these results.
+- Next: verify combined CI and manager review, then P-03 durable review/approval contract design and concurrency/replay fixtures with Core API, Product and Inventory. No writer or DB migration until separately approved. Need manager contract acceptance before production integration.
 
 ## 2026-11-24 — P-01 implementation and validation submission
 
