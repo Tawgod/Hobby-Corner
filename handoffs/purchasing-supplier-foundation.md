@@ -11,6 +11,10 @@
 - Testing: no new P-08 code or test execution; existing V5 CI conclusion independently rechecked, test count inherited from canonical manager evidence. No extra Actions usage. Fresh Railway inspection and full secondary documentation review remain pending before implementation. No merge, deploy, live route/data, credentials, migration, grants or production mutations.
 - Next: Core M6/Manager confirm shared adapter and authorization seam; then implement P-08 on independent branch with coordinated dependency pin and targeted disposable PG validation. Coordination gate is not milestone completion or final integration acceptance.
 
+## P-08 consumer review of Core M6 proposal — 2026-11-24
+
+Reviewed exact Core draft PR #100 proposal at 53351c692ef47df1534ae2d0a7e6da50f63013e2; accepted in principle for Purchasing, not final shared-interface approval. [Consumer coordination response](https://github.com/Tawgod/Lightspeed/pull/100#issuecomment-7141637958) records typed tenant-bound invoice, source tuple, document hash and supplier/invoice-number locks, canonical compound keys preserving leading zeros, abort/reprepare if target set changes, immutable revision/approval inserts and revision-checked current pointer, minimal non-executable historical receipt, fresh scoped projection, stale intent checks, atomic writes and no receiving. No outlet-based duplicate partition assumed without policy approval. Exact per-effect/resource/field authorization, no implicit owner bypass, separate PO line and catalog master cost effects; no new permission IDs or assignments. Synthetic precommit check does not establish atomic distributed revocation. Existing 52-entry cumulative inventory retained. Manager acceptance and exact implemented/tested M6 dependency pin required before P-08 integration. No application code, test execution, CI, deployment or live data changes at this design gate.
+
 ---
 
 # Purchasing & Supplier Foundation — Current Handoff
