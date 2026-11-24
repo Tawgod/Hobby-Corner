@@ -1,3 +1,18 @@
+## Nov 24 real disposable PG18 SCRAM commissioning integration PASS
+
+**Operator-supplied exact terminal output** from `bash scripts/run-hc-secure-disposable-credentials-pg18.sh`:
+```
+HC_SECURE_DISPOSABLE_CREDENTIALS_OK postcommit_relock=true scram_logins=true bad_password_denied=true final_roles_locked=true owner_activations=0
+HC_SECURE_CREDENTIAL_CONTAINER_CLEANUP_PENDING=true
+```
+**Status:** Disposable real PostgreSQL 18 credential integration **Testing PASS** (operator-provided logs). Positive SCRAM runtime/operator login, wrong-password PostgreSQL authentication denial, post-commit failure re-lock, final role PASSWORD NULL, and no Owner activations verified by script's checks. The `CLEANUP_PENDING` line is emitted before Bash `EXIT` trap; actual Docker removal has **not** been separately confirmed with `docker ps -a`, although script contains a mandatory cleanup trap. Previous seven mocked commissioning tests were operator-confirmed PASS.
+
+**Fresh independent Railway readback after test:** New `HC Secure/staging` patch `60012c69-e526-4778-9422-055d705150f2` with 23 changes still `STAGED`; `hc-secure-postgres-staging`, `hc-secure-auth-staging`, and the volume all `staged-create`, **not deployed**. Original `HC PR63 Isolated Staging` Owner app `hc-owner-staging` and database `Postgres-x8Ui` remain **online**, latest app/database deployment **SUCCESS**. No new DB/password set, real Owner credential migration, staging web authentication or production security cutover performed.
+
+**Next milestone / decision gate:** Before provisioning real new Railway database, reconcile staged patch to ensure PG18 service has separate secure bootstrap environment variables/secrets and supported data volume, review Railway actual PostgreSQL bootstrap behavior, provision separate offline operator service without exposing credentials to public auth, verify credentials and backups, configure new hostname DNS/TLS and new-RP-ID WebAuthn continuity. **Explicit owner authorization required before applying staged Railway changes or performing DB mutations.** Preserve existing Owner passkey, encrypted TOTP seed, old-origin authentication and DB intact until new environment is independently verified. Avoid publishing passwords or secret-containing environment listings.
+
+---
+
 ## Nov 24 credential safety tests 7/7 PASS; real PG18 result pending
 
 **User reported “pass 7”** following request to execute both the seven-case `tests/hc-secure-credential-commissioning.test.mjs` suite and the separate disposable PostgreSQL 18 credential integration runner. Interpret as **7/7 mock safety tests PASS (operator report)**. **The user did not supply the disposable integration result line**, so do **not** classify real PG18 credential authentication/re-lock as passed based on “pass 7” alone. Await `HC_SECURE_DISPOSABLE_CREDENTIALS_OK postcommit_relock=true scram_logins=true bad_password_denied=true final_roles_locked=true owner_activations=0` or equivalent complete test output.
