@@ -1,3 +1,9 @@
+## 2026-11-24 — Approved read-only inspection deployment triggered
+
+User explicitly approved four staged read-only changes. Revalidated exact patch 9b1f4224-3143-448c-b594-f8e1b563f8a9, non-destructive, only hc-secure-db-bootstrap-once source pin, root URL reference, start command and NEVER restart. Accepted deployment; committed=true, deploymentStatus=triggered. New deployment 1074dbfe-3faf-48f7-a98e-95e43bc83b8b, commit 2a337447461b209c66aada04a24cffc062aa6ac3, BUILDING at last check; no runtime marker or build logs yet. No readiness result, no authorization for SQL writes. Auth remains disabled; no original Owner/production change. Next check exact deployment runtime logs for HC_SECURE_ROOT_READY=true read_only=true target_absent=true roles_absent=true root_empty=true; if blocked, diagnose safely without secret output. Restore inert command/remove root reference after inspection unless separately authorized continuation requires it. Do not claim schema created or execute bootstrap yet.
+
+---
+
 ## 2026-11-24 — Root readiness tests PASS; private read-only inspection staged
 
 **Testing:** Operator supplied full Node test summary: 5 passed, 0 failed/skipped, 395.624422ms. New root probe mock suite passed; actual Railway database contents NOT inspected yet.
