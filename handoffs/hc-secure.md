@@ -2,7 +2,18 @@
 
 **Last verified:** 2026-11-24  
 **Status:** In Development / Testing; private staging infrastructure and read-only readiness Deployed. Full authentication and production enforcement are not deployed.  
-**Ownership:** Foundation — HC Secure 1.6 (recommended chat name); transition from Hobby Corner Operations. Chat move is owner-operated, not yet performed by assistant.
+**Ownership:** Security Foundation 2.0 (owner-designated successor to Foundation — HC Secure 1.6).
+
+## Security Foundation 2.0 — transfer checkpoint (2026-11-24)
+
+- Owner designated this successor conversation Security Foundation 2.0. Existing independent Security branch and commissioning boundaries remain unchanged. No infrastructure move required.
+- Fresh GitHub PR #77 read: open, draft, unmerged, head be24458aa6281834591da52f865af8b98c89b366; Railway source pin matches. PR description's early source-only status is stale, superseded by deployment evidence here.
+- Fresh Railway status: all three latest deployments SUCCESS; auth and PG each one running replica; inert provisioner zero running replicas; no pending work, warnings or critical notifications. One earlier auth failure in reporting window (2ba2ee0c-e188-41be-ac02-2c9c6ffc4ee6); current auth online. Auth service has no domains or TCP proxies. Names-only inspection confirms six independent application secret variables and independent Timeclock secret are absent. No values retrieved.
+- Business V4 approved pin b56d4f69332f768a66987668293088eb51a60ecc; manager's 266/266 CI record is isolated fixture evidence, not Security acceptance. Security does not branch from V4.
+- Preliminary dependency review: Core M5 #95, Catalog M7, Inventory M7 #94 have cumulative inventories; Customer and Purchasing handoffs still show V3 checkpoints on this read. Manager consolidation pending. Naming collision: Core proposes products.read/create/cost.modify, Catalog proposes catalog.product.read/create/cost.modify, existing Security handoff uses product.cost.view/modify. These are unresolved aliases, not separate grants. Wholesale cost read is ordinary authorized employee product read; cost mutation separate. Inventory count/restock aliases likewise need review. No role bundles, precedence, operation IDs or grants approved by this checkpoint.
+- Next milestone S2.1: independent application secret custody and scoped Timeclock integration preparation. Keep readiness-only runtime, original Owner and provisioner unchanged. Six application secrets privately generated and entered by owner; review exact staging patch before acceptance. Independent Timeclock credential requires source review, compatibility and negative tests, then separate production authorization. No DNS, enrollment, activation or production changes.
+- Security integration contract review with Core: trusted actor provenance, exact server-derived effect authorization, all prerequisite grants, resource/field/location/environment scope, execution-time revocation revalidation, actor-bound replay and safe output reprojection, delegated service scope, fail-closed errors and audit correlation. No actual grant or runtime endpoint approved.
+- Transfer checkpoint is documentation only; no new code, tests, deployment or actual permissions changed. Further source review and final consolidated registry remain pending.
 
 ## Source
 
