@@ -1,3 +1,39 @@
+# Foundation Manager — V5 accepted / 2.0 successor release
+
+**Last verified:** 2026-11-24
+**Status:** V5 approved for isolated development by owner; all five successor transition handoffs verified. Production release and actual Security acceptance pending.
+
+## Source and testing
+- Canonical baseline [FOUNDATION_DEVELOPMENT_BASELINE.md](../FOUNDATION_DEVELOPMENT_BASELINE.md), promotion commit 5e693fe3920c8e4a7dd689eb6e9a224f64e12211, readback verified.
+- V5 Tawgod/Lightspeed:test/hc-foundation-combined-v5-20261124 @ 87f6a94918653a3417ce01205098193eb1ccb35d; parent V4 b56d4f69332f768a66987668293088eb51a60ecc.
+- Included exact heads #94 0819cb0f33a0b7c9f52446c454899ec3ade0fc92; #95 c31c8d660baf81227293e3647df13b8d6ee21d76; #96 9be3cf2def313e0ceedf5e07f1163c9eca28bcb5; #97 090fec0d833e626364c2b72d66903a99ddeddc29; #99 bb11757bfef5a54c28d27f72647ec2f4c3586d2d. 18 exact nonoverlapping workstream deltas plus workflow/manifest, 20 changed paths total. No PR merged.
+- CI [45450851407](https://github.com/Tawgod/Lightspeed/actions/runs/45450851407), job 138647208385, exact V5 head SUCCESS; actual logs verified 299/299, zero failed/skipped/cancelled. 35 suites/files, disposable PostgreSQL concurrency, replay, rollback, revoked grants and simulated lost commit acknowledgement recovery. No integration repairs required. Domain M7/P-07 PG tests still use M4; Core M5 is additive. No actual production durability/security claim.
+
+## Conversation ownership transition
+Owner reports all five successors created. Canonical transition checkpoints read and verified:
+- Core Shared API Foundation 2.0: handoffs/core-api-foundation.md blob abf99a6c4954e9f20066a1080a32c0e5f2735389.
+- Product & Catalog Foundation 2.0: handoffs/product-catalog-foundation.md blob c1a87012042eee11edd3cb2c3f64b4c170d299e4.
+- Shared Inventory Foundation 2.0: handoffs/inventory-foundation.md blob ecd89ee4382a1040581b9be3a6c7c6636cd98c6b.
+- Customer & Sales Foundation 2.0: handoffs/customer-sales-foundation.md blob 784b8de3f2ed06cf7e6c0dc393ce8eff589725d7.
+- Purchasing & Supplier Foundation 2.0: handoffs/purchasing-supplier-foundation.md blob 4309f045eb0bb83901856f1a6ba5a9316427ad43.
+- Security Foundation 2.0 remains independent; hc-secure.md blob 1bed835a03110847bbefa9e32ace3770d0413bfe read at promotion.
+Transition checkpoints record V4 as approved at time of writing; canonical V5 now supersedes that historical state. Successors verify current baseline and acknowledge ownership before edits. No manager claim of direct inspection of successor conversations or actual archival. Owner archives predecessors.
+
+## Next assignments
+- Core M6: coordinated reusable M5 adapter adoption, typed domain locks and post-lock/precommit checks, actor/resource binding, safe receipt projection, unknown commit reconciliation, immutable audit/outbox deduplication and Security/remote mutation interface coordination.
+- Catalog M8: compose non-executable mutation contracts with Core remote mutation/audit/idempotency fixture seam; fresh revision, actor-bound approval, exact cost effects, duplicate prevention and verified readback/unknown outcome; no actual writer.
+- Inventory M8: migrate disposable M7 fixtures to Core M5 common adapter; typed task/session/reason locks, actor-bound replay and safe projection, fresh post-lock/precommit checks and immutable review/audit/outbox; no stock effects.
+- Customer M8: integrated offline customer identity/search/consent and sales/deposit/work-order/fulfillment/reversal/credit evidence, separate I/O and projection grants, partial pickup and financial/physical separation; preserve legacy parity.
+- Purchasing P-08: adopt common Core M5 disposable adapter for invoice review/duplicate reservations/actor-revision-bound approvals, immutable history, safe receipts, post-lock/precommit checks and uncertainty/replay/outbox fixtures; no PO writer or receiving.
+- All five start independent branches at exact V5, target V5 in draft PRs, preserve prior PRs/branches; coordinate shared seam changes before adoption and minimize CI.
+- Security: continue independent S2.1 and consolidated registry review. Owner reports Security prompt transmitted. Review FOUNDATION_SECURITY_PERMISSION_REQUIREMENTS.md (213 source rows, not unique permissions); aliases and roles remain provisional; preserve commissioning gates. No actual assignments/activation. Security owns final IDs, authorization, scope, roles, individual precedence and UI.
+- Mandatory cumulative permission inventories remain required. Identify changes vs consolidated register, actual consumers and gaps; no broad code renames or implicit grants. All active employees may view wholesale costs under ordinary authorized product access; cost modification separate; no tool bypass.
+
+## Deployment / remaining gates
+No production changes, merges, deployments, live data, grants, route mounting or shared-environment migrations by manager. No fresh manager Railway inspection this checkpoint. Actual Security contract/endpoint acceptance, vendor compatibility, domain M5 adoption, durable production adapters, outbox delivery, feature/browser acceptance and dependency reproducibility remain pending. Management PR #4 overlap unresolved. Preserve Security commissioning and Timeclock deployment approvals.
+
+## Historical checkpoints
+
 # Foundation Manager — V4 reconciliation / V5 candidate review
 
 **Last verified:** 2026-11-24
