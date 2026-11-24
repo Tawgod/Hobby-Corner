@@ -1,3 +1,11 @@
+## Nov 24 disposable PostgreSQL 18 integration test PASS — 21/21 and double run
+
+**User-supplied Codespace test results:** `node --test` combined security suite: `tests 21, pass 21, fail 0, cancelled 0, skipped 0, todo 0`, duration `1713.433902ms`. Disposable integration runner: first and second real `postgres:18` run each emitted `HC_SECURE_DISPOSABLE_SCHEMA_OK fixtures=7 tables=9 nonlogin_groups=2 rollback=true`, followed by `HC_SECURE_DISPOSABLE_PG18_DOUBLE_PASS=true (no persistent DB or credentials)`. **Classification: Testing PASS, with full user-provided terminal summary; not independently observed executing in the connected Codespace.** Confirms schema creation/privilege assertions and rollback repeatability on disposable PG18. This is not evidence that HC Secure Railway database is provisioned, nor that new-host Owner WebAuthn or production employee security works.
+
+**Next milestone:** Build fresh HC Secure-specific offline PG18 provisioning + role commissioning guarded by approved new Railway project/environment and private DB service. Maintain separate issuer/operator and runtime identities, fresh independent passwords/secret custody, least-privilege grants; avoid original Owner bootstrap scripts, their hard-coded original project, any existing Owner activation code, or database/key copying. Keep service staging patch unapplied until bootstrap and domain/RP-ID handoff are reviewed and deployment expressly approved. **No change was made to the original Owner app/DB or production auth by this test.**
+
+---
+
 ## Nov 24 milestone — disposable PG18 schema & privilege integration test ready
 
 **Current milestone: In Development, awaiting operator Codespace test.** Located original Owner schema and provisioner in `Tawgod/Lightspeed`: `scripts/bootstrap-owner-stage-database.mjs` exports the **seven** existing SQL fixture paths and enforces the original Owner Railway scope; `db/hc_owner_staging_privilege_groups.sql` creates **two NOLOGIN grants groups** with deliberately restricted activation issuance/deletion/updates. Reviewed `scripts/prepare-owner-locked-login-roles.mjs`, `scripts/commission-owner-stage-db-credentials.mjs` and the Owner runtime preflight. **No original bootstrap was modified or used on the new Railway project.**
