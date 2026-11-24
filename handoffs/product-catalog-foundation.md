@@ -1,12 +1,24 @@
 # Product & Catalog Foundation — Current Handoff
 
-**Last verified:** 2026-11-23  
-**Status:** Source audited / read-only contract design; implementation not started in this workstream  
+**Last verified:** 2026-11-24  
+**Status:** M1 offline implementation and targeted tests PASS; integration acceptance pending  
 **Owner:** Product & Catalog Foundation development conversation  
 **Coordinator:** Hobby Corner Foundation Manager  
 **Safety:** No production product writes, deploys, merges, or DB migrations authorized.
 
-## Source
+## M1 checkpoint — 2026-11-24 (supersedes initial branch/blocker status below)
+
+**Implementation:** committed; **targeted offline tests PASS 8/8**, integration acceptance pending; **not deployed**.
+- Approved baseline PR #78 commit `71a1cd6e312ed52efc1e9af9da85db6b02e3756c`. Read baseline, dependency register and prior handoff.
+- Branch `feature/hc-product-catalog-m1-20261124`, commit `dabab99738bf914d931ad122bc994959b78ee8ee`, [draft PR #79](https://github.com/Tawgod/Lightspeed/pull/79) targets reconciliation branch, not production. Compare: 1 ahead, 0 behind, 4 files, 121 additions, 0 deletions.
+- Added inspectProductIdentity in products.js and inspectCategoryHierarchy in catalog.js; existing matcher/readers/route contracts unchanged. Dedicated test and docs/PRODUCT_CATALOG_M1.md.
+- Node v22.16.0: node --test tests/product-catalog-m1.test.mjs: 8 passed, 0 failed/skipped. All five source/test files reconstructed from committed readback and verified byte-for-byte with git hash-object against GitHub blob SHAs: products 19d62f2c810d138efebe18f64991e7ffb1cfb818; catalog df4b42a33b7f92543c3a7bdad6dc60f329baff5f; readCollection 0350581541f61799496114cf786459b30819953f; productIdentity ae6ab2bfca9bf3f3e59f71f957d6fdcff39e5bc7; test 6adf0c7627119e500286470ebd1eb119d951cf46.
+- Exact-head GitHub Actions query returned zero runs; common workflow is branch-push scoped. No shared CI changes or additional Actions minutes. Full foundation/Scanner/Core Ops regression pending manager-coordinated validation.
+- Limitations: fixture-only untyped code pool; supplier scoping, variant coverage, vendor active-state semantics and authoritative remote completeness not established. complete=true must represent trusted fixture coverage only. Category diagnostic does not validate duplicate source IDs, malformed envelopes or pagination. Legacy exact semantics unchanged. No result authorizes creation.
+- Core API envelope and Purchasing supplier scope review pending. No protected shared/Core/Security files modified. Draft PR creation reported mergeable=false; compare establishes pinned ancestry, not mergeability. Manager must recheck.
+- Next: manager review PR #79, coordinate typed supplier/variant evidence and stronger malformed-envelope/category checks; run combined regression once before merge authorization. No live API traffic, routes mounted, production reads/writes, migrations, merges or deployments.
+
+## Source (initial audit history)
 
 - Management repository: `Tawgod/Hobby-Corner:main`.
 - Production-connected application baseline: `Tawgod/Lightspeed:integration/hobby-corner-consolidation`.
