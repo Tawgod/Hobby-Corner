@@ -1,8 +1,14 @@
 # Shared Inventory Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** M8 implemented in draft PR #106; exact Core M6 pin verified; targeted CI pending
+**Status:** M8 targeted validation PASS — ready for Foundation Manager V6 reconciliation
 **Owner:** Shared Inventory Foundation workstream; coordinate with Foundation Manager, Core API, Product & Catalog, Purchasing & Suppliers and Foundational Security.
+
+## M8 validation complete — 2026-11-24
+
+- Exact Inventory head d714bab43f66592efec70aff07bf09e38435e006, PR #106, verified open/draft/unmerged/mergeable against approved V5 87f6a94918653a3417ce01205098193eb1ccb35d.
+- Targeted CI 45471929781, job 138721868096, SUCCESS. Actual logs independently verified exact Inventory checkout and pinned corrected Core checkout 964b84d084c0224b251b3ecef0bb1af30f9cdf22, with successful dependency composition. 12/12 tests passed: four inherited M7 and eight new M8, zero failures/skips/cancellations. All twelve named cases executed against disposable PostgreSQL. No rerun needed. V5 includes 37 Inventory cases; M8 adds eight, 45 distinct Inventory cases across verified baseline and targeted evidence (not a new 45-case combined run).
+- Ready for Foundation Manager V6 reconciliation. Include two additive Inventory paths only; Core exact dependency supplied once by Core PR #100. No production deployment, merge, live data, migration, stock effects or actual grants. Single synthetic outlet/product/session and two tasks; immutable domain history by insert-only application convention, not independent DB tamper protection; Core audit trigger tested. Actual Security and full multi-line workflow acceptance remain separate gates. Existing cumulative permissions preserved; no new approved IDs. No owner input required.
 
 ## M8 implementation / exact Core M6 dependency — 2026-11-24
 
