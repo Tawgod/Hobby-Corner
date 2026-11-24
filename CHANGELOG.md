@@ -1,3 +1,12 @@
+## 2026-11-24 — HC Secure staging-only schema/role preparation implementation
+
+- Committed `scripts/bootstrap-hc-secure-staging-db.mjs`: new-project-only, one-shot PG18 schema initialization with exact private host, 7 reviewed fixtures, 9 tables, least-privilege activation checks, and no existing DB/Owner records.
+- Committed `scripts/prepare-hc-secure-locked-roles.mjs`: separately authorized one-shot login-role creation, PASSWORD NULL, distinct runtime/operator grants, no reassignment of existing roles.
+- Added 11 mock-based preflight tests in `tests/hc-secure-staging-bootstrap.test.mjs` and `tests/hc-secure-locked-roles.test.mjs`, **awaiting Codespace execution**; draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77).
+- No live DB initialization, passwords, Railway deployment, Owner data, DNS, passkey transition or production changes. Existing HC Secure patch remains 23 staged-create changes; original Owner systems online. [Full handoff](handoffs/hc-secure.md).
+
+---
+
 ## 2026-11-24 — HC Secure disposable PG18 milestone verified
 
 - Codespace operator supplied successful test output: **21 tests, 21 pass, zero fail**.
