@@ -1,4 +1,4 @@
-# Shared business foundation — approved development baseline V4
+# Shared business foundation — approved development baseline V5
 
 **Last verified:** 2026-11-24
 **Owner:** Foundation Manager
@@ -6,42 +6,46 @@
 
 ## Canonical source pin
 - Repository: Tawgod/Lightspeed
-- V4 branch: test/hc-foundation-combined-v4-20261124
-- Exact approved V4 commit: b56d4f69332f768a66987668293088eb51a60ecc
-- [Combined CI 45442532299](https://github.com/Tawgod/Lightspeed/actions/runs/45442532299), exact V4 commit, SUCCESS. Job 138617312237 logs verified 266/266 pass, zero failure, skip or cancellation. 30 test files; syntax and gateway isolation; original real disposable PostgreSQL tests and Core M4 concurrent local transaction, duplicate/replay, rollback and revoked grant fixtures passed.
+- V5 branch: test/hc-foundation-combined-v5-20261124
+- Exact approved V5 commit: 87f6a94918653a3417ce01205098193eb1ccb35d
+- [Combined CI 45450851407](https://github.com/Tawgod/Lightspeed/actions/runs/45450851407), exact V5 head SUCCESS. Job 138647208385 logs verified 299/299 passed, zero failed, skipped or cancelled. 35 test files; syntax and gateway isolation; disposable PostgreSQL, concurrent operations, replay, rollback, revoked authorization fixtures and simulated lost commit acknowledgement recovery. Domain M7/P-07 fixtures still compose M4, not M5.
+- V4 remains test/hc-foundation-combined-v4-20261124 @ b56d4f69332f768a66987668293088eb51a60ecc, CI 45442532299 (266/266).
 - V3 remains test/hc-foundation-combined-v3-20261124 @ 098c9e51ea4c3449605ad6951baa8284e126e8d4, CI 45436836762 (223/223).
 - V2 remains test/hc-foundation-combined-20261124 @ 2365de8af4e8d69b162f6909d1f78be246e74fdf, CI 45423638373 (187/187).
 - V1 remains PR #78 @ 71a1cd6e312ed52efc1e9af9da85db6b02e3756c, CI 45414393938 (51/51).
-- Production integration/hobby-corner-consolidation last verified @ 014a7a949fe570b756b48d8f59995c1b0a434859; no production changes by manager.
-- V4 includes 20 exact nonoverlapping workstream deltas plus workflow and docs/FOUNDATION_COMBINED_V4_SNAPSHOT.md. No existing PR merged.
+- Production integration/hobby-corner-consolidation last manager-verified @ 014a7a949fe570b756b48d8f59995c1b0a434859; no production change by manager.
+- V5 includes 18 exact nonoverlapping workstream deltas plus workflow and docs/FOUNDATION_COMBINED_V5_SNAPSHOT.md. No existing PR merged.
 
-## Included V4 workstream heads (historical pins)
+## Included V5 workstream heads (historical pins)
 | PR | Owner | Exact included commit |
 |---|---|---|
-| #89 | Core API | 0fabf06643c17ec5632168ffecf8339aa09279e5 |
-| #90 | Product & Catalog | 5895dafbd9c63a8359c787afefedcf0ea6b80bbc |
-| #91 | Inventory | 7eecb5d2fd92f896402398d36167bd3779d95c0e |
-| #92 | Customer & Sales | 518ac1d0e6985852f80d375c9ce922d47fc40296 |
-| #93 | Purchasing & Suppliers | 340c6203a48deec3b7da38d37141ceb9f71e2060 |
+| #94 | Shared Inventory | 0819cb0f33a0b7c9f52446c454899ec3ade0fc92 |
+| #95 | Core Shared API | c31c8d660baf81227293e3647df13b8d6ee21d76 |
+| #96 | Purchasing & Supplier | 9be3cf2def313e0ceedf5e07f1163c9eca28bcb5 |
+| #97 | Product & Catalog | 090fec0d833e626364c2b72d66903a99ddeddc29 |
+| #99 | Customer & Sales | bb11757bfef5a54c28d27f72647ec2f4c3586d2d |
+
+## Active conversation ownership
+Owner reports all five business conversations transitioned. Canonical transition checkpoints verified for Core Shared API Foundation 2.0, Product & Catalog Foundation 2.0, Shared Inventory Foundation 2.0, Customer & Sales Foundation 2.0, Purchasing & Supplier Foundation 2.0. These inherit the same workstreams and handoff files, not new implementations. Security Foundation 2.0 retains its independent source and commissioning milestones. Foundation Manager remains permanent. Successors must acknowledge current ownership and verify source before changes. Preserve predecessor chats/branches/PRs; only owner archives chats.
 
 ## Rules for next milestones
-1. Read this file, SHARED_TOOL_DEPENDENCIES.md, handoffs/TEMPLATE.md, manager and own handoffs, and V4 source manifest. Create independent branches from exact V4 SHA. Compare newer work against included head; carry forward only missing deltas. Preserve all previous branches/PRs; no reset, force-push, rebase or duplicate cherry-picks.
-2. New draft PRs target test/hc-foundation-combined-v4-20261124, never production or old baselines. Manager alone coordinates integration; no merges without explicit approval.
-3. Core owns transport, readCollection, coreReadContract, localTransactionCandidate, shared audit/idempotency/transaction/outbox contracts and shared fixture adapter interfaces. Domain owners retain their modules and domain record shapes. Coordinate interface changes before implementation. Security exclusively owns identity, authentication, roles and operation grants; no parallel authorization system.
-4. core.v1 and Core M4 local transaction contract remain internal candidates. Use explicit injected authorization fixtures, safe field projections and correlation; no implicit grants. All active employees may view wholesale costs, modification separately controlled. No actual grant or public interface approval inferred. The V4 local transaction candidate may be composed in offline domain fixtures; no actual durable production adapter is approved.
-5. Offline synthetic fixtures and disposable PostgreSQL tests only. No actual feature switches, route mounts, live vendor/mail/employee/customer data, production mutations, shared-environment migrations or deployment. Synthetic mutation harnesses must remain non-executable in production. Never perform external/vendor side effects inside local DB transactions. Minimize Actions usage with local targeted tests and batched remote validation; report exact source/test evidence and limitations.
-6. Every workstream must complete the cumulative Security and administration UI dependency inventory below in its canonical handoff before next reconciliation. Preserve prior permissions and explicitly flag gaps, conflicts and proposed identifiers. No approved grant assignments invented.
-7. Preserve PRs #32/#33/#51/#78–#93. Management PR #4 still needs reconciliation before authorized merge.
+1. Read this file, FOUNDATION_SECURITY_PERMISSION_REQUIREMENTS.md, SHARED_TOOL_DEPENDENCIES.md, handoffs/TEMPLATE.md, manager and own handoffs, V5 manifest and relevant Security-approved contracts. Create independent branches from exact V5 SHA. Compare newer work against included head, carry forward only missing deltas; preserve previous branches/PRs, no reset, force-push, rebase or duplicate cherry-picks.
+2. New draft PRs target test/hc-foundation-combined-v5-20261124, never production or older baselines. Manager alone coordinates baseline integration; no merges without explicit approval.
+3. Core owns transport, readCollection, coreReadContract, localTransactionCandidate, localTransactionM5, shared audit/idempotency/transaction/outbox contracts and reusable disposable PG adapter. Domains own their records/effects. Coordinate changes to shared interfaces first. Security exclusively owns identities, authentication, roles, operation registry, authorization and administration UI. No parallel system.
+4. Adopt V5 Core M5 as shared offline integration candidate, not approved production adapter. Preserve M4 compatibility. Use trusted injected synthetic decisions, actor-bound replay, safe result reprojection, exact operation/effect sets, fresh checks after domain locks and at execution/commit boundary, and fail-closed outcome handling. Coordinate any seam extensions with Core; do not fork a common persistence framework. Wholesale cost visibility is ordinary employee access, modification separate.
+5. Offline synthetic fixtures and disposable PostgreSQL only. No live feature switches, route mounts, vendor/mail/employee/customer data, actual mutations, shared-environment migrations or deployment. No external/vendor side effects inside local DB transactions. Minimize Actions usage with targeted tests and batched validation; record exact source/test evidence and limitations.
+6. Maintain cumulative Security inventory in canonical handoff, explicitly flag changes relative to consolidated register, unresolved aliases and actual endpoint gaps. No code-wide grant renames or assignments until Security approves exact semantics and Manager coordinates migration.
+7. Preserve PRs #32/#33/#51/#78–#99, including independent Security PRs; management PR #4 needs reconciliation before authorized merge.
 
 ## Next assignments (isolated development)
 | Owner | Next scope | Stop gate |
 |---|---|---|
-| Core API | M5: refine shared local transaction/adapter contracts, actor-bound canonical replay, safe result reprojection, immutable audit, commit uncertainty and outbox deduplication fixtures; coordinate a reusable disposable PG adapter interface with Inventory/Purchasing; consolidate cross-tool operation dependency semantics and review reproducibility | Coordinate interface before adoption; Security approves actual actors/grants; no live durable implementation, public gateway, POST-for-read activation or independent auth registry |
-| Product & Catalog | M7 preparation: controlled non-executable product creation/update/cost mutation contracts; canonical identity/variant/supplier mapping, server-derived effect grants, duplicate prevention, readback/unknown outcome fixtures and consumer permission mapping | No actual vendor writer execution, live writes, feature switch or unauthorized product creation; coordinate Core remote mutation seam and Security |
-| Inventory | M7: compose existing inventoryPersistence planners with Core localTransactionCandidate in disposable PG fixtures, task/session/reason locking, concurrent duplicate/replay, atomic confirmation/review/outbox/audit and revocation; preserve independent shelf IDs and unknown stock evidence | Use coordinated Core seam, no competing durable transaction system; test-only schema/adapter, no shared-environment migrations, stock adjustments or actual outbox delivery |
-| Customer & Sales | M7: returns, voids, store credit and reversal evidence contracts, linkage to sale/payment/deposit/work-order and fulfillment, distinguish financial versus physical effects and document permission dependencies | No real return/void/credit posting, automatic linkage, payment or stock effects, live routes; coordinate Inventory and Core |
-| Purchasing & Suppliers | P-07: durable invoice review/duplicate/approval record contracts and disposable PG fixtures against Core candidate; actor/revision-bound review, replay, atomic audit/outbox intent; preserve invoice-not-receipt boundary and no automatic product creation | No competing durable transaction adapter; no actual provider activation, PO writer/receiving, shared-environment migration or production execution |
-| Foundational Security | Continue existing employee/owner environment consolidation independently; receive cumulative workstream permission inventories for future registry and administration UI coordination | Security owns final role bundles, individual grant/restriction precedence, identity, scopes, registry and UI; existing commissioning approvals retained |
+| Core Shared API Foundation 2.0 | M6: coordinate reusable M5 adapter adoption by Inventory/Purchasing; extend test-only adapter seam for typed domain locks, authorization after locks and immediately before commit, actor/resource binding, minimal receipts and safe reprojection, unknown commit inspection and immutable audit/outbox deduplication; coordinate Security contract and remote mutation fixture compatibility | No production adapter, real grants, gateway mounting or POST-for-read activation; coordinate common interface changes before use |
+| Product & Catalog Foundation 2.0 | M8: compose controlled product mutation candidates with existing Core remote mutation/audit/idempotency seam using synthetic vendor fixtures; exact create/update/cost effects, fresh snapshot/revision, actor-bound approval, duplicate prevention, readback and unknown-outcome reconciliation | No actual vendor writer, live traffic or automatic retry of ambiguous writes; coordinate Core/Security/Catalog contracts |
+| Shared Inventory Foundation 2.0 | M8: migrate test-only M7 fixtures to Core M5 shared disposable adapter, typed session/task/reason locks, actor-bound replay and safe projection, post-lock and precommit checks, immutable audit/review/outbox and stock-effect separation | Coordinate Core before seam changes; no independent runtime adapter, stock adjustments, live schema or actual delivery |
+| Customer & Sales Foundation 2.0 | M8: offline integrated customer identity/search/consent, sale/deposit/work-order/fulfillment/return/void/credit workflow compatibility fixtures; independent grants for composite I/O and projections, partial pickup and financial/physical effects, legacy consumer parity | No actual account linking, posting credit/refund/payment, stock effects or live route change |
+| Purchasing & Supplier Foundation 2.0 | P-08: adopt Core M5 disposable adapter for invoice review, duplicate reservation, actor/revision-bound approval, immutable history and safe receipt projection; post-lock/precommit authorization, uncertain commit/replay and outbox deduplication fixtures | Coordinate Core seam; no actual provider, PO writer, receipt/stock effect, live database or delivery |
+| Security Foundation 2.0 | Continue independent S2.1 milestones and consolidate permission registry using FOUNDATION_SECURITY_PERMISSION_REQUIREMENTS.md; reconcile aliases by effect, role/individual policy, scopes and UI requirements; coordinate identity-only Timeclock design and Core authorization interface | Existing credential commissioning and Timeclock deployment gates retained; no actual assignments, activation or production changes under this baseline |
 
 ## Mandatory cross-tool capability enforcement (owner-approved, 2026-11-24)
 - Every tool must support centrally assignable Security roles and canonical operation grants. A restriction on a business operation applies to every tool, API, bulk/import flow, automation and indirect workflow that can perform that operation, not merely its originating UI.
@@ -66,7 +70,7 @@ Maintain a cumulative inventory of capabilities that the Security service and ev
 - Maintain this section in the canonical workstream handoff at each milestone; manager consolidates/deduplicates inventories for Security review. No actual grant changes or UI activation authorized.
 
 ## Remaining gates
-- Actual Security acceptance, including uniform backend cross-tool authorization and negative bypass tests; synthetic tests are not evidence of live permission enforcement. Consolidated permission register and Security administration UI requirements must be reviewed before UI implementation/role assignment.
-- Exact vendor API contracts, controlled read-only tenant environment, full feature/browser acceptance, physical stock-event evidence, actual durable domain adapters, safe replay and outbox delivery remain pending. V4 validates fixtures, not production durability.
-- No live environment change authorized. Avoid unrelated staged Railway changes. Existing npm dependency manifest has no lockfile; reproducibility requires review.
+- [Consolidated permission requirements](FOUNDATION_SECURITY_PERMISSION_REQUIREMENTS.md) preserve V4 workstream inventories (213 source rows, not unique permissions) and alias review queue. Security review underway per owner; provisional until accepted. Actual endpoint mapping, bypass testing and approved authorization adapter pending.
+- Exact vendor API contracts, controlled read-only tenant testing, feature/browser acceptance, physical stock-event evidence, production durable adapters and safe outbox delivery remain pending. V5 proves compatibility of current fixtures, not full domain M5 integration or production durability.
+- No live environment change authorized. Avoid unrelated staged Railway changes. Dependency manifest lacks lockfile; reproducibility remains under review.
 - Manager handoff: handoffs/foundation-manager.md.
