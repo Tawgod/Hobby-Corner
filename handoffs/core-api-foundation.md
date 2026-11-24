@@ -1,3 +1,15 @@
+# Core M6 — tested dependency release — 2026-11-24
+
+**Status:** M6 isolated implementation and targeted validation PASS; ready for Inventory M8/Purchasing P-08 dependency adoption and Foundation Manager reconciliation. Not production-approved.
+
+- Exact tested dependency: Tawgod/Lightspeed:feature/core-api-m6-v5-20261124 @ 964b84d084c0224b251b3ecef0bb1af30f9cdf22. PR #100 verified open/draft/mergeable/unmerged, exact V5 base 87f6a94918653a3417ce01205098193eb1ccb35d. Supersedes failed 055a1510 candidate; never adopt failed pin.
+- CI 45471585160, job 138720647856, completed SUCCESS. Independently read actual checkout and test logs: exact corrected SHA, 35 tests, 35 pass, 0 fail/skip/cancel. 15 M6 and 20 inherited cases; new frozen receipt/reordered replay regression passed. One capped targeted repair run, no combined CI or rerun.
+- Adopt exact tested shared interface and fixture delta, not moving branch or duplicate framework. See docs/CORE_API_M6_ADAPTER_CONTRACT.md at tested SHA. Inventory/Purchasing own typed keys, domain revisions/effects/receipt projections and their own targeted validation. Manager coordinates dependency integration and V6 combined testing.
+- Repair uses exact own-key membership/count without mutating frozen allowlist; no shared interface/permission change. Security cumulative inventory and limitations below preserved. Actual authorization, field projection and approval enforcement, distributed revocation atomicity, real network/restart recovery, domain history and outbox delivery remain unverified. No production data, grants, routes, migrations, merge or deployment.
+- Next: Manager reconcile exact pin with domain adoption and Security review. Core stops at tested milestone; no further CI needed for unchanged head.
+
+---
+
 # Core M6 repair checkpoint — 2026-11-24
 
 **Status:** Initial CI FAILED; corrected candidate committed, exact-head validation pending. Do not adopt either pin until passing evidence is published.
