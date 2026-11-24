@@ -1,12 +1,23 @@
 # Product & Catalog Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** M2 offline implementation and targeted tests PASS; integration acceptance pending  
+**Status:** M3 offline implementation and combined catalog CI PASS; integration acceptance pending  
 **Owner:** Product & Catalog Foundation development conversation  
 **Coordinator:** Hobby Corner Foundation Manager  
 **Safety:** No production product writes, deploys, merges, or DB migrations authorized.
 
-## M2 checkpoint — 2026-11-24 (current)
+## M3 checkpoint — 2026-11-24 (current)
+
+**Implementation:** committed; **combined catalog CI PASS 26/26**; integration acceptance pending; **not deployed**.
+- Continued branch `feature/hc-product-catalog-m1-20261124` and [draft PR #79](https://github.com/Tawgod/Lightspeed/pull/79) targeting reconciliation branch, not production. M3 source commit `7366967d47a36d6645c7c051ee217a4c7982543a`; exact tested head `d8ccdb60a766b86630944327798235df5035d0c6` (branch-only CI commit). Approved parent `71a1cd6e312ed52efc1e9af9da85db6b02e3756c` unchanged. Compare: 4 ahead, 0 behind, 10 changed files total, zero deletions. PR open/draft/unmerged, GitHub mergeable=true at verification.
+- Added internal pure functions to existing catalog.js: resolveSupplierIdentity (exact source-scoped aliases, verified canonical IDs, ambiguity, provenance), inspectSupplierProductLinks (product/variant/supplier scope, exact supplier SKU, nullable primary, conflict diagnostics, no promotion), inspectCatalogPrices (independent COST/MSRP/RETAIL decimal strings, currency, supplier/outlet scope, evidence timestamps, null unknown, conflict review), inspectCatalogReferences (six explicit flat supplier/brand/manufacturer/department/category/tag reference lists, exact unique IDs, missing/malformed list diagnostics, existing hierarchy inspector reuse).
+- Existing catalog readers, legacy product matcher, production writer, shared gateway, transport and other workstream files unchanged. Added tests/product-catalog-m3.test.mjs and docs/PRODUCT_CATALOG_M3.md.
+- [GitHub Actions run 45417445330](https://github.com/Tawgod/Lightspeed/actions/runs/45417445330), exact tested head above, job 138527429764 completed SUCCESS; job log independently read: 26 tests, 26 pass, 0 fail, 0 cancelled, 0 skipped; M1 (8), M2 (8), M3 (10), syntax checks PASS. Branch-specific .github/workflows/hc-product-catalog-offline.yml uses Node 22, no npm installation, read-only repository access, 3-minute timeout; one narrow CI run. Full shared foundation, Core API, Scanner and consumer regression suites not executed in this milestone.
+- Coordination: reviewed current Purchasing P-01 PR #82 handoff and Core API M1 PR #83 handoff, plus Foundation Manager approved baseline. Purchasing owns shipping alias evidence and PO/invoice workflows; Catalog owns canonical supplier relationships. Current projections are internal drafts, not a frozen shared API DTO. Manager/Purchasing/Core approval still needed for public interfaces.
+- Decisions/limitations: trusted single-tenant normalized fixtures, completeness must be explicitly proven externally; no live vendor adapter, actual alias registry/persistence or shipping sender authority. Literal alias matching (including case/spacing) only; no fuzzy or automatic alias linking. Conflicting primary or SKU evidence cannot select a primary. Prices retain decimal text and conservatively conflict on differing textual precision (e.g. 10.0 vs 10.00); no latest-price policy, currency conversion, ISO currency membership verification, tax inference or source precedence. Strict reference diagnostics apply only to flat normalized inputs, not raw vendor pagination/envelopes; tenant coverage, variant field mapping and catalog reference relationships remain unverified. No live reads/writes, product creation, permissions, route mounting, DB migration, merge or deployment.
+- Next: M4 offline product media/document evidence projections (ordered roles/slots, source provenance, safe URL/storage references, ambiguity and availability; no uploads/fetches). Keep M3 public contract review and full integrated regressions pending; then M5 controlled read-only consumer parity after approved shared contract and tenant fixture gates.
+
+## M2 checkpoint — 2026-11-24 (historical)
 
 **Implementation:** committed; **targeted M2 tests PASS 8/8**; integration acceptance pending; **not deployed**.
 - Continued independent branch `feature/hc-product-catalog-m1-20261124`, [draft PR #79](https://github.com/Tawgod/Lightspeed/pull/79), head `5c26fa76415cbcd0e7abcc86245b2e3b05cfb216`, parent M1 `dabab99738bf914d931ad122bc994959b78ee8ee`. Exact approved base `71a1cd6e312ed52efc1e9af9da85db6b02e3756c`. Compare: 2 ahead, 0 behind, 7 changed files total, zero deletions. PR open/draft/unmerged, GitHub mergeable=true at recheck.
