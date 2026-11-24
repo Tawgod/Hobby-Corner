@@ -1,7 +1,16 @@
 # Purchasing & Supplier Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** V2 / P-05 targeted CI PASS; coordination gate; no deployment
+**Status:** V3 / P-06 implementation; targeted CI pending; no deployment
+
+## 2026-11-24 — V3 / P-06 cross-tool purchasing review
+
+**Status:** offline implementation committed; targeted CI pending; Security/manager coordination gate; no deployment.
+- Exact approved V3 parent `098c9e51ea4c3449605ad6951baa8284e126e8d4`, new branch `feature/hc-purchasing-p6-v3-20261124`, head `340c6203a48deec3b7da38d37141ceb9f71e2060`, draft [PR #93](https://github.com/Tawgod/Lightspeed/pull/93) targets test/hc-foundation-combined-v3-20261124. Compare 3 ahead, 0 behind, 3 added files only. Previous branch equals included PR #84 pin f2666ca31b053f4fd5c8864ccbacd7db95d7d60c; no carry-forward needed, prior PRs preserved. Read baseline, manager/own handoff, dependency register and V3 manifest, Core M3 security coordination.
+- Added services/lightspeed/purchasingReviewWorkflow.js composing existing document, replay, canonical supplier/link, PO proposal and revision/approval helpers. Explicit reviewed fixture header/target evidence, supplier/outlet/PO scope, duplicate history, cumulative invoice quantities, approval fingerprint checks; no physical receipt inference. Blocks unknown product, missing supplier link and non-null variant rather than collapsing identity or creating products. Existing P-04 harness unchanged/unmounted.
+- Synthetic injected authorize/audit/load checks before read and at review/approval/execute. Ordinary employee invoice read includes wholesale cost, no elevated cost-view grant. Underlying PO create/update and per-product cost modification separately required even through indirect workflows; independent review, approval, execute checks. Literal true only, failure closed, audit failure denies. Same proposed operation labels across Product Manager, Scanner, Ordering, PO Companion, Special Orders, direct API, import and automation. No real grants, identities or roles. All outcomes non-executable; no actual writer. Ten new tests; targeted suite configured to run 59 Purchasing + 10 Catalog M3 tests (69 expected); initial workflow lookup empty.
+- Limitations: labels are proposals pending Security registry; fixture context, source coverage, reviewed header/target and current approval evidence assumed trusted; no actual authentication, durable audit, exact real resource/field grant semantics, transactional revision lock, delegation or revocation service. Test channel labels are not actual consumer routes. Approval check is not stored approval, execution check does not call P-04. Product creation and supplier-link mutations unsupported, not demonstrated against actual consumers. Only whole positive invoice quantities and parent product scope; exact variants, missing supplier proposals and credit/other document workflows require further coordination. No live provider, production data, route mount, DB write/migration, merge or deploy.
+- Stop gate: manager/Core/Catalog/Inventory/Security agree canonical operation identifiers and scoped resource/field contract, trusted approval and identity evidence, durable transaction/replay/audit semantics, actual feature parity and controlled read-only tenant acceptance. All active employees may view wholesale costs, modifications separately gated. Preserve real receiving exclusively for Inventory; no production mutation authorization.
 
 ## 2026-11-24 — V2 / P-05 provider-neutral document evidence
 
