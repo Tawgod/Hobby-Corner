@@ -1,3 +1,12 @@
+## 2026-11-24 — HC Secure isolated Railway staging infrastructure deployment
+
+- Explicitly approved 44-change staging patch committed, Railway workflow `commitChanges/8c8cd3a9-079f-4fe8-b8f5-a76c79813f0c/60012c69-e526-4778-9422-055d705150f2`.
+- New HC Secure PG18 service deployed `SUCCESS` (`b4f8c17c-d23e-4efc-9e56-2f9265daf5f3`); deployment logs indicate PostgreSQL ready on port 5432. New dedicated 5GB volume live and mounted correctly.
+- Auth service and offline database-bootstrap service created with inert start commands, no active user authentication or SQL migrations; their builds were still pending at last verification.
+- Original Owner app and database verified online/SUCCESS. New HC Secure schema, restricted logins, cryptographic signing keys, new-origin passkeys and production employee authentication remain pending. [Handoff](handoffs/hc-secure.md).
+
+---
+
 ## 2026-11-24 — HC Secure isolated Railway setup advanced (staged, not deployed)
 
 - Verified pending Railway HC Secure/staging patch before modifying. Confirmed image-specific Railway `postgres-ssl:18` expects volume mount `/var/lib/postgresql/data` (distinct from stock postgres:18).
