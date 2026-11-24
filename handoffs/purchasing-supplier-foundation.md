@@ -1,3 +1,18 @@
+# Purchasing & Supplier Foundation — V5 P-08 coordination checkpoint
+
+**Last verified:** 2026-11-24
+**Status:** V5 accepted; P-08 assigned; branch created; blocked at shared Core M6 interface coordination gate. No P-08 implementation or tests yet.
+
+- Active successor: Purchasing & Supplier Foundation 2.0. Exact V5 baseline Tawgod/Lightspeed:test/hc-foundation-combined-v5-20261124 @ 87f6a94918653a3417ce01205098193eb1ccb35d. Canonical baseline and manager handoff verified; combined CI 45450851407 job 138647208385 SUCCESS rechecked; 299/299 from manager verified logs. Prior P-07 branch compared identical to 9be3cf2def313e0ceedf5e07f1163c9eca28bcb5; V5 manifest includes that pin. No carry-forward duplicate.
+- Created feature/hc-purchasing-p8-v5-20261124 from exact V5; compare identical, 0 ahead/behind. No new PR yet. Historical branches and PRs preserved.
+- Inspected V5 localTransactionM5.js, tests/fixtures/coreDisposablePg.mjs, invoicePersistenceFixture.js and P-07 PG suite. M5 checks before apply and after commit but lacks final precommit authorization; shared PG adapter only inserts generic domain records and has no typed domain locking/read/update seam. Core M6 owns those shared extensions. Coordination request posted on [Core PR #95](https://github.com/Tawgod/Lightspeed/pull/95#issuecomment-7141541732). Wait for agreed seam and exact candidate pin before implementation; no independent transaction adapter.
+- P-08 acceptance plan: tenant-scoped invoice and document identity reservation with deterministic locks; immutable revision and approval ledger; fresh scoped actor authorization after locks and at final precommit, replay and uncertain-commit projection; minimal historical receipt, current-state distinction; stale review intent detection; atomic audit/outbox dedupe; concurrent same command and competing identity, cross-tenant isolation, rollback, revocation and simulated lost commit acknowledgement tests. No vendor or receiving effects.
+- Security delta: no new proposed operations or role assignments at this gate; retain all 52 cumulative entries below. Existing purchasing.invoice.read/review/approve and purchasing.audit.read scope must bind tenant, invoice, supplier/outlet and current actor; replay/unknown-commit receipt is not a bypass or new execution grant. Stale intent rechecks require current underlying permissions; no delivery. UI should distinguish historical approval receipt from current review status and revoked scope, and expose immutable history only under authorized domain read/audit scope. Actual backend enforcement remains unverified. Existing PO/invoice and cost aliases unresolved; wholesale cost view ordinary, modification separately granted. No runtime alias.
+- Testing: no new P-08 code or test execution; existing V5 CI conclusion independently rechecked, test count inherited from canonical manager evidence. No extra Actions usage. Fresh Railway inspection and full secondary documentation review remain pending before implementation. No merge, deploy, live route/data, credentials, migration, grants or production mutations.
+- Next: Core M6/Manager confirm shared adapter and authorization seam; then implement P-08 on independent branch with coordinated dependency pin and targeted disposable PG validation. Coordination gate is not milestone completion or final integration acceptance.
+
+---
+
 # Purchasing & Supplier Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
