@@ -1,5 +1,45 @@
 # Shared Customer & Sales Foundation — Current Handoff
 
+## Current milestone — 2026-11-24: M3 reusable customer search and compatibility fixtures
+
+**Status:** Implemented, offline tested, draft manager review; no consumer switched or deployed.
+
+### Source
+- Approved common baseline: Tawgod/Lightspeed:feature/hc-foundation-reconcile-20261124@71a1cd6e312ed52efc1e9af9da85db6b02e3756c (PR #78).
+- Independent branch feature/hc-customer-sales-m1-20261124, head 5d671f9ce0d49626270c72ae44bb8f53960850d5.
+- [Draft PR #81](https://github.com/Tawgod/Lightspeed/pull/81), approved base SHA 71a1cd6e312ed52efc1e9af9da85db6b02e3756c, mergeable=true, draft=true, merged=false; 5 changed files.
+- User expressly requires shared customer search usable by future features, not Special Orders-only.
+
+### Implemented
+- Existing services/lightspeed/customers.js owns reusable buildCustomerSearchPath(query), existing search(query) paginated array and get(customerId) vendor envelope preserved, additive searchFirstPage(query) returns {rows,coverage,complete:false}; blank returns not-queried and no vendor traffic. First-page errors and malformed envelopes reject.
+- Uses existing shared transport and pagination; no separate client or local database dependency. Existing contact candidate evidence layer remains available; matching always requires review. Direct ID lookup is not free-text ID search.
+- docs/SHARED_CUSTOMER_SEARCH.md documents methods, consumer examples, PII and access gates, Special Orders enrichment separation.
+- No route, grant, transport, security or existing feature modifications. Future authorized consumers include Consignment, Rewards, Preorders, Repairs, Reservations and others.
+
+### Tested
+- Local Node.js v22.16.0, node --test tests/customer-sales-evidence.test.mjs: 17/17 PASS, 0 failed/skipped, TAP 113.34 ms.
+- Existing 13 tests plus four groups: exact legacy initial URL for names/email/phone, first-page fields/order and synthetic local enrichment, separate first-page versus paginated callers, blank/malformed/error behavior.
+- Local modified customers.js and test blob hashes verified against GitHub: 8209eef8769ecc9823fcf66d912838d7e856e614 and c35f0c7c43a843dd9858a490b103f53b2c6c650b. Documentation-only commit after tested code.
+- Special Orders enrichment test is a synthetic reproduction, not an actual route execution or complete consumer acceptance. Raw fields preserved for authorized compatibility; malformed envelopes intentionally stricter than legacy. No live tenant or full feature tests. Remote push CI outcome not verified.
+
+### Deployment
+None. No merge, deployment, customer data read/write, DB migration, grant or route mount.
+
+### Dependencies / blockers / decisions
+- Core API owns transport pagination and public error envelope; Security owns authorization and exact grants. Raw vendor rows contain PII, never expose as an unrestricted endpoint. Feature-specific allowlists and approved grants required.
+- Need Manager and Special Orders owner review of first-page substitution, actual route-level fixtures, error mapping, field allowlist, existing local enrichment and response shape; no consumer switched. Need real vendor shape/coverage acceptance separately authorized. No search completeness or automatic duplicate-safe creation guarantee.
+- Customer field aliases, international phone handling, inactive customer coverage, linkage/consent, deposit, work order, line pickup, returns, credit history and write acceptance remain outstanding.
+- Chose opt-in first-page compatibility preserving existing paginated API instead of silently expanding the production UI result size.
+
+### Next action
+Manager review PR #81 and coordinate actual Special Orders route-level integration fixture and authorization seam with Core API and feature owner. Keep all consumers unchanged pending approval. Subsequent consumers use documented common reader rather than creating independent search clients. No production merge/deploy authorization.
+
+---
+
+## Previous milestone (historical)
+
+# Shared Customer & Sales Foundation — Current Handoff
+
 ## Current milestone — 2026-11-24: M2 strict association evidence and Special Orders source mapping
 
 **Status:** Association hardening implemented and offline tests PASS; Special Orders source mapping completed for identified paths, full consumer parity still pending. No deployment or consumer switch.
