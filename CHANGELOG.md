@@ -1,3 +1,11 @@
+## 2026-11-24 — HC Secure disposable PG18 integration test authored
+
+- Located and reused seven existing Owner staging schema fixtures, including restricted activation grant groups; did not modify or run the old Owner-only provisioner.
+- Added `scripts/test-hc-secure-schema-disposable.mjs`, `tests/hc-secure-disposable-schema.test.mjs` and `scripts/run-hc-secure-disposable-pg18.sh` on `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123`, draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77), plus acceptance docs.
+- Test harness limits execution to an ephemeral loopback PostgreSQL 18 cluster with exact identity, runs SQL/grant checks inside mandatory `ROLLBACK` and repeats to confirm no persistent state. **Awaiting Codespace execution.** No live Railway deployment, production tool authorization, Owner database modification, or passkey transition. [HC Secure handoff](handoffs/hc-secure.md).
+
+---
+
 ## 2026-11-23 — HC Secure read-only fresh PostgreSQL preflight
 
 - Reviewed real Owner runtime privilege-check requirements: nine security tables, no broad Owner issuance/deletion/digest rewrite privilege for app role.
