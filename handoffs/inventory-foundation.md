@@ -1,8 +1,37 @@
 # Shared Inventory Foundation — Current Handoff
 
-**Last verified:** 2026-11-23  
-**Status:** Read-only source audit / proposed contract; no new runtime, deployment or inventory mutation  
+**Last verified:** 2026-11-24  
+**Status:** M1 isolated implementation / offline tests PASS; draft PR #80; no deployment or inventory mutation  
 **Owner:** Shared Inventory Foundation workstream; coordinate with Foundation Manager, Core API, Product & Catalog, Purchasing & Suppliers and Foundational Security.
+
+## M1 checkpoint — 2026-11-24 (approved baseline)
+
+**Status: implemented and offline tested; draft review only.** [Lightspeed PR #80](https://github.com/Tawgod/Lightspeed/pull/80) targets `feature/hc-foundation-reconcile-20261124`, NOT production. Independent branch `feature/inventory-foundation-m1-20261124` starts at the exact approved PR #78 SHA `71a1cd6e312ed52efc1e9af9da85db6b02e3756c`; current head `9b6decef6c26af909c8c3f30f9af2066d9bce566`. PR metadata confirms two additive files, two commits, no deletions. Mergeability not independently established; draft remains open. Original PRs #32/#33 remain untouched.
+
+### Implemented
+- `services/lightspeed/inventoryEvidence.js`: additive, unmounted domain helper, consuming the existing injected `createLightspeedInventoryRead().byProduct` reader without altering it. Candidate synthetic projection requires exact product/outlet, unique row, decimal strings, separates on-hand from quantity-to-procure, leaves availability/committed and effective timestamp unknown. Observation time is NOT effective stock time. Projection always unverified and cannot itself authorize reconciliation.
+- Pure `reconcileInventoryCount`: full-outlet count only, exact product/outlet/variant, canonical UTC millisecond instants, explicit maximum snapshot age, signed fixed-point arithmetic (up to 6 decimal input places; 12-place exact extended cost before currency rounding), full trusted coverage per sale/return/supplier receipt/transfer/adjustment/count, late-arrival and pagination checks, source linkage, deduplication by canonical event ID, rejects conflicting duplicates, invalid time, equal-boundary ambiguity, nonphysical/pending events, unknown cost. Positive/negative quantity and cost results. Every result is non-executable; no writer, persistence, auth or routes.
+- `tests/inventory-foundation-m1.test.mjs`: dedicated fixture tests. No shared test files or transport changes. No duplicate inventory authority.
+
+### Automated verification
+- Local Node `node --test tests/inventory-foundation-m1.test.mjs`: **7 passed / 7 total, zero failures/skips**. Exact Git blob readback matched all three local tested files: unchanged baseline inventory.js `105a96f5451f10f38af6ec7c0588d795eb706653`, inventoryEvidence.js `484838c097ee9821960254527dd00fd0574934b8`, test `7774910d579852f4ff0b0bb4051a00362ccddae1`.
+- Coverage: existing injected reader, zero vs unknown and ambiguous outlets, exact identifiers, sale/receipt after scan, out-of-order and duplicate events, other outlet, signed fractional variance, stale/unverified snapshot, missing event class, late arrivals, wrong sign, pending receipt, unknown source, invalid date, same-time boundary, shelf-only count and unverified cost.
+- No new full integration CI run or browser/tenant test was performed; manager baseline CI is prior evidence only. Use focused local tests to conserve Actions minutes. No production API reads, writes, schema migrations, permission changes, deployment or merge.
+
+### Event-source feasibility and limits
+- Rechecked vendor docs: [2026-04 release notes](https://x-series-api.lightspeedhq.com/docs/2026-04-release-notes) distinguish inventory records/levels and current level vs quantity to procure; real payload shape/pagination still not verified. M1 projection recognizes a synthetic compatibility shape, NOT a validated inventory-level adapter; numeric wire values deliberately remain unknown.
+- [Webhooks](https://x-series-api.lightspeedhq.com/docs/webhooks) explicitly omit some stock-changing events. [Sales 101](https://x-series-api.lightspeedhq.com/v2026.04/docs/sales_101) documents sale date, not proof of physical-effect instant. [Stock orders](https://x-series-api.lightspeedhq.com/v2026.04/docs/inventory_creating_stock_orders) distinguish supplier/transfer lifecycle, so open PO or invoice is never receipt evidence. [2026-07 fulfillment history](https://x-series-api.lightspeedhq.com/v2026.07/docs/2026-07-release-notes) records state changes but is not proven as physical inventory history. Adjustment read scope remains unverified for approved read-only tenant. All six physical event classes currently lack verified complete tenant coverage.
+- Trusted coverage assertions are synthetic fixture inputs, NOT security grants, and cannot be supplied by browser clients. Future source adapters must prove canonical cross-source event IDs, reversal/correction semantics, completeness and time watermarks; do not use this calculation as proof of historical coverage.
+- M1 deliberately does not normalize timezone offsets (adapters must do so), infer variant families, combine additive/shelf counts, implement count persistence or restock batches, choose a cost policy, or round to currency minor units. These remain review gates rather than assumptions.
+
+### Next action / dependencies
+- Foundation Manager review PR #80 and coordinate full integration tests; Core API owns allowlisted POST-for-read and common envelopes. Product/Catalog owns product/variant identity and cost basis. Customer/Sales and Purchasing must supply verified physical-effect event mappings, especially partial fulfillment and actual receipt timestamps. Store Map and labels own location references; Inventory owns later confirmed restock batch semantics. HC Secure owns all authorization.
+- Obtain separately approved read-only tenant evidence before any production API traffic. Verify inventory-level payloads, actual event times, adjustment scope, complete history and late/corrected records. Extend synthetic reversal and multi-scan/physical location tests after those contracts are agreed. No native stocktake or adjustment execution.
+- M1 isolated implementation checkpoint complete; domain parity and live event feasibility remain **blocked**. No production acceptance.
+
+---
+
+## Original audit and proposed contract (2026-11-23)
 
 ## Source
 - Management repository: `Tawgod/Hobby-Corner:main`; this document is the handoff.
@@ -94,7 +123,7 @@ Fields: `proposalId`, `countSessionId`, `snapshotBefore`, `completeEventCoverage
 - Automated: not run for a new inventory implementation; no new runtime implementation exists.
 - Browser/employee: not run.
 - Real tenant event data/timestamps: **not verified**. Existing PR #33 CI is not inventory event-coverage evidence.
-- Readback of this GitHub handoff after creation: pending.
+- Initial handoff readback verified on 2026-11-23.
 
 ## Deployed
 - New Inventory Foundation: **NOT deployed**; no Railway configuration, migration, stock adjustment or count completion.
