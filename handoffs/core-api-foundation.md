@@ -1,5 +1,27 @@
 # Core Shared API Foundation — Current Handoff
 
+**Last verified:** 2026-11-24
+**Status:** M1 implementation candidate; automated execution pending verification; not merged or deployed.
+
+## Current milestone
+
+- Approved parent: Tawgod/Lightspeed @ 71a1cd6e312ed52efc1e9af9da85db6b02e3756c (PR #78).
+- Independent branch: feature/core-api-m1-20261124.
+- Draft [PR #83](https://github.com/Tawgod/Lightspeed/pull/83), targeting feature/hc-foundation-reconcile-20261124.
+- Head: 14c6150f35247bd7057bbbef6249239119ea646d.
+- Compare verified 4 commits ahead, 0 behind approved parent; only 4 files changed. Existing divergent documentation branch retained.
+- Added services/lightspeed/coreReadContract.js: unmounted additive core.v1 success/error envelope, server UUID correlation, explicit injected authorizeRead adapter requiring literal true, safe error mapping. Security must approve adapter contract and verify exact operation grants; no new identity or permissions implementation.
+- Updated readCollection.js: reject cross-endpoint/invalid continuation, unsafe next offsets, non-scalar cursor; preserve valid relative continuation.
+- Added tests/core-api-m1.test.mjs (8 tests) and narrow .github/workflows/hc-core-api-m1.yml. No external npm install in new test job. No changes to existing gateway, transport, domain services, DB or production routes.
+- Testing: baseline CI 45414393938 passed (40/40 foundation, 11/11 Core Operations); not evidence for new head. New workflow run not yet returned by GitHub at checkpoint. Local private GitHub checkout inaccessible in container (DNS); do not claim new tests passed. PR creation initially reported mergeable false; recheck after GitHub calculates status. No live vendor calls.
+- Deployment: none, no merge, no migration, no production access.
+- Outstanding: manager contract freeze, Security-owned grant integration, domain-owned safe data projections, transport correlation propagation through domain readers, full current-head regression, explicit continuation query-filter integrity and conflicting metadata review, POST-for-read separate design, dependency lock reproducibility. Do not mount gateway. New read executor assumes trusted server-owned operation/read callback; not a standalone security boundary.
+- Next: verify PR #83 CI and mergeability, coordinate contract with manager and Security, run full regression before integration recommendation. No merge or deployment absent explicit authorization.
+
+---
+
+## Previous source audit (historical)
+
 **Last verified:** 2026-11-23
 **Status:** In Development — source audit and documentation-only first milestone. No live gateway acceptance.
 
