@@ -1,4 +1,4 @@
-# Shared business foundation — approved development baseline V2
+# Shared business foundation — approved development baseline V3
 
 **Last verified:** 2026-11-24
 **Owner:** Foundation Manager
@@ -6,38 +6,40 @@
 
 ## Canonical source pin
 - Repository: Tawgod/Lightspeed
-- V2 branch: test/hc-foundation-combined-20261124
-- Exact approved V2 commit: 2365de8af4e8d69b162f6909d1f78be246e74fdf
-- [Combined validation run 45423638373](https://github.com/Tawgod/Lightspeed/actions/runs/45423638373): SUCCESS at exact V2 commit, 187/187 passed, zero failures, skipped or cancelled; real disposable PostgreSQL concurrency, replay and immutable audit passed. 19 test files, syntax and unmounted gateway checks passed.
+- V3 branch: test/hc-foundation-combined-v3-20261124
+- Exact approved V3 commit: 098c9e51ea4c3449605ad6951baa8284e126e8d4
+- [Combined CI 45436836762](https://github.com/Tawgod/Lightspeed/actions/runs/45436836762), exact V3 commit, SUCCESS. Job 138596828874 logs verified 223/223 pass, zero failure, skip or cancellation. 24 test files, syntax and gateway isolation checks, real disposable PostgreSQL concurrency, verified replay, unknown write and immutable audit passed.
+- V2 remains test/hc-foundation-combined-20261124 @ 2365de8af4e8d69b162f6909d1f78be246e74fdf, CI 45423638373 (187/187), unchanged.
 - V1 remains PR #78 @ 71a1cd6e312ed52efc1e9af9da85db6b02e3756c, CI 45414393938 (51/51), unchanged.
-- Production-connected integration baseline remains integration/hobby-corner-consolidation @ 014a7a949fe570b756b48d8f59995c1b0a434859 (last verified previous review).
-- V2 contains 38 nonoverlapping exact workstream file deltas plus combined workflow and source manifest. No existing PR merged. See docs/FOUNDATION_COMBINED_TEST_SNAPSHOT.md on V2.
+- Production integration/hobby-corner-consolidation last verified @ 014a7a949fe570b756b48d8f59995c1b0a434859; no production changes made by manager.
+- V3 includes 16 exact nonoverlapping workstream deltas and two manager files (workflow and docs/FOUNDATION_COMBINED_V3_SNAPSHOT.md). No existing PR merged.
 
-## Included workstream heads (historical pins, not moving refs)
+## Included V3 workstream heads (historical pins)
 | PR | Owner | Exact included commit |
 |---|---|---|
-| #79 | Product & Catalog | ba2d2f4d8f8e355f1c4465a57067f7fc1edf6859 |
-| #80 | Inventory | 1d6187e01241c3e47c8fc3167d085dca9386a41f |
-| #81 | Customer & Sales | 1c979a7d6a02d8e974b7f8af1a3591a3c2835028 |
-| #82 | Purchasing & Suppliers | a2096345709ac1a4a1113362d6bf8123a71227ad |
-| #83 | Core API | 6722414245be56e138566beebcfcb0f19e2eef8e |
+| #84 | Purchasing & Suppliers | f2666ca31b053f4fd5c8864ccbacd7db95d7d60c |
+| #85 | Core API | a50822f2d0a8b6ec7184d54487ef9b0c9a01e9a7 |
+| #86 | Product & Catalog | 777bdd3c0e5c380328275a1931efcd4b5fce51a2 |
+| #87 | Inventory | e108da9691ada86ada73b90cfb36552df8368fab |
+| #88 | Customer & Sales | 2f2750ee703556c1ea2eab60f3d6edd14bbe82ea |
 
-## Rules for next workstream milestones
-1. Read this file, SHARED_TOOL_DEPENDENCIES.md, your current handoff and V2 source manifest. Create a fresh independent next-milestone branch from exact V2 SHA; compare any newer existing work against the included head and selectively carry forward only changes not already present. Preserve old branches/PRs; do not force-push, rebase or duplicate already included work.
-2. New draft PRs target test/hc-foundation-combined-20261124 for manager review; not production or old V1. Manager alone coordinates baseline changes. No merges without explicit authorization.
-3. Keep existing exported interfaces compatible; coordinate any breaking change first. Core owns transport, readCollection, coreReadContract, audit/idempotency and shared integration surfaces. Domain owners retain their files. Security exclusively owns identity, authentication, exact operation grants and permission decisions.
-4. Adopt core.v1 read envelope as internal integration candidate, not public release or Security acceptance. Use explicit injected authorization seam, safe projections and correlation where supported; no implicit grants or raw customer/cost data exposure. Mutation outcome contracts separate.
-5. Offline fixtures and tests only. No live vendor traffic, actual feature switches, route mounting, migrations, production data, grants, deploys or production writes. Synthetic mutation harnesses remain non-executable in production. Minimize CI by testing changed suites locally where practical and batching remote validation. Update canonical handoff with exact branch/head, tests, dependencies, deployment and next action.
-6. Original PRs #32/#33/#51/#78–#83 remain intact, pending manager disposition. Management PR #4 requires reconciliation with canonical handoff before eventual authorized merge.
+## Rules for next milestones
+1. Read this file, SHARED_TOOL_DEPENDENCIES.md, manager and own handoffs, and V3 manifest. Create independent branches from exact V3 SHA. Compare newer work against included head, carry forward only missing deltas, preserve all original branches/PRs; no reset, force-push, rebase or duplicate cherry-picks.
+2. New draft PRs target test/hc-foundation-combined-v3-20261124, never production or old baselines. Manager alone coordinates integration. No merges without explicit approval.
+3. Core owns transport, readCollection, coreReadContract, shared audit/idempotency/transaction/outbox contracts. Domain owners retain their modules. Coordinate interface changes before implementation. Security exclusively owns identities, authentication, roles and operation grants. No independent authorization implementation.
+4. core.v1 remains internal candidate. Use explicit injected authorization fixtures, safe field projections and correlation. No raw customer data or unauthorized disclosure. Wholesale costs available to all active employees; modifications separately controlled. No actual grant or public interface approval inferred.
+5. Offline synthetic fixtures and disposable database tests only; no actual feature switches, route mounts, live vendor/mail/employee/customer data, production mutations, shared-environment migrations or deployment. Synthetic mutation harnesses must remain non-executable in production. Minimize Actions usage with local targeted tests and batched remote validation; record exact source/test evidence and limitations in canonical handoffs.
+6. Preserve PRs #32/#33/#51/#78–#88. Management PR #4 still needs reconciliation before authorized merge.
 
-## Next assignments
-| Owner | Authorized next scope (offline only) | Stop gate |
+## Next assignments (isolated development)
+| Owner | Next scope | Stop gate |
 |---|---|---|
-| Core API | M3: coordinate Security-owned exact-grant adapter, safe read envelope/correlation integration fixtures across domains; document precise POST-for-read proposal only; evaluate reproducible dependencies | Security acceptance before actual admission; manager review before changing shared public interfaces or enabling POST |
-| Product & Catalog | M5 follow-through: Product Manager shadow parity fixtures, field-level cost/PII projection and supplier mapping compatibility with Purchasing; no live switch | M6 actual create/update execution requires separate authorization |
-| Inventory | M5: persistent count/restock session and configurable reason registry design, transaction/outbox/idempotency and review queue fixtures; independent shelf IDs, Store Map optional future feature; zero moved requires reason and shortage/surplus review flags | No migrations or stock effects; trusted task and event evidence required |
-| Customer & Sales | M5: reusable customer identity/linkage/consent read model and offline Special Orders adapter parity; preserve first-page and paginated search for future features, resolve malformed-response behavior with Core | No automatic linking, creation, actual route change or credit posting |
-| Purchasing & Suppliers | P-05: provider-neutral invoice/mail document evidence adapter contracts and fixtures; exact supplier links with Catalog, no physical receipt inference, preserve P-04 synthetic harness | No live mailbox or vendor reads/writes; actual durable or vendor mutation execution requires separate approval |
+| Core API | M4: shared local transaction/audit/idempotency/outbox contract and disposable PG concurrency/replay/rollback fixtures; map canonical operation checks across tool entrypoints using synthetic Security adapters; coordinate Inventory requirements and dependency reproducibility | Coordinate interface before consumer adoption; no real grants, public gateway or POST-for-read activation |
+| Product & Catalog | M6 preparation: offline Product Manager parity and canonical product-create/update denial fixtures across consumer entrypoints; align ordinary employee cost viewing; preserve exact product/variant/supplier identity | No actual create/update execution, live writes or feature switch; separate authorization required |
+| Inventory | M6: count/restock/reason revision transaction and discrepancy queue fixtures; prepare domain persistence adapter against coordinated Core contract, including duplicate/replay and atomic rollback | If Core contract unavailable, use test-only injected interface and stop before competing durable implementation; no live migrations or stock adjustments |
+| Customer & Sales | M6: sales/deposit/work-order/fulfillment evidence and coverage fixtures; preserve reusable customer search and consent boundaries, separate financial and physical events | No credit posting, payment collection, automatic linkage, actual route switch or live mutations |
+| Purchasing & Suppliers | P-06: offline cross-tool supplier document-to-invoice-to-OPEN PO review workflow; coordinate Catalog identity/coverage and Inventory receipt boundary, duplicate/approval checks and canonical operation denial fixtures | No real provider activation, PO writes, receiving or durable production execution |
+| Foundational Security | Continue existing employee/owner environment consolidation independently; coordinate approved operation/role/resource/field contract through handoff when ready | Existing commissioning and deployment approvals retained; no manager interference |
 
 ## Mandatory cross-tool capability enforcement (owner-approved, 2026-11-24)
 - Every tool must support centrally assignable Security roles and canonical operation grants. A restriction on a business operation applies to every tool, API, bulk/import flow, automation and indirect workflow that can perform that operation, not merely its originating UI.
@@ -48,7 +50,7 @@
 - Security consolidation continues separately; no real grants, security deployment or commissioning authorized by this requirement.
 
 ## Remaining gates
-- Combined regression passes, but full cross-domain workflow scenarios, real vendor shapes/coverage, browser acceptance, exact Security grants and deployment readiness remain unverified.
-- Core/Security must coordinate approved identity and grant contract before mounted gateway or controlled test tenant acceptance. Test environment preparation requires verifying isolation from existing production and unrelated staged Railway changes; no deploy authorized by this baseline.
-- Existing dependency manifest has no lockfile; test installation not fully reproducible.
+- Actual Security acceptance, including uniform backend cross-tool authorization and negative bypass tests; synthetic tests are not evidence of real permission enforcement.
+- Exact vendor API contracts, controlled read-only tenant environment, full feature/browser acceptance, physical stock-event evidence and domain durable transaction integration remain pending.
+- No live environment change authorized. Avoid unrelated staged Railway changes. Existing npm dependency manifest has no lockfile; reproducibility requires review.
 - Manager handoff: handoffs/foundation-manager.md.
