@@ -1,3 +1,46 @@
+# HC Secure — Current Handoff
+
+**Last verified:** 2026-11-24
+**Status:** In Development / Testing pending; database infrastructure Deployed
+
+## Source
+- Repository: Tawgod/Lightspeed
+- Branch: feature/hc-secure-staging-readiness-20261123
+- Draft PR: #77
+- Current checkpoint commits: db0cad463cc5b8301d2c9180fb8c813cee460324 (read-only root probe), 2a337447461b209c66aada04a24cffc062aa6ac3 (tests).
+
+## Implemented
+- Added scripts/check-hc-secure-pristine-root.mjs, inspecting the initial railway database before target database creation. Checks exact project/environment/offline service/private host, PG18, read-only transaction, absent target database, absent HC role prefix, and no user relations in root database. Requires 48-character alphanumeric root password and disabled mutation/auth flags. No credential output.
+- Five new mock tests in tests/hc-secure-pristine-root.test.mjs. Not run yet.
+
+## Tested
+- Prior disposable PG18 schema and credential suites passed per operator reports, including SCRAM login and relock.
+- New root probe tests and actual private DB read-only probe NOT RUN.
+
+## Deployed
+- Railway HC Secure/staging PostgreSQL SUCCESS b4f8c17c-d23e-4efc-9e56-2f9265daf5f3, private 5GB mounted volume, no public TCP or domains.
+- Offline bootstrap placeholder SUCCESS c4737662-daa6-4a53-8777-f17d9647f3ed; pinned 4484ef6b, inert command, restart NEVER, no root connection variable or public endpoints.
+- Auth placeholder FAILED 2ba2ee0c-e188-41be-ac02-2c9c6ffc4ee6; inert start command and /health check coexist, likely healthcheck mismatch but exact failure logs not reviewed. No public endpoints. No pending Railway patch.
+- Original Owner staging was last verified online in previous handoff; no changes made in this checkpoint. Fresh original environment lookup in preceding continuation failed due to using name rather than exact environment ID.
+
+## Shared dependencies
+- Original Owner passkey/TOTP and Timeclock; eventual new-origin enrollment and per-tool operation grants.
+## Shared files / integration surfaces
+- Two new source-only files; no extension changes.
+## Remaining blockers
+- Run five mock tests, review actual read-only connection setup, provide root URL only to offline service via secure reference (no secret in chat), pin new reviewed commit and run read-only probe separately. No DB initialization yet.
+- Existing target-DB probe assumes DB already exists; new root probe bridges this gap. Root password length not independently verified. Root database emptiness check is a conservative user-relation check, not exhaustive cluster audit.
+## Decisions needed
+- Separate explicit authorization for DB mutation after successful read-only inspection. Keep auth disabled.
+## Recommended next action
+- Codespaces: git switch feature/hc-secure-staging-readiness-20261123; git pull --ff-only; node --test tests/hc-secure-pristine-root.test.mjs. Expect 5 passing. Then prepare isolated private read-only probe invocation; no write flags.
+## Restrictions / safety
+- No production changes, no original Owner migration, no secret values retrieved, no activation issuance or automatic retries of failed SQL bootstrap. No new Railway changes in this checkpoint.
+## Documentation
+- Previous handoff history retained below.
+
+---
+
 ## 2026-11-24 — Authorized HC Secure staging infrastructure deployed
 
 **Explicit approval:** User authorized `deploying the 44 staged HC Secure staging changes, keeping authentication and database-bootstrap operations disabled`. Fresh preflight of Railway `HC Secure/staging` showed exact 44 staged non-destructive changes, expected 3 service creates + volume create, staged `POSTGRES_PASSWORD` name, inert auth and provisioner start commands. **Executed** `mcp__Railway__accept_deploy` with environment ID `8c8cd3a9-079f-4fe8-b8f5-a76c79813f0c` and commit message `Provision isolated HC Secure staging PG18 and volume; auth and offline bootstrap remain disabled`: `committed=true`, `deploymentStatus=triggered`, workflow ID `commitChanges/8c8cd3a9-079f-4fe8-b8f5-a76c79813f0c/60012c69-e526-4778-9422-055d705150f2`.
