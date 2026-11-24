@@ -1,3 +1,29 @@
+# Core Shared API Foundation 2.0 — V5 / M6 interface coordination gate
+
+**Last verified:** 2026-11-24
+**Status:** V5 accepted; M6 branch created; proposed shared interface submitted for coordination before implementation. No M6 runtime/test implementation or deployment yet.
+**Active owner:** Core Shared API Foundation 2.0; inherited ownership and all historical checkpoints preserved below.
+
+## Source and implementation
+- Approved V5 Tawgod/Lightspeed:test/hc-foundation-combined-v5-20261124 @ 87f6a94918653a3417ce01205098193eb1ccb35d; manager CI 45450851407 verified 299/299, 35 files, no failure/skip/cancellation. Prior M5 PR #95 exact head c31c8d660baf81227293e3647df13b8d6ee21d76; all five file blobs identical to V5, no missing delta. Previous branches/PRs preserved.
+- Independent branch feature/core-api-m6-v5-20261124 from exact V5; [draft PR #100](https://github.com/Tawgod/Lightspeed/pull/100), head 53351c692ef47df1534ae2d0a7e6da50f63013e2, one additive documentation file, targeting exact V5. Initial mergeability false/pending calculation; recheck before acceptance.
+- [M6 interface proposal](https://github.com/Tawgod/Lightspeed/blob/feature/core-api-m6-v5-20261124/docs/CORE_API_M6_COORDINATION_PROPOSAL.md) defines opt-in compatibility-preserving typed domain locks including missing records, revision checks, actor/effect/resource-bound fingerprint, fresh authorization after domain locks and immediately before commit, minimal receipt and fresh projection, canonical outbox fingerprint, uncertain commit inspection and audit limitations. No M4/M5 interface changes or implementation yet. Inventory M8 and Purchasing P-08 should review lock shape, revisions, uniqueness and receipt fields; Catalog M8 retains separate remote mutation seam; Security reviews actor/scope/grant/delegation semantics; manager coordinates acceptance. Do not treat proposal as approved contract.
+- Reviewed current baseline/manager, own transition, relevant domain handoff checkpoints, V5 manifest and M5 source/tests/contract; consolidated Security requirements and dependency excerpts. Full longer-document review and exact remote mutation seam review remain before implementation. No cross-workstream code edits.
+
+## Tested / deployed
+- Inherited V5 299/299 manager-verified; no new executable changes, no new automated test run at documentation-only coordination gate. Targeted regression plan in proposal; run after interface agreement, not duplicate manager combined CI.
+- No merge, deployment, route mounting, live data, shared migration, production mutation or permission activation. Previous Railway metadata checkpoint below remains historical; not freshly inspected for this documentation-only update.
+
+## Security and administration UI dependencies — M6 delta
+- Preserve entire cumulative inventory below. No new business operation or role proposed, no aliases renamed or activated. Internal locking and rechecks enforce existing underlying grants, not an additional user permission. Existing proposed audit read/export, reconciliation/inspection, queued dispatch and service delegation remain separate and scoped; never infer approval to execute or disclose from access to tooling.
+- Clarify existing scope requirements: immutable actor, tenant/resource/effect binding at claim, post-lock and precommit; replay/read projection must enforce current resource/field permissions; actual Security contract and revocation atomicity unresolved. No real grants or endpoint mapping evidence added. UI must show effective access/restrictions, scope and delegation/expiry; no new Core permission UI. Preserve ordinary active employee wholesale cost visibility and separate modification. Alias groups product/products/catalog.product, cost modification, count/restock/reason, PO/invoice, audit/jobs/export remain provisional; no tool bypass.
+- Inventory and Purchasing domain uniqueness, revision/history, receipt allowlists and exact effect grants remain domain-owned. Invoice approval not physical receiving. Catalog remote write readback and uncertainty independent of local rollback.
+
+## Next action / coordination gate
+Foundation Manager, Inventory, Purchasing, Catalog and Security review PR #100 proposal; record accepted test-only interface and any changes. Then Core implements additive seam on same branch, runs capped targeted disposable PostgreSQL regression, verifies PR/head and updates handoff. Domain owners may prepare their own fixtures without changing shared interface, but must not assume unapproved M6 contract. No owner business decision required at this point. No production work authorized.
+
+---
+
 # Core Shared API Foundation — 2.0 transition checkpoint
 
 **Last verified:** 2026-11-24
