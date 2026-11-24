@@ -1,3 +1,30 @@
+# Foundation Manager — V3 reconciliation / V4 candidate review
+
+**Last verified:** 2026-11-24
+**Status:** All five V3 milestones reviewed; recommend isolated V4 combined regression; V3 remains approved.
+
+## Exact source review
+Parent V3 098c9e51ea4c3449605ad6951baa8284e126e8d4. All five draft PRs target exact V3, zero behind, mergeable/open/unmerged at review. 20 distinct changed paths (16 additions, 4 modifications), no overlaps or protected server/Security edits.
+| Owner | PR | Exact reviewed head | Evidence |
+|---|---|---|---|
+| Core | #89 | 0fabf06643c17ec5632168ffecf8339aa09279e5 | CI 45440458686 exact-head SUCCESS, handoff 12/12 including 11 new |
+| Catalog | #90 | 5895dafbd9c63a8359c787afefedcf0ea6b80bbc | CI 45440431827 exact-head SUCCESS, handoff 59/59 including 8 new |
+| Inventory | #91 | 7eecb5d2fd92f896402398d36167bd3779d95c0e | 7/7 local reported, no remote run |
+| Customer | #92 | 518ac1d0e6985852f80d375c9ce922d47fc40296 | 7/7 local reported, no remote run; inherited client/pagination dependency doubles |
+| Purchasing | #93 | 340c6203a48deec3b7da38d37141ceb9f71e2060 | CI 45440881656 exact-head SUCCESS, handoff 69/69 including 10 new |
+
+Expected combined 266 distinct tests (223+11+8+7+7+10); not run yet. Exact-head workflow conclusions independently verified; targeted counts from handoffs.
+
+## Coordination decisions and gates
+- Core M4 shared transaction candidate is the sole proposed common local transaction seam. Review docs/CORE_API_M4_TRANSACTION_CONTRACT.md at #89. Accept as candidate for offline integration review only, not actual durable production adapter. Inventory M6 used its own test double, not a competing runtime implementation; next actual integration fixture must compose Inventory planners with Core candidate on disposable PG. Define actor-bound canonical replay, trusted task/session/reason locks, replay after task closure, safe result reprojection, immutable audit, unknown commit reconciliation and outbox deduplication before durable adoption. External/vendor side effects prohibited inside local DB transaction. No production schema or migrations.
+- All five honor owner cross-tool operation restrictions in proposed fixtures; Catalog #90 corrects cost visibility so ordinary active employee product access includes wholesale cost without elevated cost-read grant. Separate cost-modification grant required. Provisional operation labels are not approved Security registry; compare labels and map actual server-derived effect sets, all-of grants, trusted actor/delegation, resource/field/environment scope and expiration/revocation. Test channel labels do not establish actual entrypoint coverage. Security owns registry and grants; no actual route activation.
+- Purchasing P-06 composes existing evidence and approval helpers; review-only/non-executable; no P-04 execution. Blocks missing product/link and variants rather than silently creating/collapsing identity. Catalog owns canonical links. Inventory owns physical stock effects; invoice/financial payment/fulfillment status does not establish physical receipt or pickup.
+- Customer M6 sale/payment/deposit/work-order/fulfillment evidence preserves separation of financial and physical events; real source completeness, aliases, currency precision, partial fulfillment and legacy route parity pending. Reusable customer search remains intact.
+- Next recommended: assemble exact reviewed #89–#93 heads on separate isolated V4 candidate, run one combined suite including both Core PG fixture suites and existing baseline tests; verify 266 expected tests, no skips/failures, then consider promotion. Workstreams pause at coordination gate pending combined acceptance. No unnecessary per-branch reruns.
+- Security consolidation continues separately per owner. No actual roles/grants, production data, live vendor calls, routes, deployment, migrations or PR merges authorized. No fresh Railway runtime inspection in this review. Dependency lockfile and real test-tenant acceptance still pending.
+
+## Historical checkpoints
+
 # Foundation Manager — V3 accepted checkpoint
 
 **Last verified:** 2026-11-24
