@@ -1,5 +1,41 @@
 # Shared Customer & Sales Foundation — Current Handoff
 
+## M6 — Baseline V3 sale workflow evidence (2026-11-24)
+
+**Status:** Implemented on isolated V3 branch; 7 targeted local tests passed with dependency-double limitations; stop at manager/Core/Security coordination gate. Not deployed or consumer-integrated.
+
+### Source
+- Approved V3 parent: Tawgod/Lightspeed:test/hc-foundation-combined-v3-20261124@098c9e51ea4c3449605ad6951baa8284e126e8d4. Manager combined CI 45436836762 verified 223/223 at V3 parent, including M5, not new-head evidence.
+- Read canonical baseline, manager and own handoffs, dependency register, V3 manifest and Core M3 coordination document. Old PR #88 head 2f2750ee703556c1ea2eab60f3d6edd14bbe82ea exactly matches V3 included pin, no newer deltas; PRs #81/#88 and branches preserved.
+- Independent branch feature/hc-customer-sales-m6-v3-20261124; head 518ac1d0e6985852f80d375c9ce922d47fc40296.
+- Draft [PR #92](https://github.com/Tawgod/Lightspeed/pull/92) targets V3 branch, base 098c9e51ea4c3449605ad6951baa8284e126e8d4; mergeable=true, draft=true, merged=false; 5 changed files. No merge attempted.
+
+### Implemented
+- Added services/lightspeed/saleWorkflowEvidence.js: normalized read-only sale, payment, deposit, work-order and fulfillment evidence. Exact IDs, decimal strings, distinct unknown versus supplied empty collections, conflict/duplicate rejection, orphaned fulfillment line flag. Financial payment is not proof of deposit; picked/packed/fulfilled stages are distinct, customer pickup stays unknown. No deposit balance, stock effects, execution eligibility or raw PII/payment details inferred. Coverage explicitly incomplete; fulfillment single page, deposit/work-order supplied evidence only. Optional trusted injected feature readers unconnected.
+- Extended sale detail and fulfillment per-sale readers with optional correlationId, preserving prior calls/envelopes when omitted. Existing customer search, identity and consent interfaces unchanged. No Core, Security, routes, DB or other workstream files changed.
+- Added tests/customer-sales-m6.test.mjs and docs/CUSTOMER_SALES_M6.md. Source audit of pinned routes/orderSplit.js (inspect route, payment/line aliases and orphan evidence), routes/workOrderCombine.js (pending/parked summaries), routes/depositConversion.js (payment modification and credit posting). Actual consumer parity remains unverified; legacy routes untouched.
+- Documented proposed cross-tool operation map, not a Security registry: separate read/create/update/approve/execute, product/customer operations, payment modification, sale update/split/recall/combine, deposit collection/reversal, pickup, return/void and credit posting/reversal. Deposit conversion requires all applicable grants before effects, recheck on execution; no UI/tool/import/automation/service-account bypass. All active employees may view wholesale costs under ordinary product access, cost change separate; Catalog/Security own implementation.
+
+### Tested
+- Local Node.js v22.16.0: node --test tests/customer-sales-m6.test.mjs: **7/7 PASS**, 0 failures/skips/cancellations, TAP duration 140.049104 ms. Six simulated entrypoint labels (Special Orders, Preorders, Split/Recall, direct API, import, automation) deny proposed deposit collection via synthetic exact-operation verifier; granted read and subsequent revoked read checked. This is a Core read-executor fixture only, not actual route enforcement or mutation admission. No mutation callback.
+- Five reconstructed files independently matched fetched GitHub blob hashes: saleWorkflowEvidence.js faeea7c48f8b8274a0554cf985cf6ad913a641a1; tests/customer-sales-m6.test.mjs 6792bb1ce5764d845c0a23c26207d31cb4176c2a; sales.js cbf787b08201c174f780c705c7eb74ad1bbc7e0a; fulfillments.js 100cdd1babd607581510c8fa29809df058612f3b; coreReadContract.js 43b3b19286a902d07d737c662c10ef3c99d260d3.
+- LIMITATION: inherited client.js and readCollection.js locally replaced with minimal dependency doubles (error class and list unwrap); no exact-checkout/full prior regression or real transport/pagination test. New tests in GitHub import real inherited files. No new CI workflow or remote validation claim. Manager should add new suite to next exact-checkout combined run (230 total if only this delta; other workstreams add further tests).
+
+### Deployment
+None. No live vendor/business data, grant changes, route mounts, actual feature switch, payments, credit, linking, stock effects, database migrations, merge or deploy.
+
+### Coordination / open risks
+- Real grant names, resource/field scope, expiry/revocation/environment, composed all-of checks, execution reauthorization, durable audit/replay/atomicity belong to Security and Core. Synthetic boolean adapter cannot prove actual cross-tool enforcement. No separate security implementation.
+- Deposit/work-order source adapters, provenance, timestamps, reversals, financial currency/amount precision, vendor numeric representation, partial pickup and real event completeness remain unverified. Current decimal-string only rule, simultaneous alias rejection, strict state/status match and bounded rows are conservative candidate decisions, not production vendor contract. Per-sale fulfillment only, no pagination guarantee; no financial/physical sums. Current source-confirmed line association is limited to supplied evidence.
+- Legacy Split/Recall invoice fallback, missing-as-zero payment summaries and deposit conversion semantics require owner parity review before any substitution; no modifications. Actual payment collection and credit posting prohibited. M7 returns/void/store-credit evidence is next proposed scope, contingent on manager sequencing and separate authorization for any execution.
+- Manager exact-checkout combined regression, Security contract and feature owner agreement before consumer activation. No user decision needed now; ready for reconciliation.
+
+---
+
+## Historical milestones (retained)
+
+# Shared Customer & Sales Foundation — Current Handoff
+
 ## M5 — Baseline V2 identity/linkage/consent read evidence (2026-11-24)
 
 **Status:** Implemented on isolated V2 branch; targeted reconstructed-source local tests PASS with limitations; manager reconciliation gate. Not deployed or consumer-integrated.
