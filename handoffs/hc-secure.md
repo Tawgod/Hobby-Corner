@@ -1,3 +1,13 @@
+## 2026-11-24 — Root readiness tests PASS; private read-only inspection staged
+
+**Testing:** Operator supplied full Node test summary: 5 passed, 0 failed/skipped, 395.624422ms. New root probe mock suite passed; actual Railway database contents NOT inspected yet.
+
+**Railway staged only:** HC Secure/staging patch 9b1f4224-3143-448c-b594-f8e1b563f8a9, 4 non-destructive changes, solely service hc-secure-db-bootstrap-once. Pinned tested commit 2a337447461b209c66aada04a24cffc062aa6ac3; start command node scripts/check-hc-secure-pristine-root.mjs; restart NEVER; new HC_SECURE_BOOTSTRAP_ROOT_URL uses reference to dedicated new PG service POSTGRES_PASSWORD without retrieving value. Existing mutation flags and auth remain disabled; no shared variables or other resources touched. Reference resolution and password format not verified at runtime. No deployment or SQL execution in this checkpoint.
+
+**Next:** Explicitly approve applying exactly these four staged changes for read-only inspection. Then verify deployment/log marker HC_SECURE_ROOT_READY=true read_only=true target_absent=true roles_absent=true root_empty=true. On failure, diagnose without exposing secret or enabling mutation flags. Remove root reference and restore inert command after inspection unless separately authorized next step requires it. Schema bootstrap, role creation, commissioning, Owner activation and public auth remain separate gates. Original Owner and production untouched.
+
+---
+
 # HC Secure — Current Handoff
 
 **Last verified:** 2026-11-24
