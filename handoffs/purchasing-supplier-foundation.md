@@ -1,15 +1,15 @@
 # Purchasing & Supplier Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** P-03 implementation / combined CI pending; no deployment
+**Status:** P-03 offline contract CI PASS; P-04 authorization gate; no deployment
 
 ## 2026-11-24 — P-03 review revision and cumulative quantity contract
 
-**Status: implementation committed, combined CI verification pending, NOT deployed.**
+**Status: implementation committed, combined offline CI PASS, NOT deployed.**
 - Approved baseline unchanged `71a1cd6e312ed52efc1e9af9da85db6b02e3756c`; independent branch `feature/hc-purchasing-foundation-m1-20261124`; exact head `581aa7c437d84b68debdfbeb61193f53aa691708`; draft [PR #82](https://github.com/Tawgod/Lightspeed/pull/82). Compared to approved baseline: 11 ahead, 0 behind, seven added files only.
 - Added `services/lightspeed/invoiceReviewContract.js`: pure cumulative partial-invoice quantity inspection, duplicate prior line/supplier/outlet/PO scope validation, integer overflow and overbilling rejection, review revision candidate with expected prior revision/fingerprint, stale revision rejection, new revision clears approval, non-review/unknown/pending/applied states blocked, approval content binding and expiry checks. Reuses Core's existing fingerprintLightspeedPayload; binds complete proposal, prior invoice evidence, PO/history/catalog versions and cumulative totals. Matching receipt is NOT an authorization or execution grant.
 - Reviewed Core API PR #83 handoff, Catalog PR #79 M3 handoff (canonical supplier identity/links/prices), Inventory PR #80 M2 handoff (physical stock effects separate). No changes to their files or interfaces. Product/Inventory adapter mapping and Manager contract freeze remain pending.
-- Added ten fixtures in tests/purchasing-foundation-m3.test.mjs; combined workflow now defines 32 tests. Initial workflow lookup empty; no new PASS claimed until verified. Historical P-02 CI success remains distinct.
+- Added ten fixtures in tests/purchasing-foundation-m3.test.mjs; combined workflow now defines 32 tests. [Combined CI run 45418513842](https://github.com/Tawgod/Lightspeed/actions/runs/45418513842), job 138531265644, exact queried head, SUCCESS; independently inspected Node logs: 32 tests, 32 pass, 0 fail/cancel/skip. No full integration suite. Historical P-02 CI success remains distinct.
 - Decisions: strict positive safe integer quantities, trusted current prior invoice lines only, exact UTC millisecond times and caller-provided max approval age, all changes conservatively invalidate binding. No credit/fractional/reversal quantity support. Prior history completeness, current revision, evidence versions and approval authority must be established by trusted adapters; pure functions do not implement durable CAS, audit append, replay claims, authentication, or actual database concurrency. No vendor mutation or execution eligibility.
 - Next gate: Manager/Core/Security review of durable transactional storage, atomic revision check and append-only audit, scoped idempotency and exact grants, trusted version/readback semantics, supplier/catalog integration. P-04 controlled PO mutation service requires explicit scope authorization and approved dependency contracts; no live writer, migration, routes, production reads/writes, merge or deployment performed.
 
