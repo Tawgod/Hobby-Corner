@@ -1,3 +1,33 @@
+# Foundation Manager — V2 coordination checkpoint
+
+**Last verified:** 2026-11-24
+**Status:** Five V2 workstream milestones reviewed; combined V3 candidate validation pending. V2 remains approved.
+
+## Source and verification
+V2 exact parent 2365de8af4e8d69b162f6909d1f78be246e74fdf. All five PRs target V2, zero behind, draft/unmerged/mergeable at review. 16 distinct changed paths (15 added, customers.js modified), no overlap or protected server/Security edits.
+
+| Owner | PR | Exact reviewed head | Tests |
+|---|---|---|---|
+| Core | #85 | a50822f2d0a8b6ec7184d54487ef9b0c9a01e9a7 | CI 45425826592 SUCCESS; 19 reported including 8 new |
+| Catalog | #86 | 777bdd3c0e5c380328275a1931efcd4b5fce51a2 | CI 45425860523 SUCCESS; 51 reported including 8 new |
+| Inventory | #87 | e108da9691ada86ada73b90cfb36552df8368fab | 26 local reported, 6 new; no remote run |
+| Customer | #88 | 2f2750ee703556c1ea2eab60f3d6edd14bbe82ea | 27 local reported, 7 new; no remote run; reconstructed client.js differed from GitHub, exact-checkout required |
+| Purchasing | #84 | f2666ca31b053f4fd5c8864ccbacd7db95d7d60c | CI 45425674592 SUCCESS; 59 reported including 7 new and 10 existing Catalog tests |
+
+Verified exact-head remote run conclusions, test counts from handoffs for this review. Expected combined 223 distinct tests (187+8+8+6+7+7); not executed yet. No deployment or production changes by manager.
+
+## Coordination decisions / gates
+- Recommend admitting Foundational Security conversation into this project as explicit sixth-workstream exception, subject to owner confirmation/project instructions update. Security retains independent source, environment, commissioning approvals and exclusive auth/grant ownership. No security infrastructure changes authorized.
+- Security handoff hc-secure.md reports restricted role preparation SUCCESS, credential commissioning pending, disarm patch awaiting separate approval; employee-admin-security.md records isolated synthetic pilot. These are handoff reports, not fresh Railway readback. Do not apply pending patches from Foundation Manager.
+- Core M3 proposal requires trusted active actor, exact operation, resource and field scopes, expiry/revocation/environment; literal boolean alone cannot convey restrictions. Security must define approved contract; no gateway mounting or inferred grants. Catalog cost operation and Customer identity read labels remain proposals. Review docs/CORE_API_M3_SECURITY_COORDINATION.md at #85.
+- Core owns shared durable local transaction/audit/idempotency/outbox contract; Inventory pure persistence plans require atomic transaction and real disposable PG replay/concurrency evidence before actual storage. Do not duplicate persistence or assume vendor mutation leases provide local atomicity. Store Map deferred.
+- Catalog owns canonical supplier/product links; Purchasing provider-neutral document evidence stays review-only; physical receipt/stock effect belongs to Inventory. Coordinate exact variant/supplier/coverage/evidence reference semantics before P-06.
+- Customer business identity/linkage/consent is separate from staff authentication; opt-out evidence never authorizes messaging. Preserve reusable search and first-page behavior; real provider uniqueness and consent rules pending.
+- Next recommended milestone: assemble exact #84–#88 heads on fresh isolated combined candidate, run one combined suite with disposable PostgreSQL, verify 223 expected tests and then consider V3 approval. No new independent interface development until coordination. V2 canonical pin unchanged.
+- No merges, deployments, live vendor/mail/customer data access, migrations, grants, credential provisioning, or production mutations authorized. Security review and isolated read-only tenant planning remain outstanding.
+
+## Previous manager checkpoint
+
 # Foundation Manager — Current Handoff
 
 **Last verified:** 2026-11-24
