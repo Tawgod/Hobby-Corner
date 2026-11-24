@@ -1,8 +1,29 @@
 # Shared Inventory Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** M1 isolated implementation / offline tests PASS; draft PR #80; no deployment or inventory mutation  
+**Status:** M2 offline reconciliation safeguards PASS; live event verification blocked; draft PR #80; no deployment or inventory mutation  
 **Owner:** Shared Inventory Foundation workstream; coordinate with Foundation Manager, Core API, Product & Catalog, Purchasing & Suppliers and Foundational Security.
+
+## M2 checkpoint — 2026-11-24: event feasibility and reversal safeguards
+
+**Status:** Offline reconciliation hardening PASS; live event source acceptance BLOCKED. Same independent draft [PR #80](https://github.com/Tawgod/Lightspeed/pull/80), branch `feature/inventory-foundation-m1-20261124`, approved parent `71a1cd6e312ed52efc1e9af9da85db6b02e3756c`, latest code/test commit `6f19473bbd48913c839ff75fc14a559a95aaf05f`. Only the two existing inventory-owned additive files changed. No shared transport, router, security, schema, or other owner files touched.
+
+### Source feasibility matrix (public docs + repository source; no tenant traffic)
+- Sales/returns: existing sales.js GET /api/2.0/sales/{id} and search by invoice/customer/state; single-page search does not establish complete history. Customer & Sales PR #81 evidence explicitly leaves physical pickup quantities, partial/return events and coverage unknown. [Sale webhook docs](https://x-series-api.lightspeedhq.com/v2026.07/docs/webhooks) show repeated payment/state/cost changes; none automatically establishes an inventory delta. Need physical event time, line ID, outlet and void/return relationship, pagination and watermark.
+- Supplier receipt/transfer/stocktake: [stock order guide](https://x-series-api.lightspeedhq.com/v2026.04/docs/inventory_creating_stock_orders) provides consignment type/status, source/destination outlet and received_at; [webhook docs](https://x-series-api.lightspeedhq.com/v2026.07/docs/webhooks) describe consignment.receive as stock-affecting, and transfer send as source-outlet effect. [Scope reference](https://x-series-api.lightspeedhq.com/v2026.07/docs/scopes) lists consignments:read for historical consignments. Need per-line effective timestamps/partial receipts, both transfer legs, reversals, replay and complete historical window. Existing purchaseOrders.js exposes ordered quantities, not verified receipts. Purchasing handoff explicitly separates invoice/tracking from physical receipt. No PO/invoice/tracking automatically counts as receipt.
+- Adjustment: [2026-07 GET stock_adjustments](https://x-series-api.lightspeedhq.com/v2026.07/reference/liststockadjustments) is version-paginated but explicitly requires inventory:write. Do not request or activate this scope; manager/Security must decide least-privilege alternative.
+- Snapshot: [2026-04 release notes](https://x-series-api.lightspeedhq.com/docs/2026-04-release-notes) distinguish current_inventory_level and quantity_to_procure, product and variant filters. Snapshot versions are not a historical event timeline; inventory.update explicitly omits stock changes. Core owns POST-as-read allowlist. No source class has verified full tenant coverage; all six must remain unknown until actual evidence exists.
+
+### Implementation / tests
+- Added explicit linked full reversal validation to existing inventoryEvidence.js: exact original ID, strictly later event time, equal-and-opposite decimal delta, no reversal chain or repeated reversal; duplicate fingerprint includes reversal target. Sort physical effects chronologically and reject negative intermediate stock even if later receiving masks it. Equal-time effects grouped; boundary events remain review-only. No executable results.
+- Four additional fixture tests: out-of-order duplicate return, pre-scan original with post-scan reversal, invalid/missing/partial/double reversal links, negative intermediate stock. Full local Node suite **11/11 PASS, zero failed/skipped**. Reconstructed local files match exact Git blobs: inventoryEvidence.js `743d2a29107bb1190c9ffb52bf8e8407bef58b9e`, tests/inventory-foundation-m1.test.mjs `3730c018852b166087f9b8c896652a1e5b639536`, original inventory.js `105a96f5451f10f38af6ec7c0588d795eb706653`. Command: node --test tests/inventory-foundation-m1.test.mjs. No full integration CI, browser, or tenant acceptance.
+- Conservative choice: only full linked reversals supported; partial linked returns, reversal chains and corrections need explicit source semantics and review. Unlinked positive physical returns still require trusted source evidence; source adapters must establish when links are mandatory. Same-millisecond interior effects net together; no claim of their internal order. Negative expected physical stock flags review rather than proving source error. No new authority, event persistence, stock mutation or grant.
+
+### Next recommended action
+- Foundation Manager coordinate separately authorized read-only evidence capture (inventory records/levels, sales/returns, historical consignments, transfer/stocktake), adjustment scope decision, and source adapter contract with Core, Customer/Sales and Purchasing. Read-only evidence must exclude unrelated customer data. Establish trustworthy effective time and canonical event identity, complete window, late-arrival handling before accepting any event feed.
+- In parallel, proceed with pure physical shelf/backroom observation and multi-item restock validation fixtures, pending Store Map/label location contract review. No shared location IDs invented in production. No merge/deploy/live API traffic or inventory adjustments authorized.
+
+---
 
 ## M1 checkpoint — 2026-11-24 (approved baseline)
 
