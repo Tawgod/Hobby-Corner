@@ -1,12 +1,23 @@
 # Product & Catalog Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** M3 offline implementation and combined catalog CI PASS; integration acceptance pending  
+**Status:** M4 offline implementation and combined catalog CI PASS; integration acceptance pending  
 **Owner:** Product & Catalog Foundation development conversation  
 **Coordinator:** Hobby Corner Foundation Manager  
 **Safety:** No production product writes, deploys, merges, or DB migrations authorized.
 
-## M3 checkpoint — 2026-11-24 (current)
+## M4 checkpoint — 2026-11-24 (current)
+
+**Implementation:** committed; **combined catalog CI PASS 34/34**; integration acceptance pending; **not deployed**.
+- Independent branch `feature/hc-product-catalog-m1-20261124`, [draft PR #79](https://github.com/Tawgod/Lightspeed/pull/79), tested head `6e3ed12d9d965d703a9b75fd85e2961e96da2d09`, parent M3 `d8ccdb60a766b86630944327798235df5035d0c6`. Approved baseline `71a1cd6e312ed52efc1e9af9da85db6b02e3756c` unchanged. Compare: 5 ahead, 0 behind, 12 changed files total, zero deleted lines relative to baseline. PR draft/open/unmerged, mergeable=true at recheck.
+- Added inspectProductAssets to catalog.js (explicit product/variant scope, image slots/roles, manual/document references, opaque Drive/storage IDs, source-provenance timestamps, nullable missing/unknown availability, conflict/duplicate/primary diagnostics). HTTPS references require trusted exact host allowlist and canonical URL without credentials/query/fragment/non-default port. No automatic parent fallback or primary promotion. No live fetch, upload, asset assignment, or permission.
+- Added tests/product-catalog-m4.test.mjs and docs/PRODUCT_CATALOG_M4.md; updated existing branch-only CI to include M4, no dependency installation.
+- [GitHub Actions run 45419652623](https://github.com/Tawgod/Lightspeed/actions/runs/45419652623) completed SUCCESS on exact head; job 138535349889 logs independently verified: 34 tests, 34 passed, 0 failed/cancelled/skipped; M1 8, M2 8, M3 10, M4 8; syntax checks passed. Full shared foundation, Core API, Scanner and consumer integration regression still pending.
+- Reviewed approved baseline, manager/Core and Product Manager handoffs. No external contract freeze or Security grant acceptance documented. Existing feature consumers, transport, router, matcher and writer unchanged. No other workstream files modified.
+- Limitations/decisions: normalized single-tenant offline metadata only; complete=true is trusted external evidence, not proven by vendor API. No verified real vendor asset shapes, Drive matching, availability probing, content inspection, filename-based matching or asset upload proposals/execution. URL validation is metadata screening only, not SSRF protection or authorization; future fetch requires separate approved resolver with DNS/redirect/content controls. Signed/query-bearing URLs deliberately excluded; no guessed primary or parent inheritance. Missing/unknown availability is evidence, not a network check.
+- M5 gate: offline consumer parity preparation may proceed separately, but actual shared consumer integration and test-tenant reads require manager-approved DTO/coverage, Core/Security grant seam acceptance, explicit test-tenant read approval and owning feature coordination. Recommend Product Manager first (read-only, no feature writes), then PO Companion with Purchasing coordination; preserve current feature response shapes and shadow comparison. No merges, deployments, vendor traffic, database migration or production writes authorized.
+
+## M3 checkpoint — 2026-11-24 (historical)
 
 **Implementation:** committed; **combined catalog CI PASS 26/26**; integration acceptance pending; **not deployed**.
 - Continued branch `feature/hc-product-catalog-m1-20261124` and [draft PR #79](https://github.com/Tawgod/Lightspeed/pull/79) targeting reconciliation branch, not production. M3 source commit `7366967d47a36d6645c7c051ee217a4c7982543a`; exact tested head `d8ccdb60a766b86630944327798235df5035d0c6` (branch-only CI commit). Approved parent `71a1cd6e312ed52efc1e9af9da85db6b02e3756c` unchanged. Compare: 4 ahead, 0 behind, 10 changed files total, zero deletions. PR open/draft/unmerged, GitHub mergeable=true at verification.
