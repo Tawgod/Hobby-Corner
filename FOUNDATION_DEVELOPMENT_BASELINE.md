@@ -1,3 +1,37 @@
+# Shared business foundation — approved development baseline V6
+
+**Last verified:** 2026-11-24
+**Owner:** Foundation Manager
+**Status:** Owner authorized promotion conditional on passing tests; condition satisfied. Approved for isolated development and offline/disposable database testing ONLY. No production release, merge, deployment, live vendor traffic or shared-environment migration.
+
+## Canonical source pin
+- Repository: Tawgod/Lightspeed
+- Branch: test/hc-foundation-combined-v6-20261124
+- Exact approved commit: 0ffe5e3e152174462240021c59f64862af782b03
+- Parent V5: 87f6a94918653a3417ce01205098193eb1ccb35d
+- Combined CI 45473105844, job 138726062778: exact checkout independently verified; 346/346 tests, 40 test files, zero failure/skip/cancel/todo. Disposable PostgreSQL 16, syntax and gateway isolation passed. 19 workstream deltas plus manifest and workflow; Core included once. No original PR merged.
+- Manifest: docs/FOUNDATION_COMBINED_V6_SNAPSHOT.md. V5 and earlier pins preserved in historical section below.
+- Included exact workstream heads: #100 Core 964b84d084c0224b251b3ecef0bb1af30f9cdf22; #101 Catalog 0c4a28d72b5ee3ebb1d664395dc359fad09f9511; #106 Inventory d714bab43f66592efec70aff07bf09e38435e006; #103 Customer 8654430fb458be10cf7a8c47969d7bd238c091db; #107 Purchasing 698e2b7c772dd333399d1c2dba0871ea0a79f9a8 (four domain-only paths beyond Core).
+- Security remains independent: #108 2b909ce63ca2b440d6cb3a5859ee09c39e004adf, 97/97 offline tests, not integrated into V6.
+
+## Active V6 rules and next assignments (supersede historical V5 assignments)
+All five business owners create independent branches from exact V6, compare prior heads and carry only missing changes; new draft PRs target V6 branch. No duplicate Core adapter, no merges, no runtime activation. Preserve inherited M4/M5/M6 compatibility and all prior tests. Security exclusively owns actual identity/authorization/registry; no actual grants. Each workstream reviews relevant proposed alias dispositions and scope extensions in Security #105 docs/security/S25D_EXECUTION_ACCESS_SCOPE.md at 1aee4f9f734b221b1c3c5253e8c3466304cd03f5, documents explicit semantic agreement or conflict in handoff and coordinates before any registry change. Maintain cumulative inventory; no automatic alias mapping. Minimize CI, one capped targeted run where practical. All assignments test-only; no live data, external effects, or production routes. No duplicate historical deltas.
+
+| Owner | Next milestone | Scope and stop gate |
+|---|---|---|
+| Core | M7 | Coordinate separate immutable execution versus access/inspection effects with Security S2.5D/F; review M6 fingerprint, replay and receipt boundary; propose additive compatibility seam and test negative cross-tool cases after coordination. Review remote mutation multi-effect, safe replay, cross-key duplicate and uncertainty contracts with Catalog. No runtime authorization or vendor writer; no uncoordinated shared interface edits. |
+| Catalog | M9 | Offline remote mutation hardening: cross-key duplicate reservation, fresh revision/readback causality, exact product/variant/supplier and cost effects, independent projection/inspection. Review products.delete and catalog.references.configure aliases. Coordinate Core seam first; no live vendor writer. |
+| Inventory | M9 | Expand M8 disposable composition to multi-line/task/location/session evidence, competing batches, stale revisions and atomic rollback, immutable history, explicit physical receiving versus financial evidence. Confirm inventory alias dispositions and scopes; no actual stock changes or new shared adapter. |
+| Customer & Sales | M9 | Offline legacy consumer parity and narrower source/read projection admission, partial pickup and cumulative reversal eligibility evidence, explicit financial vs physical effects. Confirm customer/sales/workflow aliases with Core/Inventory; no real writes, notifications or route switch. |
+| Purchasing | P-09 | Expand M6 invoice fixture to competing invoice identity races, multi-line and cumulative billed evidence, approval expiry at precommit and safe historical projection; separate local receipt inspection from remote PO reconciliation, coordinate receipt/stock boundary with Inventory. No live vendor/mail/PO/stock effects. |
+| Security | S2.5F | Compose accepted S2.5D/E role/decision fixtures, policy freshness, separate authorized explanations, delegation and assurance lifecycle; reconcile 19 alias occurrences with domain owners and Core. Independent branch from exact tested #108; S2.1 separate Timeclock owner review and private commissioning gates. No actual grants, deployment or registry freeze. |
+
+Actual Security integration, durable production adapters, vendor compatibility, dependency reproducibility, employee acceptance, revocation fencing and endpoint bypass coverage remain gated. All historical requirements below remain applicable except superseded baseline pins, assignments and M5 adoption direction.
+
+---
+
+## Historical V5 baseline and requirements (retained; V6 rules above prevail)
+
 # Shared business foundation — approved development baseline V5
 
 **Last verified:** 2026-11-24
