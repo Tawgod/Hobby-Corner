@@ -1,19 +1,19 @@
 # Purchasing & Supplier Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** In Development / offline CI pending; no deployment
+**Status:** Testing / offline CI SUCCESS; no deployment
 
 ## 2026-11-24 — P-01 implementation and validation submission
 
-**Status: In development / offline CI pending; NOT deployed.**
+**Status: Testing / offline CI SUCCESS; NOT deployed.**
 - Approved baseline: `71a1cd6e312ed52efc1e9af9da85db6b02e3756c` (PR #78).
 - Branch `feature/hc-purchasing-foundation-m1-20261124`, head `8bd1ae252e6c51f5e27af18367cd8cc7d1ca537e`, draft [PR #82](https://github.com/Tawgod/Lightspeed/pull/82) targets reconciliation branch, not production. PR creation reported mergeable=false; recheck before integration.
 - Added `services/lightspeed/purchaseOrderProjection.js` over unchanged shared PO reader: exact identifiers, duplicate/conflict rejection, missing identity null, no inferred supplier SKU, five quantity aliases with conflicts unknown, supplier/outlet/status filters, unresolved reference count, non-atomic read timestamp, receiving always UNKNOWN. Invoice and tracking projections are evidence only. Cost/currency mapping pending.
 - Source review: special-orders.js 2822–2834 uses versioned PO list/lines but catches line errors as empty; 3689–3744 separates preview and receiving allocation. server.js 308/441 uses legacy 2.0 consignment products for Avery/PO data. PR #37 injection reviewed; legacy shape unchanged, full HTTP/browser parity not executed.
-- Ten offline fixture tests in tests/purchasing-foundation-m1.test.mjs cover pagination, malformed responses, exact IDs, missing/conflicting fields, filtering, receipt isolation, evidence-only projections and legacy shape. Branch-scoped workflow .github/workflows/purchasing-foundation-m1.yml added; initial workflow lookup returned no runs. No PASS claimed yet.
+- Ten offline fixture tests in tests/purchasing-foundation-m1.test.mjs cover pagination, malformed responses, exact IDs, missing/conflicting fields, filtering, receipt isolation, evidence-only projections and legacy shape. Branch-scoped workflow .github/workflows/purchasing-foundation-m1.yml added; [GitHub Actions run 45416914717](https://github.com/Tawgod/Lightspeed/actions/runs/45416914717) subsequently returned completed/SUCCESS for the queried head. Detailed job logs not independently inspected.
 - Three additive files; no changes to existing PO reader, shared transport, routes, security, catalog or receiving. No live reads/writes, DB migration, merge, deployment or grants.
 - Decisions: vendor status descriptive only; ambiguous identifiers rejected; unknown supplier/outlet references counted separately; strict projection opt-in; public envelope not frozen.
-- Next: verify exact-head CI and mergeability; coordinate manager/Core/Catalog/Inventory review; P-02 offline invoice-to-PO association and supplier evidence proposals only. Ambiguous matches require review; no writer. Real tenant parity, cost mapping, alias ownership and receipt evidence remain gates.
+- Next: recheck mergeability and detailed CI logs; coordinate manager/Core/Catalog/Inventory review; P-02 offline invoice-to-PO association and supplier evidence proposals only. Ambiguous matches require review; no writer. Real tenant parity, cost mapping, alias ownership and receipt evidence remain gates.
 
 Earlier audit below is historical; this checkpoint supersedes its implementation/test status.
 
