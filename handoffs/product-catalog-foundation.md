@@ -1,10 +1,20 @@
 # Product & Catalog Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** M1 offline implementation and targeted tests PASS; integration acceptance pending  
+**Status:** M2 offline implementation and targeted tests PASS; integration acceptance pending  
 **Owner:** Product & Catalog Foundation development conversation  
 **Coordinator:** Hobby Corner Foundation Manager  
 **Safety:** No production product writes, deploys, merges, or DB migrations authorized.
+
+## M2 checkpoint — 2026-11-24 (current)
+
+**Implementation:** committed; **targeted M2 tests PASS 8/8**; integration acceptance pending; **not deployed**.
+- Continued independent branch `feature/hc-product-catalog-m1-20261124`, [draft PR #79](https://github.com/Tawgod/Lightspeed/pull/79), head `5c26fa76415cbcd0e7abcc86245b2e3b05cfb216`, parent M1 `dabab99738bf914d931ad122bc994959b78ee8ee`. Exact approved base `71a1cd6e312ed52efc1e9af9da85db6b02e3756c`. Compare: 2 ahead, 0 behind, 7 changed files total, zero deletions. PR open/draft/unmerged, GitHub mergeable=true at recheck.
+- Added pure `inspectTypedProductIdentity` to existing productIdentity.js; legacy scoring untouched. Typed SKU/UPC/GTIN/SUPPLIER_SKU/MANUFACTURER_PART, exact literal strings, canonical supplier/manufacturer ID scope, separate parent/variant targets, inactive collision retention, provenance dedupe, malformed input and activity conflict diagnostics. No cross-kind UPC/GTIN conversion. Coverage defaults incomplete and requires trusted scope-specific fixture assertion. No vendor read adapter, no authorization decision.
+- Added tests/product-catalog-m2.test.mjs and docs/PRODUCT_CATALOG_M2.md. Node v22.16.0: `node --test tests/product-catalog-m2.test.mjs` executed locally against source reconstructed from committed readback, hashes verified with git hash-object: productIdentity.js `32bb1e872c3452be3f5caab6cfb08971a400858b`; M2 test `0e4b581a7ffb69d8da1d3ce975a65c1ec196992b`. 8 passed, zero failures/skips. M1/full integration suite not rerun this turn. No GitHub Actions workflow changes or additional CI minutes requested.
+- Reviewed current Purchasing and Core API handoffs. Purchasing assigns canonical product/supplier mapping ownership to Catalog; Purchasing retains shipping alias evidence and PO/invoice workflows. This internal draft requires manager/Purchasing review before shared DTO freeze; no claims of their approval. No shared/protected files outside catalog ownership changed.
+- Limitations: no supplier alias resolution, primary/secondary mapping projection or costs yet; no actual vendor variants/active-state/pagination coverage; UPC/GTIN equivalence deferred. Single-tenant normalized fixtures only; no full-catalog duplicate certification or creation permission. Conflicting activity is flagged incomplete; candidate activity is merely the first observed matching state, not authoritative. Category envelope/duplicate-ID/pagination gap from M1 remains open.
+- Next: M3 read-only catalog reference/mapping projection, supplier alias ambiguity and primary/secondary provenance, monetary metadata; coordinate Purchasing before final contract; improve category coverage and run combined offline regressions. Do not mount routes, merge, deploy, read live vendor data, write products or migrate DB without explicit authorization.
 
 ## M1 checkpoint — 2026-11-24 (supersedes initial branch/blocker status below)
 
