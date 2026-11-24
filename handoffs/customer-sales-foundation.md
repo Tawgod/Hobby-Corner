@@ -1,5 +1,42 @@
 # Shared Customer & Sales Foundation — Current Handoff
 
+## M5 — Baseline V2 identity/linkage/consent read evidence (2026-11-24)
+
+**Status:** Implemented on isolated V2 branch; targeted reconstructed-source local tests PASS with limitations; manager reconciliation gate. Not deployed or consumer-integrated.
+
+### Source
+- Approved V2 parent: Tawgod/Lightspeed:test/hc-foundation-combined-20261124@2365de8af4e8d69b162f6909d1f78be246e74fdf. Manager combined run 45423638373 verified 187/187 at that exact parent, not new-head evidence.
+- Read canonical baseline, manager handoff, own handoff, dependency register F17–F19/F22–F24/F28 and V2 source manifest. Old PR #81 head 1c979a7d6a02d8e974b7f8af1a3591a3c2835028 exactly matches V2 included pin; no newer work to carry forward; old branch and PR preserved.
+- Independent branch feature/hc-customer-sales-m5-v2-20261124; head 2f2750ee703556c1ea2eab60f3d6edd14bbe82ea.
+- Draft [PR #88](https://github.com/Tawgod/Lightspeed/pull/88) targets V2 branch, base 2365de8af4e8d69b162f6909d1f78be246e74fdf; mergeable=true, draft=true, merged=false; 4 changed files. No merge attempted.
+
+### Implemented
+- Added services/lightspeed/customerIdentityEvidence.js, pure normalized provider/channel evidence projection and injected read-only adapter. Exact customer IDs, bounded rows, UTC timestamps, link statuses verified/unverified/revoked/conflicting/unknown; multiple accounts or conflicting states require review. Consent opt-in/opt-out/unknown, conflicting flags, conservative opt-out dominance. No chronological re-consent override. No send authorization (canSend always false), no external IDs, evidence IDs, contact addresses or raw records returned. Coverage supplied-evidence-only. This is customer business data, not staff identity or authentication.
+- Existing customers.js get/search/searchFirstPage signatures extended compatibly with optional correlationId; previous transport call shape preserved when absent. Reuse Core-owned pagination and executor, no changes to Core/Security/shared routes. Existing reusable search modes remain available to other features.
+- Added tests/customer-identity-m5.test.mjs, seven synthetic groups including actual V2 Core executor admission and sanitized error/correlation fixture. Proposed operation customers.identity.read is a fixture name, not approved grant. Existing 20 customer/sales/route-source tests retained and rerun; malformed Special Orders response rejection remains intentional candidate difference, actual HTTP compatibility pending.
+- Added docs/CUSTOMER_IDENTITY_M5.md with input/output candidate, provider trust and consumer boundary.
+
+### Tests / evidence
+- Local Node.js v22.16.0: node --test tests/customer-identity-m5.test.mjs tests/customer-sales-evidence.test.mjs: **27/27 PASS**, zero failed/skipped/cancelled, TAP duration 165.234274 ms; 7 new + 20 previous. Synthetic dependencies only.
+- Reconstructed local files: changed customers.js hash 90b3a03e27be2d8a5d6b94b09dadfab03dfdc202, new customerIdentityEvidence.js a766094fbc6b0505a24ef5d4b7b69aaace12c0e9, new test 0103643efa52279c5c4b2a0473eea4e4625430c7; all match GitHub. V2 coreReadContract.js 43b3b19286a902d07d737c662c10ef3c99d260d3 and readCollection.js c98d0a5ddae5503ba8e332ca90d2f2cd47d16e8d also match.
+- LIMITATION: reconstructed client.js local hash 48b2ada178057fbb6b45a0701ea67cc1e51764d4 differs from V2 expected ab2f92df211db041606772ac785b40b764b03bee; injected transport exercised, not actual network client. Local special-orders.js is prior fetched route excerpt only. Do not claim exact-checkout or full suite regression. Manager must run full exact-head suite including new test (expected aggregate 194 if no other changes). No additional CI workflow added; no remote run result asserted.
+
+### Deployment
+None. No live reads/writes, account linking, creation, consent changes, notifications, grants, DB migrations, actual route changes, merge or deployment.
+
+### Coordination gate / remaining decisions
+- Manager/Core/Security: review candidate operation name, exact grants, approved projections, error mapping and trace; no independent identity/security implementation. Raw vendor search rows still require authorized field allowlist.
+- Feature owners: map authoritative Discord/Rewards/local profile/consent providers, verification provenance and freshness, global cross-customer account uniqueness, consent purpose and re-consent policy. Current statuses are supplied evidence only; cannot prove actual identity or current consent. No provider adapters connected. Conservative opt-out dominance and fixed provider/channel set are draft decisions.
+- Special Orders first-page route-source parity retained; malformed response now fails instead of empty result in test-only candidate. Actual application route/error and authorized enrichment parity unresolved; no activation.
+- Manager review and exact-checkout combined regression before further integration. Next scope after assignment: M6 sales/deposit/work-order/fulfillment evidence, contingent on manager sequencing; M7 returns/store credit remains queued. No automatic linking/creation, credit posting or actual consumer switch.
+- No personal user input required now. Stop at reconciliation gate.
+
+---
+
+## Historical milestones (prior baseline; retained)
+
+# Shared Customer & Sales Foundation — Current Handoff
+
 ## Current milestone — 2026-11-24: M4 pre-integration route-source compatibility
 
 **Status:** Offline route-source compatibility PASS; ready for manager reconciliation, NOT approved for actual consumer switch, merge or deployment.
