@@ -1,3 +1,11 @@
+## 2026-11-24 — Corrected live schema initialization SUCCESS; role isolation fix pending tests
+
+User explicitly approved four-change schema retry patch f7ff6ae8-5f69-4373-a96a-f91a767bb69a. Revalidated exact non-destructive Railway config patch only on offline service, accepted committed=true, deployment ecf6fcd7-16dd-4abd-9d10-2f107502aad9 at corrected source 3e60a0950886a1469479b4b99e2f1896bcc6d6ac. Live Railway logs independently show SUCCESS and HC_SECURE_SCHEMA_BOOTSTRAP_OK tables=9 nonlogin_groups=2 no_logins=true activations=0; zero returned build errors. New isolated database and nine tables/two nonlogin groups now provisioned, no runtime/operator login accounts or Owner activation. Success marker emitted after SQL COMMIT; no separate postcommit DB readback yet.
+
+Source-only next milestone: corrected prepare-hc-secure-locked-roles.mjs (9fba23a9041bd597b9c436dd18e9929a4806f96b) to require role-only true, schema-only false, credential-only false; reused schema scope validation on a local copied object only. Updated tests (5877c6e5039bc70325c188489bd1e52574403b66) for conflicting flags and nonmutation of environment. Six tests NOT RUN; run node --test tests/hc-secure-locked-roles.test.mjs in current Codespace branch after git pull --ff-only. No role preparation or credential commissioning executed. Offline service still configured for schema writes with restart NEVER; do not redeploy this command. Next stage disarm or switch to exclusively role-only command/flags after testing and explicit approval. Public auth disabled; original Owner and production untouched. No secrets retrieved.
+
+---
+
 ## 2026-11-24 — Recovery read-only PASS; corrected schema retry staged
 
 Recovery deployment 786eb720-67e0-4cc0-b383-810b30db698d SUCCESS, verified runtime HC_SECURE_ROOT_READY=true read_only=true target_absent=true roles_absent=true root_empty=true. Confirms failed bootstrap left no target DB, matching roles or user relations in initial DB. New PG SUCCESS. Production health readback all seven services online/SUCCESS, zero issues/recent failures, no pending work. Auth staging placeholder remains FAILED/intentionally disabled.
