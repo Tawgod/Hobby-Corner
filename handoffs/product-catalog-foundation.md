@@ -1,12 +1,24 @@
 # Product & Catalog Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** V2 M5 shadow integration candidate and catalog CI PASS; coordination gate  
+**Status:** V3 M6 offline operation fixtures and cost policy correction; catalog CI PASS; coordination gate  
 **Owner:** Product & Catalog Foundation development conversation  
 **Coordinator:** Hobby Corner Foundation Manager  
 **Safety:** No production product writes, deploys, merges, or DB migrations authorized.
 
-## V2 M5 follow-through checkpoint — 2026-11-24 (current; coordination gate)
+## V3 M6 preparation checkpoint — 2026-11-24 (current; coordination gate)
+
+**Implementation:** offline operation fixtures and wholesale cost policy correction committed; **catalog CI PASS 59/59**; actual Security and consumer integration pending. **Not deployed.**
+- Approved V3 baseline `098c9e51ea4c3449605ad6951baa8284e126e8d4`, historical combined CI 45436836762 (223/223). Read updated baseline, manager/workstream handoffs, dependency register, V3 source manifest and Core M3 Security coordination document.
+- Prior PR #86 head equals included pin `777bdd3c0e5c380328275a1931efcd4b5fce51a2`; all four changed paths have identical blob hashes in V3. No newer work to carry; prior PRs #79/#86 and branches preserved.
+- Independent branch `feature/hc-catalog-v3-m6-20261124`, exact tested head `5895dafbd9c63a8359c787afefedcf0ea6b80bbc`, [draft PR #90](https://github.com/Tawgod/Lightspeed/pull/90) targets `test/hc-foundation-combined-v3-20261124`. Compare 1 ahead/0 behind, six changed files (four added, two modified), 124 additions/17 deletions. Open draft, unmerged, mergeable=true at recheck.
+- Corrected catalog-owned productCatalogShadow.js and V2 shadow tests: ordinary authorized employee product read includes wholesale costs without separate elevated cost-read decision. Incomplete price coverage remains null; base denial blocks reading. Existing exported interfaces preserved. Trusted injected verifier must establish active employee and exact resource scope; no anonymous/public cost access approved.
+- Added services/lightspeed/productCatalogOperationFixtures.js, tests/product-catalog-v3-m6.test.mjs, docs/PRODUCT_CATALOG_V3_M6.md and branch-only CI. Pure synthetic scenario evaluator uses provisional catalog.product.create/update, catalog.product.cost.modify and create/update.approve/execute labels, literal-true injected decisions, test environment, exact product/variant and fields, one correlation, per-change bulk checks, fresh invocation checks, fail-closed denial/outage. Nine tool labels (ProductManager, Scanner, SpecialOrders, Purchasing, Consignment, Preorders, Repairs, RMSImport, Automation), six channel labels (direct/api/bulk/import/indirect/automation). No writer, executable result, live route or actual identity/grant system. Scenario inputs must be trusted fixtures, not client assertions.
+- [CI 45440431827](https://github.com/Tawgod/Lightspeed/actions/runs/45440431827) completed SUCCESS at exact head; job 138609708719 logs independently inspected: 59 tests, 59 pass, 0 fail/cancel/skip; syntax checks passed. 51 inherited catalog cases (cost policy expectations revised) + 8 new cases; one 3-minute-capped workflow, no dependency installation. Full V3 combined suite not rerun.
+- Decisions/limitations: proposed labels and field allowlist are not Security registry or actual route mapping. Synthetic revocation/expiry scenario toggles adapter decision, does not implement credential expiry or verify live grants. Resource IDs are synthetic even for creation; Security/Core must define create target scope. Tool/channel matrix tests scenario evaluator only; actual direct/indirect/bulk/automation routes, request effect derivation, mixed create/update batches, nested/aliased field semantics, queued actor/delegation binding, durable audit and execution-time checks remain release gates. Product Manager sample parity unchanged from V2, no real browser or new field parity verified. No duplicate-safe vendor write design or execution introduced. Core M4 and Purchasing P-06 must review provisional operation/field names and compose applicable underlying grants; no competing durable contract.
+- **Stop gate:** manager reconciliation and Security-owned operation/resource/field/actor contract acceptance, actual consumer mapping/negative bypass tests, full combined regression and authorized representative tenant read/feature parity. Actual M6 create/update execution requires separate authorization. No merges, deploys, route mounts, live data, grants, migrations or production mutations performed.
+
+## V2 M5 follow-through checkpoint — 2026-11-24 (historical)
 
 **Implementation:** offline shadow/parity candidate committed; **catalog CI PASS 51/51**; actual integration, field grant acceptance and M6 execution pending. **Not deployed.**
 - Approved V2 baseline `2365de8af4e8d69b162f6909d1f78be246e74fdf`, combined CI 45423638373 (187/187, historical V2 evidence). Read canonical baseline, manager/workstream handoffs, dependency register and V2 source manifest.
