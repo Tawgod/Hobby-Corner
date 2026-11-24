@@ -1,6 +1,25 @@
 # HC Secure registry reconciliation — S2.5A (proposal)
 2026-11-24. Security-owned design, not approved grants or runtime mapping. Source FOUNDATION_SECURITY_PERMISSION_REQUIREMENTS.md blob 1306922eaf8f2a2e0c24e8f179fcc92b402b86db (213 source rows across five domains), manager V4/V5 reconciliation. S2.1 PR #98 and all commissioning gates unchanged.
 
+## Additional Owner decisions — D7/D8 (2026-11-24; latest)
+
+Design authorization only. D1-D6 remain approved design directions. The following supersedes conflicting earlier D7/D8 proposals, not existing deployed access or commissioning requirements.
+
+| Decision | Owner selection | Design consequence / unresolved detail |
+|---|---|---|
+| D7a | Discuss another approach | Employee strong-authentication initiation/cadence remains open; no new login policy approved |
+| D7b | 30 minutes | Sensitive business operations may reuse individually bound recent strong authentication for up to 30 minutes from successful verification, not extended by ordinary activity; session validity, revocation, operation grants and approval still required |
+| D7c | Allow recent authentication | Security-critical administrative changes may use recent strong authentication rather than prompting every time; exact administrative freshness maximum and exceptional recovery/credential ceremonies remain to be specified; preserve existing commissioning and confirmation safeguards |
+| D8a | All authorized locations within existing store | Default store-wide authorized location scope, not future stores, other tenants or environments; individual restrictions remain effective |
+| D8b | All active employees for ordinary customer service | Include customer phone/email read in ordinary authorized customer access; no separate elevated role required by default; purpose, realm and explicit restrictions still apply |
+| D8c | Included in ordinary customer access | Include ordinary customer notes and financial information read in baseline; retain individually restrictable field permissions and separate financial mutations, exports and administrative actions |
+
+Security interpretation for review: ordinary customer financial information means balances, deposits, store credit, transaction/order/payment history and safe payment evidence, not raw payment credentials, full card numbers, CVV, bank credentials or authentication secrets. No bulk export permission implied. Notes/financial read operations remain separately identifiable for individual restrictions and auditing, but ordinary role defaults include them where ordinary authorized customer access applies. No new access to noncustomer financial or employee security information inferred. Exact field projection and legacy data classification need Customer/Core review.
+
+Proposed next D7a discussion: distinguish personal device from shared authorized store workstation; consider shift-start PIN/session plus individual strong factor when entering sensitive workflow, versus strong factor at shift start or trusted-device enrollment with individual proof. No workstation possession alone establishes employee identity or satisfies strong authentication. Do not weaken existing Owner MFA or commission new auth before approval. D7c recent-auth window is not explicitly fixed by owner; recommend same 30-minute maximum for ordinary administrative changes, subject to confirmation and separate recovery/bootstrap safeguards.
+
+S2.5B registry normalization can proceed using these approved defaults with D7a and unresolved administrative assurance parameters explicitly pending. No runtime policy activation, role assignment, deployment, credential change or test run in this decision checkpoint.
+
 ## Owner design decisions — 2026-11-24 (current; supersedes proposal-only status below)
 
 Owner explicitly accepted D1, D2, D3, D5, D6 recommendations and selected separate permissions for D4. D7 and D8 remain open for discussion. Authorization is design only: no permission activation, role assignment, production access change or deployment. No actual permission registry freeze or role assignment implied.
