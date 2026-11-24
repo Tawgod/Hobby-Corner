@@ -1,3 +1,16 @@
+## Nov 24 credential safety tests 7/7 PASS; real PG18 result pending
+
+**User reported “pass 7”** following request to execute both the seven-case `tests/hc-secure-credential-commissioning.test.mjs` suite and the separate disposable PostgreSQL 18 credential integration runner. Interpret as **7/7 mock safety tests PASS (operator report)**. **The user did not supply the disposable integration result line**, so do **not** classify real PG18 credential authentication/re-lock as passed based on “pass 7” alone. Await `HC_SECURE_DISPOSABLE_CREDENTIALS_OK postcommit_relock=true scram_logins=true bad_password_denied=true final_roles_locked=true owner_activations=0` or equivalent complete test output.
+
+**Next verification command (Codespaces Terminal 1, disposable PostgreSQL only):**
+```bash
+cd /workspaces/Lightspeed
+bash scripts/run-hc-secure-disposable-credentials-pg18.sh
+```
+No original Owner database connection, Railway deployment, role/password provisioning or production change approved.
+
+---
+
 ## Nov 24 six commissioning tests PASS; disposable real PostgreSQL credential checkpoint ready
 
 **Operator test result:** User reported `Pass 6` after running the six `tests/hc-secure-credential-commissioning.test.mjs` mocked tests. Mark **Testing PASS (6/6, operator report; no raw log)**. Previous four credential preflight tests, 11 schema/role preflight tests and 21 general/disposable-schema tests passed.
