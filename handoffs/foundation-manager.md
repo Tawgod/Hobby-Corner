@@ -1,3 +1,41 @@
+# Foundation Manager — V4 accepted checkpoint
+
+**Last verified:** 2026-11-24
+**Status:** V4 approved for isolated development after owner authorization; production release and actual Security acceptance pending.
+
+## Source and implementation
+- Canonical baseline: [FOUNDATION_DEVELOPMENT_BASELINE.md](../FOUNDATION_DEVELOPMENT_BASELINE.md).
+- Approved V4: Tawgod/Lightspeed:test/hc-foundation-combined-v4-20261124 @ b56d4f69332f768a66987668293088eb51a60ecc.
+- Parent V3: 098c9e51ea4c3449605ad6951baa8284e126e8d4. Previous baselines and PRs retained.
+- Exact included heads: #89 0fabf06643c17ec5632168ffecf8339aa09279e5; #90 5895dafbd9c63a8359c787afefedcf0ea6b80bbc; #91 7eecb5d2fd92f896402398d36167bd3779d95c0e; #92 518ac1d0e6985852f80d375c9ce922d47fc40296; #93 340c6203a48deec3b7da38d37141ceb9f71e2060.
+- 20 exact nonoverlapping workstream deltas and two manager files; compare one ahead/zero behind V3, 22 changed paths. No existing PR merged. No production server or Security implementation edited by manager.
+
+## Testing
+- [CI 45442532299](https://github.com/Tawgod/Lightspeed/actions/runs/45442532299), job 138617312237, exact V4 head SUCCESS. Logs independently verified 266/266 passed, zero failed/skipped/cancelled. 30 test files, syntax and unmounted gateway checks passed. Core M4 disposable PostgreSQL concurrent command, replay/conflict, rollback and revoked permission tests and original real PG concurrency/audit/idempotency tests passed.
+- Expected breakdown V3 223 + Core 11 + Catalog 8 + Inventory 7 + Customer 7 + Purchasing 10. No integration repairs required for this suite. Exact combined checkout resolves prior reconstructed dependency test limitation, not live tenant parity.
+- Synthetic authorization and disposable database fixtures are not actual Security acceptance, live endpoint enforcement or production durability evidence.
+
+## Next assignments
+- Core M5: refine shared local transaction candidate and reusable disposable PG adapter seam; actor-bound replay, safe result reprojection, immutable audit, unknown commit reconciliation, outbox deduplication; coordinate Inventory and Purchasing, canonical effect/operation dependency semantics and reproducibility.
+- Catalog M7 preparation: non-executable controlled create/update/cost mutation contracts, canonical product/variant/supplier identity, effect grants, duplicate prevention and readback/unknown outcome fixtures. Coordinate remote mutation seam; no actual writer.
+- Inventory M7: compose inventoryPersistence planners with Core localTransactionCandidate in disposable PG fixtures, locks/revision checks, concurrent replay and atomic confirmation/review/outbox/audit. No competing runtime transaction implementation, no stock effects or actual queue delivery.
+- Customer M7: returns/void/store-credit/reversal evidence and sale/payment/deposit/fulfillment linkage; preserve financial/physical distinction and reusable search. No posting or actual mutation.
+- Purchasing P-07: invoice review/duplicate/approval record contracts and disposable PG fixtures against Core seam; actor/revision-bound approval, atomic audit/outbox intent and replay. No invoice-to-receipt inference, automatic product creation or PO writer.
+- Each of five workstreams creates a new independent branch from exact V4, targets V4 in draft PRs, preserves previous branches, selectively carries forward missing deltas only. Coordinate shared interfaces before adoption; minimize CI usage.
+- Security continues existing Owner/Employee environment consolidation independently until owner moves conversation. Retains exclusive identity, roles, grants, authorization, admin UI and commissioning approvals.
+
+## Mandatory Security and administration UI dependency inventories
+Owner requires every workstream to identify what the Security service and eventual administration UI must support. Canonical baseline and handoffs/TEMPLATE.md updated and readback verified. Every next canonical workstream handoff must contain a cumulative inventory covering existing and planned capabilities, not only new code.
+- For each operation: proposed canonical identifier, human-readable UI label/description, tools/direct APIs/indirect workflows/imports/automation, suggested role bundles and ordinary employee default, individual grant/restriction, resource/field/environment scope, prerequisite grants/approval, enforcement source/tests and gaps.
+- Separate read/create/update/delete/approve/execute/configure/export/automated operations where applicable. Composed effects require all grants; no tool-specific bypass; execution-time reauthorization. All active employees may view wholesale costs under ordinary access; modifying them separate.
+- UI dependencies: role membership, individual exceptions, effective access and grant source, scope selectors, expiry/revocation, searchable grouped permissions, prerequisites/conflicts, delegated/automation identities, audit/history and change confirmation.
+- Distinguish provisional labels and role suggestions from approved registry. Flag unmapped consumers and unresolved precedence/scope/approval decisions. Manager consolidates/deduplicates; Security approves actual definitions and UI implementation. No role/grant changes authorized.
+
+## Deployment and blockers
+None by manager. No PR merges, production deployments, live data, routes, grants, shared-environment migrations or production mutations. No fresh Railway runtime inspection this checkpoint. Actual Security acceptance, consolidated permission register, real vendor compatibility, domain persistence integration, feature/browser acceptance and dependency reproducibility remain outstanding. Management PR #4 overlap still unresolved.
+
+## Historical checkpoints
+
 # Foundation Manager — V3 reconciliation / V4 candidate review
 
 **Last verified:** 2026-11-24
