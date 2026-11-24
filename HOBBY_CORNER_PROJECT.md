@@ -1,3 +1,9 @@
+## HC Secure disposable PG18 schema milestone ready — 2026-11-24
+
+**In Development / Testing pending.** Reused the actual seven Owner SQL fixtures from `Tawgod/Lightspeed/scripts/bootstrap-owner-stage-database.mjs` to implement a **rollback-only**, loopback-only disposable PostgreSQL 18 schema/grant integration test (`scripts/test-hc-secure-schema-disposable.mjs`), five guard tests (`tests/hc-secure-disposable-schema.test.mjs`), and an auto-cleanup Docker runner (`scripts/run-hc-secure-disposable-pg18.sh`) on draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77). **Not yet executed.** It checks nine tables, two NOLOGIN groups and explicit denial of Owner activation issuance/rewrites by the runtime role, using transactions rolled back after success and failure. No Railway database, schema, DNS or Owner credential change. Next Codespace test and exact command in [handoffs/hc-secure.md](handoffs/hc-secure.md).
+
+---
+
 ## HC Secure database safety preflight authored — 2026-11-23
 
 **In Development; not deployed.** Added read-only database preflight on `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77): `scripts/check-hc-secure-fresh-db.mjs` and five tests `tests/hc-secure-fresh-db-preflight.test.mjs`. Probe requires exact new HC Secure Railway project/environment/private PG hostname and `hc_owner_stage_test`, forbids shared/old Owner DB and rejects partial/migrated tables, using only a read-only transaction. **Tests written, not run.** New PG18 service/volume and app remain staged-create, unprovisioned and without DB bootstrap credentials. Original Owner DB/passkey/TOTP, Timeclock and production tool security unaffected. [Handoff](handoffs/hc-secure.md).
