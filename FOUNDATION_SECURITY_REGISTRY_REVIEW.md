@@ -1,6 +1,23 @@
 # HC Secure registry reconciliation — S2.5A (proposal)
 2026-11-24. Security-owned design, not approved grants or runtime mapping. Source FOUNDATION_SECURITY_PERMISSION_REQUIREMENTS.md blob 1306922eaf8f2a2e0c24e8f179fcc92b402b86db (213 source rows across five domains), manager V4/V5 reconciliation. S2.1 PR #98 and all commissioning gates unchanged.
 
+## Owner design decisions — 2026-11-24 (current; supersedes proposal-only status below)
+
+Owner explicitly accepted D1, D2, D3, D5, D6 recommendations and selected separate permissions for D4. D7 and D8 remain open for discussion. Authorization is design only: no permission activation, role assignment, production access change or deployment. No actual permission registry freeze or role assignment implied.
+
+| Decision | Approved design direction | Remaining parameters |
+|---|---|---|
+| D1 | Matching scoped restrictions override role and individual grants; mandatory constraints cannot be overridden; no implicit Owner bypass | exact scope representation, migration and revocation consistency tests |
+| D2 | Basic catalog/stock viewing, cost included under ordinary authorized product access, job-relevant minimal customer access; operations individually assignable | exact role contents and legacy access mapping; D8 sensitive data and location defaults unresolved |
+| D3 | Independent approval for designated high-risk actions, explicit Owner exception for small staffing | exact actions, amount thresholds, exception eligibility, assurance and expiry; no automatic self-approval |
+| D4 | Independent catalog.product.cost.modify and purchasing.po.line.cost.modify permissions; both required only when both actual effects occur (other applicable workflow/approval grants still apply) | vendor side-effect mapping, field scope, domain verification; invoice evidence correction is not an actual cost write |
+| D5 | Owner initially appoints Security administrators; bounded delegation, no self-escalation | whether/which manager may assign preapproved roles or temporary grants still requires explicit detail |
+| D6 | Temporary grants and delegated jobs explicitly expire, scoped authority and revocation of future operations | default/max durations, review cadence, independently approved standing service jobs |
+| D7 | OPEN — discuss sensitive action authentication | assurance tiers, freshness windows, workstation/device policy and recovery custody; preserve all existing strong-factor commissioning gates |
+| D8 | OPEN — discuss location and sensitive data restrictions | assigned/all-store scopes, customer contact and notes, exports, amounts, special cases; no new default sensitive-data grants |
+
+No unresolved decision is treated as permission to activate access. Registry design may use synthetic policy placeholders for D7/D8; unknown or unapproved conditions deny in candidate evaluation. Existing production access remains unchanged. D4 names are Security design recommendations for domain review, not runtime aliases or grants.
+
 ## Naming adjudication (first pass)
 Use stable domain.resource.action identifiers, consistent with domain-owned semantics; aliases are documentation only until reviewed migration. Exact matching only, no wildcard grants or implicit prefix inheritance. The following covers the manager alias queue, not every individual row; remaining detailed source rows remain proposed and must be individually normalized with scopes and evidence before registry freeze.
 
