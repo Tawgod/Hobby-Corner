@@ -1,3 +1,27 @@
+## Nov 24 next milestone — HC Secure-specific schema and locked-role bootstrap ready for Codespace tests
+
+**User direction:** continue development until next milestone or input required. **Completed source-only preparation; now awaiting Codespace tests.**
+
+**Reused authoritative existing Owner SQL** from `Tawgod/Lightspeed/scripts/bootstrap-owner-stage-database.mjs` (seven reviewed fixtures including two NOLOGIN groups). New HC Secure-specific modules on `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` / draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77):
+- `scripts/bootstrap-hc-secure-staging-db.mjs` commit `b1821109c574ffd6cabebd15e52f17e84d2fbb0d`: one-time isolated new **HC Secure Railway project only** PG18 bootstrap. Exact project `120de974-f2e8-46be-9a00-8eb8b1be4cc4`, env `8c8cd3a9-079f-4fe8-b8f5-a76c79813f0c`, prospective offline one-shot service `hc-secure-db-bootstrap-once`, exact private PostgreSQL hostname `hc-secure-postgres-staging.railway.internal`, bootstrap root DB `/railway` with postgres user, independent password; separate explicit operator action `HC_SECURE_FRESH_DB_SCHEMA_ONLY`. Refuses all original Owner DB, business credentials, unexpected projects or existing `hc_owner_stage_test` database/login groups, requires PG18 and **zero Owner/activations**. Creates fresh DB and reviewed schema inside transaction with permission assertions. Does not create any Owner or activation, issue recovery/passkey codes, copy production data or passwords. If root CREATE DATABASE succeeds but following steps fail it refuses automatic retries or destructive cleanup; review partial DB separately.
+- `scripts/prepare-hc-secure-locked-roles.mjs` commit `9ea86292181ac7cd345b9c8c50936eb1349168cf`: separately approved `HC_SECURE_LOCKED_ROLES_ONLY` one-shot on the same new project, verifies no existing Owner/activation/login roles, then creates `hc_owner_stage_runtime` / `hc_owner_stage_operator` **PASSWORD NULL** and disjoint NOLOGIN permission group memberships. Fails closed on unexpected permissions; no secret generation, credential activation or deployment.
+- `tests/hc-secure-staging-bootstrap.test.mjs` (6 mock-only cases) and `tests/hc-secure-locked-roles.test.mjs` (5 mock-only cases) committed; complete tested branch docs `docs/HC_SECURE_AUTH_INTEGRATION_ACCEPTANCE.md` updated commit `a65da97a4db8a53407f51838bfb9b321a5ff6780`. **11 NEW TESTS NOT YET RUN**. Previous 21 tests + real PG18 double schema rollback **PASS** per operator output.
+
+**Next Codespace test, no live database:**
+```bash
+cd /workspaces/Lightspeed
+git switch feature/hc-secure-staging-readiness-20261123
+git pull --ff-only
+node --test tests/hc-secure-staging-bootstrap.test.mjs tests/hc-secure-locked-roles.test.mjs
+```
+Test success requires 11/11 tests; do not claim pass until output. User can report summary without secrets.
+
+**Independent Railway readback after source commits:** `HC Secure/staging` pending patch `60012c69-e526-4778-9422-055d705150f2` remains **23 staged/unapplied changes**, `hc-secure-auth-staging`, `hc-secure-postgres-staging` and 5GB volume all **staged-create** only. New offline provisioner service has **NOT** been created or deployed. Existing original `HC PR63 Isolated Staging` `hc-owner-staging` and `Postgres-x8Ui` are still ONLINE/SUCCESS. No credentials copied, activation reissued, DNS or domain modified, or production tooling changed.
+
+**After 11 tests PASS:** distinct next task is restricted role password commissioning and real isolated PG18 provisioning readiness review, with user authorization before any live Railway stage deployment, bootstrap SQL or secret changes. Do not accept current staged patch; PG18 service is still missing bootstrap DB config and new-host passkey remains unregistered at new RP ID.
+
+---
+
 ## Nov 24 disposable PostgreSQL 18 integration test PASS — 21/21 and double run
 
 **User-supplied Codespace test results:** `node --test` combined security suite: `tests 21, pass 21, fail 0, cancelled 0, skipped 0, todo 0`, duration `1713.433902ms`. Disposable integration runner: first and second real `postgres:18` run each emitted `HC_SECURE_DISPOSABLE_SCHEMA_OK fixtures=7 tables=9 nonlogin_groups=2 rollback=true`, followed by `HC_SECURE_DISPOSABLE_PG18_DOUBLE_PASS=true (no persistent DB or credentials)`. **Classification: Testing PASS, with full user-provided terminal summary; not independently observed executing in the connected Codespace.** Confirms schema creation/privilege assertions and rollback repeatability on disposable PG18. This is not evidence that HC Secure Railway database is provisioned, nor that new-host Owner WebAuthn or production employee security works.
