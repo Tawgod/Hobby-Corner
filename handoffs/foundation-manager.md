@@ -1,3 +1,37 @@
+# Foundation Manager — V3 accepted checkpoint
+
+**Last verified:** 2026-11-24
+**Status:** V3 approved for isolated development after owner authorization; production release and Security acceptance pending.
+
+## Source
+- Canonical baseline: [FOUNDATION_DEVELOPMENT_BASELINE.md](../FOUNDATION_DEVELOPMENT_BASELINE.md).
+- Approved V3: Tawgod/Lightspeed:test/hc-foundation-combined-v3-20261124 @ 098c9e51ea4c3449605ad6951baa8284e126e8d4.
+- Parent V2: 2365de8af4e8d69b162f6909d1f78be246e74fdf; V1 PR #78 retained.
+- Exact included heads: #84 f2666ca31b053f4fd5c8864ccbacd7db95d7d60c; #85 a50822f2d0a8b6ec7184d54487ef9b0c9a01e9a7; #86 777bdd3c0e5c380328275a1931efcd4b5fce51a2; #87 e108da9691ada86ada73b90cfb36552df8368fab; #88 2f2750ee703556c1ea2eab60f3d6edd14bbe82ea.
+- 16 nonoverlapping exact blob deltas and two manager files; compare 1 ahead/0 behind V2, 18 changed paths, only customers.js modified among inherited paths. No production code or Security configuration changed by manager.
+
+## Testing
+- [CI 45436836762](https://github.com/Tawgod/Lightspeed/actions/runs/45436836762), job 138596828874, exact V3 head SUCCESS. Logs independently verified 223/223 passed, zero failed/skipped/cancelled; real disposable PostgreSQL concurrency, verified replay, unknown write and immutable audit test passed. Syntax and unmounted gateway checks passed.
+- 24 test files, expected breakdown V2 187 + Core 8 + Catalog 8 + Inventory 6 + Customer 7 + Purchasing 7. No integration repairs needed for this suite. Exact combined checkout resolves prior local reconstruction evidence gap, not live tenant parity.
+- No claim of actual cross-tool Security enforcement, vendor acceptance, browser acceptance or new durable domain transaction readiness.
+
+## Next assignments
+- Core M4: shared local transaction/audit/idempotency/outbox interface and disposable PG concurrency/replay/rollback fixtures; canonical operation denial fixtures across tools; coordinate Inventory and Security.
+- Catalog M6 preparation: offline consumer parity and product create/update permission checks; ordinary active employee wholesale cost viewing; no actual writer.
+- Inventory M6: count/restock/reason transaction and discrepancy queue fixtures against coordinated Core contract; if unavailable use injected test-only seam and stop before competing persistence.
+- Customer M6: sales/deposit/work-order/fulfillment evidence; preserve reusable search and consent boundaries; no real writes.
+- Purchasing P-06: offline supplier document/invoice/OPEN PO review workflow, duplicate/approval/canonical grant checks; no receipt inference or live provider/writer.
+- All five create independent branches from exact V3, target V3 branch in draft PRs, reconcile newer deltas without duplicating included code, maintain canonical handoffs and minimize Actions usage.
+- Security remains separate until owner completes employee/owner environment consolidation. Retains all commissioning approvals and exclusive identity, roles, grants and permission decisions.
+
+## Mandatory owner policy
+Cross-tool capability denial applies to all tools, direct APIs, imports, indirect workflows and automation. Server-side checks, execution-time authorization, separate operation scopes, no alternative bypass; UI restrictions complementary. Every active employee can view wholesale costs without elevated role, modifying cost separately restricted. See canonical baseline release requirements. Synthetic fixtures are not real authorization acceptance.
+
+## Deployment and blockers
+None by manager. No PR merges, deployment, live data, route mounting, actual grants, migrations or production writes. No fresh Railway runtime inspection this checkpoint. Security contract, vendor read-only acceptance, feature parity, durable domain persistence and dependency reproducibility remain outstanding. Management PR #4 overlap still unresolved; original PRs preserved.
+
+## Historical checkpoints
+
 ## Owner clarification — 2026-11-24
 - All employees may view wholesale costs. Catalog cost visibility must not require an elevated role; separate cost modification permissions remain appropriate. Retain field-level authorization capability for other information and future configurable policies; do not infer public/anonymous access. PR #86 separate cost-check fixture is a candidate, not approved business policy; align employee baseline grants and tests with Security before activation.
 - Owner supports centrally assignable Security roles spanning all tools. Security owns role definitions, grants, assignment, revocation and identity verification; domain tools consume approved operation decisions. Role names/groupings remain proposals, not approved grant matrices.
