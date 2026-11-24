@@ -1,3 +1,11 @@
+## V6 preservation checkpoint — 2026-11-24
+
+**Status:** M8 tested head preserved; ready for V6 integration when Manager releases assembly. V5 remains approved. Owner instruction and latest Manager reconciliation reviewed (manager handoff blob 3dfd2875c46128b821f64f7f170825c11bc9dddf); Security S2.5C review FOUNDATION_SECURITY_CORE_M6_REVIEW.md blob a4b4b01c674e81d1ffb0b275228726f347adf362 reviewed.
+
+- Fresh GitHub readback: draft #101 open, unmerged, mergeable, head 0c4a28d72b5ee3ebb1d664395dc359fad09f9511 on feature/hc-catalog-v5-m8-20261124; base exact V5 87f6a94918653a3417ce01205098193eb1ccb35d. Compare 3 ahead/0 behind, three additive files, 146 additions/0 deletions. Exact-head CI 45466317435 completed SUCCESS; 75/75 including eight new tests previously log-verified and independently rechecked by Manager. No rerun or application changes. PR description's CI-pending wording is historical; canonical handoff and CI evidence supersede it.
+- Manager directs Catalog/Customer to hold tested heads for V6. Core M6 conditionally accepted for isolated local transaction fixtures; Catalog remote seam remains separate, no local transaction wrapping remote effects or blind retry. Preserve M8 and cumulative inventory below; no new permissions, aliases, role assignments or shared interface edits. Security review requires actor/effect/resource binding, fresh authorization, independent read/disclosure/reconciliation authority, approval provenance and no claim of distributed revocation atomicity. Existing synthetic Catalog limitations remain: no durable/cross-key duplicate protection, actual Security enforcement or vendor causal proof. No new runtime writer authorized.
+- Next action: Manager integrates exact preserved head after Core, Inventory and Purchasing finish and publishes next approved baseline. No V6 assembly, merge, deployment, production access, migration, new CI or fresh Railway runtime inspection by Catalog. No owner input required. Ready for Foundation Manager reconciliation.
+
 # Product & Catalog Foundation — Current Handoff
 
 **Last verified:** 2026-11-24
