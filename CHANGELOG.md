@@ -1,3 +1,11 @@
+## 2026-11-24 — HC Secure disposable PG18 milestone verified
+
+- Codespace operator supplied successful test output: **21 tests, 21 pass, zero fail**.
+- Ephemeral PostgreSQL 18 test **passed twice** with seven reviewed SQL fixtures, nine tables, two restricted NOLOGIN groups and rollback, concluding `HC_SECURE_DISPOSABLE_PG18_DOUBLE_PASS=true`.
+- No persistent database or credentials created by test; original Owner credentials untouched. Real HC Secure staging PostgreSQL, new WebAuthn RP-ID enrollment and production employee MFA remain pending. See [HC Secure handoff](handoffs/hc-secure.md).
+
+---
+
 ## 2026-11-24 — HC Secure disposable PG18 integration test authored
 
 - Located and reused seven existing Owner staging schema fixtures, including restricted activation grant groups; did not modify or run the old Owner-only provisioner.
