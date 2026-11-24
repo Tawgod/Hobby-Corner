@@ -1,3 +1,11 @@
+## 2026-11-24 — Offline provisioner disarmed; SCRAM hardening authored
+
+User approved disarm and confirmed two new passwords prepared privately; no values shared. Applied exact approved three-change patch 6a6326d1-8c01-48e6-be5d-65b6da5aa69b. Deployment ca231cb7-6470-4c82-8d9f-ee9ae43b3c6c SUCCESS, runtime HC_SECURE_OFFLINE_PROVISIONER_DISABLED. No SQL mutation by inert command. Root reference temporarily retained; no new password variables staged.
+
+Development branch feature/hc-secure-staging-readiness-20261123: commission script commit 52dc1e2f27436d290324fcb6e976b70c8e5c99c5 uses random-salted PBKDF2-SHA256 SCRAM verifier construction client-side, never plaintext in ALTER ROLE SQL, transaction-local SQL log suppression before writes. Verifiers still sensitive, no universal guarantee against external logging. Regression tests commit 0165b16fff30d4b9a17bf77fd5f4ccdc8605843c adds three tests (10 total). Not run yet; require node --test tests/hc-secure-credential-commissioning.test.mjs and fresh disposable PG18 real login/relock test before actual secrets entered. Existing disposable test script uses synthetic passwords and checks final roles locked. No deployment of hardening, no actual password writes. Next obtain test results; then safely stage commissioning configuration and user-entered Railway secrets, review and separate explicit deployment approval. Production/original Owner untouched.
+
+---
+
 ## 2026-11-24 — Restricted roles SUCCESS; credential preparation and disarm staged
 
 Railway deployment 8d74c988-bda8-4981-94fa-ec60a092d9e0 SUCCESS, verified runtime HC_SECURE_LOCKED_ROLES_OK count=2 passwords_set=false, zero returned build errors. Two restricted LOGIN roles with NULL passwords and separate memberships verified before COMMIT; success marker after COMMIT. No credentials or activations created. Offline service private, restart NEVER, source pin 5877c6e5039bc70325c188489bd1e52574403b66. No independent postcommit catalog read yet.
