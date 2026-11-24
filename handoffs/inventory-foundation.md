@@ -1,8 +1,15 @@
 # Shared Inventory Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** M8 assigned — V5 approved; Core M6 seam coordination gate; no new deployment
+**Status:** M8 implemented in draft PR #106; exact Core M6 pin verified; targeted CI pending
 **Owner:** Shared Inventory Foundation workstream; coordinate with Foundation Manager, Core API, Product & Catalog, Purchasing & Suppliers and Foundational Security.
+
+## M8 implementation / exact Core M6 dependency — 2026-11-24
+
+- Corrected Core #100 exact head 964b84d084c0224b251b3ecef0bb1af30f9cdf22 independently verified against CI 45471585160 job 138720647856 logs: checkout exact SHA, 35/35 PASS, zero failed/skipped/cancelled. Initial failed head 055a1510acab12e6f35d8e2aee01e0ec23a82635 NOT adopted. Manager handoff still records failure at initial read; Core repair checkpoint records corrected candidate, exact CI subsequently verified directly. Approved V5 parent unchanged.
+- Inventory draft PR #106, feature/inventory-foundation-m8-v5-20261124 @ d714bab43f66592efec70aff07bf09e38435e006, exact V5 base 87f6a94918653a3417ce01205098193eb1ccb35d, open/draft/unmerged/mergeable verified. Two additive Inventory-owned paths: tests/inventory-m8-postgres.test.mjs and .github/workflows/hc-inventory-m8.yml. CI composes exact passing Core executor and adapter via pinned second checkout and git show into ephemeral workspace, no shared code duplication in Git and no merge; manager includes Core exact blobs once in V6. Prior M7 and production modules unchanged.
+- Eight new disposable PG cases cover restock concurrent replay/tenant-wide batch uniqueness, count and reason identities, post-lock/precommit denial rollback, actor/tenant/resource/effect mismatch, fresh read and execution grants, simulated lost commit acknowledgement with independent reconciliation/no blind retry, atomic review/outbox rollback and immutable Core audit. Domain fixture uses existing planners and typed locks/revisions; append-only evidence by insertion, no stock effect. Reason receipt uses Core-allowed id for code (not code field), revision and outcome; taskRevision is confirmed fixture revision, distinct from business taskVersion. Single synthetic outlet, product, reason, two tasks and one session; not general multi-line production orchestration or actual authorization. Receipt projection synthetic identity, no raw records. Existing 33-row Security inventory unchanged; provisional operation labels only; receipt read and reconciliation are independently scoped fixture effects, no actual grants or renamed permissions. No distributed revocation or actual network failure claim.
+- Targeted CI configured for 4 inherited M7 + 8 M8 tests, eight-minute cap; workflow run not yet visible at first query. No new test pass claimed until actual logs. No merge, deployment, production data, live routes, shared migration or outbox delivery. Next verify exact #106 CI and update handoff; manager reconciliation only after passing evidence.
 
 ## M8 consumer acceptance — 2026-11-24 reconciliation
 
