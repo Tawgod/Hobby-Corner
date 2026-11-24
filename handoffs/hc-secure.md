@@ -46,6 +46,12 @@
 - Updated [registry review](../FOUNDATION_SECURITY_REGISTRY_REVIEW.md), commit 38962429b4d0ca5a2590c8e06b3d9db9d60ab568, blob 86435e7cdc02d8dd6ec3ae12a6031ecf8bc4013b, exact readback verified. Latest owner decisions supersede conflicting historical D7/D8 proposals; D1-D6 unchanged.
 - Next discuss ordinary employee authentication on shared store workstations versus personal devices; normalized registry design can proceed with unresolved D7a and administrative assurance parameters explicitly pending. No implementation, tests, actual grants, roles, credentials or deployment changed. S2.1 PR #98 and readiness/commissioning milestones preserved.
 
+## Owner clarification — on-site PIN and off-site authentication (2026-11-24)
+
+- D7a ordinary login policy clarified: on-site employee login uses canonical Timeclock PIN; additional login security for off-site access only. Easy personal phone authorization on store Wi-Fi requested. Design only. Supersedes earlier shift-start MFA proposals. D7b 30-minute freshness and D7c recent administrative authentication retained; clarify on-site sensitive operation/admin exceptions before final assurance contract. Existing Owner commissioning unchanged.
+- Proposed device flow: registered store workstation or individually approved phone, trusted server-side network/site evidence, revocable employee-bound device credential, short-lived one-use administrator-approved enrollment challenge/QR. Revalidate site qualification on protected requests; unknown or lost site qualification cannot use PIN-only access. SSID/client location or untrusted forwarding headers not proof. Off-site permission separate; no automatic role/grant expansion. Review existing device code, site attestation, proxy and dynamic IP handling before implementation.
+- Updated [registry review](../FOUNDATION_SECURITY_REGISTRY_REVIEW.md), commit 7fbf2ef7de4eaacb180c03ac9db687152d7093bb; exact readback verified. No runtime code, tests, grants, credentials, Railway changes or deployment. S2.1 and original Owner intact.
+
 ## Source
 
 - Repository: Tawgod/Lightspeed
