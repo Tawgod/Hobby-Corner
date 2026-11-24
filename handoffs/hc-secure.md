@@ -1,3 +1,28 @@
+## Nov 24 six commissioning tests PASS; disposable real PostgreSQL credential checkpoint ready
+
+**Operator test result:** User reported `Pass 6` after running the six `tests/hc-secure-credential-commissioning.test.mjs` mocked tests. Mark **Testing PASS (6/6, operator report; no raw log)**. Previous four credential preflight tests, 11 schema/role preflight tests and 21 general/disposable-schema tests passed.
+
+**New source-only development** on `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77):
+- Added `scripts/test-hc-secure-credentials-disposable.mjs` commit `a1a626befbce21ef60f5cf30859318e549f28898`: **real disposable PostgreSQL 18** integration program with synthetic scope and guarded injected localhost adapter. Builds original 7 reviewed SQL fixtures and two PASSWORD NULL roles only in a local container; injects failure after first successful password COMMIT to verify forced re-lock; tests real SCRAM runtime and operator logins, least privileges, real PostgreSQL wrong-password error (28P01), zero Owner activations, and final re-lock.
+- Added `scripts/run-hc-secure-disposable-credentials-pg18.sh` commit `66801b68b82d114b4c291dc2204196136200a0bf`: disposable `postgres:18`, tmpfs, localhost `127.0.0.1:15489`, random local root password, cleanup on exit. **No Railway DB or live credentials involved.**
+- Updated `scripts/commission-hc-secure-db-credentials.mjs` commit `f23a531a33a393f7bf44de10be76b107e05c43ea`: a network/driver failure during password `COMMIT` can have an *ambiguous committed status*; now explicitly flags manual DB security review, never claims `ROLLBACK` relocked roles. Added a seventh mock test for this in `tests/hc-secure-credential-commissioning.test.mjs` commit `4484ef6b89ed0b871d466840d6543bc192cd84fb`.
+- Updated acceptance document in Lightspeed at commit `efa9b6fa09762aecef7b1859e139e80bfc4cfd4e`.
+- **New 7th mocked test and real disposable credential integration NOT YET RUN.**
+
+**Next Codespace checkpoint (no real Railway connections):**
+```bash
+cd /workspaces/Lightspeed
+git switch feature/hc-secure-staging-readiness-20261123
+git pull --ff-only
+node --test tests/hc-secure-credential-commissioning.test.mjs
+bash scripts/run-hc-secure-disposable-credentials-pg18.sh
+```
+Expected **7/7** mocked tests and `HC_SECURE_DISPOSABLE_CREDENTIALS_OK postcommit_relock=true scram_logins=true bad_password_denied=true final_roles_locked=true owner_activations=0`. Docker runner automatically destroys test container. If it fails, do not substitute old Owner database; inspect carefully and correct source-only first.
+
+**Fresh Railway readback:** New HC Secure environment still has **23 STAGED-only** changes; `hc-secure-auth-staging`, `hc-secure-postgres-staging`, 5GB volume all staged-create/not deployed. Original Owner `hc-owner-staging` and `Postgres-x8Ui` online. No real credential commissioning or DB initialization and **no WebAuthn migration**. After real disposable PG integration PASS, next milestone requires independent staging security review of the root bootstrap, secret custody, approved new database setup, and new-host Owner authentication transition.
+
+---
+
 ## Nov 24 credential preflight 4/4 PASS; one-shot commissioning and six tests ready
 
 **Latest operator result:** All four `tests/hc-secure-credential-commissioning-preflight.test.mjs` tests passed in Lightspeed Codespaces, per user's confirmation. Classify as **Testing PASS, operator-reported**; no test stdout captured by connector.
