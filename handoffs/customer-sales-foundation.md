@@ -1,5 +1,53 @@
 # Shared Customer & Sales Foundation — Current Handoff
 
+## Current milestone — 2026-11-24: M2 strict association evidence and Special Orders source mapping
+
+**Status:** Association hardening implemented and offline tests PASS; Special Orders source mapping completed for identified paths, full consumer parity still pending. No deployment or consumer switch.
+
+### Source
+- Approved baseline: Tawgod/Lightspeed:feature/hc-foundation-reconcile-20261124@71a1cd6e312ed52efc1e9af9da85db6b02e3756c (PR #78).
+- Independent branch: feature/hc-customer-sales-m1-20261124, head fa8fe5fd1f40c09e218e2d31e5519c5a5a124192.
+- [Draft PR #81](https://github.com/Tawgod/Lightspeed/pull/81) readback confirms exact head/base, open, draft, mergeable, unmerged; three additive files relative to baseline. No shared branch changes.
+
+### Implemented
+- Internal customerSalesEvidence.js now rejects non-string/empty/conflicting explicit direct and nested customer/sale references rather than masking malformed fields with a valid fallback.
+- Fulfillment projection validates raw fulfillment ID before accepting normalized ID; rejects coercion and conflicting raw sale references.
+- Sale state searches require every provided state/status field to exactly match query; missing or conflicting fields reject. Conservative rule pending vendor semantics confirmation.
+- Store credit validates direct/nested customer references and distinguishes source-confirmed vs request-scoped association.
+- Existing readers, route contracts and Core/Security files unchanged.
+
+### Tested
+- Local Node.js v22.16.0, node --test tests/customer-sales-evidence.test.mjs: **13/13 passed**, zero failed/skipped, 79.49 ms TAP duration. Previous nine cases plus four regression groups. All seven JS files' git hash-object values match GitHub source hashes (five inherited readers unchanged). Updated projection blob 22ad0a080647c5ce82a9743b8bc9b884da4a090f, test blob bcc2e5a0d318c20fe09ef78c6b40c99607058a17.
+- Synthetic tests only; GitHub push Actions outcome not checked/verified; full baseline or feature suite not rerun.
+
+### Special Orders source map (pinned source at pre-M2 head ba3a5f2f109aa4e8d3c271922a9755bb05b5b637)
+- special-orders.js blob dd432d6737b918e458bd2aefc020f6d0e912cf1a; GET /customers/search lines 4000–4045 uses 2026-04/search, email/phone/name heuristic, first page 20, raw customer rows and local PostgreSQL enrichment (local ID, Discord, Messenger, WhatsApp, local phone and notes). Shared customer search uses same initial endpoint but paginates; projection omits PII. Not a drop-in replacement for UI. Preserve local enrichment and response fields under authorized route.
+- GET /customers/:lightspeedId/profile lines 4105–4111 is local PostgreSQL lookup, not vendor customer reader. POST create and PATCH profile remain separate mutations.
+- lightspeedVersionedFetch default 2026-04 (line 119); getLightspeedCustomer lines 2866–2881 uses versioned customer get and cache, summary at 2857–2864 accepts first_name/firstname, last_name/lastname, name/display_name, email/email_address/contact.email and phone/phone_number/mobile/contact.phone aliases. Existing shared get uses 2.0. Endpoint and shape parity unresolved.
+- GET /ordering/lightspeed-context lines 3003 onward uses fulfillment_state=OPEN,STARTED,PICKED,PACKED collection query, then at most 100 sale lookups via versioned fetch, customer cache/fallback, product and local PO demand. Current shared forSale reader is per-sale and not interchangeable with collection search. Keep workflow-owned allocation rules.
+- GET /customers/:id/pickup-history lines 769–794 reads customer_pickup_events and preorder joins with 100 most recent events plus all-row summary. Do not infer these from vendor fulfillment status.
+- server.js blob 4b567044e649c1a1600c87604dfe71b93106ed3d, GET /api/po/:poId/data lines 436–580: legacy Avery label route queries multiple status/fulfillment filters at /api/2.0/sales, customer details and per-sale fulfillments; combines gross and picked/packed/fulfilled quantities. Not equivalent to shared sales search/PII projection; keep unchanged.
+- No actual consumer parity test or route modification yet. Source mapping narrows next candidate to customer search transport substitution with fixture-preserved local enrichment; do not substitute projection for existing UI envelope.
+
+### Remaining blockers / decisions
+- Need feature-owned customer search parity fixtures (first-page vs paginated results, field aliases, local enrichment, errors, authorization, PII access). Any change in response size/order requires explicit consumer review.
+- Sale state/status may differ semantically in real vendor responses; strict rejection is intentional until verified. Source shapes, exact versions, inactive customer coverage, international phone equivalence and contact ownership remain unverified.
+- Credit request-scoped association is not proof of ownership. Deposits/work orders, fulfillment quantities, return/void events and credit history are not implemented; no write methods.
+- Core API owns transport/coverage/error envelope and Security owns grants. Manager approval, vendor acceptance and feature regressions required before any mounting/consumer migration.
+- Rewards, Split/Recall, Consignment and remaining Preorders parity still pending.
+
+### Deployment / safety
+None. No vendor traffic, customer records, database writes/migrations, grants, route mounts, merge or deployment. Existing Special Orders/Rewards behavior unchanged.
+
+### Next recommended action
+Build an isolated Special Orders customer-search compatibility fixture preserving legacy first-page behavior and authorized local enrichment, and separately test opt-in paginated candidate behavior; coordinate with feature owner and Core/Security before any real route switch. Do not create a parallel client or modify shared interfaces without approval.
+
+---
+
+## Previous milestone (historical)
+
+# Shared Customer & Sales Foundation — Current Handoff
+
 ## Current milestone — 2026-11-24: M1 internal read evidence projections
 
 **Status:** Implemented; targeted offline automated tests PASS; draft manager review; NOT deployed or consumer-integrated.
