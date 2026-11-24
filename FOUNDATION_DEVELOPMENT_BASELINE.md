@@ -1,41 +1,46 @@
-# Shared business foundation — approved development baseline
+# Shared business foundation — approved development baseline V2
 
-**Last verified:** 2026-11-24  
-**Owner:** Foundation Manager  
-**Status:** ACCEPTED for isolated development and offline tests only. NOT approved for merge, deployment, production API traffic or database migration.
+**Last verified:** 2026-11-24
+**Owner:** Foundation Manager
+**Status:** Accepted for isolated development and offline tests only. NOT approved for merge, deployment, live vendor traffic or database migration.
 
 ## Canonical source pin
 - Repository: Tawgod/Lightspeed
-- Development branch: feature/hc-foundation-reconcile-20261124
-- Exact approved commit: 71a1cd6e312ed52efc1e9af9da85db6b02e3756c
-- Draft [PR #78](https://github.com/Tawgod/Lightspeed/pull/78)
-- Production-connected integration baseline remains integration/hobby-corner-consolidation @ 014a7a949fe570b756b48d8f59995c1b0a434859.
-- Verified GitHub compare: three commits ahead, zero behind, 26 added files, no modified/deleted baseline files, mergeable draft.
-- [CI run 45414393938](https://github.com/Tawgod/Lightspeed/actions/runs/45414393938): SUCCESS, exact approved commit, shared foundation 40/40 and Core Operations regression 11/11, no skipped or failed tests. Real disposable PostgreSQL concurrency/audit/idempotency test passed. Syntax and unmounted gateway checks passed. No live vendor calls, browser acceptance or production runtime changes.
-- One branch-scoped workflow added for validation; no production deployment. npm dependencies installed from existing manifest without lockfile, so future acceptance must re-run tests and consider reproducible dependency locking.
+- V2 branch: test/hc-foundation-combined-20261124
+- Exact approved V2 commit: 2365de8af4e8d69b162f6909d1f78be246e74fdf
+- [Combined validation run 45423638373](https://github.com/Tawgod/Lightspeed/actions/runs/45423638373): SUCCESS at exact V2 commit, 187/187 passed, zero failures, skipped or cancelled; real disposable PostgreSQL concurrency, replay and immutable audit passed. 19 test files, syntax and unmounted gateway checks passed.
+- V1 remains PR #78 @ 71a1cd6e312ed52efc1e9af9da85db6b02e3756c, CI 45414393938 (51/51), unchanged.
+- Production-connected integration baseline remains integration/hobby-corner-consolidation @ 014a7a949fe570b756b48d8f59995c1b0a434859 (last verified previous review).
+- V2 contains 38 nonoverlapping exact workstream file deltas plus combined workflow and source manifest. No existing PR merged. See docs/FOUNDATION_COMBINED_TEST_SNAPSHOT.md on V2.
 
-## Rules for all five development workstreams
-1. Read this file, SHARED_TOOL_DEPENDENCIES.md and your own handoff first. Use the approved SHA above as the common starting point for new independent branches. Existing work must be compared and selectively carried forward; never reset/delete an existing branch or overwrite another workstream's changes.
-2. Do not separately merge, reimplement or cherry-pick the original PR #32/#33/#51 service candidates. Preserve original PRs pending eventual disposition.
-3. Only the Foundation Manager coordinates changes to the common branch. New domain branches use the pinned commit as parent, with PRs targeting the reconciliation branch for manager review, not the production integration branch. No PR merge without explicit authorization.
-4. Use existing injected readers/transport for offline fixtures. No routes mounted; no vendor writes, production data reads or database migration as part of this baseline approval.
-5. Work in your assigned files, and coordinate any shared contract changes before implementation. Every meaningful milestone updates its own canonical handoff with exact commit, test results, deployment state, blockers and next recommended action.
-6. Foundational Security exclusively owns identity, authentication, grants and permission decisions. The legacy staffAdapter and unmounted router are retained for compatibility testing only; no implicit permissions, no independent auth system.
-
-## M1 assignments and protected surfaces
-| Owner | Next scope | Files / handoff |
+## Included workstream heads (historical pins, not moving refs)
+| PR | Owner | Exact included commit |
 |---|---|---|
-| Core API | Finalize versioned read/error envelope, explicit authorization integration seam, pagination/transport contract; evaluate strictly scoped POST-for-read separately | client.js, readCollection.js, audit/idempotency/postgres/mutations and integration lock files; handoffs/core-api-foundation.md |
-| Product & Catalog | Exact match/collision/inactive coverage and catalog read parity; preserve existing matcher and identifier strings | productIdentity.js, products.js, catalog.js; handoffs/product-catalog-foundation.md |
-| Inventory | Outlet stock snapshot contract and event coverage feasibility, timestamp and variance fixtures; do not assume available historical events | inventory.js and additive inventory modules; handoffs/inventory-foundation.md |
-| Customer & Sales | Customer, sales, fulfillment and credit read parity and explicit coverage/PII projections | customers.js, sales.js, fulfillments.js, storeCredit.js; handoffs/customer-sales-foundation.md |
-| Purchasing & Suppliers | PO reader/line identity and supplier references, review PO Companion PR #37; invoice contracts never imply receiving | purchaseOrders.js and additive supplier/invoice modules; handoffs/purchasing-supplier-foundation.md |
+| #79 | Product & Catalog | ba2d2f4d8f8e355f1c4465a57067f7fc1edf6859 |
+| #80 | Inventory | 1d6187e01241c3e47c8fc3167d085dca9386a41f |
+| #81 | Customer & Sales | 1c979a7d6a02d8e974b7f8af1a3591a3c2835028 |
+| #82 | Purchasing & Suppliers | a2096345709ac1a4a1113362d6bf8123a71227ad |
+| #83 | Core API | 6722414245be56e138566beebcfcb0f19e2eef8e |
 
-All JS files above refer to services/lightspeed/ unless otherwise specified. Core API and manager coordinate server.js, routes/sharedLightspeedRead.js, permissions seam, common schema and shared tests. No gateway mounting in M1. Supplier product mappings require Catalog/Purchasing review; receiving stock effects require Inventory/Purchasing review. Security-owned files off limits without coordination.
+## Rules for next workstream milestones
+1. Read this file, SHARED_TOOL_DEPENDENCIES.md, your current handoff and V2 source manifest. Create a fresh independent next-milestone branch from exact V2 SHA; compare any newer existing work against the included head and selectively carry forward only changes not already present. Preserve old branches/PRs; do not force-push, rebase or duplicate already included work.
+2. New draft PRs target test/hc-foundation-combined-20261124 for manager review; not production or old V1. Manager alone coordinates baseline changes. No merges without explicit authorization.
+3. Keep existing exported interfaces compatible; coordinate any breaking change first. Core owns transport, readCollection, coreReadContract, audit/idempotency and shared integration surfaces. Domain owners retain their files. Security exclusively owns identity, authentication, exact operation grants and permission decisions.
+4. Adopt core.v1 read envelope as internal integration candidate, not public release or Security acceptance. Use explicit injected authorization seam, safe projections and correlation where supported; no implicit grants or raw customer/cost data exposure. Mutation outcome contracts separate.
+5. Offline fixtures and tests only. No live vendor traffic, actual feature switches, route mounting, migrations, production data, grants, deploys or production writes. Synthetic mutation harnesses remain non-executable in production. Minimize CI by testing changed suites locally where practical and batching remote validation. Update canonical handoff with exact branch/head, tests, dependencies, deployment and next action.
+6. Original PRs #32/#33/#51/#78–#83 remain intact, pending manager disposition. Management PR #4 requires reconciliation with canonical handoff before eventual authorized merge.
 
-## Milestone exit and restrictions
-- Reconciliation/isolated baseline acceptance: PASS. Core public contract freeze, domain parity, Security grant acceptance and live tenant evidence remain pending.
-- No claim of production readiness, full feature completion, vendor API completeness, or permission acceptance.
-- No production source branch changes, deployment, live writes, or DB migrations. PR #78 remains draft.
-- Management PR #4 remains unmerged and needs reconciliation with the canonical manager handoff before any eventual authorized merge.
+## Next assignments
+| Owner | Authorized next scope (offline only) | Stop gate |
+|---|---|---|
+| Core API | M3: coordinate Security-owned exact-grant adapter, safe read envelope/correlation integration fixtures across domains; document precise POST-for-read proposal only; evaluate reproducible dependencies | Security acceptance before actual admission; manager review before changing shared public interfaces or enabling POST |
+| Product & Catalog | M5 follow-through: Product Manager shadow parity fixtures, field-level cost/PII projection and supplier mapping compatibility with Purchasing; no live switch | M6 actual create/update execution requires separate authorization |
+| Inventory | M5: persistent count/restock session and configurable reason registry design, transaction/outbox/idempotency and review queue fixtures; independent shelf IDs, Store Map optional future feature; zero moved requires reason and shortage/surplus review flags | No migrations or stock effects; trusted task and event evidence required |
+| Customer & Sales | M5: reusable customer identity/linkage/consent read model and offline Special Orders adapter parity; preserve first-page and paginated search for future features, resolve malformed-response behavior with Core | No automatic linking, creation, actual route change or credit posting |
+| Purchasing & Suppliers | P-05: provider-neutral invoice/mail document evidence adapter contracts and fixtures; exact supplier links with Catalog, no physical receipt inference, preserve P-04 synthetic harness | No live mailbox or vendor reads/writes; actual durable or vendor mutation execution requires separate approval |
+
+## Remaining gates
+- Combined regression passes, but full cross-domain workflow scenarios, real vendor shapes/coverage, browser acceptance, exact Security grants and deployment readiness remain unverified.
+- Core/Security must coordinate approved identity and grant contract before mounted gateway or controlled test tenant acceptance. Test environment preparation requires verifying isolation from existing production and unrelated staged Railway changes; no deploy authorized by this baseline.
+- Existing dependency manifest has no lockfile; test installation not fully reproducible.
 - Manager handoff: handoffs/foundation-manager.md.
