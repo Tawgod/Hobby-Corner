@@ -1,6 +1,31 @@
 # Core Shared API Foundation — Current Handoff
 
 **Last verified:** 2026-11-24
+**Status:** V2 reconciled; M3 offline integration fixtures and coordination proposal committed; CI verification pending; actual admission blocked on Security.
+
+## Source
+- Approved V2 Tawgod/Lightspeed:test/hc-foundation-combined-20261124 @ 2365de8af4e8d69b162f6909d1f78be246e74fdf.
+- Previous PR #83 head 6722414245be56e138566beebcfcb0f19e2eef8e unchanged; all five file blobs identical in V2; no newer delta to carry. Previous branches and PR preserved.
+- Fresh branch feature/core-api-m3-v2-20261124; draft [PR #85](https://github.com/Tawgod/Lightspeed/pull/85) targets V2, head a50822f2d0a8b6ec7184d54487ef9b0c9a01e9a7. Compare verified 3 ahead, 0 behind, exactly three additive files; PR reports mergeable.
+- Added tests/core-api-m3-integration.test.mjs (8 test cases), docs/CORE_API_M3_SECURITY_COORDINATION.md, .github/workflows/hc-core-api-m3.yml. No runtime/domain/security/database edits.
+
+## Implementation and testing
+- V2 CI 45423638373 verified by manager 187/187 including real disposable PostgreSQL; PR #83 included and accepted internally.
+- M3 fixtures compose existing executor, transport and domain readers for customer search/sales, product exact lookup, inventory observation and purchase order details; test-only per-call trace closure; synthetic deny and malformed-response tests; concurrent correlation isolation. Catalog allowlist is test-only; no new production projection policy.
+- Targeted Node 22 workflow runs existing 11 Core tests plus 8 M3 tests (19 expected) without npm install; capped at 3 minutes. Latest exact-head run lookup returned none at initial checkpoint; do not claim execution passed.
+- No live vendor traffic, deployment, route mounting, migration, production records or changes, actual permission grants or feature activation.
+
+## Coordination gates
+- Review [M3 Security coordination proposal](https://github.com/Tawgod/Lightspeed/blob/feature/core-api-m3-v2-20261124/docs/CORE_API_M3_SECURITY_COORDINATION.md). Security exclusively owns active actor, exact grants, resource/field scope, expiry and revocation; boolean seam insufficient for conveying restrictions, no actual adapter yet. Synthetic fixtures are not Security decisions.
+- Domain owners must agree safe field projections and correlation propagation; no public contract edits. Inventory plain error with code vs typed incomplete error requires coordinated taxonomy decision.
+- POST-for-read remains proposal only, candidate path/schema unverified. Obtain exact official API evidence from Inventory before considering implementation; default POST denial unchanged.
+- Dependency reproducibility: V2 has no lockfile; propose pinned Node/npm and reviewed generated lockfile, npm ci and manager-controlled deployment compatibility review. No manifest or lock changes made.
+- Next: verify exact-head CI and resolve any test failures; manager/Security review resource and field constraints before actual integration. Stop at this coordination gate, no merge/deploy without authorization.
+
+## Historical handoff
+# Core Shared API Foundation — Current Handoff
+
+**Last verified:** 2026-11-24
 **Status:** M1 narrow CI passed; M2 implementation committed, full regression pending; manager/Security acceptance pending. No merge/deploy.
 
 ## Source and verified changes
