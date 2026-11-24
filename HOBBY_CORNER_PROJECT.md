@@ -1,3 +1,9 @@
+## HC Secure real PostgreSQL credential integration PASSED — 2026-11-24
+
+**Testing PASS (operator-provided Codespace output):** `HC_SECURE_DISPOSABLE_CREDENTIALS_OK postcommit_relock=true scram_logins=true bad_password_denied=true final_roles_locked=true owner_activations=0`. Confirms real disposable PG18 SCRAM logins, failure re-lock, bad-password rejection and no activation rows. Docker cleanup is configured, but last log says `CLEANUP_PENDING`, not an independently verified removed container. **Railway NOT deployed:** new HC Secure app/database/volume remain 23 staged-only changes; original Owner auth/PG remain online/SUCCESS. Next: authorize isolated Railway DB service bootstrap after reviewing staged PostgreSQL configuration, offline provisioner and credential custody; preserve old WebAuthn RP-ID and encrypted TOTP. [Handoff](handoffs/hc-secure.md), [draft PR #77](https://github.com/Tawgod/Lightspeed/pull/77).
+
+---
+
 ## HC Secure real disposable password integration test ready — 2026-11-24
 
 **Testing:** Operator confirmed 6/6 credential commissioning mock tests passed. Source-only branch `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77) now adds disposable PostgreSQL 18 real credential integration program `scripts/test-hc-secure-credentials-disposable.mjs` and Docker runner `scripts/run-hc-secure-disposable-credentials-pg18.sh`. Tests password logins and actual grants, simulated postcommit failure relock, wrong-password SQLSTATE 28P01, zero activations, final role locks. Added seventh mock test to assert ambiguous COMMIT requires manual security review rather than claiming roles locked. **These new tests are NOT YET RUN.** Original Owner and database online; HC Secure Railway auth, DB and volume remain 23 staged-only changes; no credential setting, DB deployment or production modifications. [Handoff](handoffs/hc-secure.md).
