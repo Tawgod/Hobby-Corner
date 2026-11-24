@@ -21,6 +21,10 @@ Manager V6 reconciliation handoff (blob 3dfd2875c46128b821f64f7f170825c11bc9dddf
 
 P-08 test acceptance additions: immutable trusted actor/tenant/realm, exact effect/resource/field binding and locked evidence rederivation; fail closed for unsupported delegation or mismatched actor, scope, stale/expired/revoked approval and session; independent current read/field projection and scoped reconciliation authorization; no receipt disclosure after denial; distinguish precommit rollback from committed-but-denied projection, unknown commit never blindly retried; review-only intent, no delivery. No distributed revocation atomicity claim, no real grants, no per-action interactive authentication solely for ordinary authorized on-site work. Preserve 52 permission entries and unresolved alias review; no new proposed IDs. Reviewer separation and production approval/assurance policy remain Security-owned. No executable delta or new CI run; no deployment, live data or production changes. Next: consume exact Core M6 implemented/tested commit after publication and complete targeted disposable PG P-08 tests; no owner input required now.
 
+## M6 failed-pin exclusion / corrected dependency verification — 2026-11-24
+
+Latest Manager handoff blob d53d951b3ffec991709f5e7ed4a1ec6e692b5ea7 and Core handoff blob 1946177901367ef1c59689fac22ccd77e91e84aa reviewed. Owner requested adoption of corrected passing M6 only. Fresh PR #100 metadata still reports head 055a1510acab12e6f35d8e2aee01e0ec23a82635; exact-head workflow 45470994612 conclusion FAILURE, Manager reports 25/34 passed, nine frozen-array mutation failures. Latest Manager repair comment #7142241073 prohibits adoption. No corrected passing commit available in inspected canonical sources or current PR. P-08 remains gated; no shared adapter duplication, no failed pin adoption, no new executable changes or CI, no production changes. Existing 52 permission entries and design retained. Next verify corrected exact head, passing job logs and Core dependency contract before adoption and targeted disposable PG validation. No owner policy input required.
+
 ---
 
 # Purchasing & Supplier Foundation — Current Handoff
