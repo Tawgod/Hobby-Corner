@@ -1,3 +1,31 @@
+# Foundation Manager — V4 reconciliation / V5 candidate review
+
+**Last verified:** 2026-11-24
+**Status:** Five business workstreams reviewed; all cumulative Security inventories consolidated; V5 combined validation recommended, V4 remains approved. Security separately at S2.1 design gate.
+
+## Exact source and tests
+Parent V4 b56d4f69332f768a66987668293088eb51a60ecc. All five draft PRs target exact V4, zero behind, mergeable/unmerged; 18 distinct paths, 17 additions and one modification (storeCredit.js), no file overlaps or protected server/Security edits.
+| Owner | PR | Exact reviewed head | Evidence |
+|---|---|---|---|
+| Inventory | #94 | 0819cb0f33a0b7c9f52446c454899ec3ade0fc92 | CI 45445460738 exact-head SUCCESS; 4 new PG tests |
+| Core | #95 | c31c8d660baf81227293e3647df13b8d6ee21d76 | CI 45445470092 exact-head SUCCESS; 20 targeted including 8 new |
+| Purchasing | #96 | 9be3cf2def313e0ceedf5e07f1163c9eca28bcb5 | CI 45445481914 exact-head SUCCESS; 65 targeted including 6 new PG tests |
+| Catalog | #97 | 090fec0d833e626364c2b72d66903a99ddeddc29 | CI 45445490423 exact-head SUCCESS; 67 targeted including 8 new |
+| Customer | #99 | bb11757bfef5a54c28d27f72647ec2f4c3586d2d | 7 local reported; no remote CI; client/pagination dependency doubles |
+Expected 299 distinct tests (266+4+8+6+8+7); not combined tested. Exact remote conclusions independently verified, targeted counts from handoffs.
+
+## Security requirements consolidation
+[FOUNDATION_SECURITY_PERMISSION_REQUIREMENTS.md](../FOUNDATION_SECURITY_PERMISSION_REQUIREMENTS.md), management commit 8be131af231d04e598be446d90e9f5781ef779a3, readback verified. Preserves all five current inventory sections (213 source table rows, not unique operations) with exact source blob pins; manager alias/effect reconciliation queue and common UI requirements. All IDs and roles provisional. No automatic alias mapping or role assignment. Security must adjudicate equivalence and split broader scopes, including product/products/catalog.product, cost modification, count/restock/reason, receipt/allocation, PO/invoice, credit, contact, payments, jobs/audit/export. Ordinary employee cost viewing approved; modification separate. Actual endpoint coverage and negative bypass testing remain pending. Security owns final registry, roles, individual restriction precedence, assurance, scope and UI. Existing historical Security panel/auth docs are inputs, not current enforcement.
+
+## Coordination decisions and risks
+- Core M5 is additive, preserves M4. Its reusable disposable PG helper/actor-bound replay/safe projection/commit inspection/audit/outbox fixtures are proposed next shared test seam. Inventory and Purchasing successfully compose M4 with separate minimal fixture adapters; no competing production implementation. Next milestone should adopt/extend coordinated M5 fixture methods with typed domain locks, fresh authorization after domain locks and immediately before commit, safe replay projection, tenant scope, immutable history and unknown commit recovery. Do not claim current V5 tests already integrate domains with M5.
+- Catalog M7 pure mutation preparation/readback remains non-executable; requires trusted server-derived effects, version/actor/approval binding, actual Core remote idempotency and vendor precondition/readback evidence. Purchasing invoice review approval never authorizes product/PO cost writes or receipt without exact grants. Customer return/void/credit evidence never implies financial or physical execution. Composite read I/O and fields require exact permissions.
+- Security Foundation 2.0 handoff reports private readiness deployed, restricted credentials commissioned, provisioner disarmed, independent app secrets and Timeclock credential pending. Manager verified #98 head 29fae8645981e0d14770447bd96ac3240ab6b60a, exact separate Security base be24458aa6281834591da52f865af8b98c89b366, one additive design doc, draft mergeable; no runtime code. Read S2.1 proposal. Recommend offline design progression after Timeclock owner review: separate disabled identity-only endpoint, no Scanner-derived role claims, independent service audience/throttle, minimal active identity, preserve original routes and commissioning gates. No actual secret or deployment approval. Security must not branch from business V4/V5.
+- Next: isolated V5 combined regression exact #94/#95/#96/#97/#99 heads, all 30 inherited tests files plus five new suites, disposable PG, one capped run; verify 299 expected tests then consider approval. Keep workstreams at coordination gate. Security can review consolidated register independently of V5 acceptance.
+- No merges, deploys, live data, grants, migrations or production mutations by manager. No fresh Railway inspection this review; infrastructure status from Security handoff. Existing lockfile/reproducibility, actual Security integration, vendor/feature acceptance and durable production adapters remain blockers.
+
+## Historical checkpoints
+
 # Foundation Manager — V4 accepted checkpoint
 
 **Last verified:** 2026-11-24
