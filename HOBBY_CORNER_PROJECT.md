@@ -1,3 +1,9 @@
+## HC Secure real disposable password integration test ready — 2026-11-24
+
+**Testing:** Operator confirmed 6/6 credential commissioning mock tests passed. Source-only branch `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77) now adds disposable PostgreSQL 18 real credential integration program `scripts/test-hc-secure-credentials-disposable.mjs` and Docker runner `scripts/run-hc-secure-disposable-credentials-pg18.sh`. Tests password logins and actual grants, simulated postcommit failure relock, wrong-password SQLSTATE 28P01, zero activations, final role locks. Added seventh mock test to assert ambiguous COMMIT requires manual security review rather than claiming roles locked. **These new tests are NOT YET RUN.** Original Owner and database online; HC Secure Railway auth, DB and volume remain 23 staged-only changes; no credential setting, DB deployment or production modifications. [Handoff](handoffs/hc-secure.md).
+
+---
+
 ## HC Secure credential preflight passed; commissioning procedure in testing — 2026-11-24
 
 **Preflight testing PASS (operator reported): 4/4 cases**. On draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77), implemented new-project-only `scripts/commission-hc-secure-db-credentials.mjs` plus six mock safety tests `tests/hc-secure-credential-commissioning.test.mjs` **not yet run**. Procedure verifies separate role grants, PostgreSQL SCRAM hashes, password login and wrong-password SQLSTATE 28P01; rolls back or attempts to re-lock both roles on failure. **Not executed against Railway; no new DB provisioned or passwords set.** Before live staging, independent review of ambiguous commit/network failure and actual disposable PG18 commissioning needed. Original Owner service/database/credentials remain untouched. [Handoff](handoffs/hc-secure.md).
