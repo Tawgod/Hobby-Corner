@@ -1,3 +1,24 @@
+## Nov 24 credential preflight 4/4 PASS; one-shot commissioning and six tests ready
+
+**Latest operator result:** All four `tests/hc-secure-credential-commissioning-preflight.test.mjs` tests passed in Lightspeed Codespaces, per user's confirmation. Classify as **Testing PASS, operator-reported**; no test stdout captured by connector.
+
+**Continued source-only development:** On `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77), created:
+- `scripts/commission-hc-secure-db-credentials.mjs` (commit `bfa8afc6104452c55782a622655cd4d36553c744`, plus fix `804a78c3809213694abd38e6e674553e1638e227`): offline one-time HC Secure new-project-only DB role password commissioning. Requires `HC_SECURE_CREDENTIALS_ONLY` and independent new-project root/runtime/operator credentials. Checks PG18, empty Owner/activation rows, role lock and exact disjoint grants; sets role passwords inside SQL transaction with explicitly requested SCRAM; confirms login, nine-table runtime privilege gate and operator-only approval issuance; requires PostgreSQL **28P01** to count wrong-password denial; attempts rollback before commit or re-lock (`PASSWORD NULL`) after failed postcommit checks; error masks secrets. **Not run on any Railway DB.** Before actual staging execution, review ambiguous COMMIT/network failure handling and role-lock remediation and obtain explicit approval.
+- `tests/hc-secure-credential-commissioning.test.mjs` (commit `2550bcfe94c4c52f9e8ea7514613c5a9adf94038`): **six** mocked guard/failure-handling tests, **NOT YET EXECUTED**.
+- Acceptance checklist documentation updated at `docs/HC_SECURE_AUTH_INTEGRATION_ACCEPTANCE.md` (commit `85e0092cd61c35235a69f4ef059519b984c9ccd0`).
+- **No Railway project deployment, real password set, live database initialization, WebAuthn credential registration, Owner activation or production tool auth cutover occurred.** Original Owner isolation, passkey/TOTP seed stay intact.
+
+**Next Codespace checkpoint:**
+```bash
+cd /workspaces/Lightspeed
+git switch feature/hc-secure-staging-readiness-20261123
+git pull --ff-only
+node --test tests/hc-secure-credential-commissioning.test.mjs
+```
+Expected six passing tests, zero failures; tests are fixture-only and do not contact Railway. Following PASS, next critical milestone is disposable PG18 commissioning integration tests (real SQL transactions, SCRAM login and failure relock) and independent reviewer approval before staging database provision/deploy.
+
+---
+
 ## Nov 24 database bootstrap 11/11 PASS; credential commissioning preflight ready
 
 **Operator-reported test result:** User confirmed **all 11 passed** from `node --test tests/hc-secure-staging-bootstrap.test.mjs tests/hc-secure-locked-roles.test.mjs` on `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123`. Mark schema bootstrap + passwordless-role guard tests **Testing: PASS (operator reported, individual output not supplied)**. Previous 21-test suite and twice-run real disposable PG18 schema/grants were supplied and passed. **No HC Secure Railway DB was initialized by these mock tests.**
