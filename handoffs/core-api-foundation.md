@@ -1,12 +1,12 @@
 # Core Shared API Foundation — V3 / M4 handoff
 
 **Last verified:** 2026-11-24
-**Status:** M4 offline local transaction and cross-tool capability candidate committed; targeted disposable PostgreSQL CI pending verification; coordination gate reached.
+**Status:** M4 offline local transaction and cross-tool capability candidate validated; targeted disposable PostgreSQL CI 12/12 PASS; ready for Foundation Manager reconciliation.
 
 ## Source
 - Approved V3: Tawgod/Lightspeed:test/hc-foundation-combined-v3-20261124 @ 098c9e51ea4c3449605ad6951baa8284e126e8d4. Combined CI 45436836762 verified by manager: 223/223 passed.
 - PR #85 unchanged at a50822f2d0a8b6ec7184d54487ef9b0c9a01e9a7; all three included blobs identical in V3. No newer work to carry; previous PRs/branches preserved.
-- Independent branch feature/core-api-m4-v3-20261124, draft [PR #89](https://github.com/Tawgod/Lightspeed/pull/89) targets V3. Head 0fabf06643c17ec5632168ffecf8339aa09279e5; compare verified 5 ahead/0 behind, five additive files, zero modified/deleted inherited paths. Initial mergeability false pending calculation; recheck.
+- Independent branch feature/core-api-m4-v3-20261124, draft [PR #89](https://github.com/Tawgod/Lightspeed/pull/89) targets V3. Head 0fabf06643c17ec5632168ffecf8339aa09279e5; compare verified 5 ahead/0 behind, five additive files, zero modified/deleted inherited paths. GitHub now reports mergeable, draft, open, unmerged at exact head.
 - Added services/lightspeed/localTransactionCandidate.js, tests/core-api-m4-capabilities.test.mjs, tests/core-api-m4-postgres.test.mjs, docs/CORE_API_M4_TRANSACTION_CONTRACT.md, .github/workflows/hc-core-api-m4.yml.
 
 ## Implemented
@@ -17,15 +17,15 @@
 - Reproducibility remains manager-coordinated lockfile review; no manifest/lockfile change. POST-for-read remains disabled.
 
 ## Testing and limitations
-- One targeted PR workflow, 8-minute cap, Node 22 and disposable PostgreSQL 16, existing manifest installation without lifecycle scripts. Expected 12 tests (11 new plus existing PG regression). Latest exact-head workflow lookup returned no run at initial checkpoint; do not claim new tests passed. No extra rerun launched.
+- One targeted PR workflow, 8-minute cap, Node 22 and disposable PostgreSQL 16, existing manifest installation without lifecycle scripts. Verified exact-head [CI 45440458686](https://github.com/Tawgod/Lightspeed/actions/runs/45440458686), job 138609809777, completed SUCCESS. Actual logs: 12 tests, 12 pass, 0 fail/skip/cancel; 7 capability tests, 4 disposable local PG tests, 1 existing PG regression. No extra rerun launched. Combined V3 223/223 remains separate baseline evidence; 234 expected with Core M4 alone, not combined-tested.
 - Candidate limitations: trusted callback/operations supplied by server, test-only scope guard is not actual environment isolation, no approved Security actor/resource/field binding, no real durable transaction adapter or immutable local audit schema, no outbox delivery worker, commit acknowledgement uncertainty and replay safe projections require design review. Fixture denial audit demonstrates metadata only; actual actor attribution and durable audit are pending. No verified live endpoint coverage, no actual expiration evaluation outside synthetic Security decisions.
 - No merge, deployment, route mounting, production data, live vendor calls, migrations, stock effects or real grants.
 
 ## Next coordination gate
-1. Manager and Inventory review adapter interface before consumer adoption; verify PR #89 exact-head CI/mergeability and coordinate any repairs. No competing durable implementation.
+1. Manager and Inventory review adapter interface before consumer adoption. PR #89 exact-head CI and mergeability verified. Inventory M6 handoff reviewed: PR #91 @ 7eecb5d2fd92f896402398d36167bd3779d95c0e reports 7/7 local synthetic tests and only additive tests. Core and Inventory align on count.observe/restock.confirm/reason.revise candidate operations, atomic domain/review/outbox/audit and fresh replay authorization. Inventory's task/session/reason locks, actor-bound replay, task closure replay, immutable audit, idempotent consumer and unknown commit recovery remain contract decisions; no actual consumer adapter or competing durable implementation. Manager should reconcile both exact heads.
 2. Security approves canonical operation registry, actor/resource/field/environment binding and execution-time expiry/revocation; align all consumer entrypoints (including indirect imports, automation and queued work), ordinary employee wholesale cost viewing and separate modification. No tool-level bypass.
 3. Review immutable audit, commit uncertainty, outbox dispatch semantics, safe replay and reproducible dependencies before actual durable integration. No production or public gateway activation.
-4. Stop for manager reconciliation once targeted tests verified; full combined regression remains manager-owned.
+4. STOP: targeted tests verified, assigned offline deliverable complete and ready for manager reconciliation. Full combined regression remains manager-owned. No further application edits or CI runs required at this gate.
 
 ## Historical handoff
 # Core Shared API Foundation — Current Handoff
