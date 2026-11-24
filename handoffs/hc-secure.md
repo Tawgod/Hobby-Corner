@@ -1,3 +1,9 @@
+## 2026-11-24 — Approved locked-role deployment triggered
+
+User explicitly approved five staged changes, revalidated exact patch 1cfeb83a-d5e7-4149-a219-f305b64197d9 (non-destructive Railway config, only offline service), accepted committed=true. Deployment 8d74c988-bda8-4981-94fa-ec60a092d9e0 at 5877c6e5039bc70325c188489bd1e52574403b66 BUILDING at last check, no runtime marker yet, zero returned build errors. Schema flag disabled; role-only operation enabled; no passwords configured by operation. Next verify exact runtime HC_SECURE_LOCKED_ROLES_OK count=2 passwords_set=false; if failure inspect before retry. Reviewed credential commissioning preflight: requires independent 48 ASCII alphanumeric runtime/operator passwords distinct from root, exact service/environment and separate sentinel. No password generation, retrieval or staging yet; need secure operator input via Railway without chat disclosure and separate commissioning approval. No production or original Owner modifications. Do not redeploy role command after success; disarm or switch under explicit authorization.
+
+---
+
 ## 2026-11-24 — Restricted-role tests operator-reported PASS; role-only patch staged
 
 User reported all tests passed in response to six-case locked-role suite; no raw summary independently collected. Reverified schema deployment ecf6fcd7-16dd-4abd-9d10-2f107502aad9 SUCCESS and runtime HC_SECURE_SCHEMA_BOOTSTRAP_OK tables=9 nonlogin_groups=2 no_logins=true activations=0. Offline service private, restart NEVER. Reviewed corrected role script at 5877c6e5039bc70325c188489bd1e52574403b66.
