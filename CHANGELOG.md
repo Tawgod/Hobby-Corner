@@ -1,3 +1,11 @@
+## 2026-11-24 — HC Secure bootstrap tests confirmed, credential preflight added
+
+- Operator confirmed **11/11 HC Secure new-project DB bootstrap and password-locked-role tests passed**; source tests only, no live DB provisioning.
+- Added pure `hcSecureCredentialCommissioningPreflight.js` and 4 mock-only tests to `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123` draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77). Checks new Railway project/environment/service scope and distinct passwords without writing SQL or returning secrets. Tests awaiting Codespace run.
+- No staged Railway patch applied; original Owner service/DB and registered MFA factors preserved. [HC Secure handoff](handoffs/hc-secure.md).
+
+---
+
 ## 2026-11-24 — HC Secure staging-only schema/role preparation implementation
 
 - Committed `scripts/bootstrap-hc-secure-staging-db.mjs`: new-project-only, one-shot PG18 schema initialization with exact private host, 7 reviewed fixtures, 9 tables, least-privilege activation checks, and no existing DB/Owner records.
