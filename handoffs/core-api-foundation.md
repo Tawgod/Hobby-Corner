@@ -1,3 +1,33 @@
+# Core Shared API Foundation — V3 / M4 handoff
+
+**Last verified:** 2026-11-24
+**Status:** M4 offline local transaction and cross-tool capability candidate committed; targeted disposable PostgreSQL CI pending verification; coordination gate reached.
+
+## Source
+- Approved V3: Tawgod/Lightspeed:test/hc-foundation-combined-v3-20261124 @ 098c9e51ea4c3449605ad6951baa8284e126e8d4. Combined CI 45436836762 verified by manager: 223/223 passed.
+- PR #85 unchanged at a50822f2d0a8b6ec7184d54487ef9b0c9a01e9a7; all three included blobs identical in V3. No newer work to carry; previous PRs/branches preserved.
+- Independent branch feature/core-api-m4-v3-20261124, draft [PR #89](https://github.com/Tawgod/Lightspeed/pull/89) targets V3. Head 0fabf06643c17ec5632168ffecf8339aa09279e5; compare verified 5 ahead/0 behind, five additive files, zero modified/deleted inherited paths. Initial mergeability false pending calculation; recheck.
+- Added services/lightspeed/localTransactionCandidate.js, tests/core-api-m4-capabilities.test.mjs, tests/core-api-m4-postgres.test.mjs, docs/CORE_API_M4_TRANSACTION_CONTRACT.md, .github/workflows/hc-core-api-m4.yml.
+
+## Implemented
+- Proposed test-scope-only local transaction orchestration with injected transaction/authorize/auditDenied adapters, stable operation+payload fingerprint, authorization before transaction and after claim/lock including replay, transactional domain/outbox/audit/result contract; denial audit outside rollback. No actual Security implementation or production adapter. Required operations and context must be derived by trusted server code. Existing remote vendor mutation audit/idempotency unchanged.
+- Four disposable PG fixture tests: concurrent duplicate/replay and conflict; rollback of domain/outbox/claim/audit; denial after claim; revoked grant cannot replay. Fixture schemas created/dropped in explicitly local hc_test only; no migration or live database.
+- Seven synthetic capability tests: representative Product Manager, Scanner, Special Orders, Purchasing, direct API, bulk import and automation share product-create restriction; tool grant not substitute; composed grants; unavailable/ambiguous/missing/expired synthetic verdict; all active employees ordinary product cost read, separate cost modify; anonymous/inactive denied; production scope rejected. No actual registry or live endpoint enforcement implied.
+- [M4 proposed transaction contract](https://github.com/Tawgod/Lightspeed/blob/feature/core-api-m4-v3-20261124/docs/CORE_API_M4_TRANSACTION_CONTRACT.md) defines Inventory count/restock/reason revision seam, atomic review/outbox/audit, transaction locks, no remote side effects; Inventory may use test-only injected interface pending review. Domain state and record shapes remain Inventory-owned.
+- Reproducibility remains manager-coordinated lockfile review; no manifest/lockfile change. POST-for-read remains disabled.
+
+## Testing and limitations
+- One targeted PR workflow, 8-minute cap, Node 22 and disposable PostgreSQL 16, existing manifest installation without lifecycle scripts. Expected 12 tests (11 new plus existing PG regression). Latest exact-head workflow lookup returned no run at initial checkpoint; do not claim new tests passed. No extra rerun launched.
+- Candidate limitations: trusted callback/operations supplied by server, test-only scope guard is not actual environment isolation, no approved Security actor/resource/field binding, no real durable transaction adapter or immutable local audit schema, no outbox delivery worker, commit acknowledgement uncertainty and replay safe projections require design review. Fixture denial audit demonstrates metadata only; actual actor attribution and durable audit are pending. No verified live endpoint coverage, no actual expiration evaluation outside synthetic Security decisions.
+- No merge, deployment, route mounting, production data, live vendor calls, migrations, stock effects or real grants.
+
+## Next coordination gate
+1. Manager and Inventory review adapter interface before consumer adoption; verify PR #89 exact-head CI/mergeability and coordinate any repairs. No competing durable implementation.
+2. Security approves canonical operation registry, actor/resource/field/environment binding and execution-time expiry/revocation; align all consumer entrypoints (including indirect imports, automation and queued work), ordinary employee wholesale cost viewing and separate modification. No tool-level bypass.
+3. Review immutable audit, commit uncertainty, outbox dispatch semantics, safe replay and reproducible dependencies before actual durable integration. No production or public gateway activation.
+4. Stop for manager reconciliation once targeted tests verified; full combined regression remains manager-owned.
+
+## Historical handoff
 # Core Shared API Foundation — Current Handoff
 
 **Last verified:** 2026-11-24
