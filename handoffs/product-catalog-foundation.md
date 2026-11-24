@@ -1,12 +1,22 @@
 # Product & Catalog Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** M4 offline implementation and combined catalog CI PASS; integration acceptance pending  
+**Status:** M5 offline consumer preparation and combined catalog CI PASS; manager reconciliation gate  
 **Owner:** Product & Catalog Foundation development conversation  
 **Coordinator:** Hobby Corner Foundation Manager  
 **Safety:** No production product writes, deploys, merges, or DB migrations authorized.
 
-## M4 checkpoint — 2026-11-24 (current)
+## M5 checkpoint — 2026-11-24 (current; manager reconciliation requested)
+
+**Implementation:** offline consumer preparation committed; **combined catalog CI PASS 43/43**; actual consumer integration blocked pending manager/Core/Security and tenant acceptance. **Not deployed.**
+- Independent branch `feature/hc-product-catalog-m1-20261124`, [draft PR #79](https://github.com/Tawgod/Lightspeed/pull/79), exact tested head `ba2d2f4d8f8e355f1c4465a57067f7fc1edf6859`, parent M4 `6e3ed12d9d965d703a9b75fd85e2961e96da2d09`, approved common baseline `71a1cd6e312ed52efc1e9af9da85db6b02e3756c`. Compare: 6 ahead, 0 behind, 15 changed files, 0 deleted baseline lines. PR open/draft/unmerged/mergeable=true at check.
+- Added services/lightspeed/productCatalogProjection.js with projectCatalogConsumerView composing existing typed identity, supplier links, prices, catalog references and asset inspectors; explicit target product/variant, per-section completeness, unresolved canonical reference checks, no product inferred from ancillary evidence, no raw payload/asset location/provenance passthrough. Added tests/product-catalog-m5.test.mjs and docs/PRODUCT_CATALOG_M5.md. Existing transport, product readers, matcher, feature routes and writer unchanged.
+- [CI 45421919643](https://github.com/Tawgod/Lightspeed/actions/runs/45421919643) completed SUCCESS for exact head; job 138543441467 logs independently inspected: 43 tests, 43 pass, 0 fail/cancel/skip. M1 8, M2 8, M3 10, M4 8, M5 9; source syntax passed. Existing branch-only 3-minute workflow updated, no dependency install. Full integrated/feature regression not executed.
+- Reviewed Core PR #83, Purchasing PR #82 P-03 and manager handoffs; no protected files changed. No public DTO/permission contract approval inferred. Current output is internal and includes cost amounts and identifiers; do not directly expose to browser. Comment in projection describing exclusion of cost observations refers to detailed observations, not cost amounts. Requires explicit field permission projection. Per-section reference coverage reflects list validation, not all target associations; unresolved associations invalidate overall completeness. Metadata and candidate values can be present while incomplete and must not be treated as authoritative. No tenant/version coherence, authoritative pagination or live vendor mapping proved. No real feature parity comparison performed.
+- **Manager reconciliation queue:** review/freeze domain DTOs and Core envelope, agree authoritative coverage and exact grants with Security, review supplier mapping/price scope with Purchasing; reconcile PR #79 with #80/#82/#83 and other domain heads; run integrated suite; obtain explicit test-tenant read scope and feature-owner coordination. Product Manager PR #28 first shadow comparison (exact ID/variant, active state, price, primary supplier, slots), then PO Companion #37 (product/supplier IDs only; never receiving); legacy routes stay unchanged until authorized. Catalog owns canonical supplier links; Purchasing owns PO/invoice evidence. No mutation inference.
+- **Stop gate:** M5 offline preparation complete, actual M5 consumer activation and M6 controlled create/update execution require separate approval and accepted Core/Security contracts. No merges, deployments, live reads/writes, migrations, Drive retrieval, permissions or route mounting authorized or performed. User plans to run Foundation Manager reconciliation next.
+
+## M4 checkpoint — 2026-11-24 (historical)
 
 **Implementation:** committed; **combined catalog CI PASS 34/34**; integration acceptance pending; **not deployed**.
 - Independent branch `feature/hc-product-catalog-m1-20261124`, [draft PR #79](https://github.com/Tawgod/Lightspeed/pull/79), tested head `6e3ed12d9d965d703a9b75fd85e2961e96da2d09`, parent M3 `d8ccdb60a766b86630944327798235df5035d0c6`. Approved baseline `71a1cd6e312ed52efc1e9af9da85db6b02e3756c` unchanged. Compare: 5 ahead, 0 behind, 12 changed files total, zero deleted lines relative to baseline. PR draft/open/unmerged, mergeable=true at recheck.
