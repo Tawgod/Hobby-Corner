@@ -1,3 +1,22 @@
+## Nov 24 database bootstrap 11/11 PASS; credential commissioning preflight ready
+
+**Operator-reported test result:** User confirmed **all 11 passed** from `node --test tests/hc-secure-staging-bootstrap.test.mjs tests/hc-secure-locked-roles.test.mjs` on `Tawgod/Lightspeed:feature/hc-secure-staging-readiness-20261123`. Mark schema bootstrap + passwordless-role guard tests **Testing: PASS (operator reported, individual output not supplied)**. Previous 21-test suite and twice-run real disposable PG18 schema/grants were supplied and passed. **No HC Secure Railway DB was initialized by these mock tests.**
+
+**New source-only milestone:** `services/security/hcSecureCredentialCommissioningPreflight.js` commit `ad395c9a39e7cc9c0d065625472a2eade37f2ed8` and `tests/hc-secure-credential-commissioning-preflight.test.mjs` commit `43e0c1b929ba5014a3c6bcf2c4ca15f833ed329d` on draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77). Pure, **no SQL/no I/O** preflight requires exact new HC Secure Railway project `120de974-f2e8-46be-9a00-8eb8b1be4cc4`, staging environment `8c8cd3a9-079f-4fe8-b8f5-a76c79813f0c`, separate future one-shot service `hc-secure-db-bootstrap-once`, action `HC_SECURE_CREDENTIALS_ONLY`, new PostgreSQL private root host, and three independent 48-character ASCII alphanumeric passwords (root + two logins). Rejects old Owner runtime/operator DB vars and any shared business credentials. Returns only boolean readiness and known role names; never outputs any secret. **Four new tests authored, not yet executed.** Actual password rotation/verification/secret custody code remains unimplemented; do not provision or claim complete credential commissioning.
+
+**Next safe Codespace test:**
+```bash
+cd /workspaces/Lightspeed
+git switch feature/hc-secure-staging-readiness-20261123
+git pull --ff-only
+node --test tests/hc-secure-credential-commissioning-preflight.test.mjs
+```
+This uses fixture-only values, makes no real DB/network calls. Expect four passing tests. Then design a separately authorized DB password commissioning run, with positive and negative connection tests and automatic password locking on failure; still no Owner activation or old credential/data copying.
+
+**Railway state last verified:** new `HC Secure/staging` database/app/volume remain 23 staged-create pending changes, **not deployed**. Original Owner authentication and database remain online/SUCCESS; new hostname `secure-hc.timcorp-productions.com` remains selected but has no verified new credential registration. Production-wide staff MFA integration still pending.
+
+---
+
 ## Nov 24 next milestone — HC Secure-specific schema and locked-role bootstrap ready for Codespace tests
 
 **User direction:** continue development until next milestone or input required. **Completed source-only preparation; now awaiting Codespace tests.**
