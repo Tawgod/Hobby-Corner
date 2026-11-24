@@ -1,3 +1,9 @@
+## 2026-11-24 — SCRAM test load failure corrected
+
+Operator reported Node test file failed to load (one failed file, zero individual cases passed). Inspected GitHub source and found assistant-authored replacement string interpreted dollar-apostrophe as JS replacement suffix, duplicating script and corrupting syntax. Rebuilt from prior good source 5877c6e5039bc70325c188489bd1e52574403b66 using function replacement and explicit slices; verified single commissioning export and correct SCRAM return string. Fix commit f8ecc09a7eb9ceba3d84eba7c7294b0fa4e3caed. Retest required; no claim of execution or success. Offline provisioner remains last verified inert; no real credentials entered or deployment changed. Next run syntax checks and ten-case unit suite, then disposable PG18 login/relock verification before credential staging. Production untouched.
+
+---
+
 ## 2026-11-24 — Offline provisioner disarmed; SCRAM hardening authored
 
 User approved disarm and confirmed two new passwords prepared privately; no values shared. Applied exact approved three-change patch 6a6326d1-8c01-48e6-be5d-65b6da5aa69b. Deployment ca231cb7-6470-4c82-8d9f-ee9ae43b3c6c SUCCESS, runtime HC_SECURE_OFFLINE_PROVISIONER_DISABLED. No SQL mutation by inert command. Root reference temporarily retained; no new password variables staged.
