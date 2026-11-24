@@ -1,3 +1,12 @@
+## 2026-11-24 — HC Secure credential commissioning mock pass and disposable integration authored
+
+- User reported **6/6 commissioning mock tests PASS**.
+- Prepared `scripts/test-hc-secure-credentials-disposable.mjs` plus `scripts/run-hc-secure-disposable-credentials-pg18.sh` to test real SCRAM runtime/operator logins, restricted privileges, wrong password SQLSTATE 28P01 and failure re-lock in a disposable local PG18 container. **New integration test not run**.
+- Hardened ambiguous password `COMMIT` handling to require manual incident review, with seventh mock test still awaiting execution.
+- No new live Railway database, password changes, Owner activation, WebAuthn credential copy, DNS or production deployment. See [HC Secure handoff](handoffs/hc-secure.md) and [draft PR #77](https://github.com/Tawgod/Lightspeed/pull/77).
+
+---
+
 ## 2026-11-24 — HC Secure credential commissioning procedure prepared
 
 - User confirmed 4/4 pure preflight tests PASS in Codespaces.
