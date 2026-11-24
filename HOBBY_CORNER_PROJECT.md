@@ -1,3 +1,9 @@
+## HC Secure-specific database and restricted login preparation ready — 2026-11-24
+
+**In Development / Testing pending:** Draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77) now contains new HC Secure-project-only offline PG18 schema bootstrap `scripts/bootstrap-hc-secure-staging-db.mjs` and separately gated passwordless runtime/operator login role preparation `scripts/prepare-hc-secure-locked-roles.mjs`, plus **11 new mock-based tests** (`tests/hc-secure-staging-bootstrap.test.mjs`, `tests/hc-secure-locked-roles.test.mjs`). Both steps reject original Owner project and existing credentials/Owner records; schema reuses seven original reviewed SQL fixtures; role prep creates passwords NULL and enforces separate permissions. Neither script has run; do not claim real HC Secure DB provisioned. Railway still has **23 staged-only changes**, auth, DB and volume not deployed. Original Owner staging app/DB verified online/SUCCESS. Next: user Codespace tests (commands in [HC Secure handoff](handoffs/hc-secure.md)), then credential commissioning design and separate approval for Railway provisioning. Production staff security unchanged.
+
+---
+
 ## HC Secure disposable PG18 tests PASSED — 2026-11-24
 
 **Testing PASS; new Railway deployment still staged.** Codespace operator supplied complete summary: 21/21 HC Secure security tests passed (0 failures, 0 skipped). Disposable real PostgreSQL 18 runner completed twice, each confirming 7 reviewed fixtures, 9 tables, 2 NOLOGIN privilege groups and outer transaction rollback; second run confirmed no persistent DB/schema/role writes. Next: implement and test isolated HC Secure-specific Railway DB initialization with separate runtime/operator logins and secret custody; preserve original Owner DB and registered factors. Do not claim new-host authentication or production-wide employee MFA is deployed. [Verified handoff](handoffs/hc-secure.md).
