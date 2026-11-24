@@ -1,8 +1,30 @@
 # Shared Inventory Foundation — Current Handoff
 
 **Last verified:** 2026-11-24  
-**Status:** M3/M4 offline location and restock validation PASS; persistence and live verification pending; draft PR #80; no deployment or inventory mutation  
+**Status:** M5 V2 offline persistence plans PASS; durable transaction coordination gate; draft PR #87; no deployment or inventory mutation  
 **Owner:** Shared Inventory Foundation workstream; coordinate with Foundation Manager, Core API, Product & Catalog, Purchasing & Suppliers and Foundational Security.
+
+## M5 / V2 checkpoint — 2026-11-24
+
+**Status:** Offline persistence plan implementation and regression tests PASS; coordination gate before durable storage. Draft [PR #87](https://github.com/Tawgod/Lightspeed/pull/87), branch `feature/inventory-foundation-m5-v2-20261124`, exact approved V2 parent `2365de8af4e8d69b162f6909d1f78be246e74fdf`, head `e108da9691ada86ada73b90cfb36552df8368fab`. Targets `test/hc-foundation-combined-20261124`; PR creation confirmed two additive files, no deletions; mergeability not yet independently established. Old PR #80 remains open at included pin `1d6187e01241c3e47c8fc3167d085dca9386a41f`, no newer work to carry, no duplicate cherry-pick. Read baseline, manager handoff, dependency register, V2 manifest, Core idempotency and PostgreSQL source. No Core or Security files changed.
+
+### Implemented
+- New `services/lightspeed/inventoryPersistence.js`: pure non-executable plans for count observation, restock confirmation and reason revision. Count keeps scannedAt distinct from trusted recordedAt, session/outlet/mode identity and exact decimal count, rejects closed session or out-of-window time. Count scan identity is (sessionId,scanId); shelf/incremental modes stored separately, never treated as whole-outlet totals.
+- Restock planner validates complete submitted task against trusted task version, exact product/variant/outlet, source/destination and planned quantity. Reuses existing validateRestockBatch and configured reasons; preserves zero mandatory reason, shortage/surplus flags and historical reason revision. Confirmation + open discrepancy review records + minimal outbox intent prepared together; stable review identity task/line, task identity independent of batch ID, totalInventoryDelta=0. No actual delivery, state transition or mutation.
+- Reason revision planner requires sequential versions, supports deactivation, copies label/flag/applicability/note policy and actor/time; no deletion or production admin UI.
+- New `tests/inventory-persistence.test.mjs`: six tests, including test-only in-memory simulation of rollback when outbox fails and duplicate task under different batch ID. Simulation is not a production store or proof of concurrent durability.
+
+### Testing
+- Local Node v22.16.0, `node --test tests/*.test.mjs` in isolated reconstruction with three Inventory suites: **26/26 PASS, 0 fail/skip/cancel** (20 V2 existing + 6 M5). Exact Git blob readback matched local hashes: inventoryPersistence.js 9704804cb519d24f527b77b147fd0702b6140d21; tests/inventory-persistence.test.mjs 608eaa0b2f53dc397a2d1152ab364b44332ae338; existing inventory.js 105a96f5451f10f38af6ec7c0588d795eb706653, inventoryLocations.js fc0f9b728772fcc383655d6e2c0808d686de5934, inventoryEvidence.js 743d2a29107bb1190c9ffb52bf8e8407bef58b9e, location tests 1acd4cf4c1752d47b5ccb68310f40e17b0ab17e2, M1 tests 3730c018852b166087f9b8c896652a1e5b639536.
+- V2 187/187 manager CI is separate prior evidence; full combined M5 regression not rerun, no new Actions workflow, no database/tenant/browser tests.
+
+### Coordination gate / proposed durable design
+- Domain records: immutable observations unique by (session,scan), open/closed session revision; immutable reason revision unique by (code,revision) with current pointer; task version and terminal confirmation unique by task ID and batch ID; confirmation lines unique by (task,line); review and outbox unique by (task,line,event type), review references confirmation evidence. Reconcile counts using existing M1/M2 only when full trusted stock-event coverage; incremental/shelf aggregation and reconciliation intentionally not implemented. No SQL/migration.
+- Core owns F27 transaction/audit/idempotency and F29/F30 queue seams. Use Core canonical payload fingerprint and exact operation/actor scope; lock trusted task/session/reason revisions and validate within one transaction, append records and audit, transition task and insert review/outbox together, persist verified replay result under same transaction boundary; duplicate identical payload returns original result, changed payload conflicts, unknown commit outcomes require inspection/readback. Existing Core vendor-mutation lease adapter cannot be presumed to provide this atomic local-transaction contract. Do not create competing store. Outbox delivery requires idempotent consumer and durable delivery state, not implemented. Test-only simulation is not a substitute for disposable PG concurrency/replay/readback tests.
+- Security exclusively verifies actor and exact grants; proposed operations count.observe/restock.confirm/reason.revise are internal plan labels, not approved permissions. Trusted backend must validate location/product assignments, session membership, task ownership and version, reason revision selected at confirmation (currently only current registry), timestamp provenance/device lag, unique scan IDs/replay, count mode and corrections. No browser may supply trusted inputs. Client scannedAt/confirmedAt remain claimed observation time until independently validated. Plan outputs not executable.
+- Stop here for Foundation Manager/Core/Security contract coordination before actual durable storage or mutation. Store Map optional future feature. Real vendor event and snapshot evidence still blocked; no adjustment writer, no consumer switch, no route mount, no deployment, migration, live data access or production writes. Existing PRs preserved.
+
+---
 
 ## M3/M4 checkpoint — 2026-11-24: independent locations and restock evidence
 
