@@ -1,3 +1,9 @@
+## HC Secure credential preflight passed; commissioning procedure in testing — 2026-11-24
+
+**Preflight testing PASS (operator reported): 4/4 cases**. On draft [PR #77](https://github.com/Tawgod/Lightspeed/pull/77), implemented new-project-only `scripts/commission-hc-secure-db-credentials.mjs` plus six mock safety tests `tests/hc-secure-credential-commissioning.test.mjs` **not yet run**. Procedure verifies separate role grants, PostgreSQL SCRAM hashes, password login and wrong-password SQLSTATE 28P01; rolls back or attempts to re-lock both roles on failure. **Not executed against Railway; no new DB provisioned or passwords set.** Before live staging, independent review of ambiguous commit/network failure and actual disposable PG18 commissioning needed. Original Owner service/database/credentials remain untouched. [Handoff](handoffs/hc-secure.md).
+
+---
+
 ## HC Secure 11 bootstrap tests passed; credential-preflight tests ready — 2026-11-24
 
 **Testing:** User confirmed all 11/11 new HC Secure-only database bootstrap and locked-role tests passed in Codespaces; no raw individual log available. Previously 21/21 source tests and disposable PG18 two-pass rollback verified. **New source-only:** Added `services/security/hcSecureCredentialCommissioningPreflight.js` and `tests/hc-secure-credential-commissioning-preflight.test.mjs` (4 cases), requiring exact new Railway scope, separate offline one-shot service, approval sentinel and independent 48-character database passwords without exposing secrets; **new four tests unexecuted**. No actual password setting, Railway database bootstrap, deployment, credential copy, DNS or production staff-MFA rollout. Current HC Secure Railway patch staged only. [Handoff](handoffs/hc-secure.md), [draft PR #77](https://github.com/Tawgod/Lightspeed/pull/77).
