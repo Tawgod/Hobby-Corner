@@ -1,3 +1,11 @@
+## Nov 24 additional precaution — public HC Secure auth explicitly disabled in staged patch
+
+After initial PG18/offline-service staging, proactively made the still-incomplete `hc-secure-auth-staging` **inert in the staged patch**: staged `HC_OWNER_STAGING_ENABLED=false`, start command `node -e "console.log('HC_SECURE_AUTH_DISABLED_PENDING_SECURITY_READINESS')"`, restart policy `NEVER`. This prevents accidental serving of incomplete login logic if the complete patch is later applied for isolated database setup. The original planned active authentication start `node staging/hc-secure-security-server.js` and its healthcheck are preserved **only in source/docs**, not as current staged service startup. Authentication must be deliberately re-enabled, supplied independent credentials, tested against new-host RP ID and configured with proper healthchecks when ready. The separate offline provisioning service remains inert with mutation flags disabled.
+
+Fresh stage readback: **45 non-destructive pending changes**, 3 service creates + 5 GB volume, no deployment; new PG `POSTGRES_PASSWORD` is still absent. Even an inert service may settle as stopped/unhealthy due to `/health` healthcheck, so a later staging deployment is not yet a validated healthy auth release.
+
+---
+
 ## Nov 24 HC Secure isolated Railway staging configuration advanced — 45 staged changes
 
 **User authorized continuing isolated HC Secure staging provisioning.** Read complete pre-existing 23-change patch before altering Railway. Verified exact target: Railway private **HC Secure** project `120de974-f2e8-46be-9a00-8eb8b1be4cc4`, **staging** env `8c8cd3a9-079f-4fe8-b8f5-a76c79813f0c`. Original Owner production / separate Owner staging not targeted. Verified Railway's specific `ghcr.io/railwayapp-templates/postgres-ssl:18` wrapper REQUIRES volume mount `/var/lib/postgresql/data` and `PGDATA` beneath it; preserved existing 5GB volume mount (do NOT change it to official postgres:18 base image's parent path).
