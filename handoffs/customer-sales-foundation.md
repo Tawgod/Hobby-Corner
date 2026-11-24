@@ -1,6 +1,6 @@
 # Shared Customer & Sales Foundation — M8 V5 checkpoint
 
-**Last verified:** 2026-11-24. **Owner:** Customer & Sales Foundation 2.0. **Status:** M8 implemented, targeted CI in progress; not yet accepted or production-ready. This checkpoint supersedes the historical V4 transition below.
+**Last verified:** 2026-11-24. **Owner:** Customer & Sales Foundation 2.0. **Status:** M8 implemented, targeted exact-checkout CI passed 8/8; ready for Foundation Manager reconciliation, not production-ready. This checkpoint supersedes the historical V4 transition below.
 
 ## Source / baseline
 - Approved V5 Tawgod/Lightspeed:test/hc-foundation-combined-v5-20261124@87f6a94918653a3417ce01205098193eb1ccb35d, manager CI 45450851407 299/299 exact checkout. M1–M7 accepted for isolated development. Prior PRs #81/#88/#92/#99 freshly verified open, draft, unmerged at recorded historical pins; #99 unchanged, no missing deltas.
@@ -12,7 +12,7 @@
 - docs/CUSTOMER_SALES_M8.md; tests/customer-sales-m8.test.mjs eight targeted cases; one capped PR-only workflow .github/workflows/hc-customer-sales-m8.yml. Core M5 transaction adapter not applicable to pure reads; no competing persistence.
 
 ## Testing
-- [Targeted CI 45467171632](https://github.com/Tawgod/Lightspeed/actions/runs/45467171632), exact head checkout configured, job 138705062468; in progress at checkpoint. No pass count asserted. Local Git checkout unavailable (DNS); no reconstructed dependency doubles used. No other CI initiated. Manager should include M8 test file in next combined run after targeted success (V5 +8 customer cases).
+- [Targeted CI 45467171632](https://github.com/Tawgod/Lightspeed/actions/runs/45467171632), exact head checkout configured, job 138705062468; SUCCESS; job logs independently verified exact checkout 8654430fb458be10cf7a8c47969d7bd238c091db, Node 22.23.5, syntax check passed, 8/8 tests passed, zero failed/cancelled/skipped/todo, 99.630768 ms test duration. Local Git checkout unavailable (DNS); no reconstructed dependency doubles used. No other CI initiated. Manager should include M8 test file in next combined run (V5 +8 customer cases).
 - No actual Security, provider, browser or feature acceptance; no full route parity verified.
 
 ## Security and administration UI inventory — delta from consolidated 66-row Customer inventory
@@ -22,7 +22,7 @@
 - Administration UI needs source-vs-output scopes, actor/tenant/outlet/customer/sale/line, channel/purpose/provider, dependency/conflict warnings and denied/expired/revoked handling; actual Security adapter, trusted server context, atomic/current multi-grant decision semantics, Core safe envelope mapping, per-field source filtering and endpoint/bulk/delegated bypass tests remain unresolved. Synthetic test-only verifier does not establish actual enforcement or audit durability.
 
 ## Deployment / remaining gates
-None. No merge, deploy, live data, grant, route mounting, schema, stock, payment, credit or notification effect. Railway metadata inherited from previous checkpoint, not freshly inspected. Next: verify targeted CI, then manager reconciliation for isolated candidate only; source filtering, exact legacy parity, authorization contract and provider semantics remain gates. No production acceptance.
+None. No merge, deploy, live data, grant, route mounting, schema, stock, payment, credit or notification effect. Railway metadata inherited from previous checkpoint, not freshly inspected. Next: manager reconciliation for isolated candidate only; source filtering, exact legacy parity, authorization contract and provider semantics remain gates. No production acceptance.
 
 ---
 
