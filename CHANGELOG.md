@@ -1,3 +1,12 @@
+## 2026-11-24 — HC Secure credential commissioning procedure prepared
+
+- User confirmed 4/4 pure preflight tests PASS in Codespaces.
+- Added `scripts/commission-hc-secure-db-credentials.mjs` with separate guarded new-project password commissioning and runtime/operator login+grant tests; wrong-password probe requires SQLSTATE 28P01, not an arbitrary connection failure. Includes transaction rollback and re-lock attempt after verification failure.
+- Added six mock-only cases in `tests/hc-secure-credential-commissioning.test.mjs`, **awaiting execution**. Updated Lightspeed acceptance docs and HC Secure handoff.
+- No live HC Secure Railway DB deployment, password setting, Owner credential changes or production system changes; [draft PR #77](https://github.com/Tawgod/Lightspeed/pull/77).
+
+---
+
 ## 2026-11-24 — HC Secure bootstrap tests confirmed, credential preflight added
 
 - Operator confirmed **11/11 HC Secure new-project DB bootstrap and password-locked-role tests passed**; source tests only, no live DB provisioning.
