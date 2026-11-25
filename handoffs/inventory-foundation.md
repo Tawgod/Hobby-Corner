@@ -1,8 +1,14 @@
 # Shared Inventory Foundation — Current Handoff
 
 **Last verified:** 2026-11-25  
-**Status:** M10 corrected fixture committed — exact targeted CI pending
+**Status:** M10 targeted validation PASS — ready for Foundation Manager V8 reconciliation
 **Owner:** Shared Inventory Foundation workstream; coordinate with Foundation Manager, Core API, Product & Catalog, Purchasing & Suppliers and Foundational Security.
+
+## M10 validation repair complete — ready for V8 reconciliation — 2026-11-25
+
+- Corrected exact passing Inventory #122 head 725b2d1be2a6b0f81377a7e5123fdb991f6ac969, branch feature/inventory-foundation-m10-v7-20261125, approved V7 base 73bdb41c1bc1ffb8af23effccc1392f4e9f8f5d6. PR open draft mergeable/unmerged at verification. Failed candidate 94a260e534b34e495e9eea2461577a929c922d23 excluded from V8; repair one fast-forward commit, only Inventory test changed, Core M7 untouched.
+- Exact-head CI 45641556708 job 139301260331 completed SUCCESS. Actual checkout and logs independently verified: 70/70 passed (55 inherited +15 M10), zero fail/skip/cancel/todo, syntax passed, repaired three-line restock/multi-target disclosure case passed. One capped targeted repair validation, no rerun or combined CI. Retained malformed taskId rejection, valid outcome projection reached once and denied with CORE_FORBIDDEN/undisclosed, unchanged command/outbox counts and safe empty replay. Six local extracted predicate checks passed; full local checkout/PostgreSQL unavailable.
+- Ready for Foundation Manager V8 reconciliation: integrate two Inventory-owned additive paths from corrected pin, add 15 distinct tests. No new scope, actual permissions, production changes, merges, deployments or shared migrations. Previous limitations and cumulative permission inventory remain unchanged; actual linked physical lifecycle, Security integration, production persistence and vendor acceptance separate gates. Stop at completed milestone, no owner input required.
 
 ## M10 targeted validation repair — 2026-11-25
 
