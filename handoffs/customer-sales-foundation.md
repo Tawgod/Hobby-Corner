@@ -1,3 +1,16 @@
+# Customer & Sales Foundation 2.1 — successor ownership acknowledgement — 2026-11-25
+
+**Status:** Successor active; M1–M10 accepted in isolated V8; M11 not authorized. No new implementation or deployment. Predecessor history retained below without alteration.
+
+- Fresh canonical baseline blob 0b3c3bfde5e7395f8e9018687395ec76034465e0 and Manager transition checkpoint confirm V8 8848f47b71286e177fd483feb94af37b795fead7, combined CI 45651685724 / job 139337562874, previously verified 471/471 across 52 files. Latest open PR search found no newer Customer milestone; no release in canonical records.
+- Fresh PR metadata: #119 exact 7fc4fb3422ffb0fbf40218a06a37e03cd0bc8112, exact V7 base, open/draft/unmerged/mergeable; prior targeted 75/75 CI 45639209427 job 139292846434. M10 source customerSourceM10.js blob 822ea369d5ee68e2ce50a736d12e21ebdaadf2f6 identical at #119 and V8; reviewed M10 documentation and V8 manifest. Original #32/#33/#51 remain open/unmerged; #33 currently reports nonmergeable. No new overlap work.
+- Fresh #121 metadata exact ee4e417fcfc1ae4358b0e256ccd8a8dee9073ecd open/draft/unmerged; prior 199/199 accepted. Read HC_AUTHZ_0_1_0.md and verified exact GitHub fixture blobs d04a6db6995e982371c2f7ea25a43faf64090279, 79c99f79252f0cc391d0a5c6be7d73f21dd60ff9, e82a630c567294df0b58d0efc8bac32d3c3a0d73. No evaluator copy or #123 substitution.
+- Preserve 66 provisional permission rows, all conditional aliases, existing Special Orders first-page behavior, independent source/disclosure authority, physical versus financial separation, exact identifiers/currency/decimal amounts and unknown states. Security owns policy; Core owns orchestration/drafts; Inventory owns physical effects. Draft recovery remains future separate allocation.
+- Next proposed M11: whole-set rich scope authorization with accepted Core M8 and pinned Security, exact binding/freshness, independent projection/inspection and cumulative cross-ledger evidence, subject to Manager allocation and coordination. Related-target and multi-target access, historical receipt policy, service delegation, proof expiry, cross-sale/global duplicate prevention, actual vendor filtering/settlement and runtime acceptance remain gated.
+- Verification scope: canonical current records, PR metadata, selected exact source and Security blobs; supporting management documents retrieved with header review, not exhaustive semantic review of every file or feature handoff. No new CI/log replay, local exact checkout, Railway inspection or live data. Existing accepted CI evidence inherited. No code, branch, grant, route, migration or production changes. Remaining work owned by this successor subject to Manager gates. Predecessor can be archived by owner for conversation continuity; no production acceptance implied.
+
+---
+
 # Customer & Sales Foundation — Conversation 2.1 transition — 2026-11-25
 
 **Successor:** Customer & Sales Foundation 2.1. **Status:** M1–M10 accepted into owner-approved V8 for isolated development only; transition ready, next milestone Manager-gated. No newer authorized Customer work in latest baseline/Manager handoff; name search for customer-sales-m11 returned no branches (not exhaustive audit). No implementation started. Older status statements below are historical, not current authority.
