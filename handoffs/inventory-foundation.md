@@ -1,8 +1,14 @@
 # Shared Inventory Foundation — Current Handoff
 
 **Last verified:** 2026-11-25  
-**Status:** M9 implemented, targeted validation pending; V7 reconciliation conditional
+**Status:** M9 targeted validation PASS — ready for Foundation Manager V7 reconciliation
 **Owner:** Shared Inventory Foundation workstream; coordinate with Foundation Manager, Core API, Product & Catalog, Purchasing & Suppliers and Foundational Security.
+
+## M9 validation complete — ready for V7 reconciliation — 2026-11-25
+
+- Exact tested Inventory #114 head 7d0c8e45ae8af535a22a347c5a5963e3a6a8df75, approved V6 base 0ffe5e3e152174462240021c59f64862af782b03. CI 45621788195 job 139231560867 completed SUCCESS; actual checkout and logs independently verified 55/55 PASS (45 inherited +10 new M9), zero fail/skip/cancel/todo; all ten named M9 cases passed. One capped targeted run, no rerun or combined CI. Manager integrate only two additive Inventory paths, Core M6 unchanged and already present in V6; no dependency on M7 implementation.
+- Security S25D ten Inventory-led alias dispositions and scopes confirmed conditionally in #105 comment 7163527282; reciprocal Purchasing #112 comment 7163527886 and Customer #111 comment 7163530521 recorded. No new actual grants or approved identifiers. Preserve cumulative register and remaining gates below. Fixture uses synthetic authorization, insert-only domain history (not privileged tamper resistance), product reference keys only; no full receipt/transfer/adjustment implementation or production evidence. No deployment, merge, live data, stock/financial effects, shared migrations or production changes.
+- Ready for Foundation Manager reconciliation; add ten distinct tests to V7 candidate, preserve exact head. No owner input needed. No claim V7 approved until Manager combined testing and owner acceptance.
 
 ## M9 V6 implementation / V7 reconciliation checkpoint — 2026-11-25
 
