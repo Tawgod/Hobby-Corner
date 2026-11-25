@@ -1,3 +1,31 @@
+# Shared business foundation — approved development baseline V7
+
+**Last verified:** 2026-11-25
+**Owner:** Foundation Manager
+**Status:** Explicit owner approval recorded. Isolated development and offline/disposable tests only. No production merge, deployment, live service effects or shared environment migration.
+
+## Canonical pin
+- Tawgod/Lightspeed:test/hc-foundation-combined-v7-20261125 @ 73bdb41c1bc1ffb8af23effccc1392f4e9f8f5d6
+- Parent V6 0ffe5e3e152174462240021c59f64862af782b03; tree bd3ee5470aa365922fe20ed870eabb21ef4ace8f.
+- CI 45634424284 job 139275932477 independently exact-checkout verified 409/409, 46 files, zero fail/skip/cancel/todo; disposable PG16, syntax and gateway isolation passed. 22 exact workstream deltas plus workflow and docs/FOUNDATION_COMBINED_V7_SNAPSHOT.md.
+- Included #109 Core 1925c3d5adbaf3a028aa736179e8020e514658cd; #110 Catalog e4ec32fdee589ed6b5c11b28e60fa90284eb3f63; #111 Customer 1289e2ee08e4b9f6996699dc2f122492bd80a18d; #112 Purchasing 6eb7e11334900fa4ea09c8ca202847a6c57bca59; #114 Inventory 7d0c8e45ae8af535a22a347c5a5963e3a6a8df75. Original PRs preserved.
+- Independent Security accepted #115 a4b657750adb9b0a24bd7e1c95505df56330cc25 167/167; SO-01 #116 d8b9eccf97410074981fb536dc0bba67e6f2e1a9 20/20 implementation/offline accepted only; neither included in V7.
+
+## V8 assignments and integration gates
+Five business owners branch independently from exact V7 and target V7 with draft PRs; preserve prior pins, no duplicated deltas, shared interface changes require coordination. Preserve M4/M5/M6/M7 compatibility. Security-to-Core integration is priority: first agree versioned exact contract and ownership, then offline/disposable synthetic integration using Security-owned implementation at reviewed exact pin; Manager alone assembles integration branch after verified evidence. No live transport, real identity/grants, shared environment deployment, production routes or automatic promotion. No assumption that actual Security enforcement has been achieved. All 19 alias directions conditionally agreed, not mapped/frozen; preserve owner policies and cumulative inventories. One capped targeted CI where practical.
+- Core M8: coordinate versioned Security-facing decision adapter, trusted provenance, execution/approval/access binding, fresh policy/assurance, exact effects/scopes, deny on malformed/unavailable/stale; test local/remote M7 composition and cross-tool negative cases. No duplicate Security evaluator or changes to Security-owned files; wait for approved contract before executable cross-workstream integration.
+- Catalog M10: adopt M7 remote orchestration in isolated domain fixtures, trusted exact SKU/UPC/supplier/variant keys, old/new identity guards, revision, causal evidence and independent receipt access; retain uncertain holds, no blind retry. No duplicate shared orchestration or live writes.
+- Inventory M10: opt-in M7 local composition for multi-line/session/task/location fixtures, execution/access separation and scoped receipts; extend physical receipt/transfer/adjustment evidence and atomic concurrency, coordinate Purchasing/Customer. No real stock effects.
+- Customer M10: opt-in M7 compatible authorization/receipt evidence and narrower source/projection contracts, Special Orders parity, cumulative financial/pickup/reversal evidence, distinct physical effects. No live linking/payments/credit/refund/notification.
+- Purchasing P-10: opt-in M7 local composition; durable competing PO-line billed quantity reservation, multi-line cumulative evidence, expiry/revision and safe independent inspection; local receipt vs remote PO reconciliation and physical receiving distinct. No vendor/mail/PO/stock effects.
+- Security: continue S2.5H independently from accepted #115 or newer verified own checkpoint; compose assurance/employee and service decisions, strengthen exact scope schema, coordinate Core M8 versioned consumer contract and offline integration plan; review SO-01 mock compliance. S2.1 commissioning/Timeclock gates unchanged. No actual grant, registry activation, live transport or deployment.
+- Security Operations: continue SO-01 acceptance checks from #116 exact accepted offline pin, browser/accessibility evidence where available, request-specific failure tests, exact-head validation and Security mock review. SO-02 remains gated by Manager acceptance review; exclusive paths/HC-ADMIN mock v0.1.0 per SECURITY_OPERATIONS_INTEGRATION_CONTRACT.md. No backend imports, real data or shared files.
+All report exact commits, tests, gaps, conflicts and deployment state in own canonical handoffs. Historical rules below apply except superseded pins/assignments and admin UI ownership (contract v0.1 controls). No production authorization.
+
+---
+
+## Historical V6 and earlier baseline records (retained)
+
 # Shared business foundation — approved development baseline V6
 
 **Last verified:** 2026-11-24
