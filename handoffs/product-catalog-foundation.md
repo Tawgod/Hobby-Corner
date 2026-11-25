@@ -1,3 +1,53 @@
+# Product & Catalog — M11 / V9 Wave 2 reconciliation handoff — 2026-11-25
+
+**Status: READY FOR MANAGER RECONCILIATION within authorized isolated scope.** Implementation and targeted automated validation complete; not accepted into combined V9, not production-ready, not deployed. Manager Wave 2 allocation supersedes historical transition wording below; prior requirements and evidence preserved.
+
+## Exact source and ownership
+- Tawgod/Lightspeed [draft PR #127](https://github.com/Tawgod/Lightspeed/pull/127), feature/hc-catalog-m11-v8-20261125 @ 5bd4521cce10ec7c5abe9c50bc94090150840864.
+- Exact V8 base test/hc-foundation-combined-v8-20261125 @ 8848f47b71286e177fd483feb94af37b795fead7; one commit ahead, zero behind. Fresh PR metadata open/draft/unmerged/mergeable.
+- Core M9 accepted supplementary #125 @ 48689e0084646c42df6e3533f49257d740773ba2. All four supplemental blobs independently matched at both pins. Manager incorporates them once, not as Catalog-owned paths:
+- services/lightspeed/localTransactionM7.js — a6ba8cfcd6d43b8c777a877703ef16b611631797
+- services/lightspeed/localTransactionM8Internal.js — 22acfb89f28581fcc28c3f05b9af89a3f30038c2
+- services/lightspeed/remoteMutationM7.js — b84bbd68fef175c3314ce32b276499baed0ecf15
+- services/lightspeed/remoteMutationM8Internal.js — 40302dd3c0db309200f0d3525275294e28ebdd41
+- Catalog-owned paths only:
+  - .github/workflows/hc-catalog-v8-m11.yml — 01ecde69d8266620b2da3dfc8008e4858ffdf4ec
+  - docs/PRODUCT_CATALOG_V8_M11.md — 994113e1a1fd836afb939005da741bec04fad025
+  - tests/product-catalog-v8-m11.test.mjs — fab881eb44f1c2c00390b0e5c802230d666ca6cf
+- Exactly seven changed paths; no prior Catalog files replaced, no unrelated Core docs/tests imported, no production code changes.
+- Independent Security #121 ee4e417fcfc1ae4358b0e256ccd8a8dee9073ecd HC-AUTHZ/0.1.0 separate .security-source checkout. No #123/#124 substitution. Three fixture hashes in manifest below.
+
+## Implemented / tested
+Fixture-level adoption through actual Core createAuthorizationM8/createRemoteMutationM8 and existing disposable PostgreSQL ledger; reuse M10 preparation and equivalent derivation in new test file, not new production adapter. Trusted synthetic admitted command/effect/access map; caller-altered execution rejected. Exact product/variant, revisions, original approval, literal identifiers and old/new holds, independent causal inspection, unknown hold and no blind retry. Inherited inactive-collision protection. Supplier reassignment, variant create, PO cost and mixed bulk execution gated.
+- [CI 45673816383](https://github.com/Tawgod/Lightspeed/actions/runs/45673816383), job 139415886064, one eight-minute-capped targeted run; all steps success. Actual exact business and Security checkout and TAP logs independently verified; all three Security fixture hash checks successful; disposable PostgreSQL 16. Command: node --test tests/product-catalog-*.test.mjs tests/core-api-m7-remote-postgres.test.mjs.
+- **120/120 passed; 0 fail/cancel/skip/todo.** 108 inherited (96 Catalog including M10 and 12 Core remote), 12 new unique M11 tests (11 disposable PG, one pure). Complete variant cost effects/replay, missing whole-set grant, missing admitted supplier scope, caller alteration, stale product and variant revisions, revoked dispatch, replacement approval reference, competing old/new identifiers across unknown/new revision, supplier collision/distinct supplier, independent inspection/malformed observation/denied projection/replay/expiry, blocked supplier reassignment/PO cost/variant create.
+- No local execution or additional CI for documentation; no full combined V9, production/browser acceptance or new independent Security regression run. Manager counts +12 unique Catalog tests and Core M9 changes separately.
+
+## Catalog contract and draft consumer requirements
+The following exact application document is reproduced for reconciliation: docs/PRODUCT_CATALOG_V8_M11.md at 5bd4521cce10ec7c5abe9c50bc94090150840864, blob 994113e1a1fd836afb939005da741bec04fad025.
+
+# Catalog M11 — isolated M9 adoption and D0 requirements
+V8 8848f47b71286e177fd483feb94af37b795fead7; supplemental exact Core #125 48689e0084646c42df6e3533f49257d740773ba2; Security #121 ee4e417fcfc1ae4358b0e256ccd8a8dee9073ecd.
+## Dependency manifest (Manager incorporates once)
+- services/lightspeed/localTransactionM7.js a6ba8cfcd6d43b8c777a877703ef16b611631797
+- services/lightspeed/localTransactionM8Internal.js 22acfb89f28581fcc28c3f05b9af89a3f30038c2
+- services/lightspeed/remoteMutationM7.js b84bbd68fef175c3314ce32b276499baed0ecf15
+- services/lightspeed/remoteMutationM8Internal.js 40302dd3c0db309200f0d3525275294e28ebdd41
+Security fixture hashes: contract d04a6db6995e982371c2f7ea25a43faf64090279; role policy 79c99f79252f0cc391d0a5c6be7d73f21dd60ff9; lifecycle e82a630c567294df0b58d0efc8bac32d3c3a0d73.
+## Scope
+Synthetic fixture only. Reuse M10 preparation and exact target/old/new reservation derivation; whole-set M8 through exact Security evaluator. Trusted fixture map admits original command and exact access sets independently of request. Original literal decimal stays in command; canonical scope decimal only strips redundant fractional zeros, no rounding. Security precision limits deny rather than approximate. USD is explicit synthetic fixture currency, real currency evidence required before runtime adoption. Conservative master plus linked supplier cost scopes retained; no supplier/PO cost write implied. Supplier reassignment, variant creation and mixed bulk execution remain gated. No new registry identifiers: existing provisional catalog.product.create/update, .approve/.execute, catalog.product.cost.modify, catalog.product.read and synthetic fixture.reconcile; no aliases or grants activated. Pinned Security narrow policy cannot independently express every rich relationship restriction; admitted scope and exact approval still required. No production claim.
+## D0 Catalog consumer proposal (not executable)
+Version catalog.bulk-edit/0.1 payload: bounded ordered records each exact productId, nullable variantId, originalRevision, field changes {field, originalValue, proposedValue}, source evidence references and completeness; no duplicate target/field. Server independently admits identity, original revision and original values; no client trusted facts. Allowed initial fields name, sku, upc, categoryId, cost, retail, msrp; supplierId/supplierSku explicit relationship proposal only, not executable mixed edit. Price values exact decimal strings plus currency and master/supplier scope; PO-line cost excluded. Preserve absent vs null vs empty; no silent normalization. Core owns envelope, draft revision, ack, idempotency and lifecycle; Security owns authorization/projection. Per-record review of changed/deleted/unavailable, field permission revocation, duplicates incl inactive, cross-row proposed identifier collisions and uncertain reservations. Explicit rebase/discard; no last writer wins or disclosure of revoked fields, no related-target access expansion. Restore only after reauth and current independent access; fail closed if no safe field projection. Snapshot revision independent from business revision. Validate every current record and all effects again at submit; fresh approval. No auto-submit, no automatic retry after unknown; partial completion record verified command refs independently, retain unresolved hold, mark submitted only after all intended outcomes verified; edits of completed records need new intent/approval. No executable jobs, credentials, approval proofs or raw secrets stored. UI saved/saving/unsaved/conflicted/locked/expired, last durable ack, warn about lost unsaved edits; out-of-order ack cannot clear dirty newer revision. Stop writes/hide on expiry; no browser persistence or session extension. Lost ack inspect authorized idempotency evidence before save retry. Quota/retention/purge/audit projection and settings remain Core/Security/owner decisions. Proposed save/list/restore/rename/discard/markSubmitted permissions require Security registry review; not approved names or grants. No cross-employee default. No draft storage, routes or UI implemented. 
+
+
+## Cross-workstream coordination and remaining limitations
+Core #125 comment 7170732522 and Security #121 comment 7170733236 published D0 requirements and requested review of rich cost semantics, approval deadline/reviewer binding and independent reconciliation after revocation. No consensus inferred. Pinned narrow policy cannot independently distinguish every rich relationship; exact admitted scope and approval still required. Current fixture admits exact access sets, not arbitrary subset or related-target expansion. Real evidence lifetime, authoritative reviewer binding, distributed revocation fence, independent post-revocation reconciliation, final master/supplier/PO cost registry semantics, vendor currency/location/uniqueness/revision/causal evidence, production persistence, safe release and actual endpoint enforcement unresolved. Existing cumulative permission inventory below unchanged; provisional operation IDs and logical draft operation proposals only, no grants or alias activation. Secondary architecture/feature handoff review remains relevant before runtime consumer integration; no comprehensive semantic audit claimed. D0 proposed; D1/D2 separately gated. No lockfile improvement.
+
+## Deployed / next action
+None. No merge, deployment, migration, live data/vendor effects, route, credential, grant, settings or shared persistence changes. No new Railway inspection for offline milestone. Manager may reconcile exact #127 head, inspect evidence, incorporate Core supplement once, and conduct separately authorized V9 combined validation. V8 remains sole owner-approved baseline until owner promotion. Freeze candidate pending Manager feedback; no further executable milestone authorized.
+
+---
+
 # Product & Catalog Foundation — 2.1 transition checkpoint — 2026-11-25
 
 **Successor:** Product & Catalog Foundation 2.1. Same F02–F09 workstream. **Status:** M1–M10 implemented/tested/accepted in isolated business baselines through V8; transition only, no M11 authorization. No production Catalog foundation release. This checkpoint supersedes earlier pending-baseline wording; preserve all historical evidence and cumulative inventory below.
