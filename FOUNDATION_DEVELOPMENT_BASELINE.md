@@ -1,3 +1,22 @@
+# Shared business foundation — approved development baseline V9
+
+**Last verified:** 2026-11-25
+**Owner:** Foundation Manager
+**Status:** Owner explicitly approved V9 as isolated development and testing baseline following successful combined reconciliation. No production release, merge, deployment, live vendor traffic, actual permissions or shared environment migration.
+
+## Canonical source pin
+- Tawgod/Lightspeed:test/hc-foundation-combined-v9-20261125 @ 2b05b49ee24b7fc61c95e9e4241d863101fc52b6
+- Parent approved V8 8848f47b71286e177fd483feb94af37b795fead7; tree 5e0040bdad9f7996ca21fb21f7dfe57a4f9ae5b2.
+- CI 45679739422 job 139436784421 independently verified exact source, 543/543 across 56 listed files, zero fail/skip/cancel/todo; disposable PG16, syntax/gateway isolation, all 22 workstream blob checks. 471 inherited +72 distinct new. Manifest docs/FOUNDATION_COMBINED_V9_SNAPSHOT.md blob 09e2a449821c923806bcf42e6cdf1046fc660a00. Original draft PRs preserved.
+- Included Core #125 48689e0084646c42df6e3533f49257d740773ba2 (72/72); Customer #126 adba73b6f40d7022ffcb5e34e7b911b8161a4125 (93/93); Catalog #127 5bd4521cce10ec7c5abe9c50bc94090150840864 (120/120); Inventory #128 083ea08ef4a0cdbf4cfe6892e89048d33c8fc22e (95/95); Purchasing #129 f88d8513380755248d93b59374e5361f2a3aa215 (106/106).
+- Required Security dependency HC-AUTHZ/0.1.0 #121 ee4e417fcfc1ae4358b0e256ccd8a8dee9073ecd, 199/199 independent. Separate exact checkout: tests/fixtures/hc-secure-s25h-contract.mjs d04a6db6995e982371c2f7ea25a43faf64090279, hc-secure-s25e-role-policy.mjs 79c99f79252f0cc391d0a5c6be7d73f21dd60ff9, hc-secure-s25g-lifecycle.mjs e82a630c567294df0b58d0efc8bac32d3c3a0d73. #124 S2.5J f42e51d8475fab8c37bf025a8d056bdf9819f958 232/232 independent candidate only.
+- SO-01 independently accepted mock-only at b995775c79bdc51ae7bb7a4752f304bd1e025f3b (#116), 43/43 native and owner revised 9/9 browser acceptance; doc head 0d6fd8e0860ce433c054bee3098995dc6ee4f37d. Not part of combined business baseline.
+
+## Active V9 rules
+New business milestones start independently from exact V9 on Manager allocation; no reapplication of inherited changes. Preserve all prior regressions, exact Security dependency and exclusive ownership. V9 is bounded synthetic adoption, not production adapters or real enforcement. Distributed fencing, independent post-revocation inspection, global financial deduplication, physical lifecycle/source admission, variant and credit semantics and live vendor proof remain gated. D0 draft design requires formal contract reconciliation and owner policy decisions before persistent D1; SO-02 requires separately allocated mock-only work. Historical records below retained; old assignments superseded. See canonical Manager handoff for proposed V10 sequencing. No automatic authorization by promotion.
+
+---
+
 # Shared business foundation — approved development baseline V8
 
 **Last verified:** 2026-11-25
