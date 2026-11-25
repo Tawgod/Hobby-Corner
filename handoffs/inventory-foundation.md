@@ -1,8 +1,14 @@
 # Shared Inventory Foundation — Current Handoff
 
 **Last verified:** 2026-11-25  
-**Status:** M10 implementation committed — targeted validation pending
+**Status:** M10 corrected fixture committed — exact targeted CI pending
 **Owner:** Shared Inventory Foundation workstream; coordinate with Foundation Manager, Core API, Product & Catalog, Purchasing & Suppliers and Foundational Security.
+
+## M10 targeted validation repair — 2026-11-25
+
+- Manager #122 comment 7166202477 and canonical V8 reconciliation handoff reviewed. Failed head 94a260e534b34e495e9eea2461577a929c922d23 CI 45639834245 job 139295096787 independently log-verified 69/70, one failure line 87 TypeError Invalid effect scope, no skips/cancellations. Failed head excluded from V8.
+- Exact V7 M7 source blob f5b9d892034de2850485ddab94f3310240689662 confirms effect fields use lowercase identifier grammar, while internal receipt permits camelCase *Id. Repair #122 head 725b2d1be2a6b0f81377a7e5123fdb991f6ac969, one fast-forward commit, only tests/inventory-m10-postgres.test.mjs changed (+10/-1). Within same test retain malformed taskId TypeError assertion and zero projection calls; use valid outcome field and unchanged receipt value, assert actual projection invoked once before CORE_FORBIDDEN/undisclosed, command/outbox counts unchanged and replay cannot reapply. Core untouched. No new test count or scope.
+- Local Node 22.16.0 six focused extracted grammar/projection predicate checks passed, including single-target positive control and multi-target empty projection. Full checkout unavailable (GitHub DNS), local PostgreSQL binaries absent; not a full local suite. Existing eight-minute capped PR workflow triggers on fixture change; run not yet visible at first lookup. Do not claim corrected pin passes until exact CI logs verified. No manual rerun, merge, deployment, actual grant or production change.
 
 ## M10 V7 implementation checkpoint — 2026-11-25
 
