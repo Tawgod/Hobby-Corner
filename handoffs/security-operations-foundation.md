@@ -1,3 +1,9 @@
+## SO-01 owner acceptance — 2026-11-25
+
+Owner explicitly stated “i accept so-01”. Record owner acceptance of the existing isolated implementation and 20/20 automated test checkpoint at Lightspeed draft PR #116, exact d8b9eccf97410074981fb536dc0bba67e6f2e1a9. Manager previously accepted implementation/offline tests; current PR metadata open, draft, mergeable, unmerged. Security architecture direction accepted in #116 comment 7166054151, not full consumer acceptance. Carry forward outstanding request-specific failure, mismatched request/subject/policy context, partial scope, malformed response and stale-response testing, actual browser/mobile/keyboard acceptance and final Security consumer review. No additional tests executed or application files changed in this acceptance turn. Owner acceptance does not itself establish completed tests, waive Security review, authorize production, or constitute the separately required Manager SO-02 release. Request Manager disposition of remaining checks and exact next milestone/base. SO-02 proposed plan: role configuration/multiple memberships; individual grants/restrictions and exact typed scope/expiry; scripted preview/confirm/approval/step-up; stale revisions, duplicate prevention, unknown outcomes and independently authorized readback. Future configurable administrative strong-auth freshness is server-owned and requires separate approved versioned settings contract; not part of mock v0.1.0. Preserve existing checkpoint and all exclusive ownership boundaries; no merges, deployment, real grants, credential collection or live integration.
+
+---
+
 # SO-01 milestone — 2026-11-25
 
 **Status:** Implemented; targeted automated validation passed; awaiting Manager review and separate browser acceptance. No production integration.
