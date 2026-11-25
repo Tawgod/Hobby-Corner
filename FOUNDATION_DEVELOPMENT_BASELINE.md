@@ -1,3 +1,21 @@
+# Shared business foundation — approved development baseline V8
+
+**Last verified:** 2026-11-25
+**Owner:** Foundation Manager
+**Status:** Owner explicitly authorized promotion conditional on passing combined validation; condition satisfied. Approved for isolated development and offline/disposable testing ONLY. No production release, merge, deployment, live vendor traffic, actual permissions or shared environment migration.
+
+## Canonical source pin
+- Tawgod/Lightspeed:test/hc-foundation-combined-v8-20261125 @ 8848f47b71286e177fd483feb94af37b795fead7
+- Parent approved V7 73bdb41c1bc1ffb8af23effccc1392f4e9f8f5d6; tree df4425988cdc7079f211a9673a2254a99bc9da40.
+- CI 45651685724 job 139337562874 independently verified exact checkout, 471/471 business tests across 52 test files, zero fail/skip/cancel/todo. Disposable PG16, syntax and gateway isolation passed. 23 nonoverlapping exact workstream deltas plus workflow and docs/FOUNDATION_COMBINED_V8_SNAPSHOT.md. Original draft PRs preserved.
+- Included #117 Core f9fe1d66d2c6c6b4ce309d3521e361c5a6714791; #118 Catalog 1920bc6b01cd0741d4e260d6ac4927cd8e3108c9; #119 Customer 7fc4fb3422ffb0fbf40218a06a37e03cd0bc8112; #120 Purchasing 0984d6c13ca7f47fe7dfd1aa95f0992252eb803f; #122 Inventory 725b2d1be2a6b0f81377a7e5123fdb991f6ac969.
+- Required independent Security dependency: HC-AUTHZ/0.1.0 #121 ee4e417fcfc1ae4358b0e256ccd8a8dee9073ecd, 199/199 independently accepted. Combined CI verifies separate checkout and exact git blob hashes for tests/fixtures/hc-secure-s25h-contract.mjs d04a6db6995e982371c2f7ea25a43faf64090279, hc-secure-s25e-role-policy.mjs 79c99f79252f0cc391d0a5c6be7d73f21dd60ff9, hc-secure-s25g-lifecycle.mjs e82a630c567294df0b58d0efc8bac32d3c3a0d73. No evaluator copied into business branch. Independent #123 S2.5I 217/217 not substituted; Operations remains independent.
+
+## Active V8 rules
+New business development starts from exact V8 when Manager assigns next milestones. Preserve inherited M4–M8 behavior, exact Security dependency and exclusive ownership. Security remains authoritative for identity and policy. M8 composition is synthetic only; domain adoption, actual transport, production authorization, vendor evidence, orchestration drift review, proof expiry/revocation fencing and production persistence remain outstanding. No actual role/grant/alias/settings activation. SO-02 remains separately gated. Shared draft/workspace recovery remains a planned coordinated foundation requirement. No automatic release of new milestone scope from baseline promotion alone. Preserve all prior pins and historical records below; earlier V7 assignments superseded as completed milestones.
+
+---
+
 # Shared business foundation — approved development baseline V7
 
 **Last verified:** 2026-11-25
