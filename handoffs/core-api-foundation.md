@@ -1,3 +1,12 @@
+# Core M7 local tested dependency — 2026-11-25
+
+**Status:** Local M7 implementation PASS; remote M7 implementation outstanding. V6 remains approved, V7 not approved.
+- Exact passing local pin Tawgod/Lightspeed @ a89dd5c482f4a12f55d16e491f5c2fc208816a56, PR #109, V6 base 0ffe5e3e152174462240021c59f64862af782b03. CI 45622074793 job 139232573481 completed success; actual checkout and logs independently verified 45/45 (10 new, 35 inherited), zero failed/skipped/cancelled. No additional CI launched.
+- Local execution/access separation, approval binding, replay, projection, independent inspection and negative synthetic cross-tool cases passed. M4/M5/M6 unchanged. Conservative restrictions and limitations below remain; actual Security, endpoint enforcement and production durability not demonstrated.
+- Catalog agreement #109 comment 7163541966 resolves remote design coordination. Next implement separate synthetic remote reservation/orchestration and causal readback validation; no external calls in local transactions, no blind retry. Local passing pin does not validate remote portion. No production changes, merge, deployment or permission activation.
+
+---
+
 # Core M7 local implementation — 2026-11-25
 
 Status: local candidate committed, exact-head validation pending; remote implementation not yet complete. V6 remains approved. Manager #109 comment 7163456580 and FOUNDATION_SECURITY_CORE_M7_REVIEW.md reread; exact Catalog agreement #109 comment 7163541966 now available, confirms typed canonical reservation tuples, conservative alternate-key conflict, causal evidence and no automatic release. Preserve tested Catalog #110.
