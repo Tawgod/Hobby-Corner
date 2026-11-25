@@ -1,3 +1,13 @@
+# Purchasing P-12 — V10 Wave 2 exact-head validation PASS — 2026-11-25
+
+**Status: READY FOR MANAGER RECONCILIATION of bounded isolated adapter checkpoint.** V9 remains approved baseline; no production or actual HC Secure acceptance implied. Draft PR #136, feature/hc-purchasing-p12-v9-20261125 @ 6df17cb382d16888b499a83735c350908940e740, exact V9 base 2b05b49ee24b7fc61c95e9e4241d863101fc52b6. Current branch rechecked identical to tested head. Supersedes pending validation status below; retain exact dependency and owned-path manifest and all history.
+- CI [45705980239](https://github.com/Tawgod/Lightspeed/actions/runs/45705980239), job [139527938956](https://github.com/Tawgod/Lightspeed/actions/runs/45705980239/job/139527938956): completed SUCCESS; actual raw logs verified exact checkout, Security #121 and all three original fixture hashes, exact Core M10 supplement blob 70f5a4cfc3f111f83c493b8fe5f6f3dfb5e62fa4, disposable PostgreSQL and syntax checks. TAP 121/121 pass, 0 fail/skip/cancel/todo; 106 inherited plus 15 new P12 cases (ok 35–49). Manager counts +15 unique Purchasing tests; Core supplement once. No repeat CI.
+- New tests: exact variant/item/decimal/replay; PO variant/item conflict; verified nonvariant; duplicate source and competing billed capacity; immutable correction/approval/source; distinct reversal grant (credit.review alone denied), retained hold and original record; wrong reversal source; incomplete admitted scope; revoked precommit; stale policy; changed source rollback; unknown held/no automatic retry; inspection and postcommit disclosure denial; independent lost-ack verification; caller authority injection and changed proof denial.
+- Existing bounded scope and limitations below remain: trusted synthetic immutable original store/source admission, integer quantities/existing OPEN PO, no actual receiving/payment/credit/PO/cost effects, no automatic release, no cross-actor/post-revocation inspection under #121, no real distributed fence or migration. Security #130 disposition implemented as separate provisional approval.reverse + review, no actual registry activation. Coordination requests published to Security/Catalog/Inventory as below; no new reciprocal approval verified. Actual authenticated Security-first tool integration separately gated.
+- No application source edits after tested checkpoint, no P13, merge or deploy. Manager may assemble V10 after reviewing scope and exact pins; combined validation and owner acceptance remain separate.
+
+---
+
 # Purchasing P-12 — V10 Wave 2 implementation checkpoint — 2026-11-25
 
 **Status: draft implementation published; targeted CI running; reconciliation not yet claimed.**
