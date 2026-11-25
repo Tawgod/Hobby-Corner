@@ -1,3 +1,15 @@
+# Core M7 — final tested dependency and V7 reconciliation release — 2026-11-25
+
+**Status:** M7 local and remote isolated implementation PASS; ready for Foundation Manager V7 reconciliation. V6 remains approved; V7 combined testing and owner acceptance pending. No production approval.
+- Exact passing pin Tawgod/Lightspeed:feature/core-api-m7-v6-20261124 @ 1925c3d5adbaf3a028aa736179e8020e514658cd; PR #109, exact V6 base 0ffe5e3e152174462240021c59f64862af782b03. Fresh PR readback: mergeable=true, draft=true, merged=false, 8 paths.
+- Final CI 45623478503 job 139237444886 completed SUCCESS; independently read checkout and TAP logs, 57/57 passed, 0 fail/skip/cancel, including all 12 remote cases, 10 local M7 cases and 35 inherited Core cases. No further CI launched. Supersedes local-only pin a89dd5c482f4a12f55d16e491f5c2fc208816a56 for full M7 reconciliation.
+- Remote tests passed atomic competing SKU/UPC/supplier SKU reservations, alternate-key conflict and same-key replay, unknown holds and explicit causal inspection, stale revision/effect and dispatch denial, independent read/inspection, audit failure, malformed typed identity, update revision guard and actor/replacement approval mismatch. Existing Core M4/M5/M6 and Catalog tested heads preserved. Catalog agreement #109 comment 7163541966 and Manager acceptance 7163456580 govern this isolated implementation.
+- Expected V7 combined total 409 based on Manager's prior 397 plus 12 remote cases; not combined-tested. Manager owns exact delta reconciliation, overlap review, combined CI and owner approval.
+- Limitations unchanged: trusted domain key/effect derivation, synthetic event evidence and policy callbacks, conservative indefinite reservation holds, no real vendor causal proof, actual Security/endpoint enforcement, production-grade persistence, restart/network recovery or distributed revocation fence. No grants, alias activation, live effects, merge, deployment or shared migrations. All historical inventory retained below.
+- Next action: Manager independently verify exact pin and reconcile V7. Core stops at tested milestone; no owner input required for reconciliation.
+
+---
+
 # Core M7 remote implementation checkpoint — 2026-11-25
 
 **Status:** Local M7 exact pin passed 45/45; remote synthetic candidate committed, final targeted validation pending. V6 remains approved, V7 not approved.
