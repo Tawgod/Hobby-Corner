@@ -1,3 +1,17 @@
+# SO-01 milestone — 2026-11-25
+
+**Status:** Implemented; targeted automated validation passed; awaiting Manager review and separate browser acceptance. No production integration.
+- Manager acceptance: handoffs/foundation-manager.md at 8f9849bc09c3a9d7fac48be7c2c3dabddf908b76; Lightspeed #115 comment 7164996041. Contract v0.1 blob 827b4ae5f6f44daee695e139f4e54f5ffdc78392, HC-ADMIN mock v0.1.0 only.
+- Repository Tawgod/Lightspeed, branch feature/hc-security-operations-so01-20261125, exact head d8b9eccf97410074981fb536dc0bba67e6f2e1a9, draft [PR #116](https://github.com/Tawgod/Lightspeed/pull/116), base feature/hc-secure-s25g-lifecycle-20261125 at a4b657750adb9b0a24bd7e1c95505df56330cc25. Before writes branch compare identical and assigned directories/workflow absent; Manager full tree check corroborates. Final comparison eight commits ahead, zero behind, eight added files, zero deletions: ui/security-operations/{index.html,styles.css,app.js,mock.js,consumer.js}, tests/security-operations/consumer.test.js, docs/security-operations/SO-01.md, .github/workflows/hc-security-operations-so01.yml. No protected paths modified. PR initially reported mergeable false; no merge requested; Manager can reassess metadata.
+- Implemented native isolated read-only administration navigation, fictional employee search/paging/detail and assignment display, role search/detail, registry search/grouping, scripted exact-scope explanation, fail-closed envelope and capability checks, stale-response guards, synthetic state selector, responsive CSS, semantic controls and focus styling. Illustrative registry only; not canonical grants. No independent authorization calculation, credentials, live HTTP adapters, actual mutations, shared routes or backend imports. UI uses textContent and CSP connect-src none/form-action none.
+- Automated: [CI 45633302514](https://github.com/Tawgod/Lightspeed/actions/runs/45633302514), job 139271987876 SUCCESS, actual checkout logs independently verified exact head. Node syntax and 20/20 tests passed; zero failures/skips/cancellations/todo. One branch-specific push-triggered read-only workflow, three-minute cap, no installs; workflow path filter intentionally limits runs to workflow changes. Runner warns checkout v4 Node 20 deprecated (forced Node 24); nonblocking. No browser execution performed; tests cover adapter/consumer and static structure, not DOM interaction or actual responsive/accessibility acceptance. Browser checklist in docs/security-operations/SO-01.md. No live runtime, Railway inspection or deployment.
+- No new contract request or ownership conflict identified. Current UI uses exact synthetic IDs and illustrative location/resource fields; complete typed scope editor and mutation/approval workflow deferred to SO-02. Existing policy and dependency inventory below remains applicable; no actual permission mappings approved.
+- Stop at SO-01 for Manager review. Preserve exact passing head; do not start SO-02 without release. Actual admin schema, integration, browser acceptance and Security review remain outstanding. No real employee data, credentials, grants, routes, merges or deployment.
+
+---
+
+## Initial planning checkpoint (historical)
+
 # Security Operations Foundation — Current Handoff
 
 **Last verified:** 2026-11-25
