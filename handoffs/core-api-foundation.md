@@ -1,3 +1,15 @@
+# Core M9 / V9 Wave 1 — candidate checkpoint — 2026-11-25
+
+**Status:** Implemented and draft PR open; targeted CI in progress, NOT accepted or ready for executable Wave 2 adoption. D0 contract published for reconciliation only. This checkpoint supersedes transition-only status; all history preserved below.
+- Exact V8 parent Tawgod/Lightspeed 8848f47b71286e177fd483feb94af37b795fead7; branch feature/core-api-m9-v8-20261125; draft PR #125, head 48689e0084646c42df6e3533f49257d740773ba2. Compare 1 ahead, 0 behind, eight Core-owned files; PR open/draft/mergeable on readback.
+- Changed services/lightspeed/localTransactionM7.js and localTransactionM8Internal.js share effect normalization; remoteMutationM7.js and remoteMutationM8Internal.js share effect normalization and validated causal receipt; unused M8 reservation normalization removed, exact M7 preparation retained. Malformed/non-JSON evidence returns unknown; no release or retry. No namespace/fingerprint/authorization policy changes. tests/core-api-m8-postgres.test.mjs adds two tests (72 expected targeted total, NOT verified). .github/workflows/hc-core-api-m9.yml branch-scoped, 8-minute cap, Node22/PG16; one run 45666454626 job 139389784304 in progress at observation; no local test or raw CI result claimed. Exact #121 dependency and three fixture hash checks retained in workflow.
+- Candidate HC-CORE-ADOPT/0.1 docs/CORE_API_M9_ADOPTION.md and HC-DRAFT/0.1 docs/HC_DRAFT_WORKSPACE_0_1.md at exact candidate head. D0 only, no draft persistence. Separate Security review #123 comment 7169710276 and Catalog #118 comment 7169710923 posted/read back; no response at checkpoint. Approved #121 ee4e417fcfc1ae4358b0e256ccd8a8dee9073ecd unchanged; no new Security source.
+- Wave 2: Catalog M11 remote, Inventory M11 local, Customer & Sales M11 local, Purchasing P-11 local may plan against V8; executable adoption recommended only after Manager accepts exact M9 supplementary pin and coordinates domain-specific scope/effect/revision/receipt tests. Do not independently import unrelated deltas. All four currently design-ready, executable adoption gated.
+- Remaining: CI exact-head logs/counts, Security and Catalog D0 agreement, distributed lifetime/revocation fence and independent post-revocation reconciliation (not provided by synthetic #121), real persistence/vendor evidence, related-target projection and service identity separately gated. Full M7/M8 lifecycle consolidation deferred intentionally to preserve distinct auth semantics. No production changes, merges, migrations, live calls, grants or deployments.
+- Next: verify targeted CI; reconcile D0 and adoption contract with Manager; D1 storage requires new allocation. No baseline promotion.
+
+---
+
 # Core Shared API Foundation — 2.1 transition checkpoint — 2026-11-25
 
 **Successor:** Core Shared API Foundation 2.1. **Status:** M1–M8 accepted in isolated development baseline; V8 owner-approved; transition only, no M9 release. This header supersedes older pending-reconciliation status, preserves all historical evidence below. Same ownership, no infrastructure move.
