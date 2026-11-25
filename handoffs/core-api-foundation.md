@@ -1,3 +1,13 @@
+# Core M7 local implementation — 2026-11-25
+
+Status: local candidate committed, exact-head validation pending; remote implementation not yet complete. V6 remains approved. Manager #109 comment 7163456580 and FOUNDATION_SECURITY_CORE_M7_REVIEW.md reread; exact Catalog agreement #109 comment 7163541966 now available, confirms typed canonical reservation tuples, conservative alternate-key conflict, causal evidence and no automatic release. Preserve tested Catalog #110.
+- #109 branch feature/core-api-m7-v6-20261124 head a89dd5c482f4a12f55d16e491f5c2fc208816a56, base exact V6 0ffe5e3e152174462240021c59f64862af782b03, five additive paths, mergeable at readback. New localTransactionM7.js, tests/core-api-m7-postgres.test.mjs, docs/CORE_API_M7_LOCAL_CONTRACT.md and capped workflow; M4/M5/M6 and shared fixture unchanged.
+- Versioned execution digest separate from access and approval, original proof digest persisted in server-owned receipt envelope; fresh execution/approval checks, independent read/inspection, locked verification, generic undisclosed denial, exact flat receipt projection. Conservative limitations: service/delegation denied; nonempty multi-target projection denied pending field-to-target mapping; no general derived projection or actual Security policy. Amount/quantity facts and complete effects remain trusted domain derivation. No cross-version migration, no actual distributed revocation guarantee. Cross-tool labels synthetic only.
+- 10 new tests (one dependency-free digest test, nine PG cases) and 35 inherited expected in capped local suite; exact-head run not yet visible at first lookup. No claimed passing pin. No new permissions or alias changes; cumulative inventory below retained; independent local receipt/remote reconciliation remains provisional. No live calls, deployment, merge, shared migration or production effects.
+- Next verify actual CI logs and exact checkout; publish local tested pin only after pass. Implement remote synthetic orchestration separately using Catalog agreement, atomic disposable reservation persistence and separate dispatch/causal evidence/inspection; do not imply local suite verifies remote. Manager owns V7 combined reconciliation.
+
+---
+
 # Core Shared API Foundation — V6 / M7 coordination checkpoint — 2026-11-24
 
 **Status:** V6 approved; independent M7 branch created; design-only proposal submitted. Shared interface coordination gate before executable implementation.
