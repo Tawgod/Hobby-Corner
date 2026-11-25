@@ -1,3 +1,14 @@
+# Core M7 remote implementation checkpoint — 2026-11-25
+
+**Status:** Local M7 exact pin passed 45/45; remote synthetic candidate committed, final targeted validation pending. V6 remains approved, V7 not approved.
+- Latest Manager follow-up and Catalog #109 comment 7163541966 reread; Manager releases remote test-only implementation. Prior local passing pin a89dd5c482f4a12f55d16e491f5c2fc208816a56, CI 45622074793 job 139232573481. Current #109 head 1925c3d5adbaf3a028aa736179e8020e514658cd, exact V6 base 0ffe5e3e152174462240021c59f64862af782b03, eight changed paths; initial mergeability pending. No changes to M4/M5/M6/local M7 or Catalog #110.
+- Added remoteMutationM7.js, disposable coreRemoteM7Pg.mjs reservation ledger and remote PG tests. Typed target/revision/SKU/UPC/canonical supplier SKU keys, atomic all-key reservation and rollback on conflict, persistent hold across alternate keys and revision changes, immutable audit and dispatch marker before synthetic callback, fresh authorization/approval and trusted derivation, independently authorized causal observation, minimal receipt projection, no blind repeat or automatic release. No external callback inside ledger transaction. Distinct actor/replacement proof deny receipt.
+- Catalog owns complete domain effect/key derivation, original/changed identifiers and validator semantics; Core validates structural keys, not actual catalog identity completeness. Synthetic event observation is trusted fixture, not real vendor proof. Dedicated remote disposable ledger models different lifecycle from existing local transaction fixture; no runtime store. Conservative permanent holds even after verified/blocked; no production release policy, service delegation, related-target access, actual Security, policy fencing, real network/restart or vendor compatibility established. Actual endpoint bypass coverage remains unverified.
+- Added 12 remote cases including competing SKU/UPC/supplier SKU, alternate/same key, unknown hold and causal mismatches, stale revision, denied dispatch, independent access, audit failure, malformed keys, revision guard and actor/proof mismatch; expected targeted total 57 (45 prior +12). Updated existing eight-minute workflow; latest exact-head run not yet visible at initial lookup. Sequential commits may trigger intermediate PR workflows; no manual reruns or combined CI. Do not publish passing pin until exact logs verified. No actual grants/aliases, production changes, merge, deployment, migration or live vendor effects.
+- Next verify exact-head CI and address failures if necessary. Manager owns V7 combined assembly; preserve other tested domain heads. All cumulative inventory and prior limitations retained.
+
+---
+
 # Core M7 local tested dependency — 2026-11-25
 
 **Status:** Local M7 implementation PASS; remote M7 implementation outstanding. V6 remains approved, V7 not approved.
