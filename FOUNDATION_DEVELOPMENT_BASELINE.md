@@ -1,3 +1,22 @@
+# Shared business foundation — approved development baseline V10
+
+**Owner approval:** 2026-11-27
+**Owner:** Foundation Manager
+**Status:** Owner explicitly approved V10 as isolated development and testing baseline following successful combined reconciliation. No production release, merge, deployment, live vendor traffic, actual permissions or shared environment migration.
+
+## Canonical source pin
+- Tawgod/Lightspeed:test/hc-foundation-combined-v10-20261125 @ ee45019a9408bdf91483ff03e94f1ac8f8982784
+- Sole parent V9 2b05b49ee24b7fc61c95e9e4241d863101fc52b6; tree c431dcbb8e5f6521566f2a37d2266dbf17d999a7.
+- CI 45709448581 job 139539774758 independently verified exact checkout, 606/606 across 60 explicit files, zero fail/skip/cancel/todo, disposable PG16, syntax/gateway isolation and 21 workstream blob checks. 543 inherited +63 distinct new. Manifest docs/FOUNDATION_COMBINED_V10_SNAPSHOT.md blob 003786e6b5abbfd0920dc49fbd1d7516d56dbe91. Original draft PRs preserved.
+- Core #131 ac814870de1c5352639602006b146c66cb5fd0c0 (78/78); Catalog #134 3e40328a1bcbe76f6daf5271c7be3faddf238134 (132/132); Inventory #135 5a9273e15dfe90ba0280d1526afaf0205a7e4ff2 (110/110); Purchasing #136 6df17cb382d16888b499a83735c350908940e740 (121/121); Customer #137 6ccfc2b1da76b5a7dce2d49fdd945d4fd70c03f2 (108/108).
+- Required Security HC-AUTHZ/0.1.0 #121 ee4e417fcfc1ae4358b0e256ccd8a8dee9073ecd separate checkout, original fixtures hc-secure-s25h-contract.mjs d04a6db6995e982371c2f7ea25a43faf64090279, hc-secure-s25e-role-policy.mjs 79c99f79252f0cc391d0a5c6be7d73f21dd60ff9, hc-secure-s25g-lifecycle.mjs e82a630c567294df0b58d0efc8bac32d3c3a0d73. No successor substitution.
+- Independent Security S2.5M #138 2d921db83ea22fa59edc4193ed515041a82e4052 250/250 disposable only; SO-02 #132 c1e51aaf87c74246ade1a0327754ab8205215dc3 86/86 and owner focused 6/6, independent Security acceptance 7175656899, mock only. Not included in business baseline.
+
+## Active V10 rules
+V10 supersedes V9 for new allocated business work; business adapters frozen pending actual consumer integration needs. Security remains independent; prioritize actual authentication and least-privilege hardening, existing HC Secure single pre-live environment, commissioning approval then first authenticated read-only Catalog slice. No duplicate hosted testing environment until post-go-live changes; disposable CI continues. No automatic release of next milestone, successor contract, persistent drafts, actual permissions, production merge or deployment by promotion. Preserve original source, historical records and all prior acceptance limitations. See canonical Manager handoff for next cycle.
+
+---
+
 # Shared business foundation — approved development baseline V9
 
 **Last verified:** 2026-11-25
