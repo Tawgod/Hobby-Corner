@@ -1,3 +1,9 @@
+# January initial count — owner scope clarification — 2026-11-27
+
+Owner directs a list-first count collection model: capture individual count entries, process/consolidate the list periodically or on demand; no continuous over/under or valuation computation during scanning. Foundation owns reusable entry, source/actor attribution, correction/replay, canonical consolidation, explicit baseline discrepancy/report/export and finalization contracts. Catalog owns exact verified Lightspeed resolution; distinguish unmatched (complete verified lookup with no match), ambiguous, incomplete and unavailable, never claim absence from an unavailable source. The future Inventory Counting tool owns lookup timing, flag presentation, set-aside workflow, processing cadence, employee UI and printing. Optional missing UPC informational only, no automatic Catalog mutation. Preserve all prior January requirements, V10 freeze, Security/Core boundaries, no live stock effects or automatic CI. Independent branch feature/inventory-initial-count-20261127 from V10 ee45019a9408bdf91483ff03e94f1ac8f8982784; path manifest #135 comment 7224948366. Previous implementation attempt failed before commit/test; source module not present at last inspection. No new executable or test evidence in this clarification. Next: implement/test bounded list-first domain functions and publish exact consumer contract; no UI or processing scheduler.
+
+---
+
 # Shared Inventory M12 — V10 Wave 2 reconciliation checkpoint — 2026-11-25
 
 **Status:** reusable bounded offline adapter implemented, exact-head CI PASS 110/110 (95 inherited +15 new); ready for Manager reconciliation within synthetic scope, not production acceptance or tool integration authorization. V9 remains approved baseline.
