@@ -1,3 +1,11 @@
+# Current foundation allocation and dependency status — 2026-11-27
+
+This dated update supersedes older status/ownership statements below; original dependency matrix and feature requirements retained. Manager coordinates seven foundation workstreams, with Security exclusively owning identity, authorization and Timeclock identity integration; Security Operations owns administration consumer/UI. Production-connected application base remains integration/hobby-corner-consolidation; approved isolated development baseline is V10 ee45019a9408bdf91483ff03e94f1ac8f8982784, 606/606, see [canonical baseline](FOUNDATION_DEVELOPMENT_BASELINE.md). Core M10 #131, Catalog M12 #134, Inventory M12 #135, Purchasing P-12 #136, Customer M12 #137 frozen. Existing shared #32/#33/#51 and feature clients preserved. No consumer convergence or live vendor authorization implied.
+
+Critical dependency chain: verified Timeclock identity source and independent selected active employee/PIN contract -> Security operational authentication and current policy/source/assurance integration -> reviewed privilege/authority and read interface -> separately approved HC Secure commissioning -> separately allocated minimal Catalog read (productId, verified nullable variantId, name) -> later disposable mutation -> business tools. S2.5N #139 d502f4463ff2bff09d38d3d8e513c617d80000fc, 251/251 disposable only; HC-SECURE-READ/0.1 blob 353ecb6a42137ea2bd02f4ab040ca13750d355ab logical direction accepted by Core and Catalog, operational HOLD. #121 business fixture unchanged. SO-02 #132 86/86 mock only; actual admin API not released. Existing HC Secure staging is deployed private readiness, not staged-only and not general login; one pre-live environment, separate hosted testing before significant post-live updates. No direct protected database access by tools. D0 drafts and optional customer own-record connector remain design gated. Detailed current assignments, unresolved requirements, exact handoffs and rollout gates: [Manager handoff](handoffs/foundation-manager.md). No new implementation or deployment authorized by this register update.
+
+---
+
 # Hobby Corner — Shared Tool Dependencies and API Foundation Register
 
 **Owner:** Shared Tool Dependencies Foundation development conversation  
