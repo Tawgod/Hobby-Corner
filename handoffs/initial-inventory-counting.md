@@ -1,3 +1,8 @@
+# Test 3 — local catalog rehearsal — 2026-11-27
+Owner offers limited real Lightspeed product lookup testing. Reviewed current Core/Catalog/Inventory/Tools Manager handoffs: protected provider integration remains HOLD; no direct database or live API call performed. Advanced accepted Test 2 standalone HTML into inventory-count-test-3.html, with inventory-catalog-template.csv (conversation artifacts, not yet committed application source). Local product-only CSV import schema product_id,variant_id,name,sku,upc,ean,isbn,supplier_code,store_tag; exact strings, composite identity, repeated rows merge identifiers, collision flags, indexed lookup, manual name selection, browser-local persistence; catalog changes require empty count. Imported catalog matches provisional, missing code means not in local export, unknown expected stock/cost explicit; no provider coverage or canonical identity proof. Node v22.16.0 syntax PASS and 10/10 VM logic assertions PASS: four products, leading zeros, alias, collision, unknown, repeated counts, unknown baseline/cost, name selection, duplicate product row merge. No browser acceptance or actual store data yet. Local storage quota and full-catalog performance not verified; no shared session. Owner can supply product-only export for mapping to template; do not use customer data or credentials. Request Manager/Core/Catalog/Security approve bounded read-only catalog projection for isolated actual lookup test, no stock or product writes, preserve existing auth, no shared mount without allocation. Source commit and branch still outstanding. No CI/deploy/grants/live effects. Prior Test 1/2 acceptance retained.
+
+---
+
 # Initial Inventory Counting — Current Handoff
 
 **Last verified:** 2026-11-27
