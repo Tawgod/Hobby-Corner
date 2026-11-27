@@ -1,3 +1,9 @@
+# Owner narrowed nonpickup tracking — 2026-11-27
+
+Owner specifies nonpickup tracking is needed only for allocated preorders not picked up (general and GW). Ordinary Special Orders, unallocated requests, cancellations and supplier shortages must not count toward nonpickup reliability, allocation penalties, future order blocking or deposit requirements. Proposed conservative workflow: allocated preorder must be ready for pickup with an elapsed known deadline and employee-confirmed uncollected outcome; expiry alone flags review, never automatically penalizes. Late pickup remains distinct. Existing preorder allocation NO_PICKUP route is the intended feature seam; audit historical events for verified preorder allocation provenance before scoring or migration, do not infer missed pickups from cancellation or missing evidence. Narrow historical scoring query and legacy import scope accordingly; no automatic restrictions or financial effects. Register remains sole payment authority. This supersedes broader nonpickup history proposals below. No application changes or tests in this clarification; next implementation must verify general/GW inclusion, special-order exclusion and historical evidence handling. Preserve all prior ownership and release gates.
+
+---
+
 # Owner cancellation versus missed pickup policy — 2026-11-27
 
 Owner requires cancellations separate from no-pickup for allocation, future order blocking and deposit requirements. Proposed conservative default: cancellation informational only, no missed-pickup penalty or automatic restriction; store/supplier cancellation not customer failure. Exact future restriction/deposit thresholds and attribution policy require Operations/Owner review; no blocking/deposit collection implemented. Payments exclusively in Lightspeed Register, credit read only.
