@@ -1,3 +1,9 @@
+# January 2027 launch priority overlay — 2026-11-27
+
+[January go-live plan](JANUARY_2027_GO_LIVE_PLAN.md) classifies dependencies by actual launch consumers; the F01–F36 catalog below remains intact as long-term architecture, not a mandatory prelaunch implementation checklist. P0 scope and temporary legacy retention require owner and Operations/Admin confirmation with actual security, integrity, audit and recovery controls. V10 accepted/frozen; no automatic V11 or new executable allocation. No weakening of prior security requirements.
+
+---
+
 # Current foundation allocation and dependency status — 2026-11-27
 
 This dated update supersedes older status/ownership statements below; original dependency matrix and feature requirements retained. Manager coordinates seven foundation workstreams, with Security exclusively owning identity, authorization and Timeclock identity integration; Security Operations owns administration consumer/UI. Production-connected application base remains integration/hobby-corner-consolidation; approved isolated development baseline is V10 ee45019a9408bdf91483ff03e94f1ac8f8982784, 606/606, see [canonical baseline](FOUNDATION_DEVELOPMENT_BASELINE.md). Core M10 #131, Catalog M12 #134, Inventory M12 #135, Purchasing P-12 #136, Customer M12 #137 frozen. Existing shared #32/#33/#51 and feature clients preserved. No consumer convergence or live vendor authorization implied.
