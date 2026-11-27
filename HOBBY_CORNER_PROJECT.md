@@ -1,3 +1,9 @@
+## Owner-approved January priorities — 2026-11-27
+
+[Authoritative owner P0–P3 register and launch plan](JANUARY_2027_GO_LIVE_PLAN.md) supersedes earlier provisional priorities. Product Manager basic and bulk, initial count, RMS product/customer migration, Special Orders/Preorders/GW unified backend, receiving/fulfillment, Avery/shelf labels, Split/Recall/Partial Pickup, Rewards, Timeclock/payroll and essential security/API/audit/backup are P0. Timcorp permanent gateway P3; domain portability required. No new implementation or release implied.
+
+---
+
 ## January 2027 go-live planning realignment — 2026-11-27
 
 Owner directs launch-focused foundation planning. See [January go-live plan](JANUARY_2027_GO_LIVE_PLAN.md) for provisional P0/P1/P2 tool scope, dependencies, reuse, cutover/acceptance gates, Operations/Admin coordination and deferred backlog. Current production-connected source 014a7a949fe570b756b48d8f59995c1b0a434859; V10 remains isolated and frozen. Proposed priorities require owner confirmation; previous coordinated security rollout remains binding until explicitly revised. No production changes or new executable allocation by this record.
