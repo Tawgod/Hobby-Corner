@@ -1,3 +1,9 @@
+# Owner-defined January priority overlay — 2026-11-27
+
+[Owner P0–P3 register](JANUARY_2027_GO_LIVE_PLAN.md) supersedes provisional priorities, not F01–F36 architecture. Scope each dependency to demonstrated P0 consumer needs; escalate lower-priority prerequisites explicitly (e.g. bulk preview/approval, receiving PO linkage, existing Rewards job, GW publication, minimal Chrome release). No automatic full P1/P2 implementation or V11. Unified order lifecycle and portable domain configuration required. Prior security gates unchanged pending explicit owner decision.
+
+---
+
 # January 2027 launch priority overlay — 2026-11-27
 
 [January go-live plan](JANUARY_2027_GO_LIVE_PLAN.md) classifies dependencies by actual launch consumers; the F01–F36 catalog below remains intact as long-term architecture, not a mandatory prelaunch implementation checklist. P0 scope and temporary legacy retention require owner and Operations/Admin confirmation with actual security, integrity, audit and recovery controls. V10 accepted/frozen; no automatic V11 or new executable allocation. No weakening of prior security requirements.
