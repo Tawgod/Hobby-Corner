@@ -1,3 +1,9 @@
+## January 2027 go-live planning realignment — 2026-11-27
+
+Owner directs launch-focused foundation planning. See [January go-live plan](JANUARY_2027_GO_LIVE_PLAN.md) for provisional P0/P1/P2 tool scope, dependencies, reuse, cutover/acceptance gates, Operations/Admin coordination and deferred backlog. Current production-connected source 014a7a949fe570b756b48d8f59995c1b0a434859; V10 remains isolated and frozen. Proposed priorities require owner confirmation; previous coordinated security rollout remains binding until explicitly revised. No production changes or new executable allocation by this record.
+
+---
+
 ## Foundations — approved V10 / controlled 2.2 transition — 2026-11-27
 
 Owner-approved isolated business baseline V10: Tawgod/Lightspeed:test/hc-foundation-combined-v10-20261125 @ ee45019a9408bdf91483ff03e94f1ac8f8982784, 606/606, CI 45709448581. Core M10, Catalog M12, Inventory M12, Customer M12 and Purchasing P-12 accepted/frozen; not production deployment. Security S2.5N #139 d502f4463ff2bff09d38d3d8e513c617d80000fc, 251/251 CI 46015044766, bounded disposable candidate, operational HOLD. SO-02 #132 86/86 accepted mock only. Security, Operations, Core and Catalog outgoing 2.2 handoffs published; Inventory, Customer and Purchasing remain standby. Manager 2.2 replaces 2.1, not an additional workstream. Timeclock identity dependency owned by Security, no separate permanent conversation. Existing HC Secure private readiness infrastructure is the sole pre-live hosted Security environment, not an operational authentication service; actual commissioning separately authorized. Preserve existing Owner and Timeclock/Scanner behavior. See [approved baseline](FOUNDATION_DEVELOPMENT_BASELINE.md), [Manager transition](handoffs/foundation-manager.md), [dependency register](SHARED_TOOL_DEPENDENCIES.md). This dated entry supersedes older ownership and readiness statements, not historical evidence.
