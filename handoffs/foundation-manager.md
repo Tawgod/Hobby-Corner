@@ -1,3 +1,11 @@
+# Timeclock identity dependency — consolidated ownership — 2026-11-27
+
+Manager revises the proposed separate Timeclock Integration Foundation conversation: do not create a permanent additional workstream. Security Foundation owns bounded Timeclock identity dependency recovery, contract preparation and coordination, using an independent Timeclock branch from verified deployed source for any subsequently allocated implementation. Security Operations remains administration UI/consumer owner, not identity backend owner. This supersedes the separate-conversation allocation immediately below. Existing seven foundation roles remain unchanged; four participating conversations this cycle. Temporary specialist conversation only if necessary for a genuinely independent substantial task, archive after verified handoff; not needed now.
+
+Security may inspect GitHub/Railway safely, recover Timeclock architecture and exact current deployed revision, prepare exact independent identity-only contract/implementation manifest with separate scoped credential/audience, active selected canonical employee/PIN verification, nullable employee number, default-disabled endpoint, durable limiter, existing Owner/Scanner compatibility and rollback. Publish within handoffs/hc-secure.md, separate Timeclock dependency section. No broad Timeclock redevelopment. Preserve independent S2.5N branch and independently achievable Security work. Manager verifies exact Timeclock baseline, owned paths and shared-path allocation before executable Timeclock implementation; no deployment, live PIN calls, credentials, actual grants or migrations authorized. Core/Catalog review exact read contract; Operations frozen. V10 and #121 unchanged. No extra chat required.
+
+---
+
 # Security-first dependency ownership recovery — 2026-11-27
 
 Owner reports original Timeclock conversation no longer available or archived. Manager assigns new Timeclock Integration Foundation 1.0 conversation as bounded dependency discovery/contract preparation owner, not blanket Timeclock redevelopment or deployment authority. Recover authoritative source from GitHub, Railway metadata and existing handoffs, not chat history. Fifth active workstream; Inventory, Customer/Sales, Purchasing remain frozen.
